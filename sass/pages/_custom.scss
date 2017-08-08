@@ -1,0 +1,209 @@
+$md: "only screen and (max-width : 989px)";
+
+/* Signup */
+#auth-cell > .container-fluid > .row > div{
+	background:#8dd8f8;
+}
+
+#auth-cell{
+	.rubix-panel-container{
+		border-radius: 0px;
+	}
+}
+
+.navbar-brand{
+	padding:15px 25px;
+}
+
+#sidebar {
+	background: #072840 !important;
+	#avatar{
+		background-color: #41aefa !important;
+	}
+
+}
+
+#rubix-nav-header{
+	background: #072840 !important;
+	.navbar-nav > li > a {
+		color:#4b86a3 !important;
+	}
+}
+
+.sidebar-nav > li.active > a{
+	background: #02172a !important;
+}
+
+html.default body .sidebar-nav > li.active{
+	border-left: 5px solid #3ba3ee !important;
+}
+
+.sidebar-nav > li > a{
+	color: #3e86a3 !important;
+}
+
+html.default body #rubix-nav-header .navbar-nav > li.logout > a{
+	background-color: #3294dc !important;
+}
+#rubix-nav-header .navbar-nav > li.logout > a{
+	color:white !important;
+}
+
+html.default body #sidebar #demo-icon{
+	color:#3294dc !important;
+}
+
+#sidebar #demo-progress{
+	background: #3294dc !important;
+}
+
+html.default body #sidebar .sidebar-controls-container > .sidebar-controls > .sidebar-control-btn.active{
+	background: #41aefa !important;
+}
+
+html.default body #sidebar .sidebar-controls-container > .sidebar-controls > .sidebar-control-btn > a {
+	color: #1b68a6 !important;
+}
+
+html.default body #sidebar .sidebar-controls-container{
+	background: #3294d4 !important;
+}
+
+html.default body #sidebar .sidebar-controls-container > .sidebar-controls > .sidebar-control-btn{
+	border-right: 1px solid #2f8fd6 !important;
+}
+
+#rubix-nav-header .fg-theme{
+	color: #3ba3ee;
+}
+
+#rubix-nav-header li.sidebar-btn > a{
+	color: white !important;
+}
+
+/* Contact Us page */
+#bg_img{
+	background-image: url('/imgs/app/contact.jpg');
+	width: 100%;
+	height: 250px;
+}
+
+.contact_title{
+	margin-top: -50px;
+	color: white;
+	& + p{
+		margin-top: 40px;
+	}
+}
+
+#body .message_wrapper textarea{
+	height: 150px !important;
+}
+
+.contact_title.sec{
+	@media #{$md}{
+		margin-top:0px;
+		color: #89949B;
+	}
+}
+
+.contact{
+	background:white;
+	border-radius:5px;
+}
+
+/* Profile page */
+.profile{
+	background: white;
+	padding-bottom: 50px;
+	.bg_img{
+		background-image: url('/imgs/app/profile.jpg');
+	    width: 100%;
+	    min-height: 200px;
+	    background-position-x: center;
+	    background-size: cover;
+	    .connect_btn{
+	    	background:#2cbbff;
+	    	border-color: #2cbbff;
+	    	margin-top: 150px;
+	    	margin-right: 30px;
+	    }
+	    .follow_btn{
+	    	margin-top: 150px;
+	    	margin-right:10px;
+	    }
+	}
+
+	.imgWrapper{
+		padding: 5px;
+		background-color: white;
+		width: 150px;
+		float: right;
+		margin-top: -50px;
+		img{
+			width: 100%;
+		}
+	}
+
+	.connection_wrapper{
+		padding:3px;
+		background-color: white;
+		border:1px solid #aaa;
+		margin-top: 4px;
+		max-width: 50px;
+		img{
+			width: 100%;
+		}
+	}
+
+	.connections_imgs_wrapper .col-sm-3{
+		padding-left: 5px;
+		padding-right: 5px;
+	}
+
+	.more_link_wrapper{
+		padding:10px 3px;
+	}
+
+	.profile_img_wrapper{
+		p{
+			font-weight: 800;
+			color: black;
+		    font-size: 25px;
+    		margin-top: 15px;
+    		margin-bottom: 0px;
+		}
+	}
+
+	.profile_content{
+		h1{
+			color: black;
+			margin-bottom: 0px;
+		}
+		h2{
+			margin-top:0px;
+			font-weight:100;
+		}
+
+		p{
+			.rubix-icon{
+				margin-right: 5px;
+			}
+		}
+
+		.send_btn{
+			margin-top: 15px;
+		}
+	}
+}
+
+#primary_dropdown, #secondary_dropdown, #teritary_dropdown{
+	margin:5px 0px;
+}
+
+.title_link{
+	color:white;
+	&:hover, &:focus{
+		color:white;
+	}	
+}
