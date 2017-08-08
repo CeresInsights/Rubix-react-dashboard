@@ -153,7 +153,7 @@ class ApplicationSidebar extends React.Component {
                   { /** Pages Section */ }
                   <div className='sidebar-header'>PAGESdgfafasdasd</div>
 
-                    <SidebarNavItem glyph='icon-fontello-gauge' name='Dashboard' href={::this.getPath('dashboard')} />                 
+                  <SidebarNavItem glyph='icon-fontello-gauge' name='Executive Dashboard' href={::this.getPath('execdashboard')} />                 
                   <SidebarNavItem glyph='icon-ikons-chart' name='Campaigns App' href={::this.getPath('sub_campaigns')} />
                   <SidebarNavItem glyph='icon-ikons-chart-1-4' name='Promotion App' href={::this.getPath('sub_ppbc')} />
                   <SidebarNavItem glyph='icon-fontello-chart-bar' name='Product App' href={::this.getPath('sub_pbbcb')} />

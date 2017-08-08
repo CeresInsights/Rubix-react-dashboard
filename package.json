@@ -84,6 +84,7 @@
   },
   "dependencies": {
     "@sketchpixy/rubix": "^2.0.0",
+    "axios": "^0.16.2",
     "babel-cli": "^6.10.1",
     "classnames": "^2.2.5",
     "compression": "^1.6.2",

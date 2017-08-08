@@ -284,6 +284,14 @@ class ProductPromotionByChannel extends React.Component {
   }
 
   componentDidMount(){
+    // $.ajax({
+    //   url:'https://ceres.link/api/exec_board/sma_channel/api_key=0xe4badc7779b6517',
+    //   dataType: 'json',
+    //   type: 'GET',
+    //   success: function(date){
+    //     if
+    //   }
+    // })
     (() => {
         var pie = Rubix.Pie('#pie-chart', {
           title: 'Shopping Mode Analysis',

@@ -14,7 +14,7 @@ import Footer from './common/footer';
 
 import Homepage from './routes/Homepage';
 
-import Dashboard from './routes/Dashboard';
+import execDashboard from './routes/execDashboard';
 import Contact from './routes/Contact';
 import SendEmail from './routes/SendEmail';
 import Profile from './routes/Profile';
@@ -31,28 +31,28 @@ class App extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-        tbl_ready: '',
-        pk:'',
-        sk:'',
-        ck:'',
-    };    
+      tbl_ready: '',
+      pk: '',
+      sk: '',
+      ck: '',
+    };
   }
 
-  handleLanguage(langValue,pk,sk,ck) {
-    this.setState({tbl_ready: langValue,pk:pk,ck:ck,sk:sk});
+  handleLanguage(langValue, pk, sk, ck) {
+    this.setState({ tbl_ready: langValue, pk: pk, ck: ck, sk: sk });
   }
   render() {
     var childrenWithMoreProps = React.Children.map(this.props.children, (child) => {
-        return React.cloneElement(child, {
-          third_changed: this.state.tbl_ready,
-          pk:this.state.pk,
-          sk:this.state.sk,
-          ck:this.state.ck
-        });
+      return React.cloneElement(child, {
+        third_changed: this.state.tbl_ready,
+        pk: this.state.pk,
+        sk: this.state.sk,
+        ck: this.state.ck
+      });
     });
     return (
       <MainContainer {...this.props}>
-        <Sidebar onSelectLanguage={this.handleLanguage.bind(this)}/>
+        <Sidebar onSelectLanguage={this.handleLanguage.bind(this)} />
         <Header />
         <div id='body'>
           <Grid>
@@ -74,7 +74,7 @@ class App extends React.Component {
  */
 const routes = (
   <Route component={App}>
-     <Route path='dashboard' component={Dashboard} /> 
+    <Route path='execdashboard' component={execDashboard} />
     <Route path='databrowser' component={DataBrowser} />
     <Route path='contact' component={Contact} />
     <Route path='sendemail' component={SendEmail} />
