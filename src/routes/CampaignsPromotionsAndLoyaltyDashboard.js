@@ -1,5 +1,5 @@
 import React from 'react';
-
+// import { connect } from 'react-redux';
 import {
   Row,
   Tab,
@@ -303,7 +303,7 @@ class ExportButtonGroup extends React.Component {
     );
   }
 }
-export default class ExecDashboard extends React.Component {
+export default class Campaigns extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -313,7 +313,12 @@ export default class ExecDashboard extends React.Component {
       ple_data :''
     };
   }
+  // componentWillReceiveProps(nextProps){
+  //   console.log("AAAAAAAAAAAAAAAAAA", nextProps.subChannel)
+  //       console.log("BBBBBBBBBBBBBBBB", nextProps.subProduct )
+  // }
   componentDidMount(){
+
     var api_key = localStorage.getItem('api_key');
     $.ajax({
       url: 'https://ceres.link/api/execboard/api_key='+api_key,
@@ -380,3 +385,19 @@ export default class ExecDashboard extends React.Component {
     );
   }
 }
+
+// const mapStateToProps = (state) => {
+//   return {
+//   subChannel: state.subChannel,
+//   subProduct: state.subProduct
+//   }
+// }
+
+// const mapDispatchToProps = (dispatch) => {
+//   return {
+
+//   };
+// }
+
+// export default connect(mapStateToProps, mapDispatchToProps)(Campaigns);
+

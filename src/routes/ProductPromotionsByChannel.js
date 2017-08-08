@@ -1,5 +1,5 @@
 import React from 'react';
-
+// import { connect } from 'react-redux';
 import {
   Row,
   Tab,
@@ -222,3 +222,18 @@ export default class PPBC extends React.Component {
     );
   }
 }
+
+// const mapStateToProps = (state) => {
+//   return {
+//   subChannel: state.subChannel,
+//   subProduct: state.subProduct
+//   }
+// }
+
+// const mapDispatchToProps = (dispatch) => {
+//   return {
+
+//   };
+// }
+
+// export default connect(mapStateToProps, mapDispatchToProps)(PPBC);

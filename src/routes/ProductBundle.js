@@ -1,5 +1,5 @@
 import React from 'react';
-
+// import { connect } from 'react-redux';
 import {
   Row,
   Tab,
@@ -188,7 +188,7 @@ class ExportButtonGroup extends React.Component {
   }
 }
 
-export default class ExecDashboard extends React.Component {
+export default class Product extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -223,3 +223,18 @@ export default class ExecDashboard extends React.Component {
     );
   }
 }
+
+// const mapStateToProps = (state) => {
+//   return {
+//   subChannel: state.subChannel,
+//   subProduct: state.subProduct
+//   }
+// };
+
+// const mapDispatchToProps = (dispatch) => {
+//   return {
+
+//   };
+// };
+
+// export default connect(mapStateToProps, mapDispatchToProps)(Product);

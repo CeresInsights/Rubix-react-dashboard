@@ -4,7 +4,8 @@ import initialState from '../initialState';
 export const dsaDataReducer = (state = initialState.dsaData, action) => {
     switch (action.type) {
         case types.FETCH_DSA_SUCCESS:
-          return action.dsaData;
+                    console.log("BBBBBBBBBBBBB", action.data)
+          return action.data;
         default:
           return state;
     }

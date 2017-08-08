@@ -10,6 +10,7 @@ import { newCustomerReducer } from './executive/newCustomerReducer';
 //import reducers related to sub-dashboard
 import { subSmaChannelReducer } from './sub-dashboard/subSmaChannelReducer';
 import { subSmaProductReducer } from './sub-dashboard/subSmaProductReducer';
+import { subDsaReducer } from './sub-dashboard/subDsaReducer';
 
 const rootReducer = combineReducers({
   execChannel: execSmaChannelReducer,
@@ -18,6 +19,7 @@ const rootReducer = combineReducers({
   customerPay: customerPayReducer,
   newCustomer: newCustomerReducer,
   subChannel: subSmaChannelReducer,
-  subProduct: subSmaProductReducer
+  subProduct: subSmaProductReducer,
+  subDsa: subDsaReducer
 });
 export default rootReducer;

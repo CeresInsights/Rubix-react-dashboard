@@ -5,5 +5,6 @@ export default {
     customerPay: [],
     newCustomer: [],
     subChannel: [],
-    subProduct: []
+    subProduct: [],
+    subDsa: []
 }

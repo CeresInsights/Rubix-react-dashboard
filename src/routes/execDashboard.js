@@ -1,5 +1,7 @@
 import React from 'react';
 import { Link, withRouter } from 'react-router';
+import { connect } from 'react-redux';
+
 import {
   Row,
   Tab,
@@ -37,142 +39,142 @@ class CampaignsPromotionsAndLoyaltyOptimization extends React.Component {
     return path;
   }
 
-  componentDidUpdate(){
+  componentDidUpdate() {
     //CPTA chart
     (() => {
       $('#cpta_chart').html('');
-        var chart = new Rubix('#cpta_chart', {
-          height: 300,
-          title: 'Customer Purchase Time Analysis',
-          subtitle: 'Best Day Of Week',
-          titleColor: '#D71F4B',
-          subtitleColor: '#D71F4B',
-          axis: {
-            x: {
-              type: 'ordinal',
-            },
-            y: {
-              type: 'linear',
-              tickFormat: 'd'
-            }
+      var chart = new Rubix('#cpta_chart', {
+        height: 300,
+        title: 'Customer Purchase Time Analysis',
+        subtitle: 'Best Day Of Week',
+        titleColor: '#D71F4B',
+        subtitleColor: '#D71F4B',
+        axis: {
+          x: {
+            type: 'ordinal',
           },
-          tooltip: {
-            color: '#D71F4B',
-            format: {
-              y: '.0f'
-            }
-          },
-          margin: {
-            left: 50
-          },
-          grouped: false,
-          show_markers: true
-        });
+          y: {
+            type: 'linear',
+            tickFormat: 'd'
+          }
+        },
+        tooltip: {
+          color: '#D71F4B',
+          format: {
+            y: '.0f'
+          }
+        },
+        margin: {
+          left: 50
+        },
+        grouped: false,
+        show_markers: true
+      });
 
-        var fruits = chart.column_series({
-          name: 'Shopping Rate',
-          color: '#D71F4B'
-        });
+      var fruits = chart.column_series({
+        name: 'Shopping Rate',
+        color: '#D71F4B'
+      });
 
-        var tmp = this.props.cpta_data;       
-        var tmp_array = [];
-        for (var i in tmp){         
-          var t = new Object;
-          t.x = i;
-          t.y = tmp[i];
-          tmp_array.push(t);
-        }
-        fruits.addData(tmp_array);
+      var tmp = this.props.cpta_data;
+      var tmp_array = [];
+      for (var i in tmp) {
+        var t = new Object;
+        t.x = i;
+        t.y = tmp[i];
+        tmp_array.push(t);
+      }
+      fruits.addData(tmp_array);
 
-        //MAD chart
-        $('#mad_chart').html('');
-        var mad_chart = new Rubix('#mad_chart', {
-          height: 300,
-          title: 'Customer Purchase Time Analysis',
-          subtitle: 'Monthly Activity Distribution',
-          titleColor: '#D71F4B',
-          subtitleColor: '#D71F4B',
-          axis: {
-            x: {
-              type: 'ordinal',
-            },
-            y: {
-              type: 'linear',
-              tickFormat: 'd'
-            }
+      //MAD chart
+      $('#mad_chart').html('');
+      var mad_chart = new Rubix('#mad_chart', {
+        height: 300,
+        title: 'Customer Purchase Time Analysis',
+        subtitle: 'Monthly Activity Distribution',
+        titleColor: '#D71F4B',
+        subtitleColor: '#D71F4B',
+        axis: {
+          x: {
+            type: 'ordinal',
           },
-          tooltip: {
-            color: '#D71F4B',
-            format: {
-              y: '.0f'
-            }
-          },
-          margin: {
-            left: 50
-          },
-          grouped: false,
-          show_markers: true
-        });
+          y: {
+            type: 'linear',
+            tickFormat: 'd'
+          }
+        },
+        tooltip: {
+          color: '#D71F4B',
+          format: {
+            y: '.0f'
+          }
+        },
+        margin: {
+          left: 50
+        },
+        grouped: false,
+        show_markers: true
+      });
 
-        fruits = mad_chart.column_series({
-          name: 'Shopping Rate',
-          color: '#D71F4B'
-        });
+      fruits = mad_chart.column_series({
+        name: 'Shopping Rate',
+        color: '#D71F4B'
+      });
 
-        tmp = this.props.mad_data;       
-        tmp_array = [];
-        for (var i in tmp){         
-          var t = new Object;
-          t.x = i;
-          t.y = tmp[i];
-          tmp_array.push(t);
-        }
-        fruits.addData(tmp_array);
+      tmp = this.props.mad_data;
+      tmp_array = [];
+      for (var i in tmp) {
+        var t = new Object;
+        t.x = i;
+        t.y = tmp[i];
+        tmp_array.push(t);
+      }
+      fruits.addData(tmp_array);
 
-        //ASI chart
-        $('#asi_chart').html('');
-        var asi_chart = new Rubix('#asi_chart', {
-          height: 300,
-          title: 'Customer Purchase Time Analysis',
-          subtitle: 'Average Shopping Interval',
-          titleColor: '#D71F4B',
-          subtitleColor: '#D71F4B',
-          axis: {
-            x: {
-              type: 'ordinal',
-            },
-            y: {
-              type: 'linear',
-              tickFormat: 'd'
-            }
+      //ASI chart
+      $('#asi_chart').html('');
+      var asi_chart = new Rubix('#asi_chart', {
+        height: 300,
+        title: 'Customer Purchase Time Analysis',
+        subtitle: 'Average Shopping Interval',
+        titleColor: '#D71F4B',
+        subtitleColor: '#D71F4B',
+        axis: {
+          x: {
+            type: 'ordinal',
           },
-          tooltip: {
-            color: '#D71F4B',
-            format: {
-              y: '.0f'
-            }
-          },
-          margin: {
-            left: 50
-          },
-          grouped: false,
-          show_markers: true
-        });
+          y: {
+            type: 'linear',
+            tickFormat: 'd'
+          }
+        },
+        tooltip: {
+          color: '#D71F4B',
+          format: {
+            y: '.0f'
+          }
+        },
+        margin: {
+          left: 50
+        },
+        grouped: false,
+        show_markers: true
+      });
 
-        fruits = asi_chart.column_series({
-          name: 'Shopping Rate',
-          color: '#D71F4B'
-        });
+      fruits = asi_chart.column_series({
+        name: 'Shopping Rate',
+        color: '#D71F4B'
+      });
 
-        tmp = this.props.asi_data;       
-        tmp_array = [];
-        for (var i in tmp){         
-          var t = new Object;
-          t.x = i;
-          t.y = tmp[i];
-          tmp_array.push(t);
-        }
-        fruits.addData(tmp_array);
+      tmp = this.props.asi_data;
+      tmp_array = [];
+      for (var i in tmp) {
+        var t = new Object;
+        t.x = i;
+        t.y = tmp[i];
+        tmp_array.push(t);
+      }
+      fruits.addData(tmp_array);
     })();
 
     //RPR chart
@@ -222,7 +224,7 @@ class CampaignsPromotionsAndLoyaltyOptimization extends React.Component {
       //     tmp_array.push(t);
       //   }
       //   fruits.addData(tmp_array);
-    })();    
+    })();
   }
   render() {
     return (
@@ -236,44 +238,45 @@ class CampaignsPromotionsAndLoyaltyOptimization extends React.Component {
                 </Col>
               </Row>
             </Grid>
-            <Nav bsStyle="tabs" className='plain'>
-              <NavItem eventKey="cpta">
-                CPTA        
+          <Nav bsStyle="tabs" className='plain'>
+            <NavItem eventKey="cpta">
+              CPTA
               </NavItem>
-              <NavItem eventKey="ple">
-                PLE                
+            <NavItem eventKey="ple">
+              PLE
               </NavItem>
-              <NavItem eventKey="clv">
-                CLV
+            <NavItem eventKey="clv">
+              CLV
               </NavItem>
-            </Nav>
+          </Nav>
           </PanelHeader>
-          <PanelBody>
-            <Grid>
-              <Row>
-                <Col xs={12}>
-                  <Tab.Content>
-                    <Tab.Pane eventKey="cpta">                  
-                      <div id="cpta_chart" ></div>
-                      <div id="mad_chart" ></div>
-                      <div id="asi_chart" ></div>
-                    </Tab.Pane>
-                    <Tab.Pane eventKey="ple">                    
-                      <div id="ple_chart"></div>
-                    </Tab.Pane>       
-                    <Tab.Pane eventKey="clv">
-                      <h3>Customer Lifetime Value</h3>                      
-                    </Tab.Pane>               
-                  </Tab.Content>
-                </Col>
-              </Row>
-            </Grid>
-          </PanelBody>
+        <PanelBody>
+          <Grid>
+            <Row>
+              <Col xs={12}>
+                <Tab.Content>
+                  <Tab.Pane eventKey="cpta">
+                    <div id="cpta_chart" ></div>
+                    <div id="mad_chart" ></div>
+                    <div id="asi_chart" ></div>
+                  </Tab.Pane>
+                  <Tab.Pane eventKey="ple">
+                    <div id="ple_chart"></div>
+                  </Tab.Pane>
+                  <Tab.Pane eventKey="clv">
+                    <h3>Customer Lifetime Value</h3>
+                  </Tab.Pane>
+                </Tab.Content>
+              </Col>
+            </Row>
+          </Grid>
+        </PanelBody>
         </Panel>
-      </PanelTabContainer>
+      </PanelTabContainer >
     );
   }
 }
+
 
 @withRouter
 class ProductPromotionByChannel extends React.Component {
@@ -283,7 +286,7 @@ class ProductPromotionByChannel extends React.Component {
     return path;
   }
 
-  componentDidMount(){
+  componentDidMount() {
     // $.ajax({
     //   url:'https://ceres.link/api/exec_board/sma_channel/api_key=0xe4badc7779b6517',
     //   dataType: 'json',
@@ -293,84 +296,84 @@ class ProductPromotionByChannel extends React.Component {
     //   }
     // })
     (() => {
-        var pie = Rubix.Pie('#pie-chart', {
-          title: 'Shopping Mode Analysis',
-          subtitle: 'Browser Share',
-          height: 300
-        });
+      var pie = Rubix.Pie('#pie-chart', {
+        title: 'Shopping Mode Analysis',
+        subtitle: 'Browser Share',
+        height: 300
+      });
 
-        pie.addData([
-          {
-            name: 'Firefox',
-            value: 45.0,
-            color: '#4572a7'
-          },
-          {
-            name: 'IE',
-            value: 26.8,
-            color: '#aa4643'
-          },
-          {
-            name: 'Chrome',
-            value: 12.8,
-            color: '#89a54e'
-          },
-          {
-            name: 'Safari',
-            value: 8.5,
-            color: '#80699b'
-          },
-          {
-            name: 'Opera',
-            value: 6.2,
-            color: '#3d96ae'
-          },
-          {
-            name: 'Others',
-            value: 0.7,
-            color: '#db843d'
-          }
-        ]);
+      pie.addData([
+        {
+          name: 'Firefox',
+          value: 45.0,
+          color: '#4572a7'
+        },
+        {
+          name: 'IE',
+          value: 26.8,
+          color: '#aa4643'
+        },
+        {
+          name: 'Chrome',
+          value: 12.8,
+          color: '#89a54e'
+        },
+        {
+          name: 'Safari',
+          value: 8.5,
+          color: '#80699b'
+        },
+        {
+          name: 'Opera',
+          value: 6.2,
+          color: '#3d96ae'
+        },
+        {
+          name: 'Others',
+          value: 0.7,
+          color: '#db843d'
+        }
+      ]);
 
-        var pie1 = Rubix.Pie('#pie-chart2', {
-          title: 'Digital Shopping Activity',
-          subtitle: 'Browser Share',
-          height: 300
-        });
+      var pie1 = Rubix.Pie('#pie-chart2', {
+        title: 'Digital Shopping Activity',
+        subtitle: 'Browser Share',
+        height: 300
+      });
 
-        pie1.addData([
-          {
-            name: 'Firefox',
-            value: 49.0,
-            color: '#4572a7'
-          },
-          {
-            name: 'IE',
-            value: 21.8,
-            color: '#aa4643'
-          },
-          {
-            name: 'Chrome',
-            value: 62.8,
-            color: '#89a54e'
-          },
-          {
-            name: 'Safari',
-            value: 3.5,
-            color: '#80699b'
-          },
-          {
-            name: 'Opera',
-            value: 2.2,
-            color: '#3d96ae'
-          },
-          {
-            name: 'Others',
-            value: 10,
-            color: '#db843d'
-          }
-        ]);
-      })();
+      pie1.addData([
+        {
+          name: 'Firefox',
+          value: 49.0,
+          color: '#4572a7'
+        },
+        {
+          name: 'IE',
+          value: 21.8,
+          color: '#aa4643'
+        },
+        {
+          name: 'Chrome',
+          value: 62.8,
+          color: '#89a54e'
+        },
+        {
+          name: 'Safari',
+          value: 3.5,
+          color: '#80699b'
+        },
+        {
+          name: 'Opera',
+          value: 2.2,
+          color: '#3d96ae'
+        },
+        {
+          name: 'Others',
+          value: 10,
+          color: '#db843d'
+        }
+      ]);
+    })();
   }
   render() {
     return (
@@ -384,33 +387,33 @@ class ProductPromotionByChannel extends React.Component {
                 </Col>
               </Row>
             </Grid>
-            <Nav bsStyle="tabs" className='plain'>
-              <NavItem eventKey="sma">
-                Shopping Modes Analysis         
+          <Nav bsStyle="tabs" className='plain'>
+            <NavItem eventKey="sma">
+              Shopping Modes Analysis
               </NavItem>
-              <NavItem eventKey="dsa">
-                Digital Shopping Activity                
+            <NavItem eventKey="dsa">
+              Digital Shopping Activity
               </NavItem>
-            </Nav>
+          </Nav>
           </PanelHeader>
-          <PanelBody>
-            <Grid>
-              <Row>
-                <Col xs={12}>
-                  <Tab.Content>
-                    <Tab.Pane eventKey="sma">
-                      <div id="pie-chart" > </div>
-                    </Tab.Pane>
-                    <Tab.Pane eventKey="dsa">                  
-                      <div id="pie-chart2" > </div>
-                    </Tab.Pane>
-                  </Tab.Content>
-                </Col>
-              </Row>
-            </Grid>
-          </PanelBody>
+        <PanelBody>
+          <Grid>
+            <Row>
+              <Col xs={12}>
+                <Tab.Content>
+                  <Tab.Pane eventKey="sma">
+                    <div id="pie-chart" > </div>
+                  </Tab.Pane>
+                  <Tab.Pane eventKey="dsa">
+                    <div id="pie-chart2" > </div>
+                  </Tab.Pane>
+                </Tab.Content>
+              </Col>
+            </Row>
+          </Grid>
+        </PanelBody>
         </Panel>
-      </PanelTabContainer>
+      </PanelTabContainer >
     );
   }
 }
@@ -423,91 +426,91 @@ class ProductBundlesbyCustomerBehavior extends React.Component {
     return path;
   }
 
-  componentDidMount(){
+  componentDidMount() {
     (() => {
-        var pie = Rubix.Pie('#cpp_chart', {
-          title: 'Customer Product Preferences',
-          subtitle: 'Browser Share',
-          height: 300
-        });
+      var pie = Rubix.Pie('#cpp_chart', {
+        title: 'Customer Product Preferences',
+        subtitle: 'Browser Share',
+        height: 300
+      });
 
-        pie.addData([
-          {
-            name: 'Firefox',
-            value: 45.0,
-            color: '#4572a7'
-          },
-          {
-            name: 'IE',
-            value: 26.8,
-            color: '#aa4643'
-          },
-          {
-            name: 'Chrome',
-            value: 12.8,
-            color: '#89a54e'
-          },
-          {
-            name: 'Safari',
-            value: 8.5,
-            color: '#80699b'
-          },
-          {
-            name: 'Opera',
-            value: 6.2,
-            color: '#3d96ae'
-          },
-          {
-            name: 'Others',
-            value: 0.7,
-            color: '#db843d'
-          }
-        ]);
-      })();
+      pie.addData([
+        {
+          name: 'Firefox',
+          value: 45.0,
+          color: '#4572a7'
+        },
+        {
+          name: 'IE',
+          value: 26.8,
+          color: '#aa4643'
+        },
+        {
+          name: 'Chrome',
+          value: 12.8,
+          color: '#89a54e'
+        },
+        {
+          name: 'Safari',
+          value: 8.5,
+          color: '#80699b'
+        },
+        {
+          name: 'Opera',
+          value: 6.2,
+          color: '#3d96ae'
+        },
+        {
+          name: 'Others',
+          value: 0.7,
+          color: '#db843d'
+        }
+      ]);
+    })();
 
     //CPA Chart
-        (() => {
-        var chart = new Rubix('#cpa_chart', {
-          height: 300,
-          title: 'Single Series Column Chart',
-          subtitle: 'Fruits',
-          titleColor: '#D71F4B',
-          subtitleColor: '#D71F4B',
-          axis: {
-            x: {
-              type: 'ordinal',
-            },
-            y: {
-              type: 'linear',
-              tickFormat: 'd'
-            }
+    (() => {
+      var chart = new Rubix('#cpa_chart', {
+        height: 300,
+        title: 'Single Series Column Chart',
+        subtitle: 'Fruits',
+        titleColor: '#D71F4B',
+        subtitleColor: '#D71F4B',
+        axis: {
+          x: {
+            type: 'ordinal',
           },
-          tooltip: {
-            color: '#D71F4B',
-            format: {
-              y: '.0f'
-            }
-          },
-          margin: {
-            left: 50
-          },
-          grouped: false,
-          show_markers: true
-        });
+          y: {
+            type: 'linear',
+            tickFormat: 'd'
+          }
+        },
+        tooltip: {
+          color: '#D71F4B',
+          format: {
+            y: '.0f'
+          }
+        },
+        margin: {
+          left: 50
+        },
+        grouped: false,
+        show_markers: true
+      });
 
-        var fruits = chart.column_series({
-          name: 'Fruits',
-          color: '#D71F4B'
-        });
+      var fruits = chart.column_series({
+        name: 'Fruits',
+        color: '#D71F4B'
+      });
 
-        fruits.addData([
-          {x: 'Apples', y: 5},
-          {x: 'Oranges', y: 3},
-          {x: 'Pears', y: 4},
-          {x: 'Grapes', y: 7},
-          {x: 'Bananas', y: 2},
-          {x: 'Strawberry', y: 15}
-        ]);
+      fruits.addData([
+        { x: 'Apples', y: 5 },
+        { x: 'Oranges', y: 3 },
+        { x: 'Pears', y: 4 },
+        { x: 'Grapes', y: 7 },
+        { x: 'Bananas', y: 2 },
+        { x: 'Strawberry', y: 15 }
+      ]);
     })();
   }
   render() {
@@ -522,39 +525,39 @@ class ProductBundlesbyCustomerBehavior extends React.Component {
                 </Col>
               </Row>
             </Grid>
-            <Nav bsStyle="tabs" className='plain'>
-              <NavItem eventKey="cpp">
-                Customer Payment Preferences             
+          <Nav bsStyle="tabs" className='plain'>
+            <NavItem eventKey="cpp">
+              Customer Payment Preferences
               </NavItem>
-              <NavItem eventKey="cpa">
-                Customer Product Appetite          
+            <NavItem eventKey="cpa">
+              Customer Product Appetite
               </NavItem>
-            </Nav>
+          </Nav>
           </PanelHeader>
-          <PanelBody>
-            <Grid>
-              <Row>
-                <Col xs={12}>
-                  <Tab.Content>
-                    <Tab.Pane eventKey="cpp">
-                      <div id="cpp_chart"></div>
-                    </Tab.Pane>
-                    <Tab.Pane eventKey="cpa">
-                      <div id="cpa_chart"></div>
-                    </Tab.Pane>
-                  </Tab.Content>
-                </Col>
-              </Row>
-            </Grid>
-          </PanelBody>
+        <PanelBody>
+          <Grid>
+            <Row>
+              <Col xs={12}>
+                <Tab.Content>
+                  <Tab.Pane eventKey="cpp">
+                    <div id="cpp_chart"></div>
+                  </Tab.Pane>
+                  <Tab.Pane eventKey="cpa">
+                    <div id="cpa_chart"></div>
+                  </Tab.Pane>
+                </Tab.Content>
+              </Col>
+            </Row>
+          </Grid>
+        </PanelBody>
         </Panel>
-      </PanelTabContainer>
+      </PanelTabContainer >
     );
   }
 }
 
 class NewCustomerAcquistion extends React.Component {
-  componentDidMount(){
+  componentDidMount() {
     (() => {
       var chart = new Rubix('#pms_chart', {
         title: 'Market Segmentation',
@@ -566,7 +569,7 @@ class NewCustomerAcquistion extends React.Component {
           x: {
             type: 'ordinal'
           },
-          y:  {
+          y: {
             type: 'linear',
             tickFormat: ',.0f',
             label: 'Revenue',
@@ -588,27 +591,27 @@ class NewCustomerAcquistion extends React.Component {
       });
 
       profit.addData([
-        {x: 'Jan', y: 30000},
-        {x: 'Feb', y: 25000},
-        {x: 'Mar', y: 25000},
-        {x: 'Apr', y: 30000},
-        {x: 'May', y: 65000},
-        {x: 'Jun', y: 15000}
+        { x: 'Jan', y: 30000 },
+        { x: 'Feb', y: 25000 },
+        { x: 'Mar', y: 25000 },
+        { x: 'Apr', y: 30000 },
+        { x: 'May', y: 65000 },
+        { x: 'Jun', y: 15000 }
       ]);
 
       var expenses = chart.bar_series({
-          name: 'Expense',
-          color: '#FF6666',
-          marker: 'square'
+        name: 'Expense',
+        color: '#FF6666',
+        marker: 'square'
       });
 
       expenses.addData([
-        {x: 'Jan', y: -35000},
-        {x: 'Feb', y: -10000},
-        {x: 'Mar', y: -10000},
-        {x: 'Apr', y: -15000},
-        {x: 'May', y: -15000},
-        {x: 'Jun', y: -5000}
+        { x: 'Jan', y: -35000 },
+        { x: 'Feb', y: -10000 },
+        { x: 'Mar', y: -10000 },
+        { x: 'Apr', y: -15000 },
+        { x: 'May', y: -15000 },
+        { x: 'Jun', y: -5000 }
       ]);
     })();
   }
@@ -626,10 +629,10 @@ class NewCustomerAcquistion extends React.Component {
             </Grid>
             <Nav bsStyle="tabs" className='plain'>
               <NavItem eventKey="pclv">
-                Predict Customer Lifetime Value             
+                Predict Customer Lifetime Value
               </NavItem>
               <NavItem eventKey="pms">
-                Predictive Market Segmentation    
+                Predictive Market Segmentation
               </NavItem>
             </Nav>
           </PanelHeader>
@@ -641,7 +644,7 @@ class NewCustomerAcquistion extends React.Component {
                     <Tab.Pane eventKey="pclv">
                       <MaleFemaleChart />
                     </Tab.Pane>
-                    <Tab.Pane eventKey="pms">                  
+                    <Tab.Pane eventKey="pms">
                       <div id="pms_chart"></div>
                     </Tab.Pane>
                   </Tab.Content>
@@ -656,7 +659,7 @@ class NewCustomerAcquistion extends React.Component {
 }
 
 class RealTimeLocationAnalysis extends React.Component {
-  componentDidMount(){
+  componentDidMount() {
 
   }
   render() {
@@ -688,7 +691,7 @@ class RealTimeLocationAnalysis extends React.Component {
                     <Tab.Pane eventKey="rpa">
                       <MapPanel />
                     </Tab.Pane>
-                    <Tab.Pane eventKey="clp">                  
+                    <Tab.Pane eventKey="clp">
                       <h3> Customer Location/Shop/Site Preferences</h3>
                     </Tab.Pane>
                   </Tab.Content>
@@ -703,7 +706,7 @@ class RealTimeLocationAnalysis extends React.Component {
 }
 
 class PriceOptimization extends React.Component {
-  componentDidMount(){
+  componentDidMount() {
 
   }
   render() {
@@ -729,7 +732,7 @@ class PriceOptimization extends React.Component {
               <Row>
                 <Col xs={12}>
                   <Tab.Content>
-                    <Tab.Pane eventKey="cslr">                  
+                    <Tab.Pane eventKey="cslr">
                       <h3> Customer Spending Limits & Ranges</h3>
                     </Tab.Pane>
                   </Tab.Content>
@@ -758,7 +761,7 @@ class MapPanel extends React.Component {
         origin: [38.892428, -77.048454],
         destination: [38.889497, -77.050181],
         travelMode: 'walking',
-        step: function(e){
+        step: function (e) {
           list.push({
             instructions: e.instructions,
             lat: e.end_location.lat(),
@@ -766,10 +769,10 @@ class MapPanel extends React.Component {
             path: e.path
           });
         }.bind(this),
-        end: function(e) {
+        end: function (e) {
           var lat, lng, path;
-          var processList = function(i) {
-            if(list.length === i) return;
+          var processList = function (i) {
+            if (list.length === i) return;
             lat = list[i].lat;
             lng = list[i].lng;
             path = list[i].path;
@@ -778,7 +781,7 @@ class MapPanel extends React.Component {
               strokeColor: '#FF6FCF',
               strokeWeight: 8
             });
-            processList(i+1);
+            processList(i + 1);
           }.bind(this);
           processList(0);
         }.bind(this)
@@ -790,8 +793,8 @@ class MapPanel extends React.Component {
       <PanelContainer collapseBottom>
         <Panel>
           <PanelHeader>
-            <div style={{padding: 25}}>
-              <div id='routingmap' style={{height: 300}}></div>
+            <div style={{ padding: 25 }}>
+              <div id='routingmap' style={{ height: 300 }}></div>
             </div>
           </PanelHeader>
         </Panel>
@@ -801,7 +804,7 @@ class MapPanel extends React.Component {
 }
 
 class ExportButtonGroup extends React.Component {
-  componentDidMount(){
+  componentDidMount() {
 
   }
   render() {
@@ -821,11 +824,11 @@ class ExportButtonGroup extends React.Component {
             <Grid>
               <Row>
                 <Col xs={12}>
-                    <ButtonGroup justified>
-                      <Button href="#" bsStyle='blue'>Send Customized Email</Button>                      
-                      <Button href="#" bsStyle='blue'>Push to Marketing Automation</Button>
-                      <Button href="#" bsStyle='blue'>Export to CSV</Button>
-                    </ButtonGroup>
+                  <ButtonGroup justified>
+                    <Button href="#" bsStyle='blue'>Send Customized Email</Button>
+                    <Button href="#" bsStyle='blue'>Push to Marketing Automation</Button>
+                    <Button href="#" bsStyle='blue'>Export to CSV</Button>
+                  </ButtonGroup>
                 </Col>
               </Row>
             </Grid>
@@ -848,7 +851,7 @@ class MaleFemaleChart extends React.Component {
           tickCount: 2,
           label: 'Time'
         },
-        y:  {
+        y: {
           type: 'linear',
           tickFormat: 'd'
         }
@@ -874,12 +877,12 @@ class MaleFemaleChart extends React.Component {
     });
 
     var data = [
-      {x: 2005, y: 21},
-      {x: 2006, y: 44},
-      {x: 2007, y: 14},
-      {x: 2008, y: 18},
-      {x: 2009, y: 23},
-      {x: 2010, y: 21}
+      { x: 2005, y: 21 },
+      { x: 2006, y: 44 },
+      { x: 2007, y: 14 },
+      { x: 2008, y: 18 },
+      { x: 2009, y: 23 },
+      { x: 2010, y: 21 }
     ];
     column.addData(data);
 
@@ -890,12 +893,12 @@ class MaleFemaleChart extends React.Component {
     });
 
     var data1 = [
-      {x: 2005, y: -79},
-      {x: 2006, y: -56},
-      {x: 2007, y: -86},
-      {x: 2008, y: -82},
-      {x: 2009, y: -77},
-      {x: 2010, y: -79}
+      { x: 2005, y: -79 },
+      { x: 2006, y: -56 },
+      { x: 2007, y: -86 },
+      { x: 2008, y: -82 },
+      { x: 2009, y: -77 },
+      { x: 2010, y: -79 }
     ];
     column1.addData(data1);
   }
@@ -904,81 +907,80 @@ class MaleFemaleChart extends React.Component {
   }
 }
 
-
 export default class ExecDashboard extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      cpta_data :'',
-      ple_data  :'',
-      mad_data  :'',
-      asi_data  :''
+      cpta_data: '',
+      ple_data: '',
+      mad_data: '',
+      asi_data: ''
     };
   }
-  componentDidMount(){
+  componentDidMount() {
     var api_key = localStorage.getItem('api_key');
     $.ajax({
-      url: 'https://ceres.link/api/app/bdw/api_key='+api_key,
+      url: 'https://ceres.link/api/app/bdw/api_key=' + api_key,
       dataType: 'json',
       type: 'GET',
-      success:function(data){
+      success: function (data) {
         console.log(data);
-        this.setState({'cpta_data':data});
+        this.setState({ 'cpta_data': data });
       }.bind(this),
-      error:function(error){
+      error: function (error) {
         console.log('error');
         console.log(error);
       }
     });
     $.ajax({
-      url: 'https://ceres.link/api/app/mad/api_key='+api_key,
+      url: 'https://ceres.link/api/app/mad/api_key=' + api_key,
       dataType: 'json',
       type: 'GET',
-      success:function(data){
-        this.setState({'mad_data':data});
+      success: function (data) {
+        this.setState({ 'mad_data': data });
       }.bind(this),
-      error:function(error){
+      error: function (error) {
         console.log('error');
         console.log(error);
       }
     });
-    
+
     $.ajax({
-      url: 'https://ceres.link/api/app/asi/api_key='+api_key,
+      url: 'https://ceres.link/api/app/asi/api_key=' + api_key,
       dataType: 'json',
       type: 'GET',
-      success:function(data){
-        this.setState({'asi_data':data});
+      success: function (data) {
+        this.setState({ 'asi_data': data });
       }.bind(this),
-      error:function(error){
+      error: function (error) {
         console.log('error');
         console.log(error);
       }
-    });  
+    });
     $.ajax({
-      url: 'https://ceres.link/api/app/products/api_key='+api_key,
+      url: 'https://ceres.link/api/app/products/api_key=' + api_key,
       dataType: 'json',
       type: 'GET',
-      success:function(data){       
-        this.setState({'ple_data':data['product']});
+      success: function (data) {
+        this.setState({ 'ple_data': data['product'] });
       }.bind(this),
-      error:function(error){
+      error: function (error) {
         console.log('error');
         console.log(error);
       }
-    }); 
+    });
   }
   render() {
     return (
       <div className='execdashboard'>
         <Row>
-          <Col sm={12}>      
-            <CampaignsPromotionsAndLoyaltyOptimization cpta_data={this.state.cpta_data} mad_data = {this.state.mad_data} asi_data={this.state.asi_data} ple_data={this.state.ple_data}/>
-            <ProductPromotionByChannel /> 
+          <Col sm={12}>
+            <CampaignsPromotionsAndLoyaltyOptimization cpta_data={this.state.cpta_data} mad_data={this.state.mad_data} asi_data={this.state.asi_data} ple_data={this.state.ple_data} />
+            <ProductPromotionByChannel />
             <ProductBundlesbyCustomerBehavior />
             <NewCustomerAcquistion />
             <RealTimeLocationAnalysis />
-            <PriceOptimization />            
+            <PriceOptimization />
             <ExportButtonGroup />
           </Col>
         </Row>
@@ -986,3 +988,26 @@ export default class ExecDashboard extends React.Component {
     );
   }
 }
+
+
+// const mapStateToProps = (state) => {
+
+//   return {
+//     execChannel: state.execChannel,
+//     execProduct: state.execProduct,
+//     dsaData: state.dsaData,
+//     customerPay: state.customerPay,
+//     newCustomer: state.newCustomer
+//   }
+// };
+
+// const mapDispatchToProps = (dispatch) => {
+//  return {
+
+//  }
+// };
+
+// export default connect(mapStateToProps, mapDispatchToProps)(ExecDashboard);
+
+
+

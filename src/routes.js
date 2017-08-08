@@ -40,6 +40,7 @@ import * as newCustomer from './actions/executive/newCustomerActions';
 //Import sub-dashboard actions
 import * as subSmaChannel from './actions/sub-dashboard/subSmaChannelActions';
 import * as subSmaProduct from './actions/sub-dashboard/subSmaProductActions';
+import * as subDsa from './actions/sub-dashboard/subDsaActions';
 
 const store = configureStore();
 //Dispatch of executive actions
@@ -52,6 +53,7 @@ store.dispatch(newCustomer.fetchNewCustomerData());
 //Disaptch of sub-dashboard actions
 store.dispatch(subSmaChannel.fetchChannelData());
 store.dispatch(subSmaProduct.fetchProductData());
+store.dispatch(subDsa.fetchDsaData());
 
 class App extends React.Component {
   constructor(props) {

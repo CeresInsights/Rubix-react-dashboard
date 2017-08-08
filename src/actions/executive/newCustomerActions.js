@@ -14,7 +14,6 @@ export const fetchNewCustomerData = () => {
     return (dispatch) => {
         return Axios.get(apiNewCustomer)
         .then(response => {
-                        console.log("fetchNewCustomerData", response.data)
             dispatch(fetchNewCustomerDataSuccess(response.data))
         })
         .catch(error => {
