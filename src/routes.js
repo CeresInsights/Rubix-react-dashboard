@@ -1,6 +1,6 @@
 import React from 'react';
 import classNames from 'classnames';
-import { IndexRoute, Route } from 'react-router';
+import { IndexRoute, Router, browserHistory, Route } from 'react-router';
 
 import { Grid, Row, Col, MainContainer } from '@sketchpixy/rubix';
 
@@ -26,6 +26,32 @@ import Signup from './routes/Signup';
 import CampaignsPromotionsAndLoyaltyDashboard from './routes/CampaignsPromotionsAndLoyaltyDashboard';
 import ProductPromotionsByChannel from './routes/ProductPromotionsByChannel';
 import ProductBundle from './routes/ProductBundle';
+
+import { Provider } from 'react-redux';
+import configureStore from './stores/configureStores';
+
+//Import executive actions
+import * as customerPay from './actions/executive/customerPayActions';
+import * as dsaData from './actions/executive/dsaDataActions';
+import * as execSmaChannel from './actions/executive/execSmaChannelActions';
+import * as execSmaProduct from './actions/executive/execSmaProductActions';
+import * as newCustomer from './actions/executive/newCustomerActions';
+
+//Import sub-dashboard actions
+import * as subSmaChannel from './actions/sub-dashboard/subSmaChannelActions';
+import * as subSmaProduct from './actions/sub-dashboard/subSmaProductActions';
+
+const store = configureStore();
+//Dispatch of executive actions
+store.dispatch(customerPay.fetchCustomerPayData());
+store.dispatch(dsaData.fetchDsaData());
+store.dispatch(execSmaChannel.fetchChannelData());
+store.dispatch(execSmaProduct.fetchProductData());
+store.dispatch(newCustomer.fetchNewCustomerData());
+
+//Disaptch of sub-dashboard actions
+store.dispatch(subSmaChannel.fetchChannelData());
+store.dispatch(subSmaProduct.fetchProductData());
 
 class App extends React.Component {
   constructor(props) {
@@ -107,14 +133,14 @@ const combinedRoutes = (
 );
 
 export default (
-  <Route>
-    <Route path='/' component={Homepage} />
-
-    <Route path='/ltr'>
-      {combinedRoutes}
-    </Route>
-    <Route path='/rtl'>
-      {combinedRoutes}
-    </Route>
-  </Route>
+  <Provider store = {store}>
+    <Router history={browserHistory}>
+      <Route path="/">
+        <IndexRoute component={Homepage} />
+        <Route path='/ltr'>
+          {combinedRoutes}
+        </Route>
+      </Route>
+    </Router>
+  </Provider>
 );
