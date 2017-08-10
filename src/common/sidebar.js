@@ -5,7 +5,7 @@ import {
   SidebarControls, SidebarControlBtn,
   LoremIpsum, Grid, Row, Col, FormControl,
   Label, Progress, Icon,
-  SidebarDivider, DropdownButton,MenuItem,Button
+  SidebarDivider, DropdownButton, MenuItem, Button
 } from '@sketchpixy/rubix';
 
 import { Link, withRouter } from 'react-router';
@@ -17,21 +17,25 @@ import NotificationsComponent from './notifications';
 
 @withRouter
 class ApplicationSidebar extends React.Component {
-  constructor(props){
+  constructor(props) {
     super(props);
     this.state = {
-      pri_key:[],
-      pri_active_key:'',
-      sec_key:[],
-      sec_active_key:'',
-      third_key:[],
-      third_active_key:'',
-      meta_data:{},
-      table_data:{},
-      table_data_ready:false,
-      table_data_header:[],
-      table_data_content:[],
-      key_change:false
+      pri_keys: [],
+      pri_values: {},
+      pk: '',
+      pk_selected: false,
+      sec_keys: [],
+      sk: '',
+      sk_selected: false,
+      third_keys: [],
+      ck: '',
+      ck_selected: false,
+      initial_data: {},
+      table_data: {},
+      table_data_ready: false,
+      table_data_header: [],
+      table_data_content: [],
+      key_change: false
     };
   }
 
@@ -46,151 +50,162 @@ class ApplicationSidebar extends React.Component {
   }
 
   componentDidMount() {
-    this.UserList();
-  }
 
-  UserList(){
     let api_key = localStorage.getItem('api_key');
+    console.log("FilterAPIKEY", api_key);
+
     $.ajax({
-      url: 'https://ceres.link/api/graphmeta/api_key='+api_key,
+      url: 'https://ceres.link/api/graphmeta/api_key=' + api_key,
       dataType: 'json',
       type: 'GET',
-      success:function(data){
+      success: function (data) {
         this.setState({
-          pri_key:Object.keys(data),
-          meta_data:data
+          pri_keys: Object.keys(data),
+          initial_data: data
         })
       }.bind(this),
-      error:function(error){
+      error: function (error) {
         console.log(error);
       }
     })
   }
 
-  handleClick(element,nth){
+  handleClick(key, keyKind) {
+
     let api_key = localStorage.getItem('api_key');
-    let meta_data = this.state.meta_data;
-    if(nth=='primary'){
-      var tmp_2nd = meta_data[element];
-      this.setState({pri_active_key:element,sec_key:Object.keys(tmp_2nd)});            
+    let initial_data = this.state.initial_data;
+    let sec_keys = [];
+    let pri_values = {}; 
+    let third_keys = [];
+    let pk, sk, ck= '';
+
+    if (keyKind === 'primary') {
+      pri_values = initial_data[key];
+      sec_keys = Object.keys(pri_values);
+      this.setState({
+        pk: key,
+        pk_selected: true,
+        sec_keys: sec_keys,
+        pri_values: pri_values
+      });
+    }
+
+    if (this.state.pk_selected && keyKind === 'second') {
+      alert("1231231231231313123")
+      third_keys = this.state.pri_values[key];
+      this.setState({
+        sk: key,
+        sk_selected: true,
+        third_keys: third_keys
+      });
+    }
+
+    if (this.state.pk_selected && this.state.sk_selected && keyKind === 'third') {
+      this.setState({
+        ck: key,
+        ck_selected: true
+      })
       $.ajax({
-        url: 'https://ceres.link/api/update_pk/api_key='+api_key+';data:'+element,
+        url: 'https://ceres.link/api/override_keys/api_key=' + api_key + ';data:pk=' + this.state.pk + ',sk=' + this.state.sk + ',ck=' + key,
         dataType: 'json',
         type: 'GET',
-        success:function(data){          
-          this.setState({sec_active_key:'',third_active_key:'',key_change:true});
-          this.props.dataBrowserClickced(true,this.state.pri_active_key,this.state.sec_active_key,this.state.third_active_key);
+        success: function (data) {
+          console.log("Filter API Calling Result Data", data)
         }.bind(this),
-        error:function(error){
-          console.log(error);
+        error: function (error) {
+          console.log("Filter API Error", error);
         }
-      })
-    }else if(nth=='second'){
-      this.setState({sec_active_key:element});
-      let ts = this.state.pri_active_key;
-      let third_array = meta_data[ts][element];
-      this.setState({third_key:third_array});
-      $.ajax({
-        url: 'https://ceres.link/api/update_sk/api_key='+api_key+';data:'+element,
-        dataType: 'json',
-        type: 'GET',
-        success:function(data){
-          this.setState({third_active_key:''});
-          this.props.dataBrowserClickced(true,this.state.pri_active_key,this.state.sec_active_key,this.state.third_active_key);          
-        }.bind(this),
-        error:function(error){
-          console.log(error);
-        }
-      })
-    }else if(nth=='third'){
-      this.setState({third_active_key:element});
-      $.ajax({
-        url: 'https://ceres.link/api/update_ck/api_key='+api_key+';data:'+element,
-        dataType: 'json',
-        type: 'GET',
-        success:function(data){
-          this.props.dataBrowserClickced(true,this.state.pri_active_key,this.state.sec_active_key,this.state.third_active_key);
-        }.bind(this),
-        error:function(error){
-          console.log(error);
-        }
-      })
+      });
     }
   }
-
   render() {
     let _this = this;
-    let pri_title = '', sec_title='',third_title='';
-    if(this.state.pri_active_key ==''){
+    let pri_title = '', sec_title = '', third_title = '';
+    if (this.state.pk == '') {
       pri_title = 'Data Scope';
-    }else{
-      pri_title = this.state.pri_active_key;
+    } else {
+      pri_title = this.state.pk;
     }
 
-    if(this.state.sec_active_key ==''){
+    if (this.state.sk == '') {
       sec_title = 'Scope Type';
-    }else{
-      sec_title = this.state.sec_active_key;
+    } else {
+            console.log("Second Titile", this.state.sk)
+      sec_title = this.state.sk;
     }
 
-    if(this.state.third_active_key ==''){
+    if (this.state.ck == '') {
       third_title = 'Scope Context';
-    }else{
-      third_title = this.state.third_active_key;
+    } else {
+      third_title = this.state.ck;
     }
-
-    const table_data_ready = this.state.table_data_ready; 
 
     return (
       <div>
         <Grid>
           <Row>
             <Col xs={12}>
-              <FormControl type='text' placeholder='Search...' onChange={::this.handleChange} className='sidebar-search' style={{border: 'none', background: 'none', margin: '10px 0 0 0', borderBottom: '1px solid #666', color: 'white'}} />
+              <FormControl type='text' placeholder='Search...' onChange={::this.handleChange} className='sidebar-search' style={{ border: 'none', background: 'none', margin: '10px 0 0 0', borderBottom: '1px solid #666', color: 'white' }} />
               <div className='sidebar-nav-container'>
-                <SidebarNav style={{marginBottom: 0}} ref={(c) => this._nav = c}>
+                <SidebarNav style={{ marginBottom: 0 }} ref={(c) => this._nav = c}>
 
-                  { /** Pages Section */ }
+                  { /** Pages Section */}
                   <div className='sidebar-header'>PAGES</div>
 
-                  <SidebarNavItem glyph='icon-fontello-gauge' name='Executive Dashboard' href={::this.getPath('execdashboard')} />                 
+                  <SidebarNavItem glyph='icon-fontello-gauge' name='Executive Dashboard' href={::this.getPath('execdashboard')} />
                   <SidebarNavItem glyph='icon-ikons-chart' name='Campaigns App' href={::this.getPath('sub_campaigns')} />
                   <SidebarNavItem glyph='icon-ikons-chart-1-4' name='Promotion App' href={::this.getPath('sub_ppbc')} />
                   <SidebarNavItem glyph='icon-fontello-chart-bar' name='Product App' href={::this.getPath('sub_pbbcb')} />
                   <SidebarDivider />
 
-                  { /** Components Section */ }
+                  { /** Components Section */}
                   <div className='sidebar-header'>Filters</div>
 
                   <Col xs={12}>
-                  <DropdownButton bsStyle='darkgreen45' title={pri_title} id='primary_dropdown'>
-                    {this.state.pri_key.map(function(element,i){
-                      return (<MenuItem key={i} eventKey={i} onSelect={()=>_this.handleClick(element,'primary')}>{element}</MenuItem>);
-                    })}
-                  </DropdownButton>
+                    {this.state.pri_keys !== undefined &&
+                      <DropdownButton bsStyle='darkgreen45' title={pri_title} id='primary_dropdown'>
+                        {this.state.pri_keys.map((priKey, index) => {
+                          return (<MenuItem key={index} eventKey={index} onSelect={() => _this.handleClick(priKey, 'primary')}>{priKey}</MenuItem>);
+                        })}
+                      </DropdownButton>
+                    }
+                    {this.state.pri_keys === undefined &&
+                      <DropdownButton bsStyle='darkgreen45' title={pri_title} id='primary_dropdown' disabled />
+                    }
                   </Col>
 
                   <Col xs={12}>
-                  <DropdownButton bsStyle='darkgreen45' title={sec_title} id='secondary_dropdown'>
-                    {this.state.sec_key.map(function(element,i){
-                      return (<MenuItem key={i} eventKey={i} onSelect={()=>_this.handleClick(element,'second')}>{element}</MenuItem>);
-                    })}
-                  </DropdownButton>
+                    {this.state.sec_keys !== undefined &&
+                      <DropdownButton bsStyle='darkgreen45' title={sec_title} id='secondary_dropdown'>
+                        {this.state.sec_keys.map((secKey, index) => {
+                          return (<MenuItem key={index} eventKey={index} onSelect={() => _this.handleClick(secKey, 'second')}>{secKey}</MenuItem>);
+                        })}
+                      </DropdownButton>
+                    }
+                    {this.state.sec_keys === undefined &&
+                      <DropdownButton bsStyle='darkgreen45' title={sec_title} id='secondary_dropdown' disabled />
+                    }
                   </Col>
                   <Col xs={12}>
-                  <DropdownButton bsStyle='darkgreen45' title={third_title} id='teritary_dropdown'>
-                    {this.state.third_key.map(function(element,i){
-                      return (<MenuItem key={i} eventKey={i} onSelect={()=>_this.handleClick(element,'third')}>{element}</MenuItem>);
-                    })}
-                  </DropdownButton>
+                  {this.state.third_keys !==undefined &&
+                    <DropdownButton bsStyle='darkgreen45' title={third_title} id='teritary_dropdown'>
+                      {this.state.third_keys.map((thirdKey, index) => {
+                        return (<MenuItem key={index} eventKey={index} onSelect={() => _this.handleClick(thirdKey, 'third')}>{thirdKey}</MenuItem>);
+                      })}
+                    </DropdownButton>
+                  }
+                  {this.state.third_keys===undefined &&
+                    <DropdownButton bsStyle='darkgreen45' title={third_title} id='teritary_dropdown' disabled />
+                  }
                   </Col>
 
                   <Col xs={12}>
-                    <Button style={{marginBottom: 5}} bsStyle='danger'>Clear Selections</Button>
+                    <Button style={{ marginBottom: 5 }} bsStyle='danger'>Clear Selections</Button>
                   </Col>
+
                   <SidebarDivider />
 
-                  { /** Extras Section */ }
+                  { /** Extras Section */}
                   <div className='sidebar-header'>EXTRAS</div>
                   <SidebarNavItem glyph='icon-ikons-login' name='Login' href={::this.getPath('login')} />
                   <SidebarNavItem glyph='icon-simple-line-icons-users' name='Signup' href={::this.getPath('signup')} />
@@ -234,9 +249,10 @@ export default class SidebarContainer extends React.Component {
     return path;
   }
 
-  handleLangChange(tbl_ready,pk,sk,ck) {      
-      this.props.onSelectLanguage(tbl_ready,pk,sk,ck);            
-  }
+  // handleLangChange(tbl_ready,pk,sk,ck) {
+  //     this.props.onSelectLanguage(tbl_ready,pk,sk,ck);            
+  // }
+
   render() {
     return (
       <div id='sidebar'>
@@ -247,9 +263,9 @@ export default class SidebarContainer extends React.Component {
                 <img src='/imgs/app/avatars/avatar0.png' width='40' height='40' />
               </Col>
               <Col xs={8} collapseLeft id='avatar-col'>
-                <div style={{top: 23, fontSize: 16, lineHeight: 1, position: 'relative'}}>Anna Sanchez</div>
+                <div style={{ top: 23, fontSize: 16, lineHeight: 1, position: 'relative' }}>Anna Sanchez</div>
                 <div>
-                  <Progress id='demo-progress' value={30} color='#ffffff'/>
+                  <Progress id='demo-progress' value={30} color='#ffffff' />
                   <Link to={::this.getPath('lock')}>
                     <Icon id='demo-icon' bundle='fontello' glyph='lock-5' />
                   </Link>
@@ -257,32 +273,33 @@ export default class SidebarContainer extends React.Component {
               </Col>
             </Row>
           </Grid>
-        </div>
-        <SidebarControls>
-          <SidebarControlBtn bundle='fontello' glyph='docs' sidebar={0} />
-          <SidebarControlBtn bundle='fontello' glyph='chat-1' sidebar={1} />
-          <SidebarControlBtn bundle='fontello' glyph='chart-pie-2' sidebar={2} />
-          <SidebarControlBtn bundle='fontello' glyph='th-list-2' sidebar={3} />
-          <SidebarControlBtn bundle='fontello' glyph='bell-5' sidebar={4} />
-        </SidebarControls>
-        <div id='sidebar-container'>
-          <Sidebar sidebar={0}>
-            <ApplicationSidebar dataBrowserClickced={this.handleLangChange.bind(this)}/>
-          </Sidebar>
-          <Sidebar sidebar={1}>
-            <ChatComponent />
-          </Sidebar>
-          <Sidebar sidebar={2}>
-            <StatisticsComponent />
-          </Sidebar>
-          <Sidebar sidebar={3}>
-            <TimelineComponent />
-          </Sidebar>
-          <Sidebar sidebar={4}>
-            <NotificationsComponent />
-          </Sidebar>
-        </div>
       </div>
-    );
+      <SidebarControls>
+        <SidebarControlBtn bundle='fontello' glyph='docs' sidebar={0} />
+        <SidebarControlBtn bundle='fontello' glyph='chat-1' sidebar={1} />
+        <SidebarControlBtn bundle='fontello' glyph='chart-pie-2' sidebar={2} />
+        <SidebarControlBtn bundle='fontello' glyph='th-list-2' sidebar={3} />
+        <SidebarControlBtn bundle='fontello' glyph='bell-5' sidebar={4} />
+      </SidebarControls>
+      <div id='sidebar-container'>
+        <Sidebar sidebar={0}>
+          {/* <ApplicationSidebar dataBrowserClickced={this.handleLangChange.bind(this)} /> */}
+          <ApplicationSidebar />
+        </Sidebar>
+        <Sidebar sidebar={1}>
+          <ChatComponent />
+        </Sidebar>
+        <Sidebar sidebar={2}>
+          <StatisticsComponent />
+        </Sidebar>
+        <Sidebar sidebar={3}>
+          <TimelineComponent />
+        </Sidebar>
+        <Sidebar sidebar={4}>
+          <NotificationsComponent />
+        </Sidebar>
+      </div>
+        </div >
+      );
   }
 }

@@ -1,7 +1,7 @@
 import * as types from  '../../constants/actionTypes';
 import Axios from 'axios';
 
-const apiChannel = 'https://ceres.link/api/exec_board/sma_channel/api_key=0xe4badc7779b6517';
+// const apiChannel = 'https://ceres.link/api/exec_board/sma_channel/api_key=0xe4badc7779b6517';
 
 export const fetchChannelDataSuccess = (data) => {
 
@@ -11,9 +11,9 @@ export const fetchChannelDataSuccess = (data) => {
     }
 }
 
-export const fetchChannelData = () => {
+export const fetchChannelData = (apiKey) => {
     return (dispatch) => {
-        return Axios.get(apiChannel)
+        return Axios.get(`https://ceres.link/api/exec_board/sma_channel/api_key=${apiKey}`)
         .then(response => {
             dispatch(fetchChannelDataSuccess(response.data))
         })

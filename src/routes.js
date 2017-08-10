@@ -1,8 +1,7 @@
 import React from 'react';
 import classNames from 'classnames';
 import { IndexRoute, Router, browserHistory, Route } from 'react-router';
-
-import { Grid, Row, Col, MainContainer } from '@sketchpixy/rubix';
+// import App from './app';
 
 /* Common Components */
 
@@ -29,33 +28,17 @@ import ProductBundle from './routes/ProductBundle';
 
 import { Provider } from 'react-redux';
 import configureStore from './stores/configureStores';
+import initialState from './reducers/initialState';
 
-//Import executive actions
 import * as customerPay from './actions/executive/customerPayActions';
-import * as dsaData from './actions/executive/dsaDataActions';
-import * as execSmaChannel from './actions/executive/execSmaChannelActions';
-import * as execSmaProduct from './actions/executive/execSmaProductActions';
-import * as newCustomer from './actions/executive/newCustomerActions';
 
-//Import sub-dashboard actions
-import * as subSmaChannel from './actions/sub-dashboard/subSmaChannelActions';
-import * as subSmaProduct from './actions/sub-dashboard/subSmaProductActions';
-import * as subDsa from './actions/sub-dashboard/subDsaActions';
-
-const store = configureStore();
-//Dispatch of executive actions
+const store = configureStore(initialState);
 store.dispatch(customerPay.fetchCustomerPayData());
-store.dispatch(dsaData.fetchDsaData());
-store.dispatch(execSmaChannel.fetchChannelData());
-store.dispatch(execSmaProduct.fetchProductData());
-store.dispatch(newCustomer.fetchNewCustomerData());
 
-//Disaptch of sub-dashboard actions
-store.dispatch(subSmaChannel.fetchChannelData());
-store.dispatch(subSmaProduct.fetchProductData());
-store.dispatch(subDsa.fetchDsaData());
+// import React from 'react';
+import { Grid, Row, Col, MainContainer } from '@sketchpixy/rubix';
 
-class App extends React.Component {
+ class App extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -97,11 +80,8 @@ class App extends React.Component {
   }
 }
 
-/**
- * Includes Sidebar, Header and Footer.
- */
 const routes = (
-  <Route component={App}>
+  <Route path="/ltr" component={App}>
     <Route path='execdashboard' component={execDashboard} />
     <Route path='databrowser' component={DataBrowser} />
     <Route path='contact' component={Contact} />
@@ -114,7 +94,7 @@ const routes = (
 );
 
 /**
- * No Sidebar, Header or Footer. Only the Body is rendered.
+ * No Sidebar, Header or Footer. Only the Body is rendered.ss
  */
 const basicRoutes = (
   <Route>
@@ -135,13 +115,14 @@ const combinedRoutes = (
 );
 
 export default (
-  <Provider store = {store}>
+  <Provider store={store}>
     <Router history={browserHistory}>
-      <Route path="/">
-        <IndexRoute component={Homepage} />
-        <Route path='/ltr'>
-          {combinedRoutes}
-        </Route>
+      <Route path="/" component={Homepage} />
+      <Route path='/ltr'>
+        {combinedRoutes}
+      </Route>
+      <Route path='/rtl'>
+        {combinedRoutes}
       </Route>
     </Router>
   </Provider>

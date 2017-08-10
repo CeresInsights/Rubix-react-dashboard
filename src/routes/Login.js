@@ -1,6 +1,19 @@
 import React from 'react';
 import classNames from 'classnames';
-import { Link, withRouter,browserHistory } from 'react-router';
+import { Link, withRouter, browserHistory } from 'react-router';
+// import { connect } from 'react-redux';
+
+//Import executive actions
+// import * as customerPay from '../actions/executive/customerPayActions';
+// import * as dsaData from '../actions/executive/dsaDataActions';
+// import * as execSmaChannel from '../actions/executive/execSmaChannelActions';
+// import * as execSmaProduct from '../actions/executive/execSmaProductActions';
+// import * as newCustomer from '../actions/executive/newCustomerActions';
+
+//Import sub-dashboard actions
+// import * as subSmaChannel from '../actions/sub-dashboard/subSmaChannelActions';
+// import * as subSmaProduct from '../actions/sub-dashboard/subSmaProductActions';
+// import * as subDsa from '../actions/sub-dashboard/subDsaActions';
 
 import {
   Row,
@@ -23,37 +36,53 @@ import {
 
 @withRouter
 export default class Login extends React.Component {
+  constructor(props) {
+    super(props);
+  }
+
   back(e) {
     e.preventDefault();
     e.stopPropagation();
     this.props.router.goBack();
   }
 
-  proceed_login(e){
+  proceed_login(e) {
     e.preventDefault();
     e.stopPropagation();
     let un = $('#username').val();
     let pw = $('#password').val();
     $.ajax({
-      url: 'https://ceres.link/api/login/data:un='+un+',pw='+pw,
+      url: 'https://ceres.link/api/login/data:un=' + un + ',pw=' + pw,
       dataType: 'json',
       type: 'GET',
-      success:function(data){
-        if(data.status=='User Login Successful'){
-          localStorage.setItem('api_key',data.key);
-          browserHistory.push('/ltr/execdashboard');  
-        }else{
+      success: function (data) {
+        if (data.status == 'User Login Successful') {
+          // console.log("Local", localStorage.api_key);
+          localStorage.setItem('api_key', data.key);
+
+          // this.props.dsaDataProps(localStorage.api_key);
+          // this.props.customerPayProps(localStorage.api_key);
+          // this.props.execSmaChannelProps(localStorage.api_key);
+          // this.props.execSmaProductProps(localStorage.api_key);
+          // this.props.newCustomerProps(localStorage.api_key);
+          // this.props.subSmaChannelProps(localStorage.api_key);
+          // this.props.subSmaProductProps(localStorage.api_key);
+          // this.props.subDsaProps(localStorage.api_key);
+
+          browserHistory.push('/ltr/execdashboard');
+        } else {
           this.errorNotification(data);
         }
       }.bind(this),
-      error:function(error){
+      error: function (error) {
         console.log(error);
       }
     })
+    //  console.log("111111111111111111", localStorage.api_key)
   }
 
   errorNotification(str) {
-    Messenger().post({     
+    Messenger().post({
       message: str,
       showCloseButton: true
     });
@@ -72,6 +101,7 @@ export default class Login extends React.Component {
     return path;
   }
 
+
   render() {
     return (
       <div id='auth-container' className='login'>
@@ -82,12 +112,12 @@ export default class Login extends React.Component {
                 <Col sm={4} smOffset={4} xs={10} xsOffset={1} collapseLeft collapseRight>
                   <PanelContainer controls={false}>
                     <Panel>
-                      <PanelBody style={{padding: 0}}>
+                      <PanelBody style={{ padding: 0 }}>
                         <div className='text-center bg-darkblue fg-white'>
-                          <h3 style={{margin: 0, padding: 25}}>Log In</h3>
+                          <h3 style={{ margin: 0, padding: 25 }}>Log In</h3>
                         </div>
                         <div>
-                          <div style={{padding: 25, paddingTop: 0, paddingBottom: 0, margin: 'auto', marginBottom: 25, marginTop: 25}}>
+                          <div style={{ padding: 25, paddingTop: 0, paddingBottom: 0, margin: 'auto', marginBottom: 25, marginTop: 25 }}>
                             <Form onSubmit={::this.proceed_login}>
                               <FormGroup controlId='username'>
                                 <InputGroup bsSize='large'>
@@ -108,8 +138,8 @@ export default class Login extends React.Component {
                               <FormGroup>
                                 <Grid>
                                   <Row>
-                                    <Col xs={6} collapseLeft collapseRight style={{paddingTop: 10}}>
-                                      <Link to={::this.getPath('signup')}>Create a CERES account</Link>
+                                    <Col xs={6} collapseLeft collapseRight style={{ paddingTop: 10 }}>
+                                       <Link to={::this.getPath('signup')}>Create a CERES account</Link> 
                                     </Col>
                                     <Col xs={6} collapseLeft collapseRight className='text-right'>
                                       <Button outlined lg type='submit' bsStyle='blue' onClick={::this.proceed_login}>Login</Button>
@@ -126,9 +156,32 @@ export default class Login extends React.Component {
                 </Col>
               </Row>
             </Grid>
-          </div>
-        </div>
-      </div>
+          </div >
+        </div >
+      </div >
     );
   }
 }
+
+// const mapStateToProps = (state) => {
+//   return {
+
+//   };
+// };
+
+// const mapDispatchToProps = (dispatch) => {
+//   return {
+//     customerPayProps: (apiKey) => dispatch(customerPay.fetchCustomerPayData(apiKey)),
+//     dsaDataProps: (apiKey) => dispatch(dsaData.fetchDsaData(apiKey)),
+//     execSmaChannelProps: (apiKey) => dispatch(execSmaChannel.fetchChannelData(apiKey)),
+//     execSmaProductProps: (apiKey) => dispatch(execSmaProduct.fetchProductData(apiKey)),
+//     newCustomerProps: (apiKey) => dispatch(newCustomer.fetchNewCustomerData(apiKey)),
+
+//     //Disaptch of sub-dashboard actions
+//     subSmaChannelProps: (apiKey) => dispatch(subSmaChannel.fetchChannelData(apiKey)),
+//     subSmaProductProps: (apiKey) => dispatch(subSmaProduct.fetchProductData(apiKey)),
+//     subDsaProps: (apiKey) => dispatch(subDsa.fetchDsaData(apiKey))
+//   };
+// };
+
+// export default connect(mapStateToProps, mapDispatchToProps)(Login);

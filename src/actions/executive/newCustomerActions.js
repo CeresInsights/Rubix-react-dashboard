@@ -1,7 +1,7 @@
 import * as types from  '../../constants/actionTypes';
 import Axios from 'axios';
 
-const apiNewCustomer = 'https://ceres.link/api/exec_board/demographics/api_key=0xe4badc7779b6517';
+// const apiNewCustomer = 'https://ceres.link/api/exec_board/demographics/api_key=0xe4badc7779b6517';
 
 export const fetchNewCustomerDataSuccess = (data) => {
     return {
@@ -10,9 +10,9 @@ export const fetchNewCustomerDataSuccess = (data) => {
     }
 }
 
-export const fetchNewCustomerData = () => {
+export const fetchNewCustomerData = (apiKey) => {
     return (dispatch) => {
-        return Axios.get(apiNewCustomer)
+        return Axios.get(`https://ceres.link/api/exec_board/demographics/api_key=${apiKey}`)
         .then(response => {
             dispatch(fetchNewCustomerDataSuccess(response.data))
         })

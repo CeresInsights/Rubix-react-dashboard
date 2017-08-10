@@ -43,7 +43,7 @@ export default class Signup extends React.Component {
       success:function(data){        
         if(data.status=='User Registration Successful'){
           localStorage.setItem('api_key', data.key);
-          browserHistory.push('ltr/execdashboard');
+          browserHistory.push('/ltr/execdashboard');
         }else{
           this.errorNotification(data);
         }

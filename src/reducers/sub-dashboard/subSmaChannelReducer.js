@@ -4,7 +4,6 @@ import initialState from '../initialState';
 export const subSmaChannelReducer = (state = initialState.subChannel, action) => {
     switch (action.type) {
         case types.FETCH_SUB_CHANNAL_SUCCESS:
-            console.log("FFFFFFFFFFFFF", action.data)
             return [
                 ...state, Object.assign({}, action.data)
             ]

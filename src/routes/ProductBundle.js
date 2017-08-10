@@ -33,80 +33,80 @@ class ProductBundlesbyCustomerBehavior extends React.Component {
     var i = 0, key;
 
     for (key in obj) {
-        if (key == keyToFind) {
-            return i;
-        }
+      if (key == keyToFind) {
+        return i;
+      }
 
-        i++;
+      i++;
     }
 
     return null;
   }
-  componentDidUpdate(){
-    var color_array = ['#4572a7','#aa4643','#89a54e','#80699b','#3d96ae','#db843d'];
+  componentDidUpdate() {
+    var color_array = ['#4572a7', '#aa4643', '#89a54e', '#80699b', '#3d96ae', '#db843d'];
     (() => {
-        $('#cpp_chart').html('');
-        var pie2 = Rubix.Pie('#cpp_chart', {
-          title: 'Customer Product Preferences',          
-          height: 300
-        });
+      $('#cpp_chart').html('');
+      var pie2 = Rubix.Pie('#cpp_chart', {
+        title: 'Customer Product Preferences',
+        height: 300
+      });
 
-        var products_data = this.props.products_data;
-        var tmp_array = [];
-        for(var i in products_data){
-          var t = new Object;
-          t.name  = i;
-          t.value = products_data[i].total;
-          t.color = color_array[this.getObjectKeyIndex(products_data, i)]; 
-          tmp_array.push(t);
-        }
-        pie2.addData(tmp_array);
-      })();
+      var products_data = this.props.products_data;
+      var tmp_array = [];
+      for (var i in products_data) {
+        var t = new Object;
+        t.name = i;
+        t.value = products_data[i].total;
+        t.color = color_array[this.getObjectKeyIndex(products_data, i)];
+        tmp_array.push(t);
+      }
+      pie2.addData(tmp_array);
+    })();
 
     //CPA Chart
     (() => {
       $('#cpa_chart').html('');
-        var chart = new Rubix('#cpa_chart', {
-          height: 300,
-          title: 'Customer Product Appetite',
-          titleColor: '#D71F4B',
-          subtitleColor: '#D71F4B',
-          axis: {
-            x: {
-              type: 'ordinal',
-            },
-            y: {
-              type: 'linear',
-              tickFormat: 'd'
-            }
+      var chart = new Rubix('#cpa_chart', {
+        height: 300,
+        title: 'Customer Product Appetite',
+        titleColor: '#D71F4B',
+        subtitleColor: '#D71F4B',
+        axis: {
+          x: {
+            type: 'ordinal',
           },
-          tooltip: {
-            color: '#D71F4B',
-            format: {
-              y: '.0f'
-            }
-          },
-          margin: {
-            left: 50
-          },
-          grouped: false,
-          show_markers: true
-        });
+          y: {
+            type: 'linear',
+            tickFormat: 'd'
+          }
+        },
+        tooltip: {
+          color: '#D71F4B',
+          format: {
+            y: '.0f'
+          }
+        },
+        margin: {
+          left: 50
+        },
+        grouped: false,
+        show_markers: true
+      });
 
-        var fruits = chart.column_series({
-          name: 'Shopping Rate',
-          color: '#D71F4B'
-        });
+      var fruits = chart.column_series({
+        name: 'Shopping Rate',
+        color: '#D71F4B'
+      });
 
-        var tmp = this.props.products_data;       
-        var tmp_array = [];
-        for (var i in tmp){         
-          var t = new Object;
-          t.x = i;
-          t.y = tmp[i].total;
-          tmp_array.push(t);
-        }
-        fruits.addData(tmp_array);
+      var tmp = this.props.products_data;
+      var tmp_array = [];
+      for (var i in tmp) {
+        var t = new Object;
+        t.x = i;
+        t.y = tmp[i].total;
+        tmp_array.push(t);
+      }
+      fruits.addData(tmp_array);
     })();
   }
   render() {
@@ -123,10 +123,10 @@ class ProductBundlesbyCustomerBehavior extends React.Component {
             </Grid>
             <Nav bsStyle="tabs" className='plain'>
               <NavItem eventKey="cpp">
-                Customer Payment Preferences             
+                Customer Payment Preferences
               </NavItem>
               <NavItem eventKey="cpa">
-                Customer Product Appetite          
+                Customer Product Appetite
               </NavItem>
             </Nav>
           </PanelHeader>
@@ -153,7 +153,7 @@ class ProductBundlesbyCustomerBehavior extends React.Component {
 }
 
 class ExportButtonGroup extends React.Component {
-  componentDidMount(){
+  componentDidMount() {
 
   }
   render() {
@@ -173,11 +173,11 @@ class ExportButtonGroup extends React.Component {
             <Grid>
               <Row>
                 <Col xs={12}>
-                    <ButtonGroup justified>
-                      <Button href="#" bsStyle='blue'>Send Customized Email</Button>                      
-                      <Button href="#" bsStyle='blue'>Push to Marketing Automation</Button>
-                      <Button href="#" bsStyle='blue'>Export to CSV</Button>
-                    </ButtonGroup>
+                  <ButtonGroup justified>
+                    <Button href="#" bsStyle='blue'>Send Customized Email</Button>
+                    <Button href="#" bsStyle='blue'>Push to Marketing Automation</Button>
+                    <Button href="#" bsStyle='blue'>Export to CSV</Button>
+                  </ButtonGroup>
                 </Col>
               </Row>
             </Grid>
@@ -192,30 +192,60 @@ export default class Product extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      products_data :''
+      products_data: '',
+      prod_pay: {},
+      prod_product: {}
     };
   }
-  componentDidMount(){
+  componentDidMount() {
     var api_key = localStorage.getItem('api_key');
     $.ajax({
-      url: 'https://ceres.link/api/app/products/api_key='+api_key,
+      url: 'https://ceres.link/api/app/products/api_key=' + api_key,
       dataType: 'json',
       type: 'GET',
-      success:function(data){
-        this.setState({'products_data':data['product']});
+      success: function (data) {
+        this.setState({ 'products_data': data['product'] });
       }.bind(this),
-      error:function(error){
+      error: function (error) {
         console.log('error');
         console.log(error);
       }
-    })    
+    })
+
+    //Get Data For Sub-Dashboard(Product App) Payment Preferences
+    $.ajax({
+      url: 'https://ceres.link/api/sub_board/prod_pay/api_key=' + api_key,
+      dataType: 'json',
+      type: 'GET',
+      success: function (data) {
+        console.log("6666666666", data);
+        this.setState({prod_pay: data})
+      }.bind(this),
+      error: function (error) {
+        console.log('66666666error', error);
+      }
+    });
+
+    //Get Data For Executive Dashboard Payment Preferences
+    $.ajax({
+      url: 'https://ceres.link/api/sub_board/prod_product/api_key=' + api_key,
+      dataType: 'json',
+      type: 'GET',
+      success: function (data) {
+        console.log("7777777777777", data);
+        this.setState({prod_product: data })
+      }.bind(this),
+      error: function (error) {
+        console.log('7777777777777error', error);
+      }
+    });
   }
   render() {
     return (
       <div className='execdashboard'>
         <Row>
-          <Col sm={12}>      
-            <ProductBundlesbyCustomerBehavior products_data={this.state.products_data}/>
+          <Col sm={12}>
+            <ProductBundlesbyCustomerBehavior products_data={this.state.products_data} />
             <ExportButtonGroup />
           </Col>
         </Row>

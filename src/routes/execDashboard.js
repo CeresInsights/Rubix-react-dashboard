@@ -38,7 +38,6 @@ class CampaignsPromotionsAndLoyaltyOptimization extends React.Component {
     path = `/${dir}/${path}`;
     return path;
   }
-
   componentDidUpdate() {
     //CPTA chart
     (() => {
@@ -280,6 +279,12 @@ class CampaignsPromotionsAndLoyaltyOptimization extends React.Component {
 
 @withRouter
 class ProductPromotionByChannel extends React.Component {
+  constructor(props) {
+    super(props);
+  }
+  // componentWillReceiveProps(nextProps) {
+  //   console.log("AAAAAAAAAAAAAAAA", nextProps.sma_channel, nextProps.sma_product, nextProps.dsa_data)
+  // }
   getPath(path) {
     var dir = this.props.location.pathname.search('rtl') !== -1 ? 'rtl' : 'ltr';
     path = `/${dir}/${path}`;
@@ -287,6 +292,7 @@ class ProductPromotionByChannel extends React.Component {
   }
 
   componentDidMount() {
+
     // $.ajax({
     //   url:'https://ceres.link/api/exec_board/sma_channel/api_key=0xe4badc7779b6517',
     //   dataType: 'json',
@@ -420,6 +426,12 @@ class ProductPromotionByChannel extends React.Component {
 
 @withRouter
 class ProductBundlesbyCustomerBehavior extends React.Component {
+  constructor(props) {
+    super(props);
+  }
+  // componentWillReceiveProps(nextProps) {
+  //   console.log("BBBBBBBBBBBBBBBB", nextProps.customer_pay)
+  // }
   getPath(path) {
     var dir = this.props.location.pathname.search('rtl') !== -1 ? 'rtl' : 'ltr';
     path = `/${dir}/${path}`;
@@ -557,6 +569,12 @@ class ProductBundlesbyCustomerBehavior extends React.Component {
 }
 
 class NewCustomerAcquistion extends React.Component {
+  constructor(props) {
+    super(props);
+  }
+  // componentWillReceiveProps(nextProps) {
+  //   console.log("CCCCCCCCCCCCCCC", nextProps.new_customer)
+  // }
   componentDidMount() {
     (() => {
       var chart = new Rubix('#pms_chart', {
@@ -914,11 +932,17 @@ export default class ExecDashboard extends React.Component {
       cpta_data: '',
       ple_data: '',
       mad_data: '',
-      asi_data: ''
+      asi_data: '',
+      sma_channel: {},
+      sma_product: {},
+      dsa_data: {},
+      customer_pay: {},
+      new_customer: {}
     };
   }
   componentDidMount() {
-    var api_key = localStorage.getItem('api_key');
+    let api_key = localStorage.getItem('api_key');
+    console.log("APIKEY", api_key);
     $.ajax({
       url: 'https://ceres.link/api/app/bdw/api_key=' + api_key,
       dataType: 'json',
@@ -928,8 +952,7 @@ export default class ExecDashboard extends React.Component {
         this.setState({ 'cpta_data': data });
       }.bind(this),
       error: function (error) {
-        console.log('error');
-        console.log(error);
+        console.log('error', error);
       }
     });
     $.ajax({
@@ -940,8 +963,7 @@ export default class ExecDashboard extends React.Component {
         this.setState({ 'mad_data': data });
       }.bind(this),
       error: function (error) {
-        console.log('error');
-        console.log(error);
+        console.log('error', error);
       }
     });
 
@@ -953,8 +975,7 @@ export default class ExecDashboard extends React.Component {
         this.setState({ 'asi_data': data });
       }.bind(this),
       error: function (error) {
-        console.log('error');
-        console.log(error);
+        console.log('error', error);
       }
     });
     $.ajax({
@@ -965,10 +986,80 @@ export default class ExecDashboard extends React.Component {
         this.setState({ 'ple_data': data['product'] });
       }.bind(this),
       error: function (error) {
-        console.log('error');
-        console.log(error);
+        console.log('error', error);
       }
     });
+
+    //Get Data For Executive Dashboard SMA Channel 
+    $.ajax({
+      url: 'https://ceres.link/api/exec_board/sma_channel/api_key=' + api_key,
+      dataType: 'json',
+      type: 'GET',
+      success: function (data) {
+        console.log("11111111111111", data);
+        this.setState({sma_channel: data})
+      }.bind(this),
+      error: function (error) {
+        console.log('1111111111111error', error);
+      }
+    });
+
+    //Get Data For Executive Dashboard SMA Product
+    $.ajax({
+      url: 'https://ceres.link/api/exec_board/sma_product/api_key=' + api_key,
+      dataType: 'json',
+      type: 'GET',
+      success: function (data) {
+        console.log("22222222222", data);
+        this.setState({sma_product: data })
+      }.bind(this),
+      error: function (error) {
+        console.log('2222222222222error', error);
+      }
+    });
+
+    //Get Data For Executive Dashboard DSA
+    $.ajax({
+      url: 'https://ceres.link/api/exec_board/dsa/api_key=' + api_key,
+      dataType: 'json',
+      type: 'GET',
+      success: function (data) {
+        console.log("3333333333", data);
+        this.setState({dsa_data: data})
+      }.bind(this),
+      error: function (error) {
+        console.log('3333333333333error', error);
+      }
+    });
+
+    //Get Data For Executive Dashboard Payment Preferences
+    $.ajax({
+      url: 'https://ceres.link/api/exec_board/prod_pay/api_key=' + api_key,
+      dataType: 'json',
+      type: 'GET',
+      success: function (data) {
+        console.log("44444444444444", data);
+        this.setState({customer_pay: data})
+      }.bind(this),
+      error: function (error) {
+        console.log('444444444error', error);
+      }
+    });
+
+    //Get Data For Executive Dashboard Payment Preferences
+    $.ajax({
+      url: 'https://ceres.link/api/exec_board/demographics/api_key=' + api_key,
+      dataType: 'json',
+      type: 'GET',
+      success: function (data) {
+        console.log("555555555555", data);
+        this.setState({new_customer: data})
+      }.bind(this),
+      error: function (error) {
+        console.log('55555555error', error);
+      }
+    });
+
   }
   render() {
     return (
@@ -976,9 +1067,9 @@ export default class ExecDashboard extends React.Component {
         <Row>
           <Col sm={12}>
             <CampaignsPromotionsAndLoyaltyOptimization cpta_data={this.state.cpta_data} mad_data={this.state.mad_data} asi_data={this.state.asi_data} ple_data={this.state.ple_data} />
-            <ProductPromotionByChannel />
-            <ProductBundlesbyCustomerBehavior />
-            <NewCustomerAcquistion />
+            <ProductPromotionByChannel sma_channel={this.state.sma_channel} sma_product={this.state.sma_product} dsa_data={this.state.dsa_data} />
+            <ProductBundlesbyCustomerBehavior customer_pay={this.state.customer_pay} />
+            <NewCustomerAcquistion new_customer={this.state.new_customer} />
             <RealTimeLocationAnalysis />
             <PriceOptimization />
             <ExportButtonGroup />

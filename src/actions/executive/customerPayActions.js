@@ -1,7 +1,8 @@
-import * as types from  '../../constants/actionTypes';
+import * as types from '../../constants/actionTypes';
 import Axios from 'axios';
 
-const apiCustomerPay = 'https://ceres.link/api/exec_board/prod_pay/api_key=0xe4badc7779b6517';
+// console.log("Local", localStorage.api_key);
+// const apiCustomerPay = 'https://ceres.link/api/exec_board/prod_pay/api_key=0xe4badc7779b6517';
 
 export const fetchCustomerPayDataSuccess = (data) => {
 
@@ -11,14 +12,15 @@ export const fetchCustomerPayDataSuccess = (data) => {
     }
 }
 
-export const fetchCustomerPayData = () => {
+export const fetchCustomerPayData = (apiKey) => {
+
     return (dispatch) => {
-        return Axios.get(apiCustomerPay)
-        .then(response => {
-            dispatch(fetchCustomerPayDataSuccess(response.data))
-        })
-        .catch(error => {
-            throw(error);
-        });
+        return Axios.get(`https://ceres.link/api/exec_board/prod_pay/api_key=${apiKey}`)
+            .then(response => {
+                dispatch(fetchCustomerPayDataSuccess(response.data))
+            })
+            .catch(error => {
+                throw (error);
+            });
     };
 }
