@@ -83,10 +83,9 @@ class ApplicationSidebar extends React.Component {
     let pk1 = '';
     let sk1 = '';
     let ck1 = '';
+    // let call_number = 0;
 
     if (keyKind === 'primary') {
-      localStorage.setItem('pk', key);
-      console.log("PKK", localStorage.getItem('pk'));
       pri_values = initial_data[key];
       sec_keys = Object.keys(pri_values);
       this.setState({
@@ -99,8 +98,6 @@ class ApplicationSidebar extends React.Component {
 
     if (this.state.pk_selected && keyKind === 'second') {
       third_keys = this.state.pri_values[key];
-      localStorage.setItem('sk', key);
-      console.log("PKK", localStorage.getItem('sk'));
       this.setState({
         sk: key,
         sk_selected: true,
@@ -109,8 +106,6 @@ class ApplicationSidebar extends React.Component {
     }
 
     if (this.state.pk_selected && this.state.sk_selected && keyKind === 'third') {
-      localStorage.setItem('ck', key);
-      console.log("PKK", localStorage.getItem('ck'));
       this.setState({
         ck: key,
         ck_selected: true
@@ -121,12 +116,16 @@ class ApplicationSidebar extends React.Component {
     pk1 = this.state.pk ? this.state.pk : 'country';
     sk1 = this.state.sk ? this.state.sk : 'united_states';
     ck1 = this.state.ck ? this.state.ck : 'purchase_log_csv';
-
+    
     $.ajax({
       url: 'https://ceres.link/api/override_keys/api_key=' + api_key + ';data:pk=' + pk1 + ',sk=' + sk1 + ',ck=' + ck1,
       dataType: 'json',
       type: 'GET',
       success: function (data) {
+        // localStorage.setItem('prev_number', call_number);
+        // call_number++;
+        // localStorage.setItem('call_number', call_number);
+
         console.log("Successful Key Get Message", data)
       }.bind(this),
       error: function (error) {

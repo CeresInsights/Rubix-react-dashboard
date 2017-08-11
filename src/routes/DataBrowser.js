@@ -96,24 +96,11 @@ export default class DataBrowser extends React.Component {
   componentDidMount() {
 
     let api_key = localStorage.getItem('api_key');
-    let pk_data = localStorage.getItem('pk');
-    let sk_data = localStorage.getItem('sk');
-    let ck_data = localStorage.getItem('ck');
-    let pk = '';
-    let sk = '';
-    let ck = '';
-    let table_data = {};
 
-    console.log("DB KEY", api_key);
-    console.log("PK", pk_data);
-    console.log("SK", sk_data);
-    console.log("CK", ck_data);
+    let table_data_content = {};
 
-    pk = pk_data ? pk_data : 'country';
-    sk = sk_data ? sk_data : 'united_states';
-    ck = ck_data ? ck_data : 'purchase_log_csv';
     $.ajax({
-      url: 'https://ceres.link/api/override/api_key=' + api_key + ';data:pk=' + pk + ',sk=' + sk + ',ck=' + ck,
+      url: 'https://ceres.link/api/override/api_key=' + api_key,
       dataType: 'json',
       type: 'GET',
       success: function (data) {

@@ -942,17 +942,8 @@ export default class ExecDashboard extends React.Component {
   }
   componentDidMount() {
     let api_key = localStorage.getItem('api_key');
-    let pk_data = localStorage.getItem('pk');
-    let sk_data = localStorage.getItem('sk');
-    let ck_data = localStorage.getItem('ck');
-    let pk = '';
-    let sk = '';
-    let ck = '';
-
     console.log("EXEC DASH KEY", api_key);
-    console.log("PK", pk_data);
-    console.log("SK", sk_data);
-    console.log("CK", sk_data);
+
     $.ajax({
       url: 'https://ceres.link/api/app/bdw/api_key=' + api_key,
       dataType: 'json',
@@ -1000,76 +991,74 @@ export default class ExecDashboard extends React.Component {
       }
     });
 
-    pk = pk_data ? pk_data : 'country';
-    sk = sk_data ? sk_data : 'united_states';
-    ck = ck_data ? ck_data : 'purchase_log_csv';
+
     //Get Data For Executive Dashboard SMA Channel 
     $.ajax({
-      url: 'https://ceres.link/api/exec_board/sma_channel/api_key=' + api_key + ';data:pk=' + pk + ',sk=' + sk + ',ck=' + ck,
+      url: 'https://ceres.link/api/exec_board/sma_channel/api_key=' + api_key,
       dataType: 'json',
       type: 'GET',
       success: function (data) {
-        console.log("11111111111111", data);
+        console.log("ExecChannel", data);
         this.setState({ sma_channel: data })
       }.bind(this),
       error: function (error) {
-        console.log('1111111111111error', error);
+        console.log('ExecChannelError', error);
       }
     });
 
     //Get Data For Executive Dashboard SMA Product
     $.ajax({
-      url: 'https://ceres.link/api/exec_board/sma_product/api_key=' + api_key + ';data:pk=' + pk + ',sk=' + sk + ',ck=' + ck,
+      url: 'https://ceres.link/api/exec_board/sma_product/api_key=' + api_key,
       dataType: 'json',
       type: 'GET',
       success: function (data) {
-        console.log("22222222222", data);
+        console.log("ExecProduct", data);
         this.setState({ sma_product: data })
       }.bind(this),
       error: function (error) {
-        console.log('2222222222222error', error);
+        console.log('ExecProductError', error);
       }
     });
 
     //Get Data For Executive Dashboard DSA
     $.ajax({
-      url: 'https://ceres.link/api/exec_board/dsa/api_key=' + api_key + ';data:pk=' + pk + ',sk=' + sk + ',ck=' + ck,
+      url: 'https://ceres.link/api/exec_board/dsa/api_key=' + api_key,
       dataType: 'json',
       type: 'GET',
       success: function (data) {
-        console.log("3333333333", data);
+        console.log("ExecDsa", data);
         this.setState({ dsa_data: data })
       }.bind(this),
       error: function (error) {
-        console.log('3333333333333error', error);
+        console.log('ExecDsaError', error);
       }
     });
 
     //Get Data For Executive Dashboard Payment Preferences
     $.ajax({
-      url: 'https://ceres.link/api/exec_board/prod_pay/api_key=' + api_key + ';data:pk=' + pk + ',sk=' + sk + ',ck=' + ck,
+      url: 'https://ceres.link/api/exec_board/prod_pay/api_key=' + api_key,
       dataType: 'json',
       type: 'GET',
       success: function (data) {
-        console.log("44444444444444", data);
+        console.log("ExecProdPay", data);
         this.setState({ customer_pay: data })
       }.bind(this),
       error: function (error) {
-        console.log('444444444error', error);
+        console.log('ExecProdPayError', error);
       }
     });
 
     //Get Data For Executive Dashboard Payment Preferences
     $.ajax({
-      url: 'https://ceres.link/api/exec_board/demographics/api_key=' + api_key + ';data:pk=' + pk + ',sk=' + sk + ',ck=' + ck,
+      url: 'https://ceres.link/api/exec_board/demographics/api_key=' + api_key,
       dataType: 'json',
       type: 'GET',
       success: function (data) {
-        console.log("555555555555", data);
+        console.log("ExecNewCustomer", data);
         this.setState({ new_customer: data })
       }.bind(this),
       error: function (error) {
-        console.log('55555555error', error);
+        console.log('ExecNewCustomerError', error);
       }
     });
 
