@@ -199,6 +199,16 @@ export default class Product extends React.Component {
   }
   componentDidMount() {
     var api_key = localStorage.getItem('api_key');
+    let pk_data = localStorage.getItem('pk');
+    let sk_data = localStorage.getItem('sk');
+    let ck_data = localStorage.getItem('ck');
+    let pk = '';
+    let sk = '';
+    let ck = '';
+    console.log("SUB2KEY", api_key);
+    console.log("PK", pk_data);
+    console.log("SK", sk_data);
+    console.log("CK", ck_data);
     $.ajax({
       url: 'https://ceres.link/api/app/products/api_key=' + api_key,
       dataType: 'json',
@@ -211,32 +221,34 @@ export default class Product extends React.Component {
         console.log(error);
       }
     })
-
+    pk = pk_data ? pk_data : 'country';
+    sk = sk_data ? sk_data : 'united_states';
+    ck = ck_data ? ck_data : 'purchase_log_csv';
     //Get Data For Sub-Dashboard(Product App) Payment Preferences
     $.ajax({
-      url: 'https://ceres.link/api/sub_board/prod_pay/api_key=' + api_key,
+      url: 'https://ceres.link/api/sub_board/prod_pay/api_key=' + api_key + ';data:pk=' + pk + ',sk=' + sk + ',ck=' + ck,
       dataType: 'json',
       type: 'GET',
       success: function (data) {
-        console.log("6666666666", data);
-        this.setState({prod_pay: data})
+        console.log("SubPayUpdate", data);
+        this.setState({ prod_pay: data })
       }.bind(this),
       error: function (error) {
-        console.log('66666666error', error);
+        console.log('SubPayUpdate Error', error);
       }
     });
 
-    //Get Data For Executive Dashboard Payment Preferences
+    //Get Data For Sub-Dashboard(Product App) Product Appetite
     $.ajax({
-      url: 'https://ceres.link/api/sub_board/prod_product/api_key=' + api_key,
+      url: 'https://ceres.link/api/sub_board/prod_product/api_key=' + api_key + ';data:pk=' + pk + ',sk=' + sk + ',ck=' + ck,
       dataType: 'json',
       type: 'GET',
       success: function (data) {
-        console.log("7777777777777", data);
-        this.setState({prod_product: data })
+        console.log("SubAppetiteUpdate", data);
+        this.setState({ prod_product: data })
       }.bind(this),
       error: function (error) {
-        console.log('7777777777777error', error);
+        console.log('SubAppetiteUpdate Error', error);
       }
     });
   }

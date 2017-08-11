@@ -187,81 +187,95 @@ export default class PPBC extends React.Component {
   }
   componentDidMount() {
     let api_key = localStorage.getItem('api_key');
-    console.log("SUB KEY99999999999", api_key);
-    // $.ajax({
-    //   url: 'https://ceres.link/api/app/channels/api_key=' + api_key,
-    //   dataType: 'json',
-    //   type: 'GET',
-    //   success: function (data) {
-    //     this.setState({ 'channels_data': data['channel'] });
-    //   }.bind(this),
-    //   error: function (error) {
-    //     console.log('error');
-    //     console.log(error);
-    //   }
-    // });
-    // $.ajax({
-    //   url: 'https://ceres.link/api/app/products/api_key=' + api_key,
-    //   dataType: 'json',
-    //   type: 'GET',
-    //   success: function (data) {
-    //     this.setState({ 'products_data': data['product'] });
-    //   }.bind(this),
-    //   error: function (error) {
-    //     console.log('error');
-    //     console.log(error);
-    //   }
-    // });
-
-    //Get Data For Sub-Dashboard(Promotion App) SMA Channel
+    let pk_data = localStorage.getItem('pk');
+    let sk_data = localStorage.getItem('sk');
+    let ck_data = localStorage.getItem('ck');
+    let pk = '';
+    let sk = '';
+    let ck = '';
+    console.log("SUB1KEY", api_key);
+    console.log("PK", pk_data);
+    console.log("SK", sk_data);
+    console.log("CK", ck_data);
     $.ajax({
-      url: 'https://ceres.link/api/sub_board/sma_channel/api_key=' + api_key,
+      url: 'https://ceres.link/api/app/channels/api_key=' + api_key,
       dataType: 'json',
       type: 'GET',
       success: function (data) {
-        console.log("SubChannel", data);
-        this.setState({sma_channel: data })
+        this.setState({ 'channels_data': data['channel'] });
       }.bind(this),
       error: function (error) {
-        console.log('SubChannelERROR', error);
+        console.log('error');
+        console.log(error);
+      }
+    });
+    $.ajax({
+      url: 'https://ceres.link/api/app/products/api_key=' + api_key,
+      dataType: 'json',
+      type: 'GET',
+      success: function (data) {
+        this.setState({ 'products_data': data['product'] });
+      }.bind(this),
+      error: function (error) {
+        console.log('error');
+        console.log(error);
+      }
+
+    });
+    pk = pk_data ? pk_data : 'country';
+    sk = sk_data ? sk_data : 'united_states';
+    ck = ck_data ? ck_data : 'purchase_log_csv';
+
+    //Get Data For Sub-Dashboard(Promotion App) SMA Channel
+    $.ajax({
+      url: 'https://ceres.link/api/sub_board/sma_channel/api_key=' + api_key + ';data:pk=' + pk + ',sk=' + sk + ',ck=' + ck,
+      dataType: 'json',
+      type: 'GET',
+      success: function (data) {
+        console.log("SubChannelUpdate", data);
+        this.setState({ sma_channel: data })
+      }.bind(this),
+      error: function (error) {
+        console.log('SubChannelUpdateERROR', error);
       }
     });
 
     //Get Data For Sub-Dashboard(Promotion App) SMA Product
     $.ajax({
-      url: 'https://ceres.link/api/sub_board/sma_product/api_key=' + api_key,
+      url: 'https://ceres.link/api/sub_board/sma_product/api_key=' + api_key + ';data:pk=' + pk + ',sk=' + sk + ',ck=' + ck,
       dataType: 'json',
       type: 'GET',
       success: function (data) {
-        console.log("SubProduct", data);
-        this.setState({sma_product: data })
+        console.log("SubProductUpdate", data);
+        this.setState({ sma_product: data })
       }.bind(this),
       error: function (error) {
-        console.log('SubProductERROR', error);
+        console.log('SubProductUpdateERROR', error);
       }
     });
 
     //Get Data For Sub-Dashboard(Promotion App) DSA
     $.ajax({
-      url: 'https://ceres.link/api/sub_board/dsa/api_key=' + api_key,
+      url: 'https://ceres.link/api/sub_board/dsa/api_key=' + api_key + ';data:pk=' + pk + ',sk=' + sk + ',ck=' + ck,
       dataType: 'json',
       type: 'GET',
       success: function (data) {
-        console.log("SubDsa", data);
-        this.setState({dsa_data: data })
+        console.log("SubDsaUpdate", data);
+        this.setState({ dsa_data: data })
       }.bind(this),
       error: function (error) {
-        console.log('SubDsaERROR', error);
+        console.log('SubDsaUpdateERROR', error);
       }
     });
+
   }
   render() {
     return (
       <div className='ppbc_wrapper'>
         <Row>
           <Col sm={12}>
-             {/* <ProductPromotionByChannel channels_data={this.state.channels_data} products_data={this.state.products_data} /> */}
-             <ProductPromotionByChannel sma_channel={this.state.sma_channel} sma_product={this.state.sma_product} dsa_data={this.state.dsa_data} /> 
+            {/* <ProductPromotionByChannel channels_data={this.state.channels_data} products_data={this.state.products_data} /> */}
+            <ProductPromotionByChannel sma_channel={this.state.sma_channel} sma_product={this.state.sma_product} dsa_data={this.state.dsa_data} />
             <ExportButtonGroup />
           </Col>
         </Row>

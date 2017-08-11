@@ -52,7 +52,7 @@ class ApplicationSidebar extends React.Component {
   componentDidMount() {
 
     let api_key = localStorage.getItem('api_key');
-    console.log("FilterAPIKEY", api_key);
+    console.log("FilterKEY", api_key);
 
     $.ajax({
       url: 'https://ceres.link/api/graphmeta/api_key=' + api_key,
@@ -75,11 +75,18 @@ class ApplicationSidebar extends React.Component {
     let api_key = localStorage.getItem('api_key');
     let initial_data = this.state.initial_data;
     let sec_keys = [];
-    let pri_values = {}; 
+    let pri_values = {};
     let third_keys = [];
-    let pk, sk, ck= '';
+    let pk = '';
+    let sk = '';
+    let ck = '';
+    let pk1 = '';
+    let sk1 = '';
+    let ck1 = '';
 
     if (keyKind === 'primary') {
+      localStorage.setItem('pk', key);
+      console.log("PKK", localStorage.getItem('pk'));
       pri_values = initial_data[key];
       sec_keys = Object.keys(pri_values);
       this.setState({
@@ -91,8 +98,9 @@ class ApplicationSidebar extends React.Component {
     }
 
     if (this.state.pk_selected && keyKind === 'second') {
-      alert("1231231231231313123")
       third_keys = this.state.pri_values[key];
+      localStorage.setItem('sk', key);
+      console.log("PKK", localStorage.getItem('sk'));
       this.setState({
         sk: key,
         sk_selected: true,
@@ -101,23 +109,33 @@ class ApplicationSidebar extends React.Component {
     }
 
     if (this.state.pk_selected && this.state.sk_selected && keyKind === 'third') {
+      localStorage.setItem('ck', key);
+      console.log("PKK", localStorage.getItem('ck'));
       this.setState({
         ck: key,
         ck_selected: true
       })
-      $.ajax({
-        url: 'https://ceres.link/api/override_keys/api_key=' + api_key + ';data:pk=' + this.state.pk + ',sk=' + this.state.sk + ',ck=' + key,
-        dataType: 'json',
-        type: 'GET',
-        success: function (data) {
-          console.log("Filter API Calling Result Data", data)
-        }.bind(this),
-        error: function (error) {
-          console.log("Filter API Error", error);
-        }
-      });
+
     }
+
+    pk1 = this.state.pk ? this.state.pk : 'country';
+    sk1 = this.state.sk ? this.state.sk : 'united_states';
+    ck1 = this.state.ck ? this.state.ck : 'purchase_log_csv';
+
+    $.ajax({
+      url: 'https://ceres.link/api/override_keys/api_key=' + api_key + ';data:pk=' + pk1 + ',sk=' + sk1 + ',ck=' + ck1,
+      dataType: 'json',
+      type: 'GET',
+      success: function (data) {
+        console.log("Successful Key Get Message", data)
+      }.bind(this),
+      error: function (error) {
+        console.log("Failure Key Get Msg", error);
+      }
+    });
+
   }
+
   render() {
     let _this = this;
     let pri_title = '', sec_title = '', third_title = '';
@@ -130,7 +148,7 @@ class ApplicationSidebar extends React.Component {
     if (this.state.sk == '') {
       sec_title = 'Scope Type';
     } else {
-            console.log("Second Titile", this.state.sk)
+      console.log("Second Titile", this.state.sk)
       sec_title = this.state.sk;
     }
 
@@ -187,16 +205,16 @@ class ApplicationSidebar extends React.Component {
                     }
                   </Col>
                   <Col xs={12}>
-                  {this.state.third_keys !==undefined &&
-                    <DropdownButton bsStyle='darkgreen45' title={third_title} id='teritary_dropdown'>
-                      {this.state.third_keys.map((thirdKey, index) => {
-                        return (<MenuItem key={index} eventKey={index} onSelect={() => _this.handleClick(thirdKey, 'third')}>{thirdKey}</MenuItem>);
-                      })}
-                    </DropdownButton>
-                  }
-                  {this.state.third_keys===undefined &&
-                    <DropdownButton bsStyle='darkgreen45' title={third_title} id='teritary_dropdown' disabled />
-                  }
+                    {this.state.third_keys !== undefined &&
+                      <DropdownButton bsStyle='darkgreen45' title={third_title} id='teritary_dropdown'>
+                        {this.state.third_keys.map((thirdKey, index) => {
+                          return (<MenuItem key={index} eventKey={index} onSelect={() => _this.handleClick(thirdKey, 'third')}>{thirdKey}</MenuItem>);
+                        })}
+                      </DropdownButton>
+                    }
+                    {this.state.third_keys === undefined &&
+                      <DropdownButton bsStyle='darkgreen45' title={third_title} id='teritary_dropdown' disabled />
+                    }
                   </Col>
 
                   <Col xs={12}>
