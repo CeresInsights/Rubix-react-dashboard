@@ -1,7 +1,5 @@
 import React from 'react';
 import { Link, withRouter } from 'react-router';
-import { connect } from 'react-redux';
-
 import {
   Row,
   Tab,
@@ -38,6 +36,7 @@ class CampaignsPromotionsAndLoyaltyOptimization extends React.Component {
     path = `/${dir}/${path}`;
     return path;
   }
+
   componentDidUpdate() {
     //CPTA chart
     (() => {
@@ -276,15 +275,8 @@ class CampaignsPromotionsAndLoyaltyOptimization extends React.Component {
   }
 }
 
-
 @withRouter
 class ProductPromotionByChannel extends React.Component {
-  constructor(props) {
-    super(props);
-  }
-  // componentWillReceiveProps(nextProps) {
-  //   console.log("AAAAAAAAAAAAAAAA", nextProps.sma_channel, nextProps.sma_product, nextProps.dsa_data)
-  // }
   getPath(path) {
     var dir = this.props.location.pathname.search('rtl') !== -1 ? 'rtl' : 'ltr';
     path = `/${dir}/${path}`;
@@ -292,7 +284,6 @@ class ProductPromotionByChannel extends React.Component {
   }
 
   componentDidMount() {
-
     // $.ajax({
     //   url:'https://ceres.link/api/exec_board/sma_channel/api_key=0xe4badc7779b6517',
     //   dataType: 'json',
@@ -426,12 +417,6 @@ class ProductPromotionByChannel extends React.Component {
 
 @withRouter
 class ProductBundlesbyCustomerBehavior extends React.Component {
-  constructor(props) {
-    super(props);
-  }
-  // componentWillReceiveProps(nextProps) {
-  //   console.log("BBBBBBBBBBBBBBBB", nextProps.customer_pay)
-  // }
   getPath(path) {
     var dir = this.props.location.pathname.search('rtl') !== -1 ? 'rtl' : 'ltr';
     path = `/${dir}/${path}`;
@@ -569,12 +554,6 @@ class ProductBundlesbyCustomerBehavior extends React.Component {
 }
 
 class NewCustomerAcquistion extends React.Component {
-  constructor(props) {
-    super(props);
-  }
-  // componentWillReceiveProps(nextProps) {
-  //   console.log("CCCCCCCCCCCCCCC", nextProps.new_customer)
-  // }
   componentDidMount() {
     (() => {
       var chart = new Rubix('#pms_chart', {
@@ -925,14 +904,16 @@ class MaleFemaleChart extends React.Component {
   }
 }
 
+
 export default class ExecDashboard extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      cpta_data: '',
-      ple_data: '',
-      mad_data: '',
-      asi_data: '',
+      bdw_data: {},
+      csr_data: {},
+      // ple_data: {},
+      mad_data: {},
+      asi_data: {},
       sma_channel: {},
       sma_product: {},
       dsa_data: {},
@@ -944,18 +925,34 @@ export default class ExecDashboard extends React.Component {
     let api_key = localStorage.getItem('api_key');
     console.log("EXEC DASH KEY", api_key);
 
+    // CSR api
+    $.ajax({
+      url: 'https://ceres.link/api/app/csr/api_key=' + api_key,
+      dataType: 'json',
+      type: 'GET',
+      success: function (data) {
+        console.log(data);
+        this.setState({ 'csr_data': data });
+      }.bind(this),
+      error: function (error) {
+        console.log('error', error);
+      }
+    });
+    // BWD api
     $.ajax({
       url: 'https://ceres.link/api/app/bdw/api_key=' + api_key,
       dataType: 'json',
       type: 'GET',
       success: function (data) {
         console.log(data);
-        this.setState({ 'cpta_data': data });
+        this.setState({ 'bdw_data': data });
       }.bind(this),
       error: function (error) {
         console.log('error', error);
       }
     });
+
+    //MAD api
     $.ajax({
       url: 'https://ceres.link/api/app/mad/api_key=' + api_key,
       dataType: 'json',
@@ -968,6 +965,7 @@ export default class ExecDashboard extends React.Component {
       }
     });
 
+    // ASI api
     $.ajax({
       url: 'https://ceres.link/api/app/asi/api_key=' + api_key,
       dataType: 'json',
@@ -979,18 +977,6 @@ export default class ExecDashboard extends React.Component {
         console.log('error', error);
       }
     });
-    $.ajax({
-      url: 'https://ceres.link/api/app/products/api_key=' + api_key,
-      dataType: 'json',
-      type: 'GET',
-      success: function (data) {
-        this.setState({ 'ple_data': data['product'] });
-      }.bind(this),
-      error: function (error) {
-        console.log('error', error);
-      }
-    });
-
 
     //Get Data For Executive Dashboard SMA Channel 
     $.ajax({
@@ -1081,26 +1067,3 @@ export default class ExecDashboard extends React.Component {
     );
   }
 }
-
-
-// const mapStateToProps = (state) => {
-
-//   return {
-//     execChannel: state.execChannel,
-//     execProduct: state.execProduct,
-//     dsaData: state.dsaData,
-//     customerPay: state.customerPay,
-//     newCustomer: state.newCustomer
-//   }
-// };
-
-// const mapDispatchToProps = (dispatch) => {
-//  return {
-
-//  }
-// };
-
-// export default connect(mapStateToProps, mapDispatchToProps)(ExecDashboard);
-
-
-

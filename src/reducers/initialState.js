@@ -6,5 +6,11 @@ export default {
     newCustomer: [],
     subChannel: [],
     subProduct: [],
-    subDsa: []
+    subDsa: [],
+    selectedKeys: [],
+    keysData: [],
+    dataBrowser: [],
+    subAsi: [],
+    subMad: [],
+    subBdw: []
 }

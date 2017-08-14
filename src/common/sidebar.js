@@ -31,11 +31,11 @@ class ApplicationSidebar extends React.Component {
       ck: '',
       ck_selected: false,
       initial_data: {},
-      table_data: {},
-      table_data_ready: false,
-      table_data_header: [],
-      table_data_content: [],
-      key_change: false
+      // table_data: {},
+      // table_data_ready: false,
+      // table_data_header: [],
+      // table_data_content: [],
+      // key_change: false
     };
   }
 
@@ -50,10 +50,11 @@ class ApplicationSidebar extends React.Component {
   }
 
   componentDidMount() {
+    this.UserList();
+  }
 
+  UserList() {
     let api_key = localStorage.getItem('api_key');
-    console.log("FilterKEY", api_key);
-
     $.ajax({
       url: 'https://ceres.link/api/graphmeta/api_key=' + api_key,
       dataType: 'json',
@@ -68,9 +69,25 @@ class ApplicationSidebar extends React.Component {
         console.log(error);
       }
     })
+
+    let pk = 'country';
+    let sk = 'germany';
+    let ck = 'customer_profile_csv';
+
+    $.ajax({
+      url: 'https://ceres.link/api/override_keys/api_key=' + api_key + ';data:pk=' + pk + ',sk=' + sk + ',ck=' + ck,
+      dataType: 'json',
+      type: 'GET',
+      success: function (data) {
+        console.log("Default Successful Key Get Message", data)
+      }.bind(this),
+      error: function (error) {
+        console.log("Default Failure Key Get Msg", error);
+      }
+    });
   }
 
-  handleClick(key, keyKind) {
+  handleClick(keyVal, keyKind) {
 
     let api_key = localStorage.getItem('api_key');
     let initial_data = this.state.initial_data;
@@ -80,58 +97,73 @@ class ApplicationSidebar extends React.Component {
     let pk = '';
     let sk = '';
     let ck = '';
-    let pk1 = '';
-    let sk1 = '';
-    let ck1 = '';
-    // let call_number = 0;
 
-    if (keyKind === 'primary') {
-      pri_values = initial_data[key];
+    if (keyKind == 'primary') {
+
+      localStorage.setItem('pk', keyVal);
+      pri_values = initial_data[keyVal];
       sec_keys = Object.keys(pri_values);
       this.setState({
-        pk: key,
         pk_selected: true,
-        sec_keys: sec_keys,
-        pri_values: pri_values
-      });
-    }
+        pk: keyVal,
+        pri_values: pri_values,
+        sec_keys: sec_keys
+      })
 
-    if (this.state.pk_selected && keyKind === 'second') {
-      third_keys = this.state.pri_values[key];
+      $.ajax({
+        url: 'https://ceres.link/api/override_keys/api_key=' + api_key + ';data:pk=' + keyVal + ',sk=germany,ck=purchase_log_csv',
+        dataType: 'json',
+        type: 'GET',
+        success: function (data) {
+
+          console.log("Successful Key Get Message", data)
+        }.bind(this),
+        error: function (error) {
+          console.log("Failure Key Get Msg", error);
+        }
+      });
+
+    }
+    if (this.state.pk_selected && keyKind == 'second') {
+      localStorage.setItem('sk', keyVal);
+      third_keys = this.state.pri_values[keyVal];
       this.setState({
-        sk: key,
+        sk: keyVal,
         sk_selected: true,
         third_keys: third_keys
       });
-    }
+      $.ajax({
+        url: 'https://ceres.link/api/override_keys/api_key=' + api_key + ';data:pk=' + this.state.pk + ',sk=' + keyVal + ',ck=purchase_log_csv',
+        dataType: 'json',
+        type: 'GET',
+        success: function (data) {
 
-    if (this.state.pk_selected && this.state.sk_selected && keyKind === 'third') {
+          console.log("Successful Key Get Message", data)
+        }.bind(this),
+        error: function (error) {
+          console.log("Failure Key Get Msg", error);
+        }
+      });
+    }
+    if (this.state.pk_selected && this.state.sk_selected && keyKind == 'third') {
+      localStorage.setItem('ck', keyVal);
       this.setState({
-        ck: key,
-        ck_selected: true
+        ck_selected: true,
+        ck: keyVal
       })
+      $.ajax({
+        url: 'https://ceres.link/api/override_keys/api_key=' + api_key + ';data:pk=' + this.state.pk + ',sk=' + this.state.sk + ',ck=' + keyVal,
+        dataType: 'json',
+        type: 'GET',
+        success: function (data) {
 
+          console.log("Successful Key Get Message", data)
+        }.bind(this),
+        error: function (error) {
+          console.log("Failure Key Get Msg", error);
+        }
+      });
     }
-
-    pk1 = this.state.pk ? this.state.pk : 'country';
-    sk1 = this.state.sk ? this.state.sk : 'united_states';
-    ck1 = this.state.ck ? this.state.ck : 'purchase_log_csv';
-    
-    $.ajax({
-      url: 'https://ceres.link/api/override_keys/api_key=' + api_key + ';data:pk=' + pk1 + ',sk=' + sk1 + ',ck=' + ck1,
-      dataType: 'json',
-      type: 'GET',
-      success: function (data) {
-        // localStorage.setItem('prev_number', call_number);
-        // call_number++;
-        // localStorage.setItem('call_number', call_number);
-
-        console.log("Successful Key Get Message", data)
-      }.bind(this),
-      error: function (error) {
-        console.log("Failure Key Get Msg", error);
-      }
-    });
 
   }
 
@@ -147,7 +179,6 @@ class ApplicationSidebar extends React.Component {
     if (this.state.sk == '') {
       sec_title = 'Scope Type';
     } else {
-      console.log("Second Titile", this.state.sk)
       sec_title = this.state.sk;
     }
 
@@ -179,47 +210,31 @@ class ApplicationSidebar extends React.Component {
                   <div className='sidebar-header'>Filters</div>
 
                   <Col xs={12}>
-                    {this.state.pri_keys !== undefined &&
-                      <DropdownButton bsStyle='darkgreen45' title={pri_title} id='primary_dropdown'>
-                        {this.state.pri_keys.map((priKey, index) => {
-                          return (<MenuItem key={index} eventKey={index} onSelect={() => _this.handleClick(priKey, 'primary')}>{priKey}</MenuItem>);
-                        })}
-                      </DropdownButton>
-                    }
-                    {this.state.pri_keys === undefined &&
-                      <DropdownButton bsStyle='darkgreen45' title={pri_title} id='primary_dropdown' disabled />
-                    }
+                    <DropdownButton bsStyle='darkgreen45' title={pri_title} id='primary_dropdown'>
+                      {this.state.pri_keys.map(function (keyVal, i) {
+                        return (<MenuItem key={i} eventKey={i} onSelect={() => _this.handleClick(keyVal, 'primary')}>{keyVal}</MenuItem>);
+                      })}
+                    </DropdownButton>
                   </Col>
 
                   <Col xs={12}>
-                    {this.state.sec_keys !== undefined &&
-                      <DropdownButton bsStyle='darkgreen45' title={sec_title} id='secondary_dropdown'>
-                        {this.state.sec_keys.map((secKey, index) => {
-                          return (<MenuItem key={index} eventKey={index} onSelect={() => _this.handleClick(secKey, 'second')}>{secKey}</MenuItem>);
-                        })}
-                      </DropdownButton>
-                    }
-                    {this.state.sec_keys === undefined &&
-                      <DropdownButton bsStyle='darkgreen45' title={sec_title} id='secondary_dropdown' disabled />
-                    }
+                    <DropdownButton bsStyle='darkgreen45' title={sec_title} id='secondary_dropdown'>
+                      {this.state.sec_keys.map(function (keyVal, i) {
+                        return (<MenuItem key={i} eventKey={i} onSelect={() => _this.handleClick(keyVal, 'second')}>{keyVal}</MenuItem>);
+                      })}
+                    </DropdownButton>
                   </Col>
                   <Col xs={12}>
-                    {this.state.third_keys !== undefined &&
-                      <DropdownButton bsStyle='darkgreen45' title={third_title} id='teritary_dropdown'>
-                        {this.state.third_keys.map((thirdKey, index) => {
-                          return (<MenuItem key={index} eventKey={index} onSelect={() => _this.handleClick(thirdKey, 'third')}>{thirdKey}</MenuItem>);
-                        })}
-                      </DropdownButton>
-                    }
-                    {this.state.third_keys === undefined &&
-                      <DropdownButton bsStyle='darkgreen45' title={third_title} id='teritary_dropdown' disabled />
-                    }
+                    <DropdownButton bsStyle='darkgreen45' title={third_title} id='teritary_dropdown'>
+                      {this.state.third_keys.map(function (keyVal, i) {
+                        return (<MenuItem key={i} eventKey={i} onSelect={() => _this.handleClick(keyVal, 'third')}>{keyVal}</MenuItem>);
+                      })}
+                    </DropdownButton>
                   </Col>
 
                   <Col xs={12}>
                     <Button style={{ marginBottom: 5 }} bsStyle='danger'>Clear Selections</Button>
                   </Col>
-
                   <SidebarDivider />
 
                   { /** Extras Section */}
@@ -266,10 +281,9 @@ export default class SidebarContainer extends React.Component {
     return path;
   }
 
-  // handleLangChange(tbl_ready,pk,sk,ck) {
-  //     this.props.onSelectLanguage(tbl_ready,pk,sk,ck);            
-  // }
-
+  handleLangChange(tbl_ready, pk, sk, ck) {
+    this.props.onSelectLanguage(tbl_ready, pk, sk, ck);
+  }
   render() {
     return (
       <div id='sidebar'>
@@ -300,8 +314,7 @@ export default class SidebarContainer extends React.Component {
       </SidebarControls>
       <div id='sidebar-container'>
         <Sidebar sidebar={0}>
-          {/* <ApplicationSidebar dataBrowserClickced={this.handleLangChange.bind(this)} /> */}
-          <ApplicationSidebar />
+          <ApplicationSidebar dataBrowserClickced={this.handleLangChange.bind(this)} />
         </Sidebar>
         <Sidebar sidebar={1}>
           <ChatComponent />
@@ -316,7 +329,7 @@ export default class SidebarContainer extends React.Component {
           <NotificationsComponent />
         </Sidebar>
       </div>
-        </div >
-      );
+      </div >
+    );
   }
 }

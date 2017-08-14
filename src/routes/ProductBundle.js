@@ -1,5 +1,5 @@
 import React from 'react';
-// import { connect } from 'react-redux';
+
 import {
   Row,
   Tab,
@@ -192,26 +192,12 @@ export default class Product extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      products_data: '',
-      prod_pay: {},
-      prod_product: {}
+     prod_pay: {},
+     prod_product: {}
     };
   }
   componentDidMount() {
     var api_key = localStorage.getItem('api_key');
-
-    $.ajax({
-      url: 'https://ceres.link/api/app/products/api_key=' + api_key,
-      dataType: 'json',
-      type: 'GET',
-      success: function (data) {
-        this.setState({ 'products_data': data['product'] });
-      }.bind(this),
-      error: function (error) {
-        console.log('error');
-        console.log(error);
-      }
-    })
 
     //Get Data For Sub-Dashboard(Product App) Payment Preferences
     $.ajax({
@@ -254,18 +240,3 @@ export default class Product extends React.Component {
     );
   }
 }
-
-// const mapStateToProps = (state) => {
-//   return {
-//   subChannel: state.subChannel,
-//   subProduct: state.subProduct
-//   }
-// };
-
-// const mapDispatchToProps = (dispatch) => {
-//   return {
-
-//   };
-// };
-
-// export default connect(mapStateToProps, mapDispatchToProps)(Product);

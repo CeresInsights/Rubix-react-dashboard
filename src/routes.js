@@ -1,7 +1,11 @@
 import React from 'react';
 import classNames from 'classnames';
-import { IndexRoute, Router, browserHistory, Route } from 'react-router';
-// import App from './app';
+import { IndexRoute, Route } from 'react-router';
+import { Provider } from 'react-redux';
+import configureStore from './stores/configureStores';
+import initialState from './reducers/initialState';
+
+import { Grid, Row, Col, MainContainer } from '@sketchpixy/rubix';
 
 /* Common Components */
 
@@ -26,19 +30,9 @@ import CampaignsPromotionsAndLoyaltyDashboard from './routes/CampaignsPromotions
 import ProductPromotionsByChannel from './routes/ProductPromotionsByChannel';
 import ProductBundle from './routes/ProductBundle';
 
-import { Provider } from 'react-redux';
-import configureStore from './stores/configureStores';
-import initialState from './reducers/initialState';
-
-import * as customerPay from './actions/executive/customerPayActions';
-
 const store = configureStore(initialState);
-store.dispatch(customerPay.fetchCustomerPayData());
 
-// import React from 'react';
-import { Grid, Row, Col, MainContainer } from '@sketchpixy/rubix';
-
- class App extends React.Component {
+class App extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -69,7 +63,7 @@ import { Grid, Row, Col, MainContainer } from '@sketchpixy/rubix';
           <Grid>
             <Row>
               <Col xs={12}>
-                {childrenWithMoreProps}
+                  {childrenWithMoreProps}  
               </Col>
             </Row>
           </Grid>
@@ -80,8 +74,11 @@ import { Grid, Row, Col, MainContainer } from '@sketchpixy/rubix';
   }
 }
 
+/**
+ * Includes Sidebar, Header and Footer.
+ */
 const routes = (
-  <Route path="/ltr" component={App}>
+  <Route component={App}>
     <Route path='execdashboard' component={execDashboard} />
     <Route path='databrowser' component={DataBrowser} />
     <Route path='contact' component={Contact} />
@@ -94,7 +91,7 @@ const routes = (
 );
 
 /**
- * No Sidebar, Header or Footer. Only the Body is rendered.ss
+ * No Sidebar, Header or Footer. Only the Body is rendered.
  */
 const basicRoutes = (
   <Route>
@@ -115,15 +112,14 @@ const combinedRoutes = (
 );
 
 export default (
-  <Provider store={store}>
-    <Router history={browserHistory}>
-      <Route path="/" component={Homepage} />
-      <Route path='/ltr'>
-        {combinedRoutes}
-      </Route>
-      <Route path='/rtl'>
-        {combinedRoutes}
-      </Route>
-    </Router>
-  </Provider>
+  <Route>
+    <Route path='/' component={Homepage} />
+
+     <Route path='/ltr'>
+      {combinedRoutes}
+    </Route>
+    <Route path='/rtl'>
+      {combinedRoutes}
+    </Route> 
+  </Route>
 );
