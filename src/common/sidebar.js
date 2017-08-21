@@ -74,6 +74,9 @@ class ApplicationSidebar extends React.Component {
     let sk = 'united_states';
     let ck = 'purchase_log_csv';
 
+    // let pk = 'country';
+    // let sk = 'united_states';
+    // let ck = 'customer_profile_csv';
     $.ajax({
       url: 'https://ceres.link/api/override_keys/api_key=' + api_key + ';data:pk=' + pk + ',sk=' + sk + ',ck=' + ck,
       dataType: 'json',
@@ -199,7 +202,7 @@ class ApplicationSidebar extends React.Component {
 
                   { /** Pages Section */}
                   <div className='sidebar-header'>PAGES</div>
- 
+
                   <SidebarNavItem glyph='icon-fontello-gauge' name='Executive Dashboard' href={::this.getPath('execdashboard')} />
                   <SidebarNavItem glyph='icon-ikons-chart' name='Campaigns App' href={::this.getPath('sub_campaigns')} />
                   <SidebarNavItem glyph='icon-ikons-chart-1-4' name='Promotion App' href={::this.getPath('sub_ppbc')} />

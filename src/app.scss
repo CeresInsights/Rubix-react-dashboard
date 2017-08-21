@@ -69,7 +69,9 @@
     float: right;
 }
 
-.ple_tile1, .ple_tile2 ,.csr_tile{
+.ple_tile1,
+.ple_tile2,
+.csr_tile {
     padding: 10px;
     width: 250px;
     height: 250px;
@@ -79,6 +81,7 @@
 .ple_tile2 {
     float: left;
 }
+
 .ple_tile1 {
     float: right;
 }
@@ -89,28 +92,225 @@
 }
 
 .ple_title1,
-.ple_title2 {
+.ple_title2,
+{
     font-size: 20px;
     text-align: center;
 }
-.ple_percentage1, .ple_percentage2 {
+
+.ple_percentage1,
+.ple_percentage2 {
     font-size: 20px;
     font-weight: bold;
     text-align: center;
     margin-top: 20px;
 }
+
 .ple_number1,
 .ple_number2 {
     font-size: 12px;
     text-align: center;
 }
+
 .csr_tile {
- margin-left: 42%; 
+    margin-left: 42%;
 }
-.csr_title, .csr_content {
+
+.csr_title,
+.csr_content {
     font-size: 20px;
     text-align: center;
 }
+
 .csr_content {
     margin-top: 100px;
+}
+
+//////////////////////Executive Dashboard ProductPromotionByChannel//////////////////
+//////////////////Shopping Mode Analytics//////////////
+.sma_product_tile {
+    float: left;
+    margin: 50px;
+    padding: 10px;
+    width: 200px;
+    height: 200px;
+    background: #8081FF;
+    box-shadow: 10px 10px 5px #888888;
+}
+.sma_product_title {
+    font-size: 20px;
+    text-align: left;
+    color: #FCFB00;
+    font-weight: bold
+}
+
+.sma_product_content {
+    font-size: 20px;
+    text-align: center;
+    font-weight: bold;
+    color: #FFFFFF
+}
+
+.sma_product_bottom {
+    margin-top: 50px
+}
+
+.sma_product_percent {
+    font-size: 30px;
+    width: 130px;
+    float: left;
+    font-weight: bold;
+    color: #FFFFFF
+}
+
+.sma_product_number {
+    font-size: 12px;
+    font-weight: bold;
+    color: #FFFFFF
+}
+
+.sma_product_number_area {
+    float: right;
+    color: #FFFFFF
+}
+//////////////////Digital Shopping Activity//////////////
+.dsa_tile {
+    float: left;
+    margin: 50px;
+    padding: 10px;
+    width: 200px;
+    height: 200px;
+    background: #8081FF;
+    box-shadow: 10px 10px 5px #888888;
+}
+.dsa_title {
+    font-size: 20px;
+    text-align: left;
+    color: #FCFB00;
+    font-weight: bold
+}
+
+.dsa_content {
+    font-size: 20px;
+    text-align: center;
+    font-weight: bold;
+    color: #FFFFFF
+}
+
+.dsa_bottom {
+    margin-top: 50px
+}
+
+.dsa_percent {
+    font-size: 30px;
+    width: 130px;
+    float: left;
+    font-weight: bold;
+    color: #FFFFFF
+}
+
+.dsa_number {
+    font-size: 12px;
+    font-weight: bold;
+    color: #FFFFFF
+}
+
+.dsa_number_area {
+    float: right;
+    color: #FFFFFF
+}
+////////////////// Executive Dashboard Product Bundles By Customer Behavior//////////////
+///////////////Customer Payment Preferences/////////////////
+
+.prod_pay_tile {
+    float: left;
+    margin: 50px;
+    padding: 10px;
+    width: 200px;
+    height: 200px;
+    background: #8081FF;
+    box-shadow: 10px 10px 5px #888888;
+}
+.prod_pay_title {
+    font-size: 20px;
+    text-align: left;
+    color: #FCFB00;
+    font-weight: bold
+}
+
+.prod_pay_content {
+    font-size: 20px;
+    text-align: center;
+    font-weight: bold;
+    color: #FFFFFF
+}
+
+.prod_pay_bottom {
+    margin-top: 50px
+}
+
+.prod_pay_percent {
+    font-size: 30px;
+    width: 130px;
+    float: left;
+    font-weight: bold;
+    color: #FFFFFF
+}
+
+.prod_pay_number {
+    font-size: 12px;
+    font-weight: bold;
+    color: #FFFFFF
+}
+
+.prod_pay_number_area {
+    float: right;
+    color: #FFFFFF
+}
+///////////////Customer Payment Preferences/////////////////
+//// Customer Product Appetite///////
+.prod_product_tile {
+    float: left;
+    margin: 50px;
+    padding: 10px;
+    width: 200px;
+    height: 200px;
+    background: #8081FF;
+    box-shadow: 10px 10px 5px #888888;
+}
+.prod_product_title {
+    font-size: 20px;
+    text-align: left;
+    color: #FCFB00;
+    font-weight: bold
+}
+
+.prod_product_content {
+    font-size: 20px;
+    text-align: center;
+    font-weight: bold;
+    color: #FFFFFF
+}
+
+.prod_product_bottom {
+    margin-top: 50px
+}
+
+.prod_product_percent {
+    font-size: 30px;
+    width: 130px;
+    float: left;
+    font-weight: bold;
+    color: #FFFFFF
+}
+
+.prod_product_number {
+    font-size: 12px;
+    font-weight: bold;
+    color: #FFFFFF
+}
+
+.prod_product_number_area {
+    float: right;
+    color: #FFFFFF
 }

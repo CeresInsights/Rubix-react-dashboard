@@ -175,6 +175,7 @@ export default class CampaignsPromotionsAndLoyaltyOptimization extends React.Com
                 console.log('error', error);
             }
         });
+        
     }
     componentDidUpdate() {
 

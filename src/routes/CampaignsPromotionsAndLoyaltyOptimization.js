@@ -278,7 +278,6 @@ export default class CampaignsPromotionsAndLoyaltyOptimization extends React.Com
 
             var csr_data = this.state.csr_data;
             delete csr_data["total_market_spend"];
-            // console.log("OOOO", csr_data)
             var tmp_array = [];
             for (var i in csr_data) {
                 var t = new Object;
@@ -338,7 +337,6 @@ export default class CampaignsPromotionsAndLoyaltyOptimization extends React.Com
             for (var i in csr_data) {
                 var high = new Object;
                 var low = new Object;
-                // var low = new Object;
                 high.x = i;
                 high.y = csr_data[i]["high"];
                 high_array.push(high);
@@ -348,11 +346,7 @@ export default class CampaignsPromotionsAndLoyaltyOptimization extends React.Com
                 low_array.push(low);
 
             }
-            // console.log("HIGH ARRAY", high_array)
-
             high_bar.addData(high_array);
-            // console.log("HIGH BAR", high_bar)
-
             low_bar.addData(low_array);
         })();
 
