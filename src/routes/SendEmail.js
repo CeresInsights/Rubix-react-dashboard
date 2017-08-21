@@ -35,7 +35,7 @@ export default class SendEmail extends React.Component {
     e.stopPropagation();
     let email = $('#email').val();
     $.ajax({
-      url: 'https://ceres.link/api/preregister/data:email='+email,
+      url: 'http://ceres.link/api/email/queue/data:email='+email,
       dataType: 'json',
       type: 'GET',
       success:function(data){

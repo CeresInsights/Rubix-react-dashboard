@@ -192,8 +192,10 @@ export default class Product extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-     prod_pay: {},
-     prod_product: {}
+      prod_pay: [],
+      prod_product: [],
+      smart_prod_pay: [],
+      smart_prod: []
     };
   }
   componentDidMount() {
@@ -213,6 +215,19 @@ export default class Product extends React.Component {
       }
     });
 
+    $.ajax({
+      url: 'https://ceres.link/api/sub_board/smart_pay/api_key=' + api_key,
+      dataType: 'json',
+      type: 'GET',
+      success: function (data) {
+        console.log("SubPayRecommendarUpdate", data);
+        this.setState({ smart_prod_pay: data })
+      }.bind(this),
+      error: function (error) {
+        console.log('SubPayRecommendarUpdate Error', error);
+      }
+    });
+
     //Get Data For Sub-Dashboard(Product App) Product Appetite
     $.ajax({
       url: 'https://ceres.link/api/sub_board/prod_product/api_key=' + api_key,
@@ -226,13 +241,27 @@ export default class Product extends React.Component {
         console.log('SubAppetiteUpdate Error', error);
       }
     });
+
+    $.ajax({
+      url: 'https://ceres.link/api/sub_board/smart_prod/api_key=' + api_key,
+      dataType: 'json',
+      type: 'GET',
+      success: function (data) {
+        console.log("SubAppetiteRecommendarUpdate", data);
+        this.setState({ smart_prod: data })
+      }.bind(this),
+      error: function (error) {
+        console.log('SubAppetiteRecommendarUpdate Error', error);
+      }
+    });
   }
   render() {
     return (
       <div className='execdashboard'>
         <Row>
           <Col sm={12}>
-            <ProductBundlesbyCustomerBehavior products_data={this.state.products_data} />
+          {/* <ProductBundlesbyCustomerBehavior products_data={this.state.products_data} /> */}
+            <ProductBundlesbyCustomerBehavior />
             <ExportButtonGroup />
           </Col>
         </Row>

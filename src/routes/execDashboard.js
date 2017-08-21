@@ -1,5 +1,8 @@
 import React from 'react';
 import { Link, withRouter } from 'react-router';
+// import '../app.scss';
+import CampaignsPromotionsAndLoyaltyOptimization from './CampaignsPromotionsAndLoyaltyOptimization';
+
 import {
   Row,
   Tab,
@@ -28,252 +31,6 @@ import {
   PanelTabContainer,
   ButtonGroup
 } from '@sketchpixy/rubix';
-
-@withRouter
-class CampaignsPromotionsAndLoyaltyOptimization extends React.Component {
-  getPath(path) {
-    var dir = this.props.location.pathname.search('rtl') !== -1 ? 'rtl' : 'ltr';
-    path = `/${dir}/${path}`;
-    return path;
-  }
-
-  componentDidUpdate() {
-    //CPTA chart
-    (() => {
-      $('#cpta_chart').html('');
-      var chart = new Rubix('#cpta_chart', {
-        height: 300,
-        title: 'Customer Purchase Time Analysis',
-        subtitle: 'Best Day Of Week',
-        titleColor: '#D71F4B',
-        subtitleColor: '#D71F4B',
-        axis: {
-          x: {
-            type: 'ordinal',
-          },
-          y: {
-            type: 'linear',
-            tickFormat: 'd'
-          }
-        },
-        tooltip: {
-          color: '#D71F4B',
-          format: {
-            y: '.0f'
-          }
-        },
-        margin: {
-          left: 50
-        },
-        grouped: false,
-        show_markers: true
-      });
-
-      var fruits = chart.column_series({
-        name: 'Shopping Rate',
-        color: '#D71F4B'
-      });
-
-      var tmp = this.props.cpta_data;
-      var tmp_array = [];
-      for (var i in tmp) {
-        var t = new Object;
-        t.x = i;
-        t.y = tmp[i];
-        tmp_array.push(t);
-      }
-      fruits.addData(tmp_array);
-
-      //MAD chart
-      $('#mad_chart').html('');
-      var mad_chart = new Rubix('#mad_chart', {
-        height: 300,
-        title: 'Customer Purchase Time Analysis',
-        subtitle: 'Monthly Activity Distribution',
-        titleColor: '#D71F4B',
-        subtitleColor: '#D71F4B',
-        axis: {
-          x: {
-            type: 'ordinal',
-          },
-          y: {
-            type: 'linear',
-            tickFormat: 'd'
-          }
-        },
-        tooltip: {
-          color: '#D71F4B',
-          format: {
-            y: '.0f'
-          }
-        },
-        margin: {
-          left: 50
-        },
-        grouped: false,
-        show_markers: true
-      });
-
-      fruits = mad_chart.column_series({
-        name: 'Shopping Rate',
-        color: '#D71F4B'
-      });
-
-      tmp = this.props.mad_data;
-      tmp_array = [];
-      for (var i in tmp) {
-        var t = new Object;
-        t.x = i;
-        t.y = tmp[i];
-        tmp_array.push(t);
-      }
-      fruits.addData(tmp_array);
-
-      //ASI chart
-      $('#asi_chart').html('');
-      var asi_chart = new Rubix('#asi_chart', {
-        height: 300,
-        title: 'Customer Purchase Time Analysis',
-        subtitle: 'Average Shopping Interval',
-        titleColor: '#D71F4B',
-        subtitleColor: '#D71F4B',
-        axis: {
-          x: {
-            type: 'ordinal',
-          },
-          y: {
-            type: 'linear',
-            tickFormat: 'd'
-          }
-        },
-        tooltip: {
-          color: '#D71F4B',
-          format: {
-            y: '.0f'
-          }
-        },
-        margin: {
-          left: 50
-        },
-        grouped: false,
-        show_markers: true
-      });
-
-      fruits = asi_chart.column_series({
-        name: 'Shopping Rate',
-        color: '#D71F4B'
-      });
-
-      tmp = this.props.asi_data;
-      tmp_array = [];
-      for (var i in tmp) {
-        var t = new Object;
-        t.x = i;
-        t.y = tmp[i];
-        tmp_array.push(t);
-      }
-      fruits.addData(tmp_array);
-    })();
-
-    //RPR chart
-    //later
-
-    //PLE chart
-    (() => {
-      // $('#ple_chart').html('');
-      //   var chart = new Rubix('#ple_chart', {
-      //     height: 300,
-      //     title: 'Product Loyalty Estimate',
-      //     titleColor: '#D71F4B',
-      //     subtitleColor: '#D71F4B',
-      //     axis: {
-      //       x: {
-      //         type: 'ordinal',
-      //       },
-      //       y: {
-      //         type: 'linear',
-      //         tickFormat: 'd'
-      //       }
-      //     },
-      //     tooltip: {
-      //       color: '#D71F4B',
-      //       format: {
-      //         y: '.0f'
-      //       }
-      //     },
-      //     margin: {
-      //       left: 50
-      //     },
-      //     grouped: false,
-      //     show_markers: true
-      //   });
-
-      //   var fruits = chart.column_series({
-      //     name: 'Shopping Rate',
-      //     color: '#D71F4B'
-      //   });
-
-      //   var tmp = this.props.ple_data;       
-      //   var tmp_array = [];
-      //   for (var i in tmp){         
-      //     var t = new Object;
-      //     t.x = i;
-      //     t.y = tmp[i].total;
-      //     tmp_array.push(t);
-      //   }
-      //   fruits.addData(tmp_array);
-    })();
-  }
-  render() {
-    return (
-      <PanelTabContainer id='campaigns_promotions_loyaltypanel' defaultActiveKey="cpta">
-        <Panel>
-          <PanelHeader className='bg-blue fg-white' style={{ display: 'block' }}>
-            <Grid>
-              <Row>
-                <Col xs={12} className="text-center">
-                  <Link className="title_link" to={::this.getPath('sub_campaigns')}><h4>Campaigns,Promotions, and Loyalty Optimization </h4></Link>
-                </Col>
-              </Row>
-            </Grid>
-          <Nav bsStyle="tabs" className='plain'>
-            <NavItem eventKey="cpta">
-              CPTA
-              </NavItem>
-            <NavItem eventKey="ple">
-              PLE
-              </NavItem>
-            <NavItem eventKey="clv">
-              CLV
-              </NavItem>
-          </Nav>
-          </PanelHeader>
-        <PanelBody>
-          <Grid>
-            <Row>
-              <Col xs={12}>
-                <Tab.Content>
-                  <Tab.Pane eventKey="cpta">
-                    <div id="cpta_chart" ></div>
-                    <div id="mad_chart" ></div>
-                    <div id="asi_chart" ></div>
-                  </Tab.Pane>
-                  <Tab.Pane eventKey="ple">
-                    <div id="ple_chart"></div>
-                  </Tab.Pane>
-                  <Tab.Pane eventKey="clv">
-                    <h3>Customer Lifetime Value</h3>
-                  </Tab.Pane>
-                </Tab.Content>
-              </Col>
-            </Row>
-          </Grid>
-        </PanelBody>
-        </Panel>
-      </PanelTabContainer >
-    );
-  }
-}
 
 @withRouter
 class ProductPromotionByChannel extends React.Component {
@@ -909,88 +666,13 @@ export default class ExecDashboard extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      bdw_data: {},
-      csr_data: {},
-      // ple_data: {},
-      mad_data: {},
-      asi_data: {},
-      sma_channel: {},
-      sma_product: {},
-      dsa_data: {},
-      customer_pay: {},
-      new_customer: {}
+      sma_product: [],
+      dsa_data: [],
+      customer_pay: [],
+      new_customer: []
     };
   }
   componentDidMount() {
-    let api_key = localStorage.getItem('api_key');
-    console.log("EXEC DASH KEY", api_key);
-
-    // CSR api
-    $.ajax({
-      url: 'https://ceres.link/api/app/csr/api_key=' + api_key,
-      dataType: 'json',
-      type: 'GET',
-      success: function (data) {
-        console.log(data);
-        this.setState({ 'csr_data': data });
-      }.bind(this),
-      error: function (error) {
-        console.log('error', error);
-      }
-    });
-    // BWD api
-    $.ajax({
-      url: 'https://ceres.link/api/app/bdw/api_key=' + api_key,
-      dataType: 'json',
-      type: 'GET',
-      success: function (data) {
-        console.log(data);
-        this.setState({ 'bdw_data': data });
-      }.bind(this),
-      error: function (error) {
-        console.log('error', error);
-      }
-    });
-
-    //MAD api
-    $.ajax({
-      url: 'https://ceres.link/api/app/mad/api_key=' + api_key,
-      dataType: 'json',
-      type: 'GET',
-      success: function (data) {
-        this.setState({ 'mad_data': data });
-      }.bind(this),
-      error: function (error) {
-        console.log('error', error);
-      }
-    });
-
-    // ASI api
-    $.ajax({
-      url: 'https://ceres.link/api/app/asi/api_key=' + api_key,
-      dataType: 'json',
-      type: 'GET',
-      success: function (data) {
-        this.setState({ 'asi_data': data });
-      }.bind(this),
-      error: function (error) {
-        console.log('error', error);
-      }
-    });
-
-    //Get Data For Executive Dashboard SMA Channel 
-    $.ajax({
-      url: 'https://ceres.link/api/exec_board/sma_channel/api_key=' + api_key,
-      dataType: 'json',
-      type: 'GET',
-      success: function (data) {
-        console.log("ExecChannel", data);
-        this.setState({ sma_channel: data })
-      }.bind(this),
-      error: function (error) {
-        console.log('ExecChannelError', error);
-      }
-    });
 
     //Get Data For Executive Dashboard SMA Product
     $.ajax({
@@ -1054,12 +736,17 @@ export default class ExecDashboard extends React.Component {
       <div className='execdashboard'>
         <Row>
           <Col sm={12}>
-            <CampaignsPromotionsAndLoyaltyOptimization cpta_data={this.state.cpta_data} mad_data={this.state.mad_data} asi_data={this.state.asi_data} ple_data={this.state.ple_data} />
-            <ProductPromotionByChannel sma_channel={this.state.sma_channel} sma_product={this.state.sma_product} dsa_data={this.state.dsa_data} />
-            <ProductBundlesbyCustomerBehavior customer_pay={this.state.customer_pay} />
-            <NewCustomerAcquistion new_customer={this.state.new_customer} />
+          {/* <CampaignsPromotionsAndLoyaltyOptimization ple_tile_types={this.state.ple_tile_types} ple_tile_titles={this.state.ple_tile_titles} bdw_data={this.state.bdw_data} mad_data={this.state.mad_data} asi_data={this.state.asi_data} /> */}
+            <CampaignsPromotionsAndLoyaltyOptimization  />
+            {/* <ProductPromotionByChannel sma_product={this.state.sma_product} dsa_data={this.state.dsa_data} /> */}
+            <ProductPromotionByChannel />
+            {/* <ProductBundlesbyCustomerBehavior customer_pay={this.state.customer_pay} /> */}
+            <ProductBundlesbyCustomerBehavior />
+            {/* <NewCustomerAcquistion new_customer={this.state.new_customer} /> */}
+            <NewCustomerAcquistion />
             <RealTimeLocationAnalysis />
             <PriceOptimization />
+            {/* <PriceOptimization csr_data={this.state.csr_data} /> */}
             <ExportButtonGroup />
           </Col>
         </Row>
