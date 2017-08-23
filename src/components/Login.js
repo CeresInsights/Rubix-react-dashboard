@@ -41,7 +41,7 @@ export default class Login extends React.Component {
       success:function(data){
         if(data.status=='User Login Successful'){
           localStorage.setItem('api_key',data.key);
-          browserHistory.push('/ltr/execdashboard');  
+          browserHistory.push('/ltr/executivedashboard');  
         }else{
           this.errorNotification(data);
         }

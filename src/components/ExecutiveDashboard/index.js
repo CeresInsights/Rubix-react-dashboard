@@ -1,10 +1,9 @@
 import React from 'react';
-import { Link, withRouter } from 'react-router';
-// import '../app.scss';
+import { Link } from 'react-router';
 import CampaignsPromotionsAndLoyaltyOptimization from './CampaignsPromotionsAndLoyaltyOptimization';
-import ProductPromotionByChannel from './execProductPromotionByChannel';
-import ProductBundlesbyCustomerBehavior from './execProductBundles';
-import NewCustomerAcquistion from './execNewCustomer';
+import ProductPromotionByChannel from './ProductPromotionByChannel';
+import ProductBundlesbyCustomerBehavior from './ProductBundlesbyCustomerBehavior';
+import NewCustomerAcquistion from './NewCustomerAcquistion';
 
 import {
   Row,

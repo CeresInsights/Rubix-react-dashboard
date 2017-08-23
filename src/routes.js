@@ -15,20 +15,21 @@ import Footer from './common/footer';
 
 /* Pages */
 
-import Homepage from './routes/Homepage';
+import Homepage from './components/Homepage';
 
-import execDashboard from './routes/execDashboard';
-import Contact from './routes/Contact';
-import SendEmail from './routes/SendEmail';
-import Profile from './routes/Profile';
-import DataBrowser from './routes/DataBrowser';
-import Login from './routes/Login';
-import Signup from './routes/Signup';
+import ExecutiveDashboard from './components/ExecutiveDashboard/index';
+
+import Contact from './components/Contact';
+import SendEmail from './components/SendEmail';
+import Profile from './components/Profile';
+import DataBrowser from './components/DataBrowser';
+import Login from './components/Login';
+import Signup from './components/Signup';
 
 //Sub products dashboards
-import CampaignsPromotionsAndLoyaltyDashboard from './routes/CampaignsPromotionsAndLoyaltyDashboard';
-import ProductPromotionsByChannel from './routes/ProductPromotionsByChannel';
-import ProductBundle from './routes/ProductBundle';
+import CampaignsPromotionsAndLoyaltyDashboard from './components/CampaignsApp/index';
+import ProductPromotionsByChannel from './components/PromotionApp/index';
+import ProductBundle from './components/ProductApp/index';
 
 const store = configureStore(initialState);
 
@@ -79,14 +80,14 @@ class App extends React.Component {
  */
 const routes = (
   <Route component={App}>
-    <Route path='execdashboard' component={execDashboard} />
+    <Route path='executivedashboard' component={ExecutiveDashboard} />
     <Route path='databrowser' component={DataBrowser} />
     <Route path='contact' component={Contact} />
     <Route path='sendemail' component={SendEmail} />
     <Route path='profile' component={Profile} />
     <Route path='sub_campaigns' component={CampaignsPromotionsAndLoyaltyDashboard} />
-    <Route path='sub_ppbc' component={ProductPromotionsByChannel} />
-    <Route path='sub_pbbcb' component={ProductBundle} />
+    <Route path='sub_promotion' component={ProductPromotionsByChannel} />
+    <Route path='sub_product' component={ProductBundle} />
   </Route>
 );
 

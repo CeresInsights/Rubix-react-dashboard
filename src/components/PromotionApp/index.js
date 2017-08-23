@@ -1,5 +1,5 @@
 import React from 'react';
-import CampaignsPromotionsAndLoyaltyOptimization from './CampaignsPromotionsAndLoyaltyOpt';
+import ProductPromotionByChannel from './ProductPromotionByChannel';
 
 import {
   Row,
@@ -31,9 +31,7 @@ import {
 } from '@sketchpixy/rubix';
 
 class ExportButtonGroup extends React.Component {
-  componentDidMount() {
 
-  }
   render() {
     return (
       <PanelTabContainer id='real-time-location-analysis-panel-tab' defaultActiveKey="rpa">
@@ -65,14 +63,18 @@ class ExportButtonGroup extends React.Component {
     );
   }
 }
-export default class Campaigns extends React.Component {
+
+export default class Promotion extends React.Component {
+  constructor(props) {
+    super(props);
+  }
+
   render() {
     return (
-      <div className='execdashboard'>
+      <div className='ppbc_wrapper'>
         <Row>
           <Col sm={12}>
-          {/* <CampaignsPromotionsAndLoyaltyOptimization bdw_data={this.state.bdw_data} mad_data={this.state.mad_data} asi_data={this.state.asi_data} /> */}
-            <CampaignsPromotionsAndLoyaltyOptimization />
+            <ProductPromotionByChannel />
             <ExportButtonGroup />
           </Col>
         </Row>

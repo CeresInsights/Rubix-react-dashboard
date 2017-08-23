@@ -31,17 +31,19 @@ import {
 } from '@sketchpixy/rubix';
 
 export default class CampaignsPromotionsAndLoyaltyOptimization extends React.Component {
-    constructor(props) {
-        super(props);
+    constructor() {
+        super();
         this.state = {
-            ple_tile_types: [],
-            ple_tile_titles: [],
+            sma_channel: {},
+            smart_channel: {},
+
             csr_total_market: '',
             csr_data: {},
             bdw_data: {},
             mad_data: {},
             asi_data: '',
-            smart_channel: {}
+            spectro_labels_real: [],
+            mainTileTitles_real: []
         }
     }
     getObjectKeyIndex(obj, keyToFind) {
@@ -60,6 +62,26 @@ export default class CampaignsPromotionsAndLoyaltyOptimization extends React.Com
     componentDidMount() {
         var api_key = localStorage.getItem('api_key');
 
+        let sma_channel = {};
+        let smart_channel = {};
+
+        let mainTileTypes = [];
+        let mainTileContents = [];
+        let mainTileTitles = [];
+        // let mainPercents = [];
+        // let mainTotals = [];
+
+        let recommenderTypes = [];
+        let spectro_labels = [];
+        let spectro_data = [];
+        let recommenderContents = [];
+        let optimizer_data = [];
+        let optimizer_labels = [];
+        let htmlTxt = [];
+
+        let mainTileTitles_real = [];
+        let spectro_labels_real = [];
+        let mainTileContents_real = [];
         // MAD api
         $.ajax({
             url: 'https://ceres.link/api/app/mad/api_key=' + api_key,
@@ -98,65 +120,113 @@ export default class CampaignsPromotionsAndLoyaltyOptimization extends React.Com
                 console.log('error', error);
             }
         });
-        //Get Data For Sub-Dashboard(Campaigns App) SMA Channel
+        //Get Data For Sub-Dashboard(Campaigns App) SMA Channel///////////////
         $.ajax({
             url: 'https://ceres.link/api/sub_board/sma_channel/api_key=' + api_key,
             dataType: 'json',
             type: 'GET',
             success: function (data) {
-                console.log("SubChannelUpdate", data);
-                let sma_channel_keys = [];
-                sma_channel_keys = Object.keys(data);
-                this.setState({sma_channel_keys: sma_channel_keys})
+                this.setState({
+                    sma_channel: data
+                })
+                mainTileTypes = Object.keys(data);
+                console.log("mainTileTypes", mainTileTypes)
 
-                // for(let i=0; i<sma_channel_keys.length; i++){
-                    
-                // }
+                this.setState({ mainTileTypes: mainTileTypes })
+
+                mainTileTypes.map((key) => {
+                    mainTileContents.push(data[key]);
+                })
+                // console.log("mainTileContent", mainTileContents)
+                this.setState({
+                    mainTileContents: mainTileContents
+                })
+            
+
+                mainTileContents.map((item) => {
+                    mainTileTitles.push(Object.keys(item));
+                })
+                console.log("mainTileTitles", mainTileTitles);
+
+                mainTileTitles.map((itemArray) => {
+                    itemArray.map((item) => {
+                        mainTileTitles_real.push(item);
+                    })
+                })
+                // console.log("AAAAAA", mainTileTitles_real)
+
+                this.setState({
+                    mainTileTitles_real: mainTileTitles_real
+                })
+                // let percentTotals = [];
+
+                // mainTileContents.map((item) => {
+                //     mainTileTitles.map((titles) => {
+                //         titles.map((title) => {
+                //             console.log("adsfasfd", item)
+                //             console.log("qweqweqwe", titles)
+                //             console.log("zxcv", title)
+                //             percentTotals.push(item[title]);
+                //             console.log("444444", percentTotals)
+                //         });
+                //     });
+                // })
+                // console.log("percentTotals", percentTotals)
+                // percentTotals.map((item) => {
+                //     mainPercents.push(item["percentage"])
+                //     mainTotals.push(item["total"])
+                // })
+                // console.log("mainPercents", mainPercents)
+                // console.log("mainTotals", mainTotals)
 
             }.bind(this),
             error: function (error) {
                 console.log('SubChannelUpdateERROR', error);
             }
         });
-        //// Recommender API for Sub-Dashboard(Campaigns App)
+
+        //// Recommender API for Sub-Dashboard(Campaigns App)//////////////
         $.ajax({
             url: 'https://ceres.link/api/sub_board/smart_channel/api_key=' + api_key,
             dataType: 'json',
             type: 'GET',
             success: function (data) {
                 console.log("SubChannelSmartUpdate", data);
-                let smt_channel_keys = [];
+                this.setState({
+                    smart_channel: data
+                })
+                recommenderTypes = Object.keys(data);
+                console.log("recommenderTypes", recommenderTypes);
+                this.setState({
+                    recommenderTypes: recommenderTypes
+                })
 
-                let spectrogram = [];
-                let spectro_labels = [];
-                let spectro_data = [];
+                recommenderTypes.map((key) => {
+                    recommenderContents.push(data[key]);
+                    htmlTxt.push(data[key]["text/html"]);
+                })
+                console.log("htmlTxt", htmlTxt)
+                recommenderContents.map((item) => {
+                    spectro_labels.push((item["spectrogram"])["labels"]);
+                    spectro_data.push((item["spectrogram"])["data"]);
+                    optimizer_labels.push((item["optimizer_chart"])["labels"]);
+                    optimizer_data.push((item["optimizer_chart"])["data"]);
+                })
+                spectro_labels.map((itemArray) => {
+                    itemArray.map((item) => {
+                        spectro_labels_real.push(item);
+                    })
+                })
+                this.setState({
+                    spectro_labels_real: spectro_labels_real
+                })
 
-                let optimizer_chart = [];
-                let optimizer_labels = [];
-                let optimizer_data = [];
+                console.log("spectChartLabels", spectro_labels)
+                // console.log("BBBB", spectro_labels_real)
+                console.log("spectChartData", spectro_data)
+                console.log("optimizeChartLabels", optimizer_labels)
+                console.log("optimizeChartData", optimizer_data)
 
-                let htmlTxt = [];
-                
-                let temp_spectro = [];
-                let temp_optimizer = [];
-
-                smt_channel_keys = Object.keys(data);
-                for (let i = 0; i < smt_channel_keys.length; i++) {
-                    // htmlTxt = data[smt_channel_keys[i]]["text/html"];
-                    temp_spectro[i]=data[smt_channel_keys[i]]["spectrogram"];
-                    temp_optimizer[i]=data[smt_channel_keys[i]]["optimizer_chart"];
-
-                    spectro_labels.push(temp_spectro[i]["labels"]);
-                    spectro_data.push([temp_spectro[i]["data"]]);
-
-                    optimizer_labels.push(temp_optimizer[i]["labels"]);
-                    optimizer_data.push(temp_optimizer[i]["data"]);
-
-                    spectrogram.push(data[smt_channel_keys[i]]["spectrogram"])
-                    optimizer_chart.push(data[smt_channel_keys[i]]["optimizer_chart"]);
-                }
-
-                this.setState({ smart_channel: data })
             }.bind(this),
             error: function (error) {
                 console.log('SubChannelSmartUpdateERROR', error);
@@ -175,7 +245,7 @@ export default class CampaignsPromotionsAndLoyaltyOptimization extends React.Com
                 console.log('error', error);
             }
         });
-        
+
     }
     componentDidUpdate() {
 
@@ -357,9 +427,44 @@ export default class CampaignsPromotionsAndLoyaltyOptimization extends React.Com
         })();
 
     }
+    renderChannel = () => {
+
+        let mainTileTitles = [];
+        let spectro_labels = [];
+        let mainTileContents = [];
+        let mainTileContents_real = [];
+
+        mainTileTitles = this.state.mainTileTitles_real;
+        spectro_labels = this.state.spectro_labels_real;
+        mainTileContents = this.state.mainTileContents;
+
+        console.log("mainTileContents", mainTileContents)
+        // console.log("LENGTHTHTHTHTHT", mainTileContents.length)
+
+        console.log("mainTileTitles", mainTileTitles)
+        console.log("spectro_labels", spectro_labels)
+
+        let recommender = [];
+        recommender = mainTileTitles.filter(e => !spectro_labels.includes(e));
+        console.log("recommender", recommender)
+
+        // mainTileContents.map((temp) => {
+        //     console.log("temp", temp)
+        //     recommender.map((item) => {
+
+        //         console.log("item", item)
+        //         mainTileContents_real.push(delete temp[item]);
+        //     })
+        // })
+
+        console.log("mainTileContents_real", mainTileContents_real)
+
+        console.log("adsfasdfasf", recommender)
+        return (
+            <div>asdfadfasdfasda</div>
+        )
+    }
     render() {
-        // let types = [];
-        // types = this.state.ple_tile_types;
         return (
             <PanelTabContainer id='campaigns_promotions_loyaltypanel' defaultActiveKey="cpta">
                 <Panel>
@@ -400,27 +505,11 @@ export default class CampaignsPromotionsAndLoyaltyOptimization extends React.Com
                                                 </div>
                                             </div>
                                         </Tab.Pane>
-                                        <Tab.Pane eventKey="ple">
-                                            {/* {types &&
-                                                <div>
-                                                    <div className="tile_area1">
-                                                        <div className="ple_tile1">
-                                                            <p className="ple_type1">{types[0]}</p>
-                                                            <p className="ple_title1">{this.state.ple_tile_title1}</p>
-                                                            <p className="ple_percentage1">{this.state.ple_tile_percent1}</p>
-                                                            <p className="ple_number1">{this.state.ple_tile_number1} mentions</p>
-                                                        </div>
-                                                    </div>
-                                                    <div className="tile_area2">
-                                                        <div className="ple_tile2">
-                                                            <p className="ple_type2">{types[1]}</p>
-                                                            <p className="ple_title2">{this.state.ple_tile_title2}</p>
-                                                            <p className="ple_percentage2">{this.state.ple_tile_percent2}</p>
-                                                            <p className="ple_number2">{this.state.ple_tile_number1} mentions</p>
-                                                        </div>
-                                                    </div>
-                                                </div>} */}
-                                        </Tab.Pane>
+                                        {(this.state.sma_channel !== null && this.state.smart_channel) &&
+                                            <Tab.Pane eventKey="ple">
+                                                {this.renderChannel()}
+                                            </Tab.Pane>
+                                        }
                                         <Tab.Pane eventKey="csr">
                                             <div id="csr_pie_chart"></div>
                                             <div id="csr_bar_chart"></div>
