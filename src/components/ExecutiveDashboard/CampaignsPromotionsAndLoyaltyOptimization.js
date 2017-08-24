@@ -1,5 +1,5 @@
 import React from 'react';
-import { Link, withRouter } from 'react-router';
+import { Link } from 'react-router';
 import '../app.scss';
 import {
     Row,
@@ -30,24 +30,15 @@ import {
     ButtonGroup
 } from '@sketchpixy/rubix';
 
-// @withRouter
 export default class CampaignsPromotionsAndLoyaltyOptimization extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            ple_tile_types: [],
-            ple_tile_titles: [],
             csr_total_market: '',
             csr_data: {},
             bdw_data: {},
             mad_data: {},
             asi_data: '',
-            ple_tile_title1: '',
-            ple_tile_percent1: '',
-            ple_tile_number1: '',
-            ple_tile_title2: '',
-            ple_tile_percent2: '',
-            ple_tile_number2: ''
         }
     }
     getObjectKeyIndex(obj, keyToFind) {
@@ -63,16 +54,10 @@ export default class CampaignsPromotionsAndLoyaltyOptimization extends React.Com
 
         return null;
     }
-    getPath(path) {
-        var dir = this.props.location.pathname.search('rtl') !== -1 ? 'rtl' : 'ltr';
-        path = `/${dir}/${path}`;
-        return path;
-    }
 
     componentDidMount() {
         let api_key = '';
         api_key = localStorage.getItem('api_key');
-        console.log("EXEC DASH KEY", api_key);
 
         // CSR api
         $.ajax({
@@ -138,37 +123,51 @@ export default class CampaignsPromotionsAndLoyaltyOptimization extends React.Com
             type: 'GET',
             success: function (data) {
                 console.log("ExecChannel", data);
+                let sma_channel_keys = [];
+                let sma_channel_values = [];
 
-                let ple_tile_types = [];
-                let ple_tile_title = [];
-                let ple_tile_titles = [];
+                sma_channel_keys = Object.keys(data);
 
-                let ple_tile_title1 = '';
-                let ple_tile_percent1 = '';
-                let ple_tile_number1 = '';
-                let ple_tile_title2 = '';
-                let ple_tile_percent2 = '';
-                let ple_tile_number2 = ''
-
-                ple_tile_types = Object.keys(data);
-                this.setState({ ple_tile_types: ple_tile_types });
-
-                for (let i = 0; i < ple_tile_types.length; i++) {
-                    ple_tile_title = data[ple_tile_types[i]]["most popular"];
-                    ple_tile_titles.push(ple_tile_title);
-                }
-                this.setState({ ple_tile_title1: ple_tile_titles[0][0] });
-                this.setState({ ple_tile_percent1: ple_tile_titles[0][1] });
-                this.setState({ ple_tile_number1: ple_tile_titles[0][2] });
-                this.setState({ ple_tile_title2: ple_tile_titles[1][0] });
-                this.setState({ ple_tile_percent2: ple_tile_titles[1][1] });
-                this.setState({ ple_tile_number2: ple_tile_titles[1][2] });
+                sma_channel_keys.map((item) => {
+                    sma_channel_values.push(data[item]["most popular"])
+                })
+                this.setState({
+                    sma_channel_keys: sma_channel_keys,
+                    sma_channel_values: sma_channel_values
+                })
 
             }.bind(this),
             error: function (error) {
                 console.log('SubDashChannelError', error);
             }
         });
+    }
+    renderSmaChannel = () => {
+        let sma_channel_keys = [];
+        let sma_channel_values = [];
+        let temp_array = [];
+
+        sma_channel_keys = this.state.sma_channel_keys;
+        sma_channel_values = this.state.sma_channel_values;
+
+        let sma_channel_tiles = [];
+        for (let i = 0; i < sma_channel_keys.length; i++) {
+            temp_array[i] = sma_channel_values[i];
+            sma_channel_tiles.push(
+                <div className="sma_channel_tile">
+                    <p className="sma_channel_title">{sma_channel_keys[i]}</p>
+                    <p className="sma_channel_content">{temp_array[i][0]}</p>
+                    <div className="sma_channel_bottom">
+                        <p className="sma_channel_percent">{temp_array[i][1]}</p>
+                        <div className="sma_channel_number_area">
+                            <p className="sma_channel_number">{temp_array[i][2]}</p>
+                            <p>counts</p>
+                        </div>
+                    </div>
+                </div>
+            )
+        }
+        return sma_channel_tiles;
     }
     componentDidUpdate() {
 
@@ -352,8 +351,7 @@ export default class CampaignsPromotionsAndLoyaltyOptimization extends React.Com
 
     }
     render() {
-        let types = [];
-        types = this.state.ple_tile_types;
+
         return (
             <PanelTabContainer id='campaigns_promotions_loyaltypanel' defaultActiveKey="cpta">
                 <Panel>
@@ -361,7 +359,6 @@ export default class CampaignsPromotionsAndLoyaltyOptimization extends React.Com
                         <Grid>
                             <Row>
                                 <Col xs={12} className="text-center">
-                                    {/* <Link className="title_link" to={::this.getPath('sub_campaigns')}><h4>Campaigns,Promotions, and Loyalty Optimization </h4></Link> */}
                                     <Link className="title_link" to="/ltr/sub_campaigns"><h4>Campaigns,Promotions, and Loyalty Optimization </h4></Link>
                                 </Col>
                             </Row>
@@ -395,27 +392,11 @@ export default class CampaignsPromotionsAndLoyaltyOptimization extends React.Com
                                                 </div>
                                             </div>
                                         </Tab.Pane>
-                                        <Tab.Pane eventKey="ple">
-                                            {types &&
-                                                <div>
-                                                    <div className="tile_area1">
-                                                        <div className="ple_tile1">
-                                                            <p className="ple_type1">{types[0]}</p>
-                                                            <p className="ple_title1">{this.state.ple_tile_title1}</p>
-                                                            <p className="ple_percentage1">{this.state.ple_tile_percent1}</p>
-                                                            <p className="ple_number1">{this.state.ple_tile_number1} mentions</p>
-                                                        </div>
-                                                    </div>
-                                                    <div className="tile_area2">
-                                                        <div className="ple_tile2">
-                                                            <p className="ple_type2">{types[1]}</p>
-                                                            <p className="ple_title2">{this.state.ple_tile_title2}</p>
-                                                            <p className="ple_percentage2">{this.state.ple_tile_percent2}</p>
-                                                            <p className="ple_number2">{this.state.ple_tile_number1} mentions</p>
-                                                        </div>
-                                                    </div>
-                                                </div>}
-                                        </Tab.Pane>
+                                        {(this.state.sma_channel_keys!==null&&this.state.sma_channel_values)&&
+                                            <Tab.Pane eventKey="ple">
+                                                {this.renderSmaChannel()}
+                                            </Tab.Pane>
+                                        }
                                         <Tab.Pane eventKey="csr">
                                             <div id="csr_pie_chart"></div>
                                             <div id="csr_bar_chart"></div>

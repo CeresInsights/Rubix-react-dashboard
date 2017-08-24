@@ -57,73 +57,50 @@
 }
 
 //execdashboard PLE 
-.tile_area1 {
-    padding: 10px;
-    width: 48% !important;
+.sma_channel_tile {
     float: left;
-}
-
-.tile_area2 {
+    margin: 50px;
     padding: 10px;
-    width: 48% !important;
-    float: right;
-}
-
-.ple_tile1,
-.ple_tile2,
-.csr_tile {
-    padding: 10px;
-    width: 250px;
-    height: 250px;
+    width: 200px;
+    height: 200px;
     background: #FF7F27;
+    box-shadow: 10px 10px 5px #888888;
 }
-
-.ple_tile2 {
-    float: left;
-}
-
-.ple_tile1 {
-    float: right;
-}
-
-.ple_type1,
-.ple_type2 {
-    font-size: 18px
-}
-
-.ple_title1,
-.ple_title2,
-{
+.sma_channel_title {
     font-size: 20px;
+    text-align: left;
+    color: #FCFB00;
+    font-weight: bold
+}
+
+.sma_channel_content {
+    font-size: 14px;
     text-align: center;
-}
-
-.ple_percentage1,
-.ple_percentage2 {
-    font-size: 20px;
     font-weight: bold;
-    text-align: center;
-    margin-top: 20px;
+    color: #FFFFFF
 }
 
-.ple_number1,
-.ple_number2 {
+.sma_channel_bottom {
+    margin-top: 30px
+}
+
+.sma_channel_percent {
+    font-size: 30px;
+    width: 130px;
+    float: left;
+    font-weight: bold;
+    color: #FFFFFF
+}
+
+.sma_channel_number {
     font-size: 12px;
-    text-align: center;
+    font-weight: bold;
+    color: #FFFFFF
 }
 
-.csr_tile {
-    margin-left: 42%;
-}
-
-.csr_title,
-.csr_content {
-    font-size: 20px;
-    text-align: center;
-}
-
-.csr_content {
-    margin-top: 100px;
+.sma_channel_number_area {
+    float: right;
+    color: #FFFFFF
 }
 
 //////////////////////Executive Dashboard ProductPromotionByChannel//////////////////

@@ -56,9 +56,11 @@ export default class ProductBundlesbyCustomerBehavior extends React.Component {
                 let prod_pay_values = [];
 
                 prod_pay_keys = Object.keys(data);
-                for (let i = 0; i < prod_pay_keys.length; i++) {
-                    prod_pay_values.push(data[prod_pay_keys[i]]["most popular"]);
-                }
+
+                prod_pay_keys.map((item) => {
+                    prod_pay_values.push(data[item]["most popular"])
+                })
+
                 this.setState({
                     prod_pay_keys: prod_pay_keys,
                     prod_pay_values: prod_pay_values
@@ -162,8 +164,7 @@ export default class ProductBundlesbyCustomerBehavior extends React.Component {
         prod_pay_values = this.state.prod_pay_values;
         prod_product_keys = this.state.prod_product_keys;
         prod_product_values = this.state.prod_product_values;
-        // console.log("333333", prod_product_keys)
-        // console.log("444444", prod_product_values)
+
         return (
             <PanelTabContainer id='panel-body-header-footer-both-plain-tabs' defaultActiveKey="cpp">
                 <Panel>

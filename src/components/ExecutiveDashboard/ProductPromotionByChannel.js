@@ -31,13 +31,8 @@ import {
     ButtonGroup
 } from '@sketchpixy/rubix';
 
-// @withRouter
+
 export default class ProductPromotionByChannel extends React.Component {
-    //   getPath(path) {
-    //     var dir = this.props.location.pathname.search('rtl') !== -1 ? 'rtl' : 'ltr';
-    //     path = `/${dir}/${path}`;
-    //     return path;
-    //   }
     constructor(props) {
         super(props);
         this.state = {
@@ -62,9 +57,9 @@ export default class ProductPromotionByChannel extends React.Component {
                 let sma_product_values = [];
 
                 sma_product_keys = Object.keys(data);
-                for (let i = 0; i < sma_product_keys.length; i++) {
-                    sma_product_values.push(data[sma_product_keys[i]]["most popular"]);
-                }
+                sma_product_keys.map((item) => {
+                    sma_product_values.push(data[item]["most popular"])
+                })
                 this.setState({
                     sma_product_keys: sma_product_keys,
                     sma_product_values: sma_product_values
@@ -85,9 +80,9 @@ export default class ProductPromotionByChannel extends React.Component {
                 let dsa_values = [];
 
                 dsa_keys = Object.keys(data);
-                for (let i = 0; i < dsa_keys.length; i++) {
-                    dsa_values.push(data[dsa_keys[i]]["most popular"]);
-                }
+                dsa_keys.map((item) => {
+                    dsa_values.push(data[item]["most popular"])
+                })
                 this.setState({
                     dsa_keys: dsa_keys,
                     dsa_values: dsa_values
