@@ -1,6 +1,6 @@
 import React from 'react';
 import classNames from 'classnames';
-import { IndexRoute, Route } from 'react-router';
+import { IndexRoute, Route, Router } from 'react-router';
 import { Provider } from 'react-redux';
 import configureStore from './stores/configureStores';
 import initialState from './reducers/initialState';
@@ -116,11 +116,11 @@ export default (
   <Route>
     <Route path='/' component={Homepage} />
 
-     <Route path='/ltr'>
+    <Route path='/ltr'>
       {combinedRoutes}
     </Route>
-    <Route path='/rtl'>
+    {/* <Route path='/rtl'>
       {combinedRoutes}
-    </Route> 
+    </Route>  */}
   </Route>
 );

@@ -1,42 +1,42 @@
 import React from 'react';
 import '../app.scss';
 import {
-  Row,
-  Tab,
-  Col,
-  Nav,
-  Icon,
-  Grid,
-  Form,
-  Table,
-  Label,
-  Panel,
-  Button,
-  NavItem,
-  Checkbox,
-  Progress,
-  PanelBody,
-  FormGroup,
-  PanelLeft,
-  isBrowser,
-  InputGroup,
-  LoremIpsum,
-  PanelRight,
-  PanelHeader,
-  FormControl,
-  PanelContainer,
-  PanelTabContainer,
-  ButtonGroup
+    Row,
+    Tab,
+    Col,
+    Nav,
+    Icon,
+    Grid,
+    Form,
+    Table,
+    Label,
+    Panel,
+    Button,
+    NavItem,
+    Checkbox,
+    Progress,
+    PanelBody,
+    FormGroup,
+    PanelLeft,
+    isBrowser,
+    InputGroup,
+    LoremIpsum,
+    PanelRight,
+    PanelHeader,
+    FormControl,
+    PanelContainer,
+    PanelTabContainer,
+    ButtonGroup
 } from '@sketchpixy/rubix';
 
 export default class ProductPromotionByChannel extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            sma_product: [],
-            smart_product: [],
-            dsa_data: [],
-            smart_dsa: []
+            sma_product: {},
+            smart_product: {},
+            dsa: {},
+            smart_dsa: {}
         };
     }
 
@@ -55,45 +55,62 @@ export default class ProductPromotionByChannel extends React.Component {
     }
     componentDidMount() {
         let mainTileTypesDsa = [];
-        let mainTileTypesProduct = [];
+        let mainTileTypesProd = [];
 
         let mainTileContentsDsa = [];
-        let mainTileContentsProduct = [];
+        let mainTileContentsProd = [];
 
         let mainTileTitlesDsa = [];
-        let mainTileTitlesProduct = [];
+        let mainTileTitlesProd = [];
 
         let mainTileTitlesRealDsa = [];
-        let mainTileTitlesRealProduct = [];
-        // let mainPercents = [];
-        // let mainTotals = [];
+        let mainTileTitlesRealProd = [];
+
+        let mainTileContentsRealProd = [];
+        let mainTileContentsRealDsa = [];
 
         let recommenderTypesDsa = [];
-        let recommenderTypesProduct = [];
+        let recommenderTypesProd = [];
+
+        let recommenderTitlesDsa = [];
+        let recommenderTitlesProd = [];
 
         let spectro_labels_dsa = [];
-        let spectro_labels_product = [];
+        let spectro_labels_prod = [];
 
         let spectro_data_dsa = [];
-        let spectro_data_product = [];
+        let spectro_data_prod = [];
 
-        let recommenderContentsDsa = [];
-        let recommenderContentsProduct = [];
+        let recommenderContentsPay = [];
+        let recommenderContentsProd = [];
+
+        let recommenderContentsTempDsa = [];
+        let recommenderContentsTempProd = [];
+
+        let mainTileContentsRealTempDsa = [];
+        let mainTileContentsRealTempProd = [];
 
         let optimizer_data_dsa = [];
-        let optimizer_data_product = [];
+        let optimizer_data_prod = [];
 
         let optimizer_labels_dsa = [];
-        let optimizer_labels_product = [];
+        let optimizer_labels_prod = [];
 
         let htmlTxtDsa = [];
-        let htmlTxtProduct = [];
+        let htmlTxtProd = [];
 
         let spectro_labels_real_dsa = [];
-        let spectro_labels_real_product = [];
+        let spectro_labels_real_prod = [];
 
         let spectro_data_real_dsa = [];
-        let spectro_data_real_product = [];
+        let spectro_data_real_prod = [];
+
+        let recommenderContentsProduct = [];
+        let recommenderContentsDsament = [];
+        let recommenderContentsDsa = [];
+
+        let mainTileTitlesDsament = [];
+        let mainTileTitlesProduct = [];
 
 
         let api_key = localStorage.getItem('api_key');
@@ -104,259 +121,362 @@ export default class ProductPromotionByChannel extends React.Component {
             dataType: 'json',
             type: 'GET',
             success: function (data) {
-                console.log("SubProductUpdate", data);
-                this.setState({ sma_product: data })
-                mainTileTypesProduct = Object.keys(data);
-                console.log("mainTileTypesProduct", mainTileTypesProduct)
-
-                this.setState({ mainTileTypesProduct: mainTileTypesProduct })
-
-                mainTileTypesProduct.map((key) => {
-                    mainTileContentsProduct.push(data[key]);
-                })
-                console.log("mainTileContentsProduct", mainTileContentsProduct)
                 this.setState({
-                    mainTileContentsProduct: mainTileContentsProduct
+                    sma_product: data
+                })
+                ///////Main Tile Types Fetch///////////////
+                mainTileTypesProd = Object.keys(data);
+                ////////////Main Tile Data Fetch////////////////
+                mainTileTypesProd.map((key) => {
+                    mainTileContentsProd.push(data[key]);
                 })
 
-                mainTileContentsProduct.map((item) => {
-                    mainTileTitlesProduct.push(Object.keys(item));
+                mainTileContentsProd.map((item) => {
+                    mainTileTitlesProd.push(Object.keys(item));
                 })
-                console.log("mainTileTitlesProduct", mainTileTitlesProduct);
 
-                mainTileTitlesProduct.map((itemArray) => {
+                mainTileTitlesProd.map((itemArray) => {
                     itemArray.map((item) => {
-                        mainTileTitlesRealProduct.push(item);
+                        mainTileTitlesRealProd.push(item);
                     })
                 })
-                console.log("mainTileTitlesRealProduct", mainTileTitlesRealProduct)
+                //// Recommender API for Sub-Dashboard(Promotion App) SMA Product//////////////
+                $.ajax({
+                    url: 'https://ceres.link/api/sub_board/smart_product/api_key=' + api_key,
+                    dataType: 'json',
+                    type: 'GET',
+                    success: function (data) {
+                        this.setState({
+                            smart_product: data
+                        })
+                        ////// Recommender Type Fetch//////////////////////
+                        recommenderTypesProd = Object.keys(data);
+                        this.setState({
+                            recommenderTypesProd: recommenderTypesProd
+                        })
+                        ///////////////Recommender Data Fetch(html, spectrogram, optimizer_chart)/////////////
+                        recommenderTypesProd.map((key) => {
+                            recommenderContentsProd.push(data[key]);
+                            htmlTxtProd.push(data[key]["text/html"]);
+                        })
+                        recommenderContentsProd.map((item) => {
+                            spectro_labels_prod.push((item["spectrogram"])["labels"]);
+                            spectro_data_prod.push((item["spectrogram"])["data"]);
+                            optimizer_labels_prod.push((item["optimizer_chart"])["labels"]);
+                            optimizer_data_prod.push((item["optimizer_chart"])["data"]);
+                        })
 
-                this.setState({
-                    mainTileTitlesRealProduct: mainTileTitlesRealProduct
-                })
-                // let percentTotals = [];
+                        this.setState({
+                            htmlTxtProd: htmlTxtProd,
+                            spectro_labels_prod: spectro_labels_prod,
+                            spectro_data_prod: spectro_data_prod,
+                            optimizer_labels_prod: optimizer_labels_prod,
+                            optimizer_data_prod: optimizer_data_prod
+                        })
+                        ///// recommender labels array for getting best recommender data////////
+                        spectro_labels_prod.map((itemArray) => {
+                            itemArray.map((item) => {
+                                spectro_labels_real_prod.push(item);
+                            })
+                        })
 
-                // mainTileContents.map((item) => {
-                //     mainTileTitles.map((titles) => {
-                //         titles.map((title) => {
-                //             console.log("adsfasfd", item)
-                //             console.log("qweqweqwe", titles)
-                //             console.log("zxcv", title)
-                //             percentTotals.push(item[title]);
-                //             console.log("444444", percentTotals)
-                //         });
-                //     });
-                // })
-                // console.log("percentTotals", percentTotals)
-                // percentTotals.map((item) => {
-                //     mainPercents.push(item["percentage"])
-                //     mainTotals.push(item["total"])
-                // })
-                // console.log("mainPercents", mainPercents)
-                // console.log("mainTotals", mainTotals)
+                        ////////////////Best Recommender Fetch////////////////////
+                        recommenderTitlesProd = mainTileTitlesRealProd.filter(e => !spectro_labels_real_prod.includes(e));
+
+                        //////////////////// Best Recommender Data and Main Tile Data Fetch ///////////////
+                        /// Remove Best Recommender in main tile data and Best Recommender Data Fetch
+                        mainTileContentsProd.map((temp) => {
+                            recommenderTitlesProd.map((item) => {
+                                recommenderContentsTempProd.push(temp[item])
+                                delete temp[item]
+                            })
+                        })
+                        recommenderContentsTempProd.map((item) => {
+                            if (item !== undefined) {
+                                recommenderContentsProduct.push(item)
+                            }
+                        })
+                        /////////Main Tile Data Fetch/////////////
+                        mainTileContentsProd.map((item) => {
+                            mainTileTitlesProduct.push(Object.keys(item))
+                            mainTileTitlesProduct.map((temp) => {
+                                temp.map((title) => {
+                                    mainTileContentsRealTempProd.push(item[title])
+                                })
+                            })
+                        })
+                        mainTileContentsRealTempProd.map((item) => {
+                            if (item !== undefined) {
+                                mainTileContentsRealProd.push(item)
+                            }
+                        })
+
+                        this.setState({
+                            recommenderTitlesProd: recommenderTitlesProd,
+                            recommenderContentsProduct: recommenderContentsProduct,
+                            mainTileContentsRealProd: mainTileContentsRealProd
+                        })
+
+                    }.bind(this),
+                    error: function (error) {
+                        console.log('SubProductSmartUpdateERROR', error);
+                    }
+                });
+
             }.bind(this),
             error: function (error) {
-                console.log('SubProductUpdateERROR', error);
+                console.log('SubPayUpdateERROR', error);
             }
         });
 
-        $.ajax({
-            url: 'https://ceres.link/api/sub_board/smart_product/api_key=' + api_key,
-            dataType: 'json',
-            type: 'GET',
-            success: function (data) {
-                console.log("SubChannelUpdate", data);
-                this.setState({ smart_product: data })
-                recommenderTypesProduct = Object.keys(data);
-                console.log("recommenderTypesProduct", recommenderTypesProduct);
-                this.setState({
-                    recommenderTypesProduct: recommenderTypesProduct
-                })
-
-                recommenderTypesProduct.map((key) => {
-                    recommenderContentsProduct.push(data[key]);
-                    htmlTxtProduct.push(data[key]["text/html"]);
-                })
-                console.log("htmlTxtPay", htmlTxtProduct)
-                recommenderContentsProduct.map((item) => {
-                    spectro_labels_product.push((item["spectrogram"])["labels"]);
-                    spectro_data_product.push((item["spectrogram"])["data"]);
-                    optimizer_labels_product.push((item["optimizer_chart"])["labels"]);
-                    optimizer_data_product.push((item["optimizer_chart"])["data"]);
-                })
-                spectro_labels_product.map((itemArray) => {
-                    itemArray.map((item) => {
-                        spectro_labels_real_product.push(item);
-                    })
-                })
-                this.setState({
-                    spectro_labels_real_product: spectro_labels_real_product
-                })
-
-                console.log("spectChartLabelsProduct", spectro_labels_product)
-                // console.log("BBBB", spectro_labels_real)
-                console.log("spectChartDataProduct", spectro_data_product)
-                console.log("optimizeChartLabelsProduct", optimizer_labels_product)
-                console.log("optimizeChartDataProduct", optimizer_data_product)
-            }.bind(this),
-            error: function (error) {
-                console.log('SubChannelUpdateERROR', error);
-            }
-        });
-
-        //Get Data For Sub-Dashboard(Promotion App) DSA
+        //Get Data For Sub-Dashboard(Promotion App) Digital Shopping Activity
         $.ajax({
             url: 'https://ceres.link/api/sub_board/dsa/api_key=' + api_key,
             dataType: 'json',
             type: 'GET',
             success: function (data) {
-                console.log("SubDsaUpdate", data);
-                this.setState({ dsa_data: data })
+                this.setState({
+                    dsa: data
+                })
+                ///////Main Tile Types Fetch///////////////
                 mainTileTypesDsa = Object.keys(data);
-                console.log("mainTileTypesDsa", mainTileTypesDsa)
-
-                this.setState({ mainTileTypesDsa: mainTileTypesDsa })
-
+                ////////////Main Tile Data Fetch////////////////
                 mainTileTypesDsa.map((key) => {
                     mainTileContentsDsa.push(data[key]);
-                })
-                console.log("mainTileContent", mainTileContentsDsa)
-                this.setState({
-                    mainTileContentsDsa: mainTileContentsDsa
                 })
 
                 mainTileContentsDsa.map((item) => {
                     mainTileTitlesDsa.push(Object.keys(item));
                 })
-                console.log("mainTileTitlesDsa", mainTileTitlesDsa);
 
                 mainTileTitlesDsa.map((itemArray) => {
                     itemArray.map((item) => {
                         mainTileTitlesRealDsa.push(item);
                     })
                 })
-                console.log("mainTileTitlesRealDsa", mainTileTitlesRealDsa)
 
-                this.setState({
-                    mainTileTitlesRealDsa: mainTileTitlesRealDsa
-                })
-                // let percentTotals = [];
+                //// Recommender API for Sub-Dashboard(Promotion App Digital Shopping Activity)//////////////
+                $.ajax({
+                    url: 'https://ceres.link/api/sub_board/smart_dsa/api_key=' + api_key,
+                    dataType: 'json',
+                    type: 'GET',
+                    success: function (data) {
+                        console.log("smart_dsa", data)
+                        this.setState({
+                            smart_dsa: data
+                        })
+                        ////// Recommender Type Fetch//////////////////////
+                        recommenderTypesDsa = Object.keys(data);
+                        this.setState({
+                            recommenderTypesDsa: recommenderTypesDsa
+                        })
+                        // ///////////////Recommender Data Fetch(html, spectrogram, optimizer_chart)/////////////
+                        recommenderTypesDsa.map((key) => {
+                            recommenderContentsDsa.push(data[key]);
+                            htmlTxtDsa.push(data[key]["text/html"]);
+                        })
 
-                // mainTileContents.map((item) => {
-                //     mainTileTitles.map((titles) => {
-                //         titles.map((title) => {
-                //             console.log("adsfasfd", item)
-                //             console.log("qweqweqwe", titles)
-                //             console.log("zxcv", title)
-                //             percentTotals.push(item[title]);
-                //             console.log("444444", percentTotals)
-                //         });
-                //     });
-                // })
-                // console.log("percentTotals", percentTotals)
-                // percentTotals.map((item) => {
-                //     mainPercents.push(item["percentage"])
-                //     mainTotals.push(item["total"])
-                // })
-                // console.log("mainPercents", mainPercents)
-                // console.log("mainTotals", mainTotals)
+                        recommenderContentsDsa.map((item) => {
+                            spectro_labels_dsa.push((item["spectrogram"])["labels"]);
+                            spectro_data_dsa.push((item["spectrogram"])["data"]);
+                            optimizer_labels_dsa.push((item["optimizer_chart"])["labels"]);
+                            optimizer_data_dsa.push((item["optimizer_chart"])["data"]);
+                        })
+
+                        this.setState({
+                            htmlTxtDsa: htmlTxtDsa,
+                            spectro_labels_dsa: spectro_labels_dsa,
+                            spectro_data_dsa: spectro_data_dsa,
+                            optimizer_labels_dsa: optimizer_labels_dsa,
+                            optimizer_data_dsa: optimizer_data_dsa
+                        })
+                        // ///// recommender labels array for getting best recommender data////////
+                        spectro_labels_dsa.map((itemArray) => {
+                            itemArray.map((item) => {
+                                spectro_labels_real_dsa.push(item);
+                            })
+                        })
+
+                        // // ////////////////Best Recommender Fetch////////////////////
+                        recommenderTitlesDsa = mainTileTitlesRealDsa.filter(e => !spectro_labels_real_dsa.includes(e));
+
+                        // // //////////////////// Best Recommender Data and Main Tile Data Fetch ///////////////
+                        // // /// Remove Best Recommender in main tile data and Best Recommender Data Fetch
+                        mainTileContentsDsa.map((temp) => {
+                            recommenderTitlesDsa.map((item) => {
+                                recommenderContentsTempDsa.push(temp[item])
+                                delete temp[item]
+                            })
+                        })
+                        recommenderContentsTempDsa.map((item) => {
+                            if (item !== undefined) {
+                                recommenderContentsDsament.push(item)
+                            }
+                        })
+
+                        /////////Main Tile Data Fetch/////////////
+                        mainTileContentsDsa.map((item) => {
+                            mainTileTitlesDsament.push(Object.keys(item))
+                            console.log("ASASASA", mainTileTitlesDsa)
+                            mainTileTitlesDsament.map((temp) => {
+                                temp.map((title) => {
+                                    mainTileContentsRealTempDsa.push(item[title])
+                                })
+                            })
+                        })
+
+                        console.log("mainTileContentsRealTempDsa", mainTileContentsRealTempDsa)
+                        mainTileContentsRealTempDsa.map((item) => {
+                            if (item !== undefined) {
+                                mainTileContentsRealDsa.push(item)
+                            }
+                        })
+
+                        this.setState({
+                            recommenderTitlesDsa: recommenderTitlesDsa,
+                            recommenderContentsDsament: recommenderContentsDsament,
+                            mainTileContentsRealDsa: mainTileContentsRealDsa
+                        })
+
+                    }.bind(this),
+                    error: function (error) {
+                        console.log('SubDsaSmartUpdateERROR', error);
+                    }
+                });
+
             }.bind(this),
             error: function (error) {
                 console.log('SubDsaUpdateERROR', error);
             }
         });
-
-        $.ajax({
-            url: 'https://ceres.link/api/sub_board/smart_dsa/api_key=' + api_key,
-            dataType: 'json',
-            type: 'GET',
-            success: function (data) {
-                console.log("SubChannelDsaUpdate", data);
-                this.setState({ smart_dsa: data })
-                recommenderTypesDsa = Object.keys(data);
-                console.log("recommenderTypesDsa", recommenderTypesDsa);
-                this.setState({
-                    recommenderTypesDsa: recommenderTypesDsa
-                })
-
-                recommenderTypesDsa.map((key) => {
-                    recommenderContentsDsa.push(data[key]);
-                    htmlTxtDsa.push(data[key]["text/html"]);
-                })
-                console.log("htmlTxtDsa", htmlTxtDsa)
-                recommenderContentsDsa.map((item) => {
-                    spectro_labels_dsa.push((item["spectrogram"])["labels"]);
-                    spectro_data_dsa.push((item["spectrogram"])["data"]);
-                    optimizer_labels_dsa.push((item["optimizer_chart"])["labels"]);
-                    optimizer_data_dsa.push((item["optimizer_chart"])["data"]);
-                })
-                spectro_labels_dsa.map((itemArray) => {
-                    itemArray.map((item) => {
-                        spectro_labels_real_dsa.push(item);
-                    })
-                })
-                this.setState({
-                    spectro_labels_real_dsa: spectro_labels_real_dsa
-                })
-
-                console.log("spectChartLabelsDsa", spectro_labels_dsa)
-                // console.log("BBBB", spectro_labels_real)
-                console.log("spectChartDataDsa", spectro_data_dsa)
-                console.log("optimizeChartLabelsDsa", optimizer_labels_dsa)
-                console.log("optimizeChartDataDsa", optimizer_data_dsa)
-            }.bind(this),
-            error: function (error) {
-                console.log('SubChannelDsaUpdateERROR', error);
-            }
-        });
     }
-    componentDidUpdate() {
-        var color_array = ['#4572a7', '#aa4643', '#89a54e', '#80699b', '#3d96ae', '#db843d'];
-        (() => {
-            $('#pie-chart').html('');
-            var pie = Rubix.Pie('#pie-chart', {
-                title: 'Shopping Mode Analysis By Channel',
-                height: 300
-            });
+    renderDsa = () => {
 
-            var channels_data = this.props.channels_data;
-            var tmp_array = [];
-            for (var i in channels_data) {
-                var t = new Object;
-                t.name = i;
-                t.value = channels_data[i].total;
-                t.color = color_array[this.getObjectKeyIndex(channels_data, i)];
-                tmp_array.push(t);
-            }
+        let recommenderTypesDsa = [];
+        let recommenderTitlesDsa = [];
+        let recommenderContentsDsament = [];
+        let mainTileContentsRealDsa = [];
 
-            pie.addData(tmp_array);
+        let htmlTxtDsa = [];
+        let spectro_labels_dsa = [];
+        let spectro_data_dsa = [];
+        let optimizer_labels_dsa = [];
+        let optimizer_data_dsa = [];
 
-            $('#pie-chart2').html('');
-            var pie1 = Rubix.Pie('#pie-chart2', {
-                title: 'Digital Shopping Activity',
-                height: 300
-            });
+        ///////Data Type///////////////////////
+        recommenderTypesDsa = this.state.recommenderTypesDsa;
 
-            pie1.addData(tmp_array);
+        /////////Best Recommender Data///////////////
+        recommenderTitlesDsa = this.state.recommenderTitlesDsa;
+        recommenderContentsDsament = this.state.recommenderContentsDsament;
 
-            $('#smabyproduct_chart').html('');
-            var pie2 = Rubix.Pie('#smabyproduct_chart', {
-                title: 'Shopping Mode Analysis By Product',
-                height: 300
-            });
+        //////////Main Tile Data///////////////////////////
+        mainTileContentsRealDsa = this.state.mainTileContentsRealDsa;
 
-            var products_data = this.props.products_data;
-            tmp_array = [];
-            for (var i in products_data) {
-                var t = new Object;
-                t.name = i;
-                t.value = products_data[i].total;
-                t.color = color_array[this.getObjectKeyIndex(products_data, i)];
-                tmp_array.push(t);
-            }
-            pie2.addData(tmp_array);
-        })();
+        ////////////////////Recommender Data//////////////
+        htmlTxtDsa = this.state.htmlTxtDsa;
+        spectro_labels_dsa = this.state.spectro_labels_dsa;
+        spectro_data_dsa = this.state.spectro_data_dsa;
+        optimizer_labels_dsa = this.state.optimizer_labels_dsa;
+        optimizer_data_dsa = this.state.optimizer_data_dsa;
+
+        // console.log("recommenderTypesDsa", recommenderTypesDsa)
+        // console.log("recommenderTitlesDsa", recommenderTitlesDsa)
+        // console.log("recommenderContentsDsament", recommenderContentsDsament)
+        // console.log("mainTileContentsRealDsa", mainTileContentsRealDsa)
+        // console.log("htmlTxtDsa", htmlTxtDsa)
+        // console.log("spectro_labels_dsa", spectro_labels_dsa)
+        // console.log("spectro_data_dsa", spectro_data_dsa)
+        // console.log("optimizer_labels_dsa", optimizer_labels_dsa)
+        // console.log("optimizer_data_dsa", optimizer_data_dsa)
     }
+    renderProduct = () => {
+
+        let recommenderTypesProd = [];
+        let recommenderTitlesProd = [];
+        let recommenderContentsProduct = [];
+        let mainTileContentsRealProd = [];
+
+        let htmlTxtProd = [];
+        let spectro_labels_prod = [];
+        let spectro_data_prod = [];
+        let optimizer_labels_prod = [];
+        let optimizer_data_prod = [];
+
+        ///////Data Type///////////////////////
+        recommenderTypesProd = this.state.recommenderTypesProd;
+
+        /////////Best Recommender Data///////////////
+        recommenderTitlesProd = this.state.recommenderTitlesProd;
+        recommenderContentsProduct = this.state.recommenderContentsProduct;
+
+        //////////Main Tile Data///////////////////////////
+        mainTileContentsRealProd = this.state.mainTileContentsRealProd;
+
+        ////////////////////Recommender Data//////////////
+        htmlTxtProd = this.state.htmlTxtProd;
+        spectro_labels_prod = this.state.spectro_labels_prod;
+        spectro_data_prod = this.state.spectro_data_prod;
+        optimizer_labels_prod = this.state.optimizer_labels_prod;
+        optimizer_data_prod = this.state.optimizer_data_prod;
+
+        console.log("recommenderTypesProd", recommenderTypesProd)
+        console.log("recommenderTitlesProd", recommenderTitlesProd)
+        console.log("recommenderContentsProduct", recommenderContentsProduct)
+        console.log("mainTileContentsRealProd", mainTileContentsRealProd)
+        console.log("htmlTxtProd", htmlTxtProd)
+        console.log("spectro_labels_prod", spectro_labels_prod)
+        console.log("spectro_data_prod", spectro_data_prod)
+        console.log("optimizer_labels_prod", optimizer_labels_prod)
+        console.log("optimizer_data_prod", optimizer_data_prod)
+    }
+    // componentDidUpdate() {
+    //     var color_array = ['#4572a7', '#aa4643', '#89a54e', '#80699b', '#3d96ae', '#db843d'];
+    //     (() => {
+    //         $('#pie-chart').html('');
+    //         var pie = Rubix.Pie('#pie-chart', {
+    //             title: 'Shopping Mode Analysis By Channel',
+    //             height: 300
+    //         });
+
+    //         var channels_data = this.props.channels_data;
+    //         var tmp_array = [];
+    //         for (var i in channels_data) {
+    //             var t = new Object;
+    //             t.name = i;
+    //             t.value = channels_data[i].total;
+    //             t.color = color_array[this.getObjectKeyIndex(channels_data, i)];
+    //             tmp_array.push(t);
+    //         }
+
+    //         pie.addData(tmp_array);
+
+    //         $('#pie-chart2').html('');
+    //         var pie1 = Rubix.Pie('#pie-chart2', {
+    //             title: 'Digital Shopping Activity',
+    //             height: 300
+    //         });
+
+    //         pie1.addData(tmp_array);
+
+    //         $('#smabyproduct_chart').html('');
+    //         var pie2 = Rubix.Pie('#smabyproduct_chart', {
+    //             title: 'Shopping Mode Analysis By Product',
+    //             height: 300
+    //         });
+
+    //         var products_data = this.props.products_data;
+    //         tmp_array = [];
+    //         for (var i in products_data) {
+    //             var t = new Object;
+    //             t.name = i;
+    //             t.value = products_data[i].total;
+    //             t.color = color_array[this.getObjectKeyIndex(products_data, i)];
+    //             tmp_array.push(t);
+    //         }
+    //         pie2.addData(tmp_array);
+    //     })();
+    // }
     render() {
         return (
             <PanelTabContainer id='panel-body-header-footer-both-plain-tabs' defaultActiveKey="sma">
@@ -372,10 +492,10 @@ export default class ProductPromotionByChannel extends React.Component {
                         <Nav bsStyle="tabs" className='plain'>
                             <NavItem eventKey="sma">
                                 Shopping Modes Analysis
-              </NavItem>
+                            </NavItem>
                             <NavItem eventKey="dsa">
                                 Digital Shopping Activity
-              </NavItem>
+                            </NavItem>
                         </Nav>
                     </PanelHeader>
                     <PanelBody>
@@ -383,17 +503,16 @@ export default class ProductPromotionByChannel extends React.Component {
                             <Row>
                                 <Col xs={12}>
                                     <Tab.Content>
-                                        <Tab.Pane eventKey="sma">
-                                            <Col sm={6}>
-                                                <div id="pie-chart" > </div>
-                                            </Col>
-                                            <Col sm={6}>
-                                                <div id="smabyproduct_chart"> </div>
-                                            </Col>
-                                        </Tab.Pane>
-                                        <Tab.Pane eventKey="dsa">
-                                            <div id="pie-chart2" > </div>
-                                        </Tab.Pane>
+                                        {(this.state.sma_product!==null&&this.state.smart_product)&&
+                                            <Tab.Pane eventKey="sma">
+                                                {this.renderDsa()}
+                                            </Tab.Pane>
+                                        }
+                                        {(this.state.dsa!==null&&this.state.smart_dsa)&&
+                                            <Tab.Pane eventKey="dsa">
+                                                {this.renderProduct()}
+                                            </Tab.Pane>
+                                        }
                                     </Tab.Content>
                                 </Col>
                             </Row>

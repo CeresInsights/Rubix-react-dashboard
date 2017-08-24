@@ -31,8 +31,8 @@ import {
 } from '@sketchpixy/rubix';
 
 export default class CampaignsPromotionsAndLoyaltyOptimization extends React.Component {
-    constructor() {
-        super();
+    constructor(props) {
+        super(props);
         this.state = {
             sma_channel: {},
             smart_channel: {},
@@ -42,8 +42,23 @@ export default class CampaignsPromotionsAndLoyaltyOptimization extends React.Com
             bdw_data: {},
             mad_data: {},
             asi_data: '',
-            spectro_labels_real: [],
-            mainTileTitles_real: []
+            // mainTileTypesChannel: [],
+            // mainTileContentsChannel: [],
+            // mainTileTitlesChannel: [],
+
+            // recommenderTypesChannel: [],
+            // spectro_labels_channel: [],
+            // spectro_data_channel: [],
+            // recommenderContentsChannel: [],
+            // optimizer_data_channel: [],
+            // optimizer_labels_channel: [],
+            // htmlTxtChannel: [],
+            // mainTileTitlesRealChannel: [],
+
+            // spectro_labels_real_channel: [],
+            // spectro_data_real_channel: [],
+            // optimizer_labels_real_channel: [],
+            // optimizer_data_real_channel: []
         }
     }
     getObjectKeyIndex(obj, keyToFind) {
@@ -65,23 +80,36 @@ export default class CampaignsPromotionsAndLoyaltyOptimization extends React.Com
         let sma_channel = {};
         let smart_channel = {};
 
+        let mainTileTypesChannel = [];
+        let mainTileContentsChannel = [];
+        let mainTileTitlesChannel = [];
+
+        let recommenderTypesChannel = [];
+        let spectro_labels_channel = [];
+        let spectro_data_channel = [];
+        let recommenderContentsChannel = [];
+        let optimizer_data_channel = [];
+        let optimizer_labels_channel = [];
+        let htmlTxtChannel = [];
+
+        let mainTileTitlesRealChannel = [];
+        let spectro_labels_real_channel = [];
+        let mainTileContents_real_channel = [];
+
         let mainTileTypes = [];
-        let mainTileContents = [];
-        let mainTileTitles = [];
-        // let mainPercents = [];
-        // let mainTotals = [];
-
-        let recommenderTypes = [];
-        let spectro_labels = [];
-        let spectro_data = [];
-        let recommenderContents = [];
-        let optimizer_data = [];
-        let optimizer_labels = [];
-        let htmlTxt = [];
-
-        let mainTileTitles_real = [];
+        let mainTileTitlesReal = [];
         let spectro_labels_real = [];
-        let mainTileContents_real = [];
+        let mainTileContents = [];
+
+        let recommenderContentsTemp = [];
+        let recommenderContents = [];
+        let recommenderTitles = [];
+        let mainTileContentsReal = [];
+        let mainTileContentsRealTemp = [];
+
+        let mainTileTitles = [];
+
+        /////////////////////////////// CPTA Apis/////////////////////////////////
         // MAD api
         $.ajax({
             url: 'https://ceres.link/api/app/mad/api_key=' + api_key,
@@ -120,7 +148,8 @@ export default class CampaignsPromotionsAndLoyaltyOptimization extends React.Com
                 console.log('error', error);
             }
         });
-        //Get Data For Sub-Dashboard(Campaigns App) SMA Channel///////////////
+
+        //Get Data For Sub-Dashboard(Campaigns App) SMA Channel and Recommender///////////////
         $.ajax({
             url: 'https://ceres.link/api/sub_board/sma_channel/api_key=' + api_key,
             dataType: 'json',
@@ -129,55 +158,104 @@ export default class CampaignsPromotionsAndLoyaltyOptimization extends React.Com
                 this.setState({
                     sma_channel: data
                 })
-                mainTileTypes = Object.keys(data);
-                console.log("mainTileTypes", mainTileTypes)
-
-                this.setState({ mainTileTypes: mainTileTypes })
-
-                mainTileTypes.map((key) => {
-                    mainTileContents.push(data[key]);
+                ///////Main Tile Types Fetch///////////////
+                mainTileTypesChannel = Object.keys(data);
+                ////////////Main Tile Data Fetch////////////////
+                mainTileTypesChannel.map((key) => {
+                    mainTileContentsChannel.push(data[key]);
                 })
-                // console.log("mainTileContent", mainTileContents)
-                this.setState({
-                    mainTileContents: mainTileContents
-                })
-            
 
-                mainTileContents.map((item) => {
-                    mainTileTitles.push(Object.keys(item));
+                mainTileContentsChannel.map((item) => {
+                    mainTileTitlesChannel.push(Object.keys(item));
                 })
-                console.log("mainTileTitles", mainTileTitles);
 
-                mainTileTitles.map((itemArray) => {
+                mainTileTitlesChannel.map((itemArray) => {
                     itemArray.map((item) => {
-                        mainTileTitles_real.push(item);
+                        mainTileTitlesRealChannel.push(item);
                     })
                 })
-                // console.log("AAAAAA", mainTileTitles_real)
+                //// Recommender API for Sub-Dashboard(Campaigns App)//////////////
+                $.ajax({
+                    url: 'https://ceres.link/api/sub_board/smart_channel/api_key=' + api_key,
+                    dataType: 'json',
+                    type: 'GET',
+                    success: function (data) {
+                        this.setState({
+                            smart_channel: data
+                        })
+                        ////// Recommender Type Fetch//////////////////////
+                        recommenderTypesChannel = Object.keys(data);
+                        this.setState({
+                            recommenderTypesChannel: recommenderTypesChannel
+                        })
+                        ///////////////Recommender Data Fetch(html, spectrogram, optimizer_chart)/////////////
+                        recommenderTypesChannel.map((key) => {
+                            recommenderContentsChannel.push(data[key]);
+                            htmlTxtChannel.push(data[key]["text/html"]);
+                        })
+                        recommenderContentsChannel.map((item) => {
+                            spectro_labels_channel.push((item["spectrogram"])["labels"]);
+                            spectro_data_channel.push((item["spectrogram"])["data"]);
+                            optimizer_labels_channel.push((item["optimizer_chart"])["labels"]);
+                            optimizer_data_channel.push((item["optimizer_chart"])["data"]);
+                        })
 
-                this.setState({
-                    mainTileTitles_real: mainTileTitles_real
-                })
-                // let percentTotals = [];
+                        this.setState({
+                            htmlTxtChannel: htmlTxtChannel,
+                            spectro_labels_channel: spectro_labels_channel,
+                            spectro_data_channel: spectro_data_channel,
+                            optimizer_labels_channel: optimizer_labels_channel,
+                            optimizer_data_channel: optimizer_data_channel
+                        })
+                        ///// recommender labels array for getting best recommender data////////
+                        spectro_labels_channel.map((itemArray) => {
+                            itemArray.map((item) => {
+                                spectro_labels_real_channel.push(item);
+                            })
+                        })
 
-                // mainTileContents.map((item) => {
-                //     mainTileTitles.map((titles) => {
-                //         titles.map((title) => {
-                //             console.log("adsfasfd", item)
-                //             console.log("qweqweqwe", titles)
-                //             console.log("zxcv", title)
-                //             percentTotals.push(item[title]);
-                //             console.log("444444", percentTotals)
-                //         });
-                //     });
-                // })
-                // console.log("percentTotals", percentTotals)
-                // percentTotals.map((item) => {
-                //     mainPercents.push(item["percentage"])
-                //     mainTotals.push(item["total"])
-                // })
-                // console.log("mainPercents", mainPercents)
-                // console.log("mainTotals", mainTotals)
+                        ////////////////Best Recommender Fetch////////////////////
+                        recommenderTitles = mainTileTitlesRealChannel.filter(e => !spectro_labels_real_channel.includes(e));
+
+                        //////////////////// Best Recommender Data and Main Tile Data Fetch ///////////////
+                        /// Remove Best Recommender in main tile data and Best Recommender Data Fetch
+                        mainTileContentsChannel.map((temp) => {
+                            recommenderTitles.map((item) => {
+                                recommenderContentsTemp.push(temp[item])
+                                delete temp[item]
+                            })
+                        })
+                        recommenderContentsTemp.map((item) => {
+                            if (item !== undefined) {
+                                recommenderContents.push(item)
+                            }
+                        })
+                        /////////Main Tile Data Fetch/////////////
+                        mainTileContentsChannel.map((item) => {
+                            mainTileTitles.push(Object.keys(item))
+                            mainTileTitles.map((temp) => {
+                                temp.map((title) => {
+                                    mainTileContentsRealTemp.push(item[title])
+                                })
+                            })
+                        })
+                        mainTileContentsRealTemp.map((item) => {
+                            if (item !== undefined) {
+                                mainTileContentsReal.push(item)
+                            }
+                        })
+
+                        this.setState({
+                            recommenderTitles: recommenderTitles,
+                            recommenderContents: recommenderContents,
+                            mainTileContentsReal: mainTileContentsReal
+                        })
+
+                    }.bind(this),
+                    error: function (error) {
+                        console.log('SubChannelSmartUpdateERROR', error);
+                    }
+                });
 
             }.bind(this),
             error: function (error) {
@@ -185,53 +263,6 @@ export default class CampaignsPromotionsAndLoyaltyOptimization extends React.Com
             }
         });
 
-        //// Recommender API for Sub-Dashboard(Campaigns App)//////////////
-        $.ajax({
-            url: 'https://ceres.link/api/sub_board/smart_channel/api_key=' + api_key,
-            dataType: 'json',
-            type: 'GET',
-            success: function (data) {
-                console.log("SubChannelSmartUpdate", data);
-                this.setState({
-                    smart_channel: data
-                })
-                recommenderTypes = Object.keys(data);
-                console.log("recommenderTypes", recommenderTypes);
-                this.setState({
-                    recommenderTypes: recommenderTypes
-                })
-
-                recommenderTypes.map((key) => {
-                    recommenderContents.push(data[key]);
-                    htmlTxt.push(data[key]["text/html"]);
-                })
-                console.log("htmlTxt", htmlTxt)
-                recommenderContents.map((item) => {
-                    spectro_labels.push((item["spectrogram"])["labels"]);
-                    spectro_data.push((item["spectrogram"])["data"]);
-                    optimizer_labels.push((item["optimizer_chart"])["labels"]);
-                    optimizer_data.push((item["optimizer_chart"])["data"]);
-                })
-                spectro_labels.map((itemArray) => {
-                    itemArray.map((item) => {
-                        spectro_labels_real.push(item);
-                    })
-                })
-                this.setState({
-                    spectro_labels_real: spectro_labels_real
-                })
-
-                console.log("spectChartLabels", spectro_labels)
-                // console.log("BBBB", spectro_labels_real)
-                console.log("spectChartData", spectro_data)
-                console.log("optimizeChartLabels", optimizer_labels)
-                console.log("optimizeChartData", optimizer_data)
-
-            }.bind(this),
-            error: function (error) {
-                console.log('SubChannelSmartUpdateERROR', error);
-            }
-        });
         // CSR api
         $.ajax({
             url: 'https://ceres.link/api/app/csr/api_key=' + api_key,
@@ -428,38 +459,45 @@ export default class CampaignsPromotionsAndLoyaltyOptimization extends React.Com
 
     }
     renderChannel = () => {
+        
+        let recommenderTypesChannel = [];
+        let recommenderTitles = [];
+        let recommenderContents = [];
+        let mainTileContentsReal = [];
 
-        let mainTileTitles = [];
-        let spectro_labels = [];
-        let mainTileContents = [];
-        let mainTileContents_real = [];
+        let htmlTxtChannel = [];
+        let spectro_labels_channel = [];
+        let spectro_data_channel = [];
+        let optimizer_labels_channel = [];
+        let optimizer_data_channel = [];
 
-        mainTileTitles = this.state.mainTileTitles_real;
-        spectro_labels = this.state.spectro_labels_real;
-        mainTileContents = this.state.mainTileContents;
+        ///////Data Type///////////////////////
+        recommenderTypesChannel = this.state.recommenderTypesChannel;
 
-        console.log("mainTileContents", mainTileContents)
-        // console.log("LENGTHTHTHTHTHT", mainTileContents.length)
+        /////////Best Recommender Data///////////////
+        recommenderTitles = this.state.recommenderTitles;
+        recommenderContents = this.state.recommenderContents;
 
-        console.log("mainTileTitles", mainTileTitles)
-        console.log("spectro_labels", spectro_labels)
+        //////////Main Tile Data///////////////////////////
+        mainTileContentsReal = this.state.mainTileContentsReal;
 
-        let recommender = [];
-        recommender = mainTileTitles.filter(e => !spectro_labels.includes(e));
-        console.log("recommender", recommender)
+        ////////////////////Recommender Data//////////////
+        htmlTxtChannel = this.state.htmlTxtChannel;
+        spectro_labels_channel = this.state.spectro_labels_channel;
+        spectro_data_channel = this.state.spectro_data_channel;
+        optimizer_labels_channel = this.state.optimizer_labels_channel;
+        optimizer_data_channel = this.state.optimizer_data_channel;
 
-        // mainTileContents.map((temp) => {
-        //     console.log("temp", temp)
-        //     recommender.map((item) => {
+        console.log("recommenderTypesChannel", recommenderTypesChannel)
+        console.log("recommenderTitles", recommenderTitles)
+        console.log("recommenderContents", recommenderContents)
+        console.log("mainTileContentsReal", mainTileContentsReal)
+        console.log("htmlTxtChannel", htmlTxtChannel)
+        console.log("spectro_labels_channel", spectro_labels_channel)
+        console.log("spectro_data_channel", spectro_data_channel)
+        console.log("optimizer_labels_channel", optimizer_labels_channel)
+        console.log("optimizer_data_channel", optimizer_data_channel)
 
-        //         console.log("item", item)
-        //         mainTileContents_real.push(delete temp[item]);
-        //     })
-        // })
-
-        console.log("mainTileContents_real", mainTileContents_real)
-
-        console.log("adsfasdfasf", recommender)
         return (
             <div>asdfadfasdfasda</div>
         )
@@ -505,7 +543,7 @@ export default class CampaignsPromotionsAndLoyaltyOptimization extends React.Com
                                                 </div>
                                             </div>
                                         </Tab.Pane>
-                                        {(this.state.sma_channel !== null && this.state.smart_channel) &&
+                                        {(this.state.sma_channel !== null && this.state.smart_channel !== null) &&
                                             <Tab.Pane eventKey="ple">
                                                 {this.renderChannel()}
                                             </Tab.Pane>
