@@ -291,3 +291,48 @@
     float: right;
     color: #FFFFFF
 }
+////////////////////////Sub Dashboard Campaigns App PLE///////////////////
+.sub_channel {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: space-around;
+    align-content: flex-start
+} 
+.channel_recommender_tile {
+    padding: 10px;
+    width: 220px;
+    height: 220px;
+    background: #8081FF;
+    box-shadow: 10px 10px 5px #888888;
+}
+.channel_recommender_title {
+    font-size: 16px;
+    text-align: center;
+    color: #FFFFFF;
+    font-weight: bold
+}
+
+.channel_recommender_total {
+    font-size: 16px;
+    text-align: center;
+    font-weight: bold;
+    color: #FFFFFF
+}
+
+.channel_recommender_percent {
+    font-size: 16px;
+    text-align: center;
+    font-weight: bold;
+    color: #FFFFFF
+}
+.channel_best_recommender {
+    font-size: 12px;
+    text-align: left;
+    color: #FFFFFF
+}
+.channel_recommender_type {
+    font-size: 12px;
+    text-align: center;
+    color: #FFFFFF
+}

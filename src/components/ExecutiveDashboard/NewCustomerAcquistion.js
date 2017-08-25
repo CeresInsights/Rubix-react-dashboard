@@ -126,39 +126,6 @@ export default class NewCustomerAcquistion extends React.Component {
                 // let data_percent = [];
                 // let data_total = [];
 
-                // avg_age = data["age"]["average"];
-                // delete data["age"];
-                // console.log("DATA", data)
-                // console.log("age", avg_age)
-                // this.setState({
-                //     avg_age: avg_age
-                // })
-            //     data_keys = Object.keys(data)
-            //     console.log("data_keys", data_keys)
-            //     for (let i = 0; i < data_keys.length; i++) {
-            //         data_values.push(data[data_keys[i]]);
-            //     }
-            //     console.log("data_values", data_values)
-            //     for (let k = 0; k < data_values.length; k++) {
-            //         data_description.push(Object.keys(data_values[k]))
-            //     }
-            //     console.log("title", data_description)
-            //     this.setState({
-            //         data_description: data_description
-            //     })
-            //    for (let ii=0; ii<data_keys.lenght; ii++){
-            //        for (let j = 0; j < data_description.length; j++) {
-            //            data_percent.push(data_values[data_description[ii][j]]["percentage"]);
-            //            data_total.push(data_values[data_description[ii][j]]["total"]);
-            //        }
-            //    }
-            //     console.log("percent", data_percent)
-            //     console.log("total", data_total)
-            //     this.setState({
-            //         data_percent: data_percent,
-            //         data_total: data_total
-            //     })
-
             }.bind(this),
             error: function (error) {
                 console.log('ExecNewCustomerError', error);
