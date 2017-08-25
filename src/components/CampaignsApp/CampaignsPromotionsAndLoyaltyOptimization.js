@@ -52,8 +52,12 @@ export default class CampaignsPromotionsAndLoyaltyOptimization extends React.Com
 
             recommenderTitles: [],
             recommenderContents: [],
-            mainTileContentsChannel: []
+            mainTileContentsChannel: [],
 
+            // spectro_data_channel_real: [],
+            // spectro_labels_channel_real: [],
+            // optimizer_data_channel_real: [],
+            // optimizer_labels_channel_real: []
         }
     }
     getObjectKeyIndex(obj, keyToFind) {
@@ -285,7 +289,7 @@ export default class CampaignsPromotionsAndLoyaltyOptimization extends React.Com
     }
     componentDidUpdate() {
 
-        ////////////////////////// Sub dashboard CPTA////////////////////////        
+        ////////////////////////// Sub dashboard Campaigns App CPTA////////////////////////        
         //BDW chart
         (() => {
             $('#bdw_chart').html('');
@@ -502,6 +506,7 @@ export default class CampaignsPromotionsAndLoyaltyOptimization extends React.Com
         // console.log("mainTileContentsReal", mainTileContentsReal)
         console.log("mainTileTitlesChannelDisplay", mainTileTitlesChannelDisplay)
         console.log("mainTileContentsChannel", mainTileContentsChannel)
+        // console.log("WWWWWWWWWWWWWW", mainTileContentsChannel[0])
         console.log("htmlTxtChannel", htmlTxtChannel)
         console.log("spectro_labels_channel", spectro_labels_channel)
         console.log("spectro_data_channel", spectro_data_channel)
@@ -509,9 +514,16 @@ export default class CampaignsPromotionsAndLoyaltyOptimization extends React.Com
         console.log("optimizer_data_channel", optimizer_data_channel)
 
         let channelRecommenders = [];
+        let channelRow = [];
+
+        let spectro_data_channel_real = [];
+        let spectro_labels_channel_real = [];
+        let optimizer_data_channel_real = [];
+        let optimizer_labels_channel_real = [];
+
         return (
             <Grid>
-                <Row className="sub_channel">
+                <Row className="channel_recommender">
                     {recommenderTypesChannel.map((item, index) => {
                         channelRecommenders.push(
                             <div className="channel_recommender_tile">
@@ -522,10 +534,72 @@ export default class CampaignsPromotionsAndLoyaltyOptimization extends React.Com
                                 <p className="channel_recommender_total">{recommenderContents[index]["total"]}</p>
                             </div>
                         )
-                       
                     })
                     }
                     {channelRecommenders}
+                </Row>
+                <Row className="channel_main">
+                    {
+
+                        recommenderTypesChannel.map((item, index) => {
+                            <h1 className="channel_type">{item}</h1>
+                            console.log("INDEX", index)
+                            spectro_data_channel_real = spectro_data_channel[index];
+                            spectro_data_channel_real = spectro_labels_channel[index];
+
+                            console.log("AAAAA", spectro_data_channel_real)
+                            console.log("BBBBB", spectro_data_channel_real)
+                            //////////////////////////////////Sub dashboard Campaigns App PLE//////////////////
+
+                            ////////////////Main Tiles Display///////////////////
+                            mainTileTitlesChannelDisplay[index].map((title) => {
+
+                                //////////////////////////////////Sub dashboard Campaigns App PLE Tab//////////////////
+
+                                Math.random() * 2;
+                                console.log("RANDOM", Math.random() * 2)
+
+                                if (Math.random() * 2 < 1) {
+                                    channelRow.push(
+                                        <Row className="channel_row">
+                                            <Col md={3} className="channel_main_tile">
+                                                <p className="channel_main_title">{title}</p>
+                                                <p className="channel_main_percent">{mainTileContentsChannel[index][title]["percentage"]}</p>
+                                                <p className="channel_main_total">{mainTileContentsChannel[index][title]["total"]}</p>
+                                            </Col>
+                                            <Col md={3} className="channel_spectro_chart">
+                                                <div id="channel_spectro_column_chart"></div>
+                                            </Col>
+                                            <Col md={3} className="channel_optimmizer_chart">
+                                                <div id="channel_optimizer_column_chart"></div>
+                                            </Col>
+                                            <Col md={3} className="channel_recommender_text_tile">
+                                                <p className="channel_recomender_text">{htmlTxtChannel[index]}</p>
+                                            </Col>
+                                        </Row>)
+                                } else {
+                                    channelRow.push(
+                                        <Row className="channel_row">
+                                            <Col xs={3} className="channel_main_tile">
+                                                <p className="channel_main_title">{title}</p>
+                                                <p className="channel_main_percent">{mainTileContentsChannel[index][title]["percentage"]}</p>
+                                                <p className="channel_main_total">{mainTileContentsChannel[index][title]["total"]}</p>
+                                            </Col>
+                                            <Col xs={3} className="channel_spectro_chart">
+                                                <div id="channel_spectro_bar_chart"></div>
+                                            </Col>
+                                            <Col xs={3} className="channel_optimmizer_chart">
+                                                <div id="channel_spectro_bar_chart"></div>
+                                            </Col>
+                                            <Col xs={3} className="channel_recommender_text_tile">
+                                                <p className="channel_recomender_text">{htmlTxtChannel[index]}</p>
+                                            </Col>
+                                        </Row>)
+                                }
+                            })
+                        })
+                    }
+                    {channelRow}
                 </Row>
             </Grid>
         )

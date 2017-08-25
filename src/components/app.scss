@@ -292,7 +292,8 @@
     color: #FFFFFF
 }
 ////////////////////////Sub Dashboard Campaigns App PLE///////////////////
-.sub_channel {
+///////best recommender////////////
+.channel_recommender {
     display: flex;
     flex-direction: row;
     flex-wrap: wrap;
@@ -334,5 +335,50 @@
 .channel_recommender_type {
     font-size: 12px;
     text-align: center;
+    color: #FFFFFF
+}
+////////////sma_channel+recommender///////////////
+.channel_row {
+    margin-top: 30px
+}
+.channel_recommender_text_tile {
+    float: right;
+    padding: 10px;
+    width: 250px;
+    height: 250px;
+    background: #FF7F27;;
+    box-shadow: 10px 10px 5px #888888;
+}
+.channel_main_tile {
+    padding: 10px;
+    width: 200px;
+    height: 170px;
+    background: #8081FF;
+    box-shadow: 10px 10px 5px #888888;
+}
+.channel_recomender_text {
+    font-size: 10px;
+    text-align: center;
+    font-weight: bold;
+    color: #FFFFFF
+}
+.channel_main_title {
+    font-size: 16px;
+    text-align: center;
+    color: #FFFFFF;
+    font-weight: bold
+}
+
+.channel_main_total {
+    font-size: 16px;
+    text-align: center;
+    font-weight: bold;
+    color: #FFFFFF
+}
+
+.channel_main_percent {
+    font-size: 16px;
+    text-align: center;
+    font-weight: bold;
     color: #FFFFFF
 }
