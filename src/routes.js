@@ -20,11 +20,12 @@ import Homepage from './components/Homepage';
 import ExecutiveDashboard from './components/ExecutiveDashboard/index';
 
 import Contact from './components/Contact';
-import SendEmail from './components/SendEmail';
+import LoadData from './components/LoadData';
 import Profile from './components/Profile';
 import DataBrowser from './components/DataBrowser';
 import Login from './components/Login';
 import Signup from './components/Signup';
+import QueueEmail from './components/QueueEmail';
 
 //Sub products dashboards
 import CampaignsPromotionsAndLoyaltyDashboard from './components/CampaignsApp/index';
@@ -83,7 +84,7 @@ const routes = (
     <Route path='executivedashboard' component={ExecutiveDashboard} />
     <Route path='databrowser' component={DataBrowser} />
     <Route path='contact' component={Contact} />
-    <Route path='sendemail' component={SendEmail} />
+    <Route path='loaddata' component={LoadData} />
     <Route path='profile' component={Profile} />
     <Route path='sub_campaigns' component={CampaignsPromotionsAndLoyaltyDashboard} />
     <Route path='sub_promotion' component={ProductPromotionsByChannel} />
@@ -98,6 +99,7 @@ const basicRoutes = (
   <Route>
     <Route path='login' component={Login} />
     <Route path='signup' component={Signup} />
+    <Route path='queueemail' component={QueueEmail} />
   </Route>
 );
 

@@ -245,7 +245,7 @@ class ApplicationSidebar extends React.Component {
                   <SidebarNavItem glyph='icon-ikons-login' name='Login' href={::this.getPath('login')} />
                   <SidebarNavItem glyph='icon-simple-line-icons-users' name='Signup' href={::this.getPath('signup')} />
                   <SidebarNavItem glyph='icon-fontello-contacts' name='Contact Us' href={::this.getPath('contact')} />
-                  <SidebarNavItem glyph='icon-feather-inbox' name='Send Email' href={::this.getPath('sendemail')} />
+                  <SidebarNavItem glyph='icon-feather-inbox' name='Load Data' href={::this.getPath('loaddata')} />
                   <SidebarNavItem glyph='icon-outlined-profile' name='Profile' href={::this.getPath('profile')} />
                   <SidebarNavItem glyph='icon-mfizz-database' name='Data Browser' href={::this.getPath('databrowser')} />
                 </SidebarNav>
