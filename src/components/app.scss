@@ -23,11 +23,11 @@
 }
 
 .asi_tile {
+    margin:0 auto;
     width: 200px;
     height: 200px;
     padding: 10px;
     background: #FF7F27;
-    margin-left: 44%
 }
 
 .daysTxt,
@@ -66,6 +66,7 @@
     background: #FF7F27;
     box-shadow: 10px 10px 5px #888888;
 }
+
 .sma_channel_title {
     font-size: 20px;
     text-align: left;
@@ -103,6 +104,28 @@
     color: #FFFFFF
 }
 
+//Executive Dashboard CSR
+.csr_tile {
+    margin:20px auto;
+    padding: 10px;
+    width: 200px;
+    height: 200px;
+    background: #FF7F27;
+    box-shadow: 10px 10px 5px #888888;
+}
+.csr_title {
+    text-align: center;
+    font-size: 16px;
+    font-weight: bold;
+    color: #FFFFFF
+}
+.csr_content {
+    margin-top: 50px;
+    text-align: center;
+    font-size: 18px;
+    font-weight: bold;
+    color: #FFFFFF
+}
 //////////////////////Executive Dashboard ProductPromotionByChannel//////////////////
 //////////////////Shopping Mode Analytics//////////////
 .sma_product_tile {
@@ -114,6 +137,7 @@
     background: #8081FF;
     box-shadow: 10px 10px 5px #888888;
 }
+
 .sma_product_title {
     font-size: 20px;
     text-align: left;
@@ -150,6 +174,7 @@
     float: right;
     color: #FFFFFF
 }
+
 //////////////////Digital Shopping Activity//////////////
 .dsa_tile {
     float: left;
@@ -160,6 +185,7 @@
     background: #8081FF;
     box-shadow: 10px 10px 5px #888888;
 }
+
 .dsa_title {
     font-size: 20px;
     text-align: left;
@@ -196,9 +222,9 @@
     float: right;
     color: #FFFFFF
 }
+
 ////////////////// Executive Dashboard Product Bundles By Customer Behavior//////////////
 ///////////////Customer Payment Preferences/////////////////
-
 .prod_pay_tile {
     float: left;
     margin: 50px;
@@ -208,6 +234,7 @@
     background: #8081FF;
     box-shadow: 10px 10px 5px #888888;
 }
+
 .prod_pay_title {
     font-size: 20px;
     text-align: left;
@@ -244,6 +271,7 @@
     float: right;
     color: #FFFFFF
 }
+
 ///////////////Customer Payment Preferences/////////////////
 //// Customer Product Appetite///////
 .prod_product_tile {
@@ -255,6 +283,7 @@
     background: #8081FF;
     box-shadow: 10px 10px 5px #888888;
 }
+
 .prod_product_title {
     font-size: 20px;
     text-align: left;
@@ -291,22 +320,42 @@
     float: right;
     color: #FFFFFF
 }
+///////////////////////////Executive Dashboard New Customer Aquistion/Predictive Market Segmentation//////////////////////
+.demographices_row {
+    margin:10px
+}
+.age_tile_area {
+    padding: 10px
+}
+.pms_age_tile {
+    margin: 0 auto;
+    padding: 10px;
+    width: 200px;
+    height: 200px;
+    background: #8081FF;
+    box-shadow: 10px 10px 5px #888888;
+}
+.pms_age_tile_header {
+    font-size: 20px;
+    text-align: center;
+    color: #FFFFFF;
+}
+.pms_age_tile_content {
+    margin-top: 40px;
+    font-size: 42px;
+    text-align: center;
+    color: #FFFFFF;
+}
 ////////////////////////Sub Dashboard Campaigns App PLE///////////////////
 ///////best recommender////////////
-.channel_recommender {
-    display: flex;
-    flex-direction: row;
-    flex-wrap: wrap;
-    justify-content: space-around;
-    align-content: flex-start
-} 
-.channel_recommender_tile {
+.channel_recommender_tile, .pay_recommender_tile, .dsa_recommender_tile, .prod_recommender_tile {
     padding: 10px;
     width: 220px;
     height: 220px;
     background: #8081FF;
     box-shadow: 10px 10px 5px #888888;
 }
+
 .channel_recommender_title {
     font-size: 16px;
     text-align: center;
@@ -327,58 +376,56 @@
     font-weight: bold;
     color: #FFFFFF
 }
-.channel_best_recommender {
+
+.channel_best_recommender, .pay_best_recommender, .dsa_best_recommender, .prod_best_recommender {
     font-size: 12px;
     text-align: left;
     color: #FFFFFF
 }
-.channel_recommender_type {
-    font-size: 12px;
+
+.channel_recommender_type, .pay_recommender_type, .dsa_recommender_type, .prod_recommender_type {
+    font-size: 16px;
     text-align: center;
     color: #FFFFFF
 }
-////////////sma_channel+recommender///////////////
-.channel_row {
-    margin-top: 30px
-}
-.channel_recommender_text_tile {
-    float: right;
+
+////////////all sub dashbard recommender text tiles///////////////
+.channel_recommender_text_tile, .pay_recommender_text_tile, .dsa_recommender_text_tile, .prod_recommender_text_tile {
     padding: 10px;
     width: 250px;
     height: 250px;
-    background: #FF7F27;;
+    background: #FF7F27;
     box-shadow: 10px 10px 5px #888888;
 }
-.channel_main_tile {
-    padding: 10px;
-    width: 200px;
-    height: 170px;
-    background: #8081FF;
-    box-shadow: 10px 10px 5px #888888;
-}
-.channel_recomender_text {
+
+.channel_recommender_text, .pay_recommender_text, .dsa_recommender_text, .prod_recommender_text {
     font-size: 10px;
     text-align: center;
     font-weight: bold;
     color: #FFFFFF
 }
-.channel_main_title {
+
+.channel_recommender_title, .pay_recommender_title, .dsa_recommender_titile, .prod_recommender_title{
     font-size: 16px;
     text-align: center;
     color: #FFFFFF;
     font-weight: bold
 }
 
-.channel_main_total {
+.channel_recommender_total, .pay_recommender_total, .dsa_recommender_total, .prod_recommender_total {
     font-size: 16px;
     text-align: center;
     font-weight: bold;
     color: #FFFFFF
 }
 
-.channel_main_percent {
+.channel_recommender_percent, .pay_recommender_percent, .dsa_recommender_percent, .prod_recommender_percent {
     font-size: 16px;
     text-align: center;
     font-weight: bold;
     color: #FFFFFF
 }
+.channel_row, .pay_row, .prod_row, .dsa_row {
+    margin: 10px
+}
+

@@ -50,14 +50,9 @@ export default class CampaignsPromotionsAndLoyaltyOptimization extends React.Com
             optimizer_labels_channel: [],
             optimizer_data_channel: [],
 
-            recommenderTitles: [],
-            recommenderContents: [],
+            recommenderTitlesChannel: [],
+            bestRecommenderContentsChannel: [],
             mainTileContentsChannel: [],
-
-            // spectro_data_channel_real: [],
-            // spectro_labels_channel_real: [],
-            // optimizer_data_channel_real: [],
-            // optimizer_labels_channel_real: []
         }
     }
     getObjectKeyIndex(obj, keyToFind) {
@@ -83,28 +78,29 @@ export default class CampaignsPromotionsAndLoyaltyOptimization extends React.Com
         let mainTileContentsChannel = [];
         let mainTileTitlesChannel = [];
 
-        let recommenderTypesChannel = [];
         let spectro_labels_channel = [];
         let spectro_data_channel = [];
-        let recommenderContentsChannel = [];
+        let spectro_labels_real_channel = [];
+        let spectro_labels_real = [];
         let optimizer_data_channel = [];
         let optimizer_labels_channel = [];
         let htmlTxtChannel = [];
 
         let mainTileTitlesRealChannel = [];
-        let spectro_labels_real_channel = [];
         let mainTileContents_real_channel = [];
 
         let mainTileTypes = [];
         let mainTileTitlesReal = [];
-        let spectro_labels_real = [];
         let mainTileContents = [];
-
-        let recommenderContentsTemp = [];
-        let recommenderContents = [];
-        let recommenderTitles = [];
         let mainTileContentsReal = [];
         let mainTileContentsRealTemp = [];
+
+        let recommenderTypesChannel = [];
+        let recommenderContentsTemp = [];
+        let bestRecommenderContentsChannel = [];
+        let recommenderContentsChannel = [];
+        let recommenderTitlesChannel = [];
+
 
         // let mainTileTitles = [];
         let mainTileTitlesChannelDisplay = [];
@@ -194,14 +190,7 @@ export default class CampaignsPromotionsAndLoyaltyOptimization extends React.Com
                             optimizer_labels_channel.push((item["optimizer_chart"])["labels"]);
                             optimizer_data_channel.push((item["optimizer_chart"])["data"]);
                         })
-
-                        // this.setState({
-                        //     htmlTxtChannel: htmlTxtChannel,
-                        //     spectro_labels_channel: spectro_labels_channel,
-                        //     spectro_data_channel: spectro_data_channel,
-                        //     optimizer_labels_channel: optimizer_labels_channel,
-                        //     optimizer_data_channel: optimizer_data_channel
-                        // })
+                      
                         ///// recommender labels array for getting best recommender data////////
                         spectro_labels_channel.map((itemArray) => {
                             itemArray.map((item) => {
@@ -210,23 +199,23 @@ export default class CampaignsPromotionsAndLoyaltyOptimization extends React.Com
                         })
 
                         ////////////////Best Recommender Fetch////////////////////
-                        recommenderTitles = mainTileTitlesRealChannel.filter(e => !spectro_labels_real_channel.includes(e));
+                        recommenderTitlesChannel = mainTileTitlesRealChannel.filter(e => !spectro_labels_real_channel.includes(e));
 
                         //////////////////// Best Recommender Data and Main Tile Data Fetch ///////////////
                         /// Remove Best Recommender in main tile data and Best Recommender Data Fetch
                         mainTileContentsChannel.map((temp) => {
-                            recommenderTitles.map((item) => {
+                            recommenderTitlesChannel.map((item) => {
                                 recommenderContentsTemp.push(temp[item])
-                                delete temp[item]
+                                // delete temp[item]
                             })
                         })
-                        mainTileContentsChannel.map((temp) => {
-                            mainTileTitlesChannelDisplay.push(Object.keys(temp))
-                        })
+                        // mainTileContentsChannel.map((temp) => {
+                        //     mainTileTitlesChannelDisplay.push(Object.keys(temp))
+                        // })
                         // console.log("Wwwwwwwwwwwwwwwwww", mainTileTitlesChannelDisplay)
                         recommenderContentsTemp.map((item) => {
                             if (item !== undefined) {
-                                recommenderContents.push(item)
+                                bestRecommenderContentsChannel.push(item)
                             }
                         })
                         /////////Main Tile Data Fetch/////////////
@@ -247,11 +236,11 @@ export default class CampaignsPromotionsAndLoyaltyOptimization extends React.Com
                         // console.log("mainTileContentsChannel", mainTileContentsChannel)
                         this.setState({
                             recommenderTypesChannel: recommenderTypesChannel,
-                            recommenderTitles: recommenderTitles,
-                            recommenderContents: recommenderContents,
-                            // mainTileContentsReal: mainTileContentsReal
-                            mainTileContentsChannel: mainTileContentsChannel,
-                            mainTileTitlesChannelDisplay: mainTileTitlesChannelDisplay,
+                            recommenderTitlesChannel: recommenderTitlesChannel,
+                            bestRecommenderContentsChannel: bestRecommenderContentsChannel,
+                            // // mainTileContentsReal: mainTileContentsReal
+                            // mainTileContentsChannel: mainTileContentsChannel,
+                            // mainTileTitlesChannelDisplay: mainTileTitlesChannelDisplay,
 
                             htmlTxtChannel: htmlTxtChannel,
                             spectro_labels_channel: spectro_labels_channel,
@@ -286,9 +275,10 @@ export default class CampaignsPromotionsAndLoyaltyOptimization extends React.Com
             }
         });
 
+
+
     }
     componentDidUpdate() {
-
         ////////////////////////// Sub dashboard Campaigns App CPTA////////////////////////        
         //BDW chart
         (() => {
@@ -467,147 +457,240 @@ export default class CampaignsPromotionsAndLoyaltyOptimization extends React.Com
         })();
 
     }
+    renderSpectroLineChart = (index) => {
+
+        (() => {
+            $('#channel_spectro_line_chart' + index).html('');
+            var chart = new Rubix('#channel_spectro_line_chart' + index, {
+                height: 250,
+                width: 350,
+                title: 'Comparative',
+                titleColor: '#D71F4B',
+                axis: {
+                    x: {
+                        type: 'ordinal',
+                    },
+                    y: {
+                        type: 'linear',
+                        tickFormat: 'd'
+                    }
+                },
+                // tooltip: {
+                //   color: '#D71F4B',
+                //   format: {
+                //     y: '.0f'
+                //   }
+                // },
+                margin: {
+                    left: 50
+                },
+                grouped: false,
+                show_markers: true
+            });
+
+            var spectrogram = chart.line_series({
+                name: 'Spectrogram',
+                color: '#D71F4B'
+            });
+            var labels = [];
+            var data = [];
+            var tmp_array = [];
+
+            labels = this.state.spectro_labels_channel[index];
+            data = this.state.spectro_data_channel[index];
+
+            labels.map((label, index) => {
+                var tmp = {};
+                tmp.x = label;
+                tmp.y = data[index];
+                tmp_array.push(tmp);
+            })
+            spectrogram.addData(tmp_array);
+        })();
+
+
+    }
+    renderOptimizerColumnChart = (index) => {
+        (() => {
+            $('#channel_optimizer_column_chart' + index).html('');
+            var chart = new Rubix('#channel_optimizer_column_chart' + index, {
+                height: 250,
+                width: 350,
+                title: 'Comparative',
+                titleColor: '#D71F4B',
+                axis: {
+                    x: {
+                        type: 'ordinal',
+                    },
+                    y: {
+                        type: 'linear',
+                        tickFormat: 'd'
+                    }
+                },
+                // tooltip: {
+                //   color: '#D71F4B',
+                //   format: {
+                //     y: '.0f'
+                //   }
+                // },
+                margin: {
+                    left: 50
+                },
+                grouped: false,
+                show_markers: true
+            });
+
+            var optimizer_column = chart.column_series({
+                name: 'Optimizer',
+                color: '#D71F4B'
+            });
+            var labels = [];
+            var data = [];
+            var tmp_array = [];
+
+            labels = this.state.optimizer_labels_channel[index];
+            data = this.state.optimizer_data_channel[index];
+
+            labels.map((label, index) => {
+                var tmp = {};
+                tmp.x = label;
+                tmp.y = data[index];
+                tmp_array.push(tmp);
+            })
+            optimizer_column.addData(tmp_array);
+        })();
+
+
+    }
+    renderOptimizerBarChart = (index) => {
+        (() => {
+            $('#channel_optimizer_bar_chart' + index).html('');
+            var chart = new Rubix('#channel_optimizer_bar_chart' + index, {
+                height: 250,
+                width: 350,
+                title: 'Comparative',
+                titleColor: '#D71F4B',
+                axis: {
+                    x: {
+                        type: 'ordinal',
+                    },
+                    y: {
+                        type: 'linear',
+                        tickFormat: 'd'
+                    }
+                },
+                // tooltip: {
+                //   color: '#D71F4B',
+                //   format: {
+                //     y: '.0f'
+                //   }
+                // },
+                margin: {
+                    left: 50
+                },
+                grouped: false,
+                show_markers: true
+            });
+
+            var optimizer_bar = chart.bar_series({
+                name: 'Optimizer',
+                color: '#D71F4B'
+            });
+            var labels = [];
+            var data = [];
+            var tmp_array = [];
+
+            labels = this.state.optimizer_labels_channel[index];
+            data = this.state.optimizer_data_channel[index];
+
+            labels.map((label, index) => {
+                var tmp = {};
+                tmp.x = label;
+                tmp.y = data[index];
+                tmp_array.push(tmp);
+            })
+            optimizer_bar.addData(tmp_array);
+        })();
+
+
+    }
     renderChannel = () => {
 
         let recommenderTypesChannel = [];
-        let recommenderTitles = [];
-        let recommenderContents = [];
-        // let mainTileContentsReal = [];
-        let mainTileContentsChannel = [];
-        let mainTileTitlesChannelDisplay = [];
-
+        let recommenderTitlesChannel = [];
+        let bestRecommenderContentsChannel = [];
         let htmlTxtChannel = [];
-        let spectro_labels_channel = [];
-        let spectro_data_channel = [];
-        let optimizer_labels_channel = [];
-        let optimizer_data_channel = [];
-
         ///////Data Type///////////////////////
         recommenderTypesChannel = this.state.recommenderTypesChannel;
-
         /////////Best Recommender Data///////////////
-        recommenderTitles = this.state.recommenderTitles;
-        recommenderContents = this.state.recommenderContents;
-
-        //////////Main Tile Data///////////////////////////
-        // mainTileContentsReal = this.state.mainTileContentsReal;
-        mainTileContentsChannel = this.state.mainTileContentsChannel;
-        mainTileTitlesChannelDisplay = this.state.mainTileTitlesChannelDisplay;
+        recommenderTitlesChannel = this.state.recommenderTitlesChannel;
+        bestRecommenderContentsChannel = this.state.bestRecommenderContentsChannel;
         ////////////////////Recommender Data//////////////
         htmlTxtChannel = this.state.htmlTxtChannel;
-        spectro_labels_channel = this.state.spectro_labels_channel;
-        spectro_data_channel = this.state.spectro_data_channel;
-        optimizer_labels_channel = this.state.optimizer_labels_channel;
-        optimizer_data_channel = this.state.optimizer_data_channel;
-
-        console.log("recommenderTypesChannel", recommenderTypesChannel)
-        console.log("recommenderTitles", recommenderTitles)
-        console.log("recommenderContents", recommenderContents)
-        // console.log("mainTileContentsReal", mainTileContentsReal)
-        console.log("mainTileTitlesChannelDisplay", mainTileTitlesChannelDisplay)
-        console.log("mainTileContentsChannel", mainTileContentsChannel)
-        // console.log("WWWWWWWWWWWWWW", mainTileContentsChannel[0])
-        console.log("htmlTxtChannel", htmlTxtChannel)
-        console.log("spectro_labels_channel", spectro_labels_channel)
-        console.log("spectro_data_channel", spectro_data_channel)
-        console.log("optimizer_labels_channel", optimizer_labels_channel)
-        console.log("optimizer_data_channel", optimizer_data_channel)
-
-        let channelRecommenders = [];
-        let channelRow = [];
-
-        let spectro_data_channel_real = [];
-        let spectro_labels_channel_real = [];
-        let optimizer_data_channel_real = [];
-        let optimizer_labels_channel_real = [];
-
         return (
             <Grid>
-                <Row className="channel_recommender">
-                    {recommenderTypesChannel.map((item, index) => {
-                        channelRecommenders.push(
-                            <div className="channel_recommender_tile">
-                                <p className="channel_best_recommender">Best Case</p>
-                                <p className="channel_recommender_type">{item}</p>
-                                <p className="channel_recommender_title">{recommenderTitles[index]}</p>
-                                <p className="channel_recommender_percent">{recommenderContents[index]["percentage"]}</p>
-                                <p className="channel_recommender_total">{recommenderContents[index]["total"]}</p>
-                            </div>
-                        )
+                {
+                    recommenderTypesChannel.map((item, index) => {
+                        //////////////////////////////////Sub dashboard Campaigns App PLE//////////////////
+                        let num = Math.random() * 2;
+                        console.log("MATH", num)
+                        return <Row key={index} className="channel_row">
+                            <Col md={3}>
+                                <div className="channel_recommender_tile">
+                                    <p className="channel_best_recommender">Best Case</p>
+                                    <p className="channel_recommender_type">{item}</p>
+                                    <p className="channel_recommender_title">{recommenderTitlesChannel[index]}</p>
+                                    <p className="channel_recommender_percent">{bestRecommenderContentsChannel[index]["percentage"]}</p>
+                                    <p className="channel_recommender_total">{bestRecommenderContentsChannel[index]["total"]}</p>
+                                </div>
+                            </Col>
+                            <Col md={3} className="channel_spectro_chart">
+                                <div id={'channel_spectro_line_chart' + index}></div>
+                            </Col>
+                            <Col md={3} className="channel_optimmizer_chart">
+                                <div id={num < 1 ? "channel_optimizer_column_chart" + index : "channel_optimizer_bar_chart" + index}></div>
+                            </Col>
+                            <Col md={3}>
+                                <div className="channel_recommender_text_tile">
+                                    <p className="channel_recommender_text">{htmlTxtChannel[index]}</p>
+                                </div>
+                            </Col>
+                        </Row>
                     })
-                    }
-                    {channelRecommenders}
-                </Row>
-                <Row className="channel_main">
-                    {
-
-                        recommenderTypesChannel.map((item, index) => {
-                            <h1 className="channel_type">{item}</h1>
-                            console.log("INDEX", index)
-                            spectro_data_channel_real = spectro_data_channel[index];
-                            spectro_data_channel_real = spectro_labels_channel[index];
-
-                            console.log("AAAAA", spectro_data_channel_real)
-                            console.log("BBBBB", spectro_data_channel_real)
-                            //////////////////////////////////Sub dashboard Campaigns App PLE//////////////////
-
-                            ////////////////Main Tiles Display///////////////////
-                            mainTileTitlesChannelDisplay[index].map((title) => {
-
-                                //////////////////////////////////Sub dashboard Campaigns App PLE Tab//////////////////
-
-                                Math.random() * 2;
-                                console.log("RANDOM", Math.random() * 2)
-
-                                if (Math.random() * 2 < 1) {
-                                    channelRow.push(
-                                        <Row className="channel_row">
-                                            <Col md={3} className="channel_main_tile">
-                                                <p className="channel_main_title">{title}</p>
-                                                <p className="channel_main_percent">{mainTileContentsChannel[index][title]["percentage"]}</p>
-                                                <p className="channel_main_total">{mainTileContentsChannel[index][title]["total"]}</p>
-                                            </Col>
-                                            <Col md={3} className="channel_spectro_chart">
-                                                <div id="channel_spectro_column_chart"></div>
-                                            </Col>
-                                            <Col md={3} className="channel_optimmizer_chart">
-                                                <div id="channel_optimizer_column_chart"></div>
-                                            </Col>
-                                            <Col md={3} className="channel_recommender_text_tile">
-                                                <p className="channel_recomender_text">{htmlTxtChannel[index]}</p>
-                                            </Col>
-                                        </Row>)
-                                } else {
-                                    channelRow.push(
-                                        <Row className="channel_row">
-                                            <Col xs={3} className="channel_main_tile">
-                                                <p className="channel_main_title">{title}</p>
-                                                <p className="channel_main_percent">{mainTileContentsChannel[index][title]["percentage"]}</p>
-                                                <p className="channel_main_total">{mainTileContentsChannel[index][title]["total"]}</p>
-                                            </Col>
-                                            <Col xs={3} className="channel_spectro_chart">
-                                                <div id="channel_spectro_bar_chart"></div>
-                                            </Col>
-                                            <Col xs={3} className="channel_optimmizer_chart">
-                                                <div id="channel_spectro_bar_chart"></div>
-                                            </Col>
-                                            <Col xs={3} className="channel_recommender_text_tile">
-                                                <p className="channel_recomender_text">{htmlTxtChannel[index]}</p>
-                                            </Col>
-                                        </Row>)
-                                }
-                            })
-                        })
-                    }
-                    {channelRow}
-                </Row>
+                }
             </Grid>
         )
+    }
+    onTabSelect = (key) => {
+        let recommenderTypesChannel = [];
+        recommenderTypesChannel = this.state.recommenderTypesChannel;
+        if (key === 'ple') {
+            recommenderTypesChannel.map((item, index) => {
+                setTimeout(() => {
+                    let a = document.getElementById('channel_spectro_line_chart' + index);
+                    if (a) {
+                        this.renderSpectroLineChart(index);
+                    }
+                }, 300)
+                setTimeout(() => {
+                    let b = document.getElementById('channel_optimizer_column_chart' + index);
+                    if (b) {
+                        this.renderOptimizerColumnChart(index);
+                    }
+                }, 300)
+                setTimeout(() => {
+                    let c = document.getElementById('channel_optimizer_bar_chart' + index);
+                    if (c) {
+                        this.renderOptimizerBarChart(index);
+                    }
+                }, 300)
+            })
+        }
 
     }
     render() {
         return (
-            <PanelTabContainer id='campaigns_promotions_loyaltypanel' defaultActiveKey="cpta">
+            <PanelTabContainer id='campaigns_promotions_loyaltypanel' defaultActiveKey="cpta" onSelect={this.onTabSelect}>
                 <Panel>
                     <PanelHeader className='bg-blue fg-white' style={{ display: 'block' }}>
                         <Grid>
@@ -654,10 +737,12 @@ export default class CampaignsPromotionsAndLoyaltyOptimization extends React.Com
                                         <Tab.Pane eventKey="csr">
                                             <div id="csr_pie_chart"></div>
                                             <div id="csr_bar_chart"></div>
-                                            <div className="csr_tile">
-                                                <p className="csr_title">Total Market Spend</p>
-                                                <p className="csr_content">{this.state.csr_total_market}</p>
-                                            </div>
+                                            <Col md={12}>
+                                                <div className="csr_tile">
+                                                    <p className="csr_title">Total Market Spend</p>
+                                                    <p className="csr_content">{this.state.csr_total_market}</p>
+                                                </div>
+                                            </Col>
                                         </Tab.Pane>
                                     </Tab.Content>
                                 </Col>

@@ -29,84 +29,17 @@ import {
     PanelTabContainer,
     ButtonGroup
 } from '@sketchpixy/rubix';
-class MaleFemaleChart extends React.Component {
-    componentDidMount() {
-        var chart = new Rubix('#male-female-chart', {
-            height: 200,
-            title: 'Predict Customer Lifetime Value',
-            subtitle: '',
-            axis: {
-                x: {
-                    type: 'ordinal',
-                    tickFormat: 'd',
-                    tickCount: 2,
-                    label: 'Time'
-                },
-                y: {
-                    type: 'linear',
-                    tickFormat: 'd'
-                }
-            },
-            tooltip: {
-                theme_style: 'dark',
-                format: {
-                    y: '.0f'
-                },
-                abs: {
-                    y: true
-                }
-            },
-            stacked: true,
-            interpolate: 'linear',
-            show_markers: true
-        });
-
-        var column = chart.column_series({
-            name: 'Current Population',
-            color: '#2D89EF',
-            marker: 'cross'
-        });
-
-        var data = [
-            { x: 2005, y: 21 },
-            { x: 2006, y: 44 },
-            { x: 2007, y: 14 },
-            { x: 2008, y: 18 },
-            { x: 2009, y: 23 },
-            { x: 2010, y: 21 }
-        ];
-        column.addData(data);
-
-        var column1 = chart.column_series({
-            name: 'Predicted Population',
-            color: '#FF0097',
-            marker: 'diamond'
-        });
-
-        var data1 = [
-            { x: 2005, y: -79 },
-            { x: 2006, y: -56 },
-            { x: 2007, y: -86 },
-            { x: 2008, y: -82 },
-            { x: 2009, y: -77 },
-            { x: 2010, y: -79 }
-        ];
-        column1.addData(data1);
-    }
-    render() {
-        return <div id='male-female-chart'></div>;
-    }
-}
 
 export default class NewCustomerAcquistion extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            avg_age: 0,
-            data_values_keys: [],
-            data_percent: [],
-            data_total: [],
-            data_description: []
+            demographics: {},
+            age_avg: 0,
+            demo_contents: [],
+            demo_contents_keys: [],
+            demo_keys: [],
+            demo_percent_total: []
         }
     }
     componentDidMount() {
@@ -119,13 +52,44 @@ export default class NewCustomerAcquistion extends React.Component {
             dataType: 'json',
             type: 'GET',
             success: function (data) {
-                // let avg_age = 0;
-                // let data_keys = [];
-                // let data_values = [];
-                // let data_description = [];
-                // let data_percent = [];
-                // let data_total = [];
+                let age_avg = 0;
+                let demographics = {};
+                let demo_keys = [];
+                let demo_contents = [];
+                let demo_contents_keys = [];
+                let demo_percent_total = [];
+                let demo_percent_total_item = [];
 
+                demographics = data;
+                age_avg = data["age"]["average"];
+
+                delete data["age"];
+                demo_keys = Object.keys(data);
+                demo_keys.map((item) => {
+                    demo_contents.push(data[item])
+                })
+                demo_contents.map((content) => {
+                    demo_contents_keys.push(Object.keys(content));
+                })
+                console.log("demo_contents_keys", demo_contents_keys)
+                demo_contents.map((content) => {
+                    demo_contents_keys.map((itemArray, index) => {
+                        itemArray.map((item) => {
+                            demo_percent_total_item.push(content[item])
+                        })
+                        demo_percent_total.push(demo_percent_total_item)
+
+                    })
+                    console.log("demo_percent_total", demo_percent_total)
+                })
+                this.setState({
+                    demographics: demographics,
+                    age_avg: age_avg,
+                    demo_keys: demo_keys,
+                    demo_contents: demo_contents,
+                    demo_contents_keys: demo_contents_keys,
+                    demo_percent_total: demo_percent_total
+                })
             }.bind(this),
             error: function (error) {
                 console.log('ExecNewCustomerError', error);
@@ -133,78 +97,197 @@ export default class NewCustomerAcquistion extends React.Component {
         });
     }
     componentDidUpdate() {
-        // (() => {
-        //     ///////////////// Predictive Market Segmentation Charts/////////////////////
-        //     ///////////// Predictive Market Segmentation Bar Column Chart//////////////
-        //     $('#pms_bar_chart').html('');
-        //     var pms_bar_chart = new Rubix('#pms_bar_chart', {
-        //         height: 100,
-        //         title: 'Predictive Market Segmentation',
-        //         titleColor: '#D71F4B',
-        //         axis: {
-        //             x: {
-        //                 type: 'ordinal',
-        //             },
-        //             y: {
-        //                 type: 'linear',
-        //                 tickFormat: 'd',
-        //                 tickCount: 5
-        //             }
-        //         },
-        //         // tooltip: {
-        //         //   color: '#D71F4B',
-        //         //   format: {
-        //         //     y: '.0f'
-        //         //   }
-        //         // },
-        //         margin: {
-        //             left: 50
-        //         },
-        //         grouped: false,
-        //         show_markers: true
-        //     });
+    }
+    renderDemographicsPieChart = (index) => {
+        (() => {
+            var color_array = ['#8064A2', '#C0504D', '#4F81BD', '#9BBB59'];
+            $('#demographics_pie_chart' + index).html('');
+            var chart = Rubix.Pie('#demographics_pie_chart' + index, {
+                title: 'Demographics Pie',
+                height: 250
+            });
 
-        //     var bar = pms_bar_chart.column_series({
-        //         name: 'Shopping Rate',
-        //         color: '#D71F4B'
-        //     });
+            var labels = [];
+            var data = [];
+            var tmp_array = [];
 
-        //     var tmp = this.state.bdw_data;
-        //     var tmp_array = [];
-        //     for (var i in tmp) {
-        //         var t = new Object;
-        //         t.x = i;
-        //         t.y = tmp[i];
-        //         tmp_array.push(t);
-        //     }
-        //     bar.addData(tmp_array);
+            labels = this.state.demo_contents_keys[index];
+            data = this.state.demo_percent_total[index];
 
-        //     ///////////// Predictive Market Segmentation Pie Chart//////////////
-        //     var color_array = ['#8064A2', '#C0504D', '#4F81BD', '#9BBB59'];
-        //     $('#pms_pie_chart').html('');
-        //     var pie = Rubix.Pie('#pms_pie_chart', {
-        //         title: 'Predictive Market Segmentation',
-        //         height: 300
-        //     });
+            labels.map((label, index) => {
+                var tmp = {};
+                tmp.name = label;
+                tmp.value = data[index]["percentage"];
+                tmp.color = color_array[index];
+                tmp_array.push(tmp);
+            })
+            chart.addData(tmp_array);
+        })();
 
-        //     var csr_data = this.state.csr_data;
-        //     delete csr_data["total_market_spend"];
-        //     var tmp_array = [];
-        //     for (var i in csr_data) {
-        //         var t = new Object;
-        //         t.name = i;
-        //         t.value = csr_data[i]["market_share_%"];
-        //         t.color = color_array[this.getObjectKeyIndex(csr_data, i)];
-        //         tmp_array.push(t);
-        //     }
 
-        //     pie.addData(tmp_array);
+    }
+    renderDemographicsColumnChart = (index) => {
+        (() => {
+            $('#demographics_column_chart' + index).html('');
+            var chart = new Rubix('#demographics_column_chart' + index, {
+                height: 250,
+                title: 'Demographics Column Chart',
+                titleColor: '#D71F4B',
+                axis: {
+                    x: {
+                        type: 'ordinal',
+                    },
+                    y: {
+                        type: 'linear',
+                        tickFormat: 'd'
+                    }
+                },
+                // tooltip: {
+                //   color: '#D71F4B',
+                //   format: {
+                //     y: '.0f'
+                //   }
+                // },
+                margin: {
+                    left: 50
+                },
+                grouped: false,
+                show_markers: true
+            });
 
-        // })();
+            var demographics_column = chart.column_series({
+                name: 'Column',
+                color: '#D71F4B'
+            });
+            var labels = [];
+            var data = [];
+            var tmp_array = [];
+
+            labels = this.state.demo_contents_keys[index];
+            data = this.state.demo_percent_total[index];
+
+            labels.map((label, index) => {
+                var tmp = {};
+                tmp.x = label;
+                tmp.y = data[index]["total"];
+                tmp_array.push(tmp);
+            })
+            demographics_column.addData(tmp_array);
+        })();
+
+
+    }
+    renderDemographicsBarChart = (index) => {
+        (() => {
+            $('#demographics_bar_chart' + index).html('');
+            var chart = new Rubix('#demographics_bar_chart' + index, {
+                height: 250,
+                title: 'Demographics Bar Chart',
+                titleColor: '#D71F4B',
+                axis: {
+                    x: {
+                        type: 'ordinal',
+                    },
+                    y: {
+                        type: 'linear',
+                        tickFormat: 'd'
+                    }
+                },
+                // tooltip: {
+                //   color: '#D71F4B',
+                //   format: {
+                //     y: '.0f'
+                //   }
+                // },
+                margin: {
+                    left: 50
+                },
+                grouped: false,
+                show_markers: true
+            });
+
+            var demographics_bar = chart.bar_series({
+                name: 'Bar',
+                color: '#D71F4B'
+            });
+            var labels = [];
+            var data = [];
+            var tmp_array = [];
+
+            labels = this.state.demo_contents_keys[index];
+            data = this.state.demo_percent_total[index];
+
+            labels.map((label, index) => {
+                var tmp = {};
+                tmp.x = label;
+                tmp.y = data[index]["total"];
+                tmp_array.push(tmp);
+            })
+            demographics_bar.addData(tmp_array);
+        })();
+
+
+    }
+    renderDemographicsData = () => {
+        let demo_keys = [];
+        let demo_contents = [];
+        let demo_contents_keys = [];
+        demo_keys = this.state.demo_keys;
+        return (
+            <Grid>
+                <Row>
+                    <Col xs={12} className="age_tile_area">
+                        <div className="pms_age_tile">
+                            <p className="pms_age_tile_header">Average Age</p>
+                            <p className="pms_age_tile_content">{Math.round(this.state.age_avg)}</p>
+                        </div>
+                    </Col>
+                </Row>
+                {demo_keys.map((item, index) => {
+                    let num = Math.random() * 2;
+                    return <Row key={index} className="demographices_row">
+                        <Col xs={6} className="pie_chart_area">
+                            <div id={"demographics_pie_chart" + index}></div>
+                        </Col>
+                        <Col xs={6} className="bar_chart_area">
+                            <div id={num > 1 ? "demographics_bar_chart" + index : "demographics_column_chart" + index}></div>
+                        </Col>
+                    </Row>
+                })
+                }
+            </Grid>
+        )
+    }
+    onTabSelect = (key) => {
+        let demo_keys = [];
+        demo_keys = this.state.demo_keys;
+        if (key === 'pms') {
+            demo_keys.map((item, index) => {
+                setTimeout(() => {
+                    let a = document.getElementById('demographics_pie_chart' + index);
+                    if (a) {
+                        this.renderDemographicsPieChart(index);
+                    }
+                }, 300)
+                setTimeout(() => {
+                    let b = document.getElementById('demographics_column_chart' + index);
+                    if (b) {
+                        this.renderDemographicsColumnChart(index);
+                    }
+                }, 300)
+                setTimeout(() => {
+                    let c = document.getElementById('demographics_bar_chart' + index);
+                    if (c) {
+                        this.renderDemographicsBarChart(index);
+                    }
+                }, 300)
+            })
+        }
+
     }
     render() {
         return (
-            <PanelTabContainer id='panel-body-header-footer-both-plain-tabs' defaultActiveKey="pclv">
+            <PanelTabContainer id='panel-body-header-footer-both-plain-tabs' defaultActiveKey="pclv" onSelect={this.onTabSelect}>
                 <Panel>
                     <PanelHeader className='bg-blue fg-white' style={{ display: 'block' }}>
                         <Grid>
@@ -229,16 +312,12 @@ export default class NewCustomerAcquistion extends React.Component {
                                 <Col xs={12}>
                                     <Tab.Content>
                                         <Tab.Pane eventKey="pclv">
-                                            <MaleFemaleChart />
+                                            {/* <MaleFemaleChart /> */}
+                                            <div>good</div>
                                         </Tab.Pane>
-                                        {this.state.avg_age &&
+                                        {this.state.demographics &&
                                             <Tab.Pane eventKey="pms">
-                                                <div id="pms_pie_chart"></div>
-                                                <div id="pms_bar_chart"></div>
-                                                <div className="pms_tile">
-                                                    <p className="pms_tile_header">Average Age</p>
-                                                    <p className="pms_tile_content">{this.state.avg_age}</p>
-                                                </div>
+                                                {this.renderDemographicsData()}
                                             </Tab.Pane>
                                         }
                                     </Tab.Content>

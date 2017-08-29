@@ -70,13 +70,13 @@ class ApplicationSidebar extends React.Component {
       }
     })
 
-    let pk = 'country';
-    let sk = 'united_states';
-    let ck = 'purchase_log_csv';
-
     // let pk = 'country';
     // let sk = 'united_states';
-    // let ck = 'customer_profile_csv';
+    // let ck = 'purchase_log_csv';
+
+    let pk = 'country';
+    let sk = 'united_states';
+    let ck = 'customer_profile_csv';
     $.ajax({
       url: 'https://ceres.link/api/override_keys/api_key=' + api_key + ';data:pk=' + pk + ',sk=' + sk + ',ck=' + ck,
       dataType: 'json',
@@ -114,7 +114,7 @@ class ApplicationSidebar extends React.Component {
       })
 
       $.ajax({
-        url: 'https://ceres.link/api/override_keys/api_key=' + api_key + ';data:pk=' + keyVal + ',sk=united_states,ck=purchase_log_csv',
+        url: 'https://ceres.link/api/override_keys/api_key=' + api_key + ';data:pk=' + keyVal + ',sk=united_states,ck=customer_profile_csv',
         dataType: 'json',
         type: 'GET',
         success: function (data) {

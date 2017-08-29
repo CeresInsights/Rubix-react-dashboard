@@ -392,7 +392,7 @@ export default class CampaignsPromotionsAndLoyaltyOptimization extends React.Com
                                                 </div>
                                             </div>
                                         </Tab.Pane>
-                                        {(this.state.sma_channel_keys!==null&&this.state.sma_channel_values)&&
+                                        {(this.state.sma_channel_keys !== null && this.state.sma_channel_values) &&
                                             <Tab.Pane eventKey="ple">
                                                 {this.renderSmaChannel()}
                                             </Tab.Pane>
@@ -400,10 +400,12 @@ export default class CampaignsPromotionsAndLoyaltyOptimization extends React.Com
                                         <Tab.Pane eventKey="csr">
                                             <div id="csr_pie_chart"></div>
                                             <div id="csr_bar_chart"></div>
-                                            <div className="csr_tile">
-                                                <p className="csr_title">Total Market Spend</p>
-                                                <p className="csr_content">{this.state.csr_total_market}</p>
-                                            </div>
+                                            <Col md={12}>
+                                                <div className="csr_tile">
+                                                    <p className="csr_title">Total Market Spend</p>
+                                                    <p className="csr_content">{this.state.csr_total_market}</p>
+                                                </div>
+                                            </Col>
                                         </Tab.Pane>
                                     </Tab.Content>
                                 </Col>

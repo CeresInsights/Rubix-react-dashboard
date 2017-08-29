@@ -36,7 +36,23 @@ export default class ProductBundlesbyCustomerBehavior extends React.Component {
             prod_pay: [],
             prod_product: [],
             smart_pay: [],
-            smart_prod: []
+            smart_prod: [],
+            recommenderTypesPay: [],
+            recommenderTitlesPay: [],
+            bestRecommenderContentsPay: [],
+            htmlTxtPay: [],
+            spectro_labels_pay: [],
+            spectro_data_pay: [],
+            optimizer_labels_pay: [],
+            optimizer_data_pay: [],
+            recommenderTypesProd: [],
+            recommenderTitlesProd: [],
+            bestRecommenderContentsProd: [],
+            htmlTxtProd: [],
+            spectro_labels_prod: [],
+            spectro_data_prod: [],
+            optimizer_labels_prod: [],
+            optimizer_data_prod: [],
         };
     }
     getObjectKeyIndex(obj, keyToFind) {
@@ -82,7 +98,9 @@ export default class ProductBundlesbyCustomerBehavior extends React.Component {
         let spectro_data_prod = [];
 
         let recommenderContentsPay = [];
+        let bestRecommenderContentsPay = [];
         let recommenderContentsProd = [];
+        let bestRecommenderContentsProd = [];
 
         let recommenderContentsTempPay = [];
         let recommenderContentsTempProd = [];
@@ -105,9 +123,6 @@ export default class ProductBundlesbyCustomerBehavior extends React.Component {
         let spectro_data_real_pay = [];
         let spectro_data_real_prod = [];
 
-        let recommenderContentsProduct = [];
-        let recommenderContentsPayment = [];
-
         let mainTileTitlesPayment = [];
         let mainTileTitlesProduct = [];
 
@@ -116,15 +131,12 @@ export default class ProductBundlesbyCustomerBehavior extends React.Component {
             url: 'https://ceres.link/api/sub_board/prod_pay/api_key=' + api_key,
             dataType: 'json',
             type: 'GET',
-            success: function (data) {
-                this.setState({
-                    prod_pay: data
-                })
+            success: function (prod_pay) {
                 ///////Main Tile Types Fetch///////////////
-                mainTileTypesPay = Object.keys(data);
+                mainTileTypesPay = Object.keys(prod_pay);
                 ////////////Main Tile Data Fetch////////////////
                 mainTileTypesPay.map((key) => {
-                    mainTileContentsPay.push(data[key]);
+                    mainTileContentsPay.push(prod_pay[key]);
                 })
 
                 mainTileContentsPay.map((item) => {
@@ -142,21 +154,13 @@ export default class ProductBundlesbyCustomerBehavior extends React.Component {
                     url: 'https://ceres.link/api/sub_board/smart_pay/api_key=' + api_key,
                     dataType: 'json',
                     type: 'GET',
-                    success: function (data) {
-                        console.log("PAY", data)
-                        this.setState({
-                            smart_pay: data
-                        })
+                    success: function (smart_pay) {
                         ////// Recommender Type Fetch//////////////////////
-                        recommenderTypesPay = Object.keys(data);
-                        console.log("recommenderTypesPay", recommenderTypesPay)
-                        this.setState({
-                            recommenderTypesPay: recommenderTypesPay
-                        })
+                        recommenderTypesPay = Object.keys(smart_pay);
                         // ///////////////Recommender Data Fetch(html, spectrogram, optimizer_chart)/////////////
                         recommenderTypesPay.map((key) => {
-                            recommenderContentsPay.push(data[key]);
-                            htmlTxtPay.push(data[key]["text/html"]);
+                            recommenderContentsPay.push(smart_pay[key]);
+                            htmlTxtPay.push(smart_pay[key]["text/html"]);
                         })
 
                         recommenderContentsPay.map((item) => {
@@ -166,13 +170,6 @@ export default class ProductBundlesbyCustomerBehavior extends React.Component {
                             optimizer_data_pay.push((item["optimizer_chart"])["data"]);
                         })
 
-                        this.setState({
-                            htmlTxtPay: htmlTxtPay,
-                            spectro_labels_pay: spectro_labels_pay,
-                            spectro_data_pay: spectro_data_pay,
-                            optimizer_labels_pay: optimizer_labels_pay,
-                            optimizer_data_pay: optimizer_data_pay
-                        })
                         // ///// recommender labels array for getting best recommender data////////
                         spectro_labels_pay.map((itemArray) => {
                             itemArray.map((item) => {
@@ -188,39 +185,26 @@ export default class ProductBundlesbyCustomerBehavior extends React.Component {
                         mainTileContentsPay.map((temp) => {
                             recommenderTitlesPay.map((item) => {
                                 recommenderContentsTempPay.push(temp[item])
-                                delete temp[item]
                             })
                         })
-                        // console.log("mainTileContentsPay", mainTileContentsPay)
-                        // console.log("recommenderContentsTemp", recommenderContentsTemp)
                         recommenderContentsTempPay.map((item) => {
                             if (item !== undefined) {
-                                recommenderContentsPayment.push(item)
-                            }
-                        })
-
-                        /////////Main Tile Data Fetch/////////////
-                        mainTileContentsPay.map((item) => {
-                            mainTileTitlesPayment.push(Object.keys(item))
-                            console.log("ASASASA", mainTileTitlesPay)
-                            mainTileTitlesPayment.map((temp) => {
-                                temp.map((title) => {
-                                    mainTileContentsRealTempPay.push(item[title])
-                                })
-                            })
-                        })
-
-                        console.log("mainTileContentsRealTempPay", mainTileContentsRealTempPay)
-                        mainTileContentsRealTempPay.map((item) => {
-                            if (item !== undefined) {
-                                mainTileContentsRealPay.push(item)
+                                bestRecommenderContentsPay.push(item)
                             }
                         })
 
                         this.setState({
+                            prod_pay: prod_pay,
+                            smart_pay: smart_pay,
+                            recommenderTypesPay: recommenderTypesPay,
                             recommenderTitlesPay: recommenderTitlesPay,
-                            recommenderContentsPayment: recommenderContentsPayment,
-                            mainTileContentsRealPay: mainTileContentsRealPay
+                            bestRecommenderContentsPay: bestRecommenderContentsPay,
+
+                            htmlTxtPay: htmlTxtPay,
+                            spectro_labels_pay: spectro_labels_pay,
+                            spectro_data_pay: spectro_data_pay,
+                            optimizer_labels_pay: optimizer_labels_pay,
+                            optimizer_data_pay: optimizer_data_pay
                         })
 
                     }.bind(this),
@@ -240,15 +224,12 @@ export default class ProductBundlesbyCustomerBehavior extends React.Component {
             url: 'https://ceres.link/api/sub_board/prod_product/api_key=' + api_key,
             dataType: 'json',
             type: 'GET',
-            success: function (data) {
-                this.setState({
-                    prod_product: data
-                })
+            success: function (prod_product) {
                 ///////Main Tile Types Fetch///////////////
-                mainTileTypesProd = Object.keys(data);
+                mainTileTypesProd = Object.keys(prod_product);
                 ////////////Main Tile Data Fetch////////////////
                 mainTileTypesProd.map((key) => {
-                    mainTileContentsProd.push(data[key]);
+                    mainTileContentsProd.push(prod_product[key]);
                 })
 
                 mainTileContentsProd.map((item) => {
@@ -265,33 +246,19 @@ export default class ProductBundlesbyCustomerBehavior extends React.Component {
                     url: 'https://ceres.link/api/sub_board/smart_prod/api_key=' + api_key,
                     dataType: 'json',
                     type: 'GET',
-                    success: function (data) {
-                        this.setState({
-                            smart_prod: data
-                        })
+                    success: function (smart_prod) {
                         ////// Recommender Type Fetch//////////////////////
-                        recommenderTypesProd = Object.keys(data);
-                        this.setState({
-                            recommenderTypesProd: recommenderTypesProd
-                        })
+                        recommenderTypesProd = Object.keys(smart_prod);
                         ///////////////Recommender Data Fetch(html, spectrogram, optimizer_chart)/////////////
                         recommenderTypesProd.map((key) => {
-                            recommenderContentsProd.push(data[key]);
-                            htmlTxtProd.push(data[key]["text/html"]);
+                            recommenderContentsProd.push(smart_prod[key]);
+                            htmlTxtProd.push(smart_prod[key]["text/html"]);
                         })
                         recommenderContentsProd.map((item) => {
                             spectro_labels_prod.push((item["spectrogram"])["labels"]);
                             spectro_data_prod.push((item["spectrogram"])["data"]);
                             optimizer_labels_prod.push((item["optimizer_chart"])["labels"]);
                             optimizer_data_prod.push((item["optimizer_chart"])["data"]);
-                        })
-
-                        this.setState({
-                            htmlTxtProd: htmlTxtProd,
-                            spectro_labels_prod: spectro_labels_prod,
-                            spectro_data_prod: spectro_data_prod,
-                            optimizer_labels_prod: optimizer_labels_prod,
-                            optimizer_data_prod: optimizer_data_prod
                         })
                         ///// recommender labels array for getting best recommender data////////
                         spectro_labels_prod.map((itemArray) => {
@@ -308,33 +275,25 @@ export default class ProductBundlesbyCustomerBehavior extends React.Component {
                         mainTileContentsProd.map((temp) => {
                             recommenderTitlesProd.map((item) => {
                                 recommenderContentsTempProd.push(temp[item])
-                                delete temp[item]
                             })
                         })
                         recommenderContentsTempProd.map((item) => {
                             if (item !== undefined) {
-                                recommenderContentsProduct.push(item)
+                                bestRecommenderContentsProd.push(item)
                             }
                         })
-                        /////////Main Tile Data Fetch/////////////
-                        mainTileContentsProd.map((item) => {
-                            mainTileTitlesProduct.push(Object.keys(item))
-                            mainTileTitlesProduct.map((temp) => {
-                                temp.map((title) => {
-                                    mainTileContentsRealTempProd.push(item[title])
-                                })
-                            })
-                        })
-                        mainTileContentsRealTempProd.map((item) => {
-                            if (item !== undefined) {
-                                mainTileContentsRealProd.push(item)
-                            }
-                        })
-
                         this.setState({
+                            prod_product: prod_product,
+                            smart_prod: smart_prod,
+                            recommenderTypesProd: recommenderTypesProd,
                             recommenderTitlesProd: recommenderTitlesProd,
-                            recommenderContentsProduct: recommenderContentsProduct,
-                            mainTileContentsRealProd: mainTileContentsRealProd
+                            bestRecommenderContentsProd: bestRecommenderContentsProd,
+
+                            htmlTxtProd: htmlTxtProd,
+                            spectro_labels_prod: spectro_labels_prod,
+                            spectro_data_prod: spectro_data_prod,
+                            optimizer_labels_prod: optimizer_labels_prod,
+                            optimizer_data_prod: optimizer_data_prod
                         })
 
                     }.bind(this),
@@ -350,156 +309,464 @@ export default class ProductBundlesbyCustomerBehavior extends React.Component {
         });
 
     }
+    renderSpectroLineChartPay = (index) => {
+
+        (() => {
+            $('#pay_spectro_line_chart' + index).html('');
+            var chart = new Rubix('#pay_spectro_line_chart' + index, {
+                height: 100,
+                title: 'Comparative',
+                titleColor: '#D71F4B',
+                axis: {
+                    x: {
+                        type: 'ordinal',
+                    },
+                    y: {
+                        type: 'linear',
+                        tickFormat: 'd'
+                    }
+                },
+                // tooltip: {
+                //   color: '#D71F4B',
+                //   format: {
+                //     y: '.0f'
+                //   }
+                // },
+                margin: {
+                    left: 50
+                },
+                grouped: false,
+                show_markers: true
+            });
+
+            var spectrogram = chart.line_series({
+                name: 'Spectrogram',
+                color: '#D71F4B'
+            });
+            var labels = [];
+            var data = [];
+            var tmp_array = [];
+
+            labels = this.state.spectro_labels_pay[index];
+            data = this.state.spectro_data_pay[index];
+
+            labels.map((label, index) => {
+                var tmp = {};
+                tmp.x = label;
+                tmp.y = data[index];
+                tmp_array.push(tmp);
+            })
+            spectrogram.addData(tmp_array);
+        })();
+
+
+    }
+    renderSpectroLineChartProd = (index) => {
+
+        (() => {
+            $('#prod_spectro_line_chart' + index).html('');
+            var chart = new Rubix('#prod_spectro_line_chart' + index, {
+                height: 250,
+                width: 350,
+                title: 'Comparative',
+                titleColor: '#D71F4B',
+                axis: {
+                    x: {
+                        type: 'ordinal',
+                    },
+                    y: {
+                        type: 'linear',
+                        tickFormat: 'd'
+                    }
+                },
+                // tooltip: {
+                //   color: '#D71F4B',
+                //   format: {
+                //     y: '.0f'
+                //   }
+                // },
+                margin: {
+                    left: 50
+                },
+                grouped: false,
+                show_markers: true
+            });
+
+            var spectrogram = chart.line_series({
+                name: 'Spectrogram',
+                color: '#D71F4B'
+            });
+            var labels = [];
+            var data = [];
+            var tmp_array = [];
+
+            labels = this.state.spectro_labels_prod[index];
+            data = this.state.spectro_data_prod[index];
+
+            labels.map((label, index) => {
+                var tmp = {};
+                tmp.x = label;
+                tmp.y = data[index];
+                tmp_array.push(tmp);
+            })
+            spectrogram.addData(tmp_array);
+        })();
+
+
+    }
+    renderOptimizerColumnChartPay = (index) => {
+        (() => {
+            $('#pay_optimizer_column_chart' + index).html('');
+            var chart = new Rubix('#pay_optimizer_column_chart' + index, {
+                height: 250,
+                width: 350,
+                title: 'Comparative',
+                titleColor: '#D71F4B',
+                axis: {
+                    x: {
+                        type: 'ordinal',
+                    },
+                    y: {
+                        type: 'linear',
+                        tickFormat: 'd'
+                    }
+                },
+                // tooltip: {
+                //   color: '#D71F4B',
+                //   format: {
+                //     y: '.0f'
+                //   }
+                // },
+                margin: {
+                    left: 50
+                },
+                grouped: false,
+                show_markers: true
+            });
+
+            var optimizer_column = chart.column_series({
+                name: 'Optimizer',
+                color: '#D71F4B'
+            });
+            var labels = [];
+            var data = [];
+            var tmp_array = [];
+
+            labels = this.state.optimizer_labels_pay[index];
+            data = this.state.optimizer_data_pay[index];
+
+            labels.map((label, index) => {
+                var tmp = {};
+                tmp.x = label;
+                tmp.y = data[index];
+                tmp_array.push(tmp);
+            })
+            optimizer_column.addData(tmp_array);
+        })();
+    }
+    renderOptimizerColumnChartProd = (index) => {
+        (() => {
+            $('#prod_optimizer_column_chart' + index).html('');
+            var chart = new Rubix('#prod_optimizer_column_chart' + index, {
+                height: 250,
+                width: 350,
+                title: 'Comparative',
+                titleColor: '#D71F4B',
+                axis: {
+                    x: {
+                        type: 'ordinal',
+                    },
+                    y: {
+                        type: 'linear',
+                        tickFormat: 'd'
+                    }
+                },
+                // tooltip: {
+                //   color: '#D71F4B',
+                //   format: {
+                //     y: '.0f'
+                //   }
+                // },
+                margin: {
+                    left: 50
+                },
+                grouped: false,
+                show_markers: true
+            });
+
+            var optimizer_column = chart.column_series({
+                name: 'Optimizer',
+                color: '#D71F4B'
+            });
+            var labels = [];
+            var data = [];
+            var tmp_array = [];
+
+            labels = this.state.optimizer_labels_prod[index];
+            data = this.state.optimizer_data_prod[index];
+
+            labels.map((label, index) => {
+                var tmp = {};
+                tmp.x = label;
+                tmp.y = data[index];
+                tmp_array.push(tmp);
+            })
+            optimizer_column.addData(tmp_array);
+        })();
+    }
+    renderOptimizerBarChartPay = (index) => {
+        (() => {
+            $('#pay_optimizer_bar_chart' + index).html('');
+            var chart = new Rubix('#pay_optimizer_bar_chart' + index, {
+                height: 250,
+                width: 350,
+                title: 'Comparative',
+                titleColor: '#D71F4B',
+                axis: {
+                    x: {
+                        type: 'ordinal',
+                    },
+                    y: {
+                        type: 'linear',
+                        tickFormat: 'd'
+                    }
+                },
+                // tooltip: {
+                //   color: '#D71F4B',
+                //   format: {
+                //     y: '.0f'
+                //   }
+                // },
+                margin: {
+                    left: 50
+                },
+                grouped: false,
+                show_markers: true
+            });
+
+            var optimizer_bar = chart.bar_series({
+                name: 'Optimizer',
+                color: '#D71F4B'
+            });
+            var labels = [];
+            var data = [];
+            var tmp_array = [];
+
+            labels = this.state.optimizer_labels_pay[index];
+            data = this.state.optimizer_data_pay[index];
+
+            labels.map((label, index) => {
+                var tmp = {};
+                tmp.x = label;
+                tmp.y = data[index];
+                tmp_array.push(tmp);
+            })
+            optimizer_bar.addData(tmp_array);
+        })();
+
+
+    }
+    renderOptimizerBarChartProd = (index) => {
+        (() => {
+            $('#prod_optimizer_bar_chart' + index).html('');
+            var chart = new Rubix('#prod_optimizer_bar_chart' + index, {
+                height: 250,
+                width: 350,
+                title: 'Comparative',
+                titleColor: '#D71F4B',
+                axis: {
+                    x: {
+                        type: 'ordinal',
+                    },
+                    y: {
+                        type: 'linear',
+                        tickFormat: 'd'
+                    }
+                },
+                // tooltip: {
+                //   color: '#D71F4B',
+                //   format: {
+                //     y: '.0f'
+                //   }
+                // },
+                margin: {
+                    left: 50
+                },
+                grouped: false,
+                show_markers: true
+            });
+
+            var optimizer_bar = chart.bar_series({
+                name: 'Optimizer',
+                color: '#D71F4B'
+            });
+            var labels = [];
+            var data = [];
+            var tmp_array = [];
+
+            labels = this.state.optimizer_labels_prod[index];
+            data = this.state.optimizer_data_prod[index];
+
+            labels.map((label, index) => {
+                var tmp = {};
+                tmp.x = label;
+                tmp.y = data[index];
+                tmp_array.push(tmp);
+            })
+            optimizer_bar.addData(tmp_array);
+        })();
+
+
+    }
     renderPay = () => {
 
         let recommenderTypesPay = [];
         let recommenderTitlesPay = [];
-        let recommenderContentsPayment = [];
-        let mainTileContentsRealPay = [];
-
+        let bestRecommenderContentsPay = [];
         let htmlTxtPay = [];
-        let spectro_labels_pay = [];
-        let spectro_data_pay = [];
-        let optimizer_labels_pay = [];
-        let optimizer_data_pay = [];
-
         ///////Data Type///////////////////////
         recommenderTypesPay = this.state.recommenderTypesPay;
-
         /////////Best Recommender Data///////////////
         recommenderTitlesPay = this.state.recommenderTitlesPay;
-        recommenderContentsPayment = this.state.recommenderContentsPayment;
-
-        //////////Main Tile Data///////////////////////////
-        mainTileContentsRealPay = this.state.mainTileContentsRealPay;
-
+        bestRecommenderContentsPay = this.state.bestRecommenderContentsPay;
         ////////////////////Recommender Data//////////////
         htmlTxtPay = this.state.htmlTxtPay;
-        spectro_labels_pay = this.state.spectro_labels_pay;
-        spectro_data_pay = this.state.spectro_data_pay;
-        optimizer_labels_pay = this.state.optimizer_labels_pay;
-        optimizer_data_pay = this.state.optimizer_data_pay;
 
-        console.log("recommenderTypesPay", recommenderTypesPay)
-        console.log("recommenderTitlesPay", recommenderTitlesPay)
-        console.log("recommenderContentsPayment", recommenderContentsPayment)
-        console.log("mainTileContentsRealPay", mainTileContentsRealPay)
-        console.log("htmlTxtPay", htmlTxtPay)
-        console.log("spectro_labels_pay", spectro_labels_pay)
-        console.log("spectro_data_pay", spectro_data_pay)
-        console.log("optimizer_labels_pay", optimizer_labels_pay)
-        console.log("optimizer_data_pay", optimizer_data_pay)
+        return (
+            <Grid>
+                {
+                    recommenderTypesPay.map((item, index) => {
+                        //////////////////////////////////Sub dashboard Campaigns App PLE//////////////////
+                        let num = Math.random() * 2;
+                        return <Row key={index} className="pay_row">
+                            <Col md={3}>
+                                <div className="pay_recommender_tile">
+                                    <p className="pay_best_recommender">Best Case</p>
+                                    <p className="pay_recommender_type">{item}</p>
+                                    <p className="pay_recommender_title">{recommenderTitlesPay[index]}</p>
+                                    <p className="pay_recommender_percent">{bestRecommenderContentsPay[index]["percentage"]}</p>
+                                    <p className="pay_recommender_total">{bestRecommenderContentsPay[index]["total"]}</p>
+                                </div>
+                            </Col>
+                            <Col md={3} className="pay_spectro_chart">
+                                <div id={'pay_spectro_line_chart' + index}></div>
+                            </Col>
+                            <Col md={3} className="pay_optimmizer_chart">
+                                <div id={num < 1 ? "pay_optimizer_column_chart" + index : "pay_optimizer_bar_chart" + index}></div>
+                            </Col>
+                            <Col md={3}>
+                                <div className="pay_recommender_text_tile">
+                                    <p className="pay_recommender_text">{htmlTxtPay[index]}</p>
+                                </div>
+                            </Col>
+                        </Row>
+                    })
+                }
+            </Grid>
+        )
     }
     renderProd = () => {
 
         let recommenderTypesProd = [];
         let recommenderTitlesProd = [];
-        let recommenderContentsProduct = [];
-        let mainTileContentsRealProd = [];
-
+        let bestRecommenderContentsProd = [];
         let htmlTxtProd = [];
-        let spectro_labels_prod = [];
-        let spectro_data_prod = [];
-        let optimizer_labels_prod = [];
-        let optimizer_data_prod = [];
-
         ///////Data Type///////////////////////
         recommenderTypesProd = this.state.recommenderTypesProd;
-
         /////////Best Recommender Data///////////////
         recommenderTitlesProd = this.state.recommenderTitlesProd;
-        recommenderContentsProduct = this.state.recommenderContentsProduct;
-
-        //////////Main Tile Data///////////////////////////
-        mainTileContentsRealProd = this.state.mainTileContentsRealProd;
-
+        bestRecommenderContentsProd = this.state.bestRecommenderContentsProd;
+        
         ////////////////////Recommender Data//////////////
         htmlTxtProd = this.state.htmlTxtProd;
-        spectro_labels_prod = this.state.spectro_labels_prod;
-        spectro_data_prod = this.state.spectro_data_prod;
-        optimizer_labels_prod = this.state.optimizer_labels_prod;
-        optimizer_data_prod = this.state.optimizer_data_prod;
 
-        console.log("recommenderTypesProd", recommenderTypesProd)
-        console.log("recommenderTitlesProd", recommenderTitlesProd)
-        console.log("recommenderContentsProduct", recommenderContentsProduct)
-        console.log("mainTileContentsRealProd", mainTileContentsRealProd)
-        console.log("htmlTxtProd", htmlTxtProd)
-        console.log("spectro_labels_prod", spectro_labels_prod)
-        console.log("spectro_data_prod", spectro_data_prod)
-        console.log("optimizer_labels_prod", optimizer_labels_prod)
-        console.log("optimizer_data_prod", optimizer_data_prod)
+        return (
+            <Grid>
+                {
+                    recommenderTypesProd.map((item, index) => {
+                        //////////////////////////////////Sub dashboard Campaigns App PLE//////////////////
+                        let num = Math.random() * 2;
+                        console.log("MATH", num)
+                        return <Row key={index} className="prod_row">
+                            <Col md={3}>
+                                <div className="prod_recommender_tile">
+                                    <p className="prod_best_recommender">Best Case</p>
+                                    <p className="prod_recommender_type">{item}</p>
+                                    <p className="prod_recommender_title">{recommenderTitlesProd[index]}</p>
+                                    <p className="prod_recommender_percent">{bestRecommenderContentsProd[index]["percentage"]}</p>
+                                    <p className="prod_recommender_total">{bestRecommenderContentsProd[index]["total"]}</p>
+                                </div>
+                            </Col>
+                            <Col md={3} className="prod_spectro_chart">
+                                <div id={'prod_spectro_line_chart' + index}></div>
+                            </Col>
+                            <Col md={3} className="prod_optimmizer_chart">
+                                <div id={num < 1 ? "prod_optimizer_column_chart" + index : "prod_optimizer_bar_chart" + index}></div>
+                            </Col>
+                            <Col md={3}>
+                                <div className="prod_recommender_text_tile">
+                                    <p className="prod_recommender_text">{htmlTxtProd[index]}</p>
+                                </div>
+                            </Col>
+                        </Row>
+                    })
+                }
+            </Grid>
+        )
     }
-    // componentDidUpdate() {
-    //     var color_array = ['#4572a7', '#aa4643', '#89a54e', '#80699b', '#3d96ae', '#db843d'];
-    //     (() => {
-    //         $('#cpp_chart').html('');
-    //         var pie2 = Rubix.Pie('#cpp_chart', {
-    //             title: 'Customer Product Preferences',
-    //             height: 300
-    //         });
-
-    //         var products_data = this.props.products_data;
-    //         var tmp_array = [];
-    //         for (var i in products_data) {
-    //             var t = new Object;
-    //             t.name = i;
-    //             t.value = products_data[i].total;
-    //             t.color = color_array[this.getObjectKeyIndex(products_data, i)];
-    //             tmp_array.push(t);
-    //         }
-    //         pie2.addData(tmp_array);
-    //     })();
-
-    //     //CPA Chart
-    //     (() => {
-    //         $('#cpa_chart').html('');
-    //         var chart = new Rubix('#cpa_chart', {
-    //             height: 300,
-    //             title: 'Customer Product Appetite',
-    //             titleColor: '#D71F4B',
-    //             subtitleColor: '#D71F4B',
-    //             axis: {
-    //                 x: {
-    //                     type: 'ordinal',
-    //                 },
-    //                 y: {
-    //                     type: 'linear',
-    //                     tickFormat: 'd'
-    //                 }
-    //             },
-    //             tooltip: {
-    //                 color: '#D71F4B',
-    //                 format: {
-    //                     y: '.0f'
-    //                 }
-    //             },
-    //             margin: {
-    //                 left: 50
-    //             },
-    //             grouped: false,
-    //             show_markers: true
-    //         });
-
-    //         var fruits = chart.column_series({
-    //             name: 'Shopping Rate',
-    //             color: '#D71F4B'
-    //         });
-
-    //         var tmp = this.props.products_data;
-    //         var tmp_array = [];
-    //         for (var i in tmp) {
-    //             var t = new Object;
-    //             t.x = i;
-    //             t.y = tmp[i].total;
-    //             tmp_array.push(t);
-    //         }
-    //         fruits.addData(tmp_array);
-    //     })();
-    // }
+    onTabSelect = (key) => {
+        let recommenderTypesPay = [];
+        let recommenderTypesProd = [];
+        recommenderTypesPay = this.state.recommenderTypesPay;
+        recommenderTypesProd = this.state.recommenderTypesProd;
+        if (key === 'cpp') {
+            recommenderTypesPay.map((item, index) => {
+                setTimeout(() => {
+                    let a = document.getElementById('pay_spectro_line_chart' + index);
+                    if (a) {
+                        this.renderSpectroLineChartPay(index);
+                    }
+                }, 300)
+                setTimeout(() => {
+                    let b = document.getElementById('pay_optimizer_column_chart' + index);
+                    if (b) {
+                        this.renderOptimizerColumnChartPay(index);
+                    }
+                }, 300)
+                setTimeout(() => {
+                    let c = document.getElementById('pay_optimizer_bar_chart' + index);
+                    if (c) {
+                        this.renderOptimizerBarChartPay(index);
+                    }
+                }, 300)
+            })
+        }
+        if (key === 'cpa') {
+            recommenderTypesProd.map((item, index) => {
+                setTimeout(() => {
+                    let a = document.getElementById('prod_spectro_line_chart' + index);
+                    if (a) {
+                        this.renderSpectroLineChartProd(index);
+                    }
+                }, 300)
+                setTimeout(() => {
+                    let b = document.getElementById('prod_optimizer_column_chart' + index);
+                    if (b) {
+                        this.renderOptimizerColumnChartProd(index);
+                    }
+                }, 300)
+                setTimeout(() => {
+                    let c = document.getElementById('prod_optimizer_bar_chart' + index);
+                    if (c) {
+                        this.renderOptimizerBarChartProd(index);
+                    }
+                }, 300)
+            })
+        }
+    }
     render() {
         return (
-            <PanelTabContainer id='panel-body-header-footer-both-plain-tabs' defaultActiveKey="cpp">
+            <PanelTabContainer id='panel-body-header-footer-both-plain-tabs' defaultActiveKey="cpta" onSelect={this.onTabSelect}>
                 <Panel>
                     <PanelHeader className='bg-blue fg-white' style={{ display: 'block' }}>
                         <Grid>
@@ -510,6 +777,9 @@ export default class ProductBundlesbyCustomerBehavior extends React.Component {
                             </Row>
                         </Grid>
                         <Nav bsStyle="tabs" className='plain'>
+                            <NavItem eventKey="cpta">
+                                CPTA
+                            </NavItem>
                             <NavItem eventKey="cpp">
                                 Customer Payment Preferences
                             </NavItem>
@@ -523,12 +793,15 @@ export default class ProductBundlesbyCustomerBehavior extends React.Component {
                             <Row>
                                 <Col xs={12}>
                                     <Tab.Content>
-                                        {(this.state.prod_pay !== null && this.state.smart_pay) &&
+                                        <Tab.Pane eventKey="cpta">
+                                            <div>adfasdfasdfasdf</div>
+                                        </Tab.Pane>
+                                        {(this.state.prod_pay !== null && this.state.smart_pay !== null) &&
                                             <Tab.Pane eventKey="cpp">
                                                 {this.renderPay()}
                                             </Tab.Pane>
                                         }
-                                        {(this.state.prod_product !== null && this.state.smart_prod) &&
+                                        {(this.state.prod_product !== null && this.state.smart_prod !== null) &&
                                             <Tab.Pane eventKey="cpa">
                                                 {this.renderProd()}
                                             </Tab.Pane>
