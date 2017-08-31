@@ -25,6 +25,7 @@ import SendEmail from './components/SendEmail';
 import Profile from './components/Profile';
 import DataBrowser from './components/DataBrowser';
 import Login from './components/Login';
+import AdminLogin from './components/AdminLogin';
 import Signup from './components/Signup';
 import QueueEmail from './components/QueueEmail';
 
@@ -100,6 +101,7 @@ const routes = (
 const basicRoutes = (
   <Route>
     <Route path='login' component={Login} />
+    <Route path='adminlogin' component={AdminLogin} />
     <Route path='signup' component={Signup} />
     <Route path='queueemail' component={QueueEmail} />
   </Route>

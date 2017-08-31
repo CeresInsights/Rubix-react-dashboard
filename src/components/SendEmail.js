@@ -26,12 +26,14 @@ export default class SendEmail extends React.Component {
             un: '',
             pw: ''
         }
+
     }
     componentDidMount() {
         var storedEmails = [];
-        storedEmails = JSON.parse(localStorage.getItem('emails'));
         var un = '';
         var pw = '';
+        storedEmails = JSON.parse(localStorage.getItem('emails'));
+
         un = localStorage.getItem('un');
         pw = localStorage.getItem('pw');
         this.setState({
@@ -45,20 +47,23 @@ export default class SendEmail extends React.Component {
     }
 
     handleClick(e) {
+
         e.preventDefault();
         e.stopPropagation();
-        let email = $('#email').val();
-        $.ajax({
-            url: 'https://ceres.link/api/preregister/data:email=' + email,
-            dataType: 'json',
-            type: 'GET',
-            success: function (data) {
-                this.errorNotification(data);
-            }.bind(this),
-            error: function (error) {
-                console.log(error);
-            }
-        })
+console.log("asdfasd", this.state.un)
+console.log("qwer", this.state.pw)
+        // let email = $('#formControlsSelectMultiple').val();
+        // $.ajax({
+        //     url: 'http://ceres.link/api/email/send_report/data:un='+this.state.un+',pw='+this.state.pw,
+        //     dataType: 'json',
+        //     type: 'GET',
+        //     success: function (data) {
+        //         this.errorNotification(data);
+        //     }.bind(this),
+        //     error: function (error) {
+        //         console.log(error);
+        //     }
+        // })
     }
 
     errorNotification(str) {
@@ -67,9 +72,6 @@ export default class SendEmail extends React.Component {
             showCloseButton: true
         });
     }
-    handleSelect = () => {
-        console.log("adsfasdfasfasfsaddfsda")
-    }
     render() {
         return (
             <Panel>
@@ -77,12 +79,12 @@ export default class SendEmail extends React.Component {
                     <Col xs={12}>
                         <h1 className="contact_title"> Send PayCode </h1>
                         <p> Please select a email address to send the token code</p>
-                        <Form>
+                        <Form onSubmit = {this.handleClick}>
                             <Grid>
                                 <Row>
                                     <Col xs={3}>
                                         <FormGroup controlId='formControlsSelectMultiple'>
-                                            <FormControl componentClass="select" className='border-focus-blue' multiple onSelect={this.handleSelect}>
+                                            <FormControl componentClass="select" className='border-focus-blue' multiple onChange={this.handleSelect}>
                                                 {this.state.storedEmails.map((email, index) => {
                                                     return (
                                                         <option value={index} key={index}>{email}</option>

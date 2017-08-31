@@ -34,8 +34,6 @@ export default class Login extends React.Component {
     e.stopPropagation();
     let un = $('#username').val();
     let pw = $('#password').val();
-    localStorage.setItem('un', un);
-    localStorage.setItem('pw', pw);
     $.ajax({
       url: 'https://ceres.link/api/login/data:un='+un+',pw='+pw,
       dataType: 'json',
@@ -115,6 +113,11 @@ export default class Login extends React.Component {
                                     </Col>
                                     <Col xs={6} collapseLeft collapseRight className='text-right'>
                                       <Button outlined lg type='submit' bsStyle='blue' onClick={::this.proceed_login}>Login</Button>
+                                    </Col>
+                                  </Row>
+                                  <Row>
+                                    <Col xs={6} collapseLeft collapseRight style={{paddingTop: 10}}>
+                                      <Link to={::this.getPath('adminlogin')}>You have admin account?</Link>
                                     </Col>
                                   </Row>
                                 </Grid>

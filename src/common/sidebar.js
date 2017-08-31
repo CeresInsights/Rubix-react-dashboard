@@ -20,6 +20,7 @@ class ApplicationSidebar extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
+      api_key: '',
       pri_keys: [],
       pri_values: {},
       pk: '',
@@ -37,6 +38,9 @@ class ApplicationSidebar extends React.Component {
       // table_data_content: [],
       // key_change: false
     };
+    this.pri_title = '';
+    this.sec_title = '';
+    this.third_title = '';
   }
 
   handleChange(e) {
@@ -58,6 +62,9 @@ class ApplicationSidebar extends React.Component {
 
   UserList() {
     let api_key = localStorage.getItem('api_key');
+    this.setState({
+      api_key:  api_key
+    })
     $.ajax({
       url: 'https://ceres.link/api/graphmeta/api_key=' + api_key,
       dataType: 'json',
@@ -95,7 +102,6 @@ class ApplicationSidebar extends React.Component {
 
   handleClick(keyVal, keyKind) {
 
-    let api_key = localStorage.getItem('api_key');
     let initial_data = this.state.initial_data;
     let sec_keys = [];
     let pri_values = {};
@@ -117,7 +123,7 @@ class ApplicationSidebar extends React.Component {
       })
 
       $.ajax({
-        url: 'https://ceres.link/api/override_keys/api_key=' + api_key + ';data:pk=' + keyVal + ',sk=united_states,ck=purchase_log_csv',
+        url: 'https://ceres.link/api/override_keys/api_key=' + this.state.api_key + ';data:pk=' + keyVal + ',sk=united_states,ck=purchase_log_csv',
         dataType: 'json',
         type: 'GET',
         success: function (data) {
@@ -139,7 +145,7 @@ class ApplicationSidebar extends React.Component {
         third_keys: third_keys
       });
       $.ajax({
-        url: 'https://ceres.link/api/override_keys/api_key=' + api_key + ';data:pk=' + this.state.pk + ',sk=' + keyVal + ',ck=purchase_log_csv',
+        url: 'https://ceres.link/api/override_keys/api_key=' + this.state.api_key + ';data:pk=' + this.state.pk + ',sk=' + keyVal + ',ck=purchase_log_csv',
         dataType: 'json',
         type: 'GET',
         success: function (data) {
@@ -158,7 +164,7 @@ class ApplicationSidebar extends React.Component {
         ck: keyVal
       })
       $.ajax({
-        url: 'https://ceres.link/api/override_keys/api_key=' + api_key + ';data:pk=' + this.state.pk + ',sk=' + this.state.sk + ',ck=' + keyVal,
+        url: 'https://ceres.link/api/override_keys/api_key=' + this.state.api_key + ';data:pk=' + this.state.pk + ',sk=' + this.state.sk + ',ck=' + keyVal,
         dataType: 'json',
         type: 'GET',
         success: function (data) {
@@ -172,26 +178,46 @@ class ApplicationSidebar extends React.Component {
     }
 
   }
+  handleClearKeys = () => {
+    this.pri_title = 'Data Scope';
+    this.sec_title = 'Scope Type';
+    this.third_title = 'Scope Context';
 
+    let pk = 'country';
+    let sk = 'united_states';
+    let ck = 'purchase_log_csv';
+
+    $.ajax({
+      url: 'https://ceres.link/api/override_keys/api_key=' + this.state.api_key + ';data:pk=' + pk + ',sk=' + sk + ',ck=' + ck,
+      dataType: 'json',
+      type: 'GET',
+      success: function (data) {
+        console.log("Default Successful Key Get Message", data)
+      }.bind(this),
+      error: function (error) {
+        console.log("Default Failure Key Get Msg", error);
+      }
+    });
+  }
   render() {
     let _this = this;
-    let pri_title = '', sec_title = '', third_title = '';
+
     if (this.state.pk == '') {
-      pri_title = 'Data Scope';
+      this.pri_title = 'Data Scope';
     } else {
-      pri_title = this.state.pk;
+      this.pri_title = this.state.pk;
     }
 
     if (this.state.sk == '') {
-      sec_title = 'Scope Type';
+      this.sec_title = 'Scope Type';
     } else {
-      sec_title = this.state.sk;
+      this.sec_title = this.state.sk;
     }
 
     if (this.state.ck == '') {
-      third_title = 'Scope Context';
+      this.third_title = 'Scope Context';
     } else {
-      third_title = this.state.ck;
+      this.third_title = this.state.ck;
     }
 
     return (
@@ -216,7 +242,7 @@ class ApplicationSidebar extends React.Component {
                   <div className='sidebar-header'>Filters</div>
 
                   <Col xs={12}>
-                    <DropdownButton bsStyle='darkgreen45' title={pri_title} id='primary_dropdown'>
+                    <DropdownButton bsStyle='darkgreen45' title={this.pri_title} id='primary_dropdown'>
                       {this.state.pri_keys.map(function (keyVal, i) {
                         return (<MenuItem key={i} eventKey={i} onSelect={() => _this.handleClick(keyVal, 'primary')}>{keyVal}</MenuItem>);
                       })}
@@ -224,14 +250,14 @@ class ApplicationSidebar extends React.Component {
                   </Col>
 
                   <Col xs={12}>
-                    <DropdownButton bsStyle='darkgreen45' title={sec_title} id='secondary_dropdown'>
+                    <DropdownButton bsStyle='darkgreen45' title={this.sec_title} id='secondary_dropdown'>
                       {this.state.sec_keys.map(function (keyVal, i) {
                         return (<MenuItem key={i} eventKey={i} onSelect={() => _this.handleClick(keyVal, 'second')}>{keyVal}</MenuItem>);
                       })}
                     </DropdownButton>
                   </Col>
                   <Col xs={12}>
-                    <DropdownButton bsStyle='darkgreen45' title={third_title} id='teritary_dropdown'>
+                    <DropdownButton bsStyle='darkgreen45' title={this.third_title} id='teritary_dropdown'>
                       {this.state.third_keys.map(function (keyVal, i) {
                         return (<MenuItem key={i} eventKey={i} onSelect={() => _this.handleClick(keyVal, 'third')}>{keyVal}</MenuItem>);
                       })}
@@ -239,7 +265,7 @@ class ApplicationSidebar extends React.Component {
                   </Col>
 
                   <Col xs={12}>
-                    <Button style={{ marginBottom: 5 }} bsStyle='danger'>Clear Selections</Button>
+                    <Button style={{ marginBottom: 5 }} bsStyle='danger' onClick={this.handleClearKeys}>Clear Selections</Button>
                   </Col>
                   <SidebarDivider />
 
