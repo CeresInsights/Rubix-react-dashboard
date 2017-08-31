@@ -221,7 +221,7 @@ export default class ProductPromotionByChannel extends React.Component {
 
             }.bind(this),
             error: function (error) {
-                console.log('SubPayUpdateERROR', error);
+                console.log('SubProductUpdateERROR', error);
             }
         });
 

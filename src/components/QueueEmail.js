@@ -22,29 +22,36 @@ import {
 } from '@sketchpixy/rubix';
 
 export default class QueueEmail extends React.Component {
-    constructor(props){
+    constructor(props) {
         super(props);
         this.state = {
+
         }
+        this.emails = [];
     }
     sendQueueRequest(e) {
         e.preventDefault();
-        e.stopPropagation();
+        // e.stopPropagation();
         let email = $('#email').val();
         $.ajax({
             url: 'http://ceres.link/api/email/queue/data:email=' + email,
             dataType: 'json',
             type: 'GET',
             success: function (data) {
-                this.errorNotification(data);
+                if (data === 'Queue OK') {
+                    this.emails.push(email);
+                    this.Notification(data);
+                }
+                localStorage.setItem('emails', JSON.stringify(this.emails));
             }.bind(this),
             error: function (error) {
                 console.log(error);
             }
         })
+        
     }
 
-    errorNotification(str) {
+    Notification(str) {
         Messenger().post({
             message: str,
             showCloseButton: true
@@ -68,33 +75,33 @@ export default class QueueEmail extends React.Component {
                                                     <div style={{ padding: 25, paddingTop: 0, paddingBottom: 0, margin: 'auto', marginBottom: 25, marginTop: 25 }}>
                                                         <Form onSubmit={::this.sendQueueRequest}>
                                                             <FormGroup controlId='email'>
-                                                                <InputGroup bsSize='large'>
-                                                                    <InputGroup.Addon>
-                                                                        <Icon glyph='icon-fontello-mail' />
-                                                                    </InputGroup.Addon>
-                                                                    <FormControl autoFocus type='text' className='border-focus-blue' placeholder='Email' />
-                                                                </InputGroup>
-                                                            </FormGroup>
-                                                            <FormGroup>
-                                                                <Grid>
-                                                                    <Row>
-                                                                        <Col xs={12} collapseLeft collapseRight>
-                                                                            <Button outlined lg type='submit' bsStyle='blue' onClick={::this.sendQueueRequest}>Preregistration</Button>
+                                                            <InputGroup bsSize='large'>
+                                                                <InputGroup.Addon>
+                                                                    <Icon glyph='icon-fontello-mail' />
+                                                                </InputGroup.Addon>
+                                                                <FormControl autoFocus type='text' className='border-focus-blue' placeholder='Email' />
+                                                            </InputGroup>
+                                                        </FormGroup>
+                                                        <FormGroup>
+                                                            <Grid>
+                                                                <Row>
+                                                                    <Col xs={12} collapseLeft collapseRight>
+                                                                        <Button outlined lg type='submit' bsStyle='blue' onClick={::this.sendQueueRequest}>Preregistration</Button>
                                                                         </Col>
                                                                     </Row>
                                                                 </Grid>
                                                             </FormGroup>
-                                                            <FormGroup>
-                                                                <Grid>
-                                                                    <Row>
-                                                                        <Col xs={12} collapseLeft collapseRight>
-                                                                            <div className='text-center' style={{ marginTop: 25 }}>
-                                                                                Did you get a pay code in your email? <Link to="/ltr/signup">Sign Up</Link>
-                                                                            </div>
-                                                                        </Col>
-                                                                    </Row>
-                                                                </Grid>
-                                                            </FormGroup>
+                                                    <FormGroup>
+                                                        <Grid>
+                                                            <Row>
+                                                                <Col xs={12} collapseLeft collapseRight>
+                                                                    <div className='text-center' style={{ marginTop: 25 }}>
+                                                                        Did you get a pay code in your email? <Link to="/ltr/signup">Sign Up</Link>
+                                                                    </div>
+                                                                </Col>
+                                                            </Row>
+                                                        </Grid>
+                                                    </FormGroup>
                                                         </Form>
                                                     </div>
                                                 </div>
@@ -104,7 +111,7 @@ export default class QueueEmail extends React.Component {
                                 </Col>
                             </Row>
                         </Grid>
-                    </div >
+            </div >
                 </div >
             </div >
     );

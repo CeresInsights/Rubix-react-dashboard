@@ -21,6 +21,7 @@ import ExecutiveDashboard from './components/ExecutiveDashboard/index';
 
 import Contact from './components/Contact';
 import LoadData from './components/LoadData';
+import SendEmail from './components/SendEmail';
 import Profile from './components/Profile';
 import DataBrowser from './components/DataBrowser';
 import Login from './components/Login';
@@ -85,6 +86,7 @@ const routes = (
     <Route path='databrowser' component={DataBrowser} />
     <Route path='contact' component={Contact} />
     <Route path='loaddata' component={LoadData} />
+    <Route path='sendemail' component={SendEmail} />
     <Route path='profile' component={Profile} />
     <Route path='sub_campaigns' component={CampaignsPromotionsAndLoyaltyDashboard} />
     <Route path='sub_promotion' component={ProductPromotionsByChannel} />

@@ -34,6 +34,8 @@ export default class Login extends React.Component {
     e.stopPropagation();
     let un = $('#username').val();
     let pw = $('#password').val();
+    localStorage.setItem('un', un);
+    localStorage.setItem('pw', pw);
     $.ajax({
       url: 'https://ceres.link/api/login/data:un='+un+',pw='+pw,
       dataType: 'json',

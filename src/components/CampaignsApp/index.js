@@ -1,6 +1,5 @@
 import React from 'react';
 import CampaignsPromotionsAndLoyaltyOptimization from './CampaignsPromotionsAndLoyaltyOptimization';
-
 import {
   Row,
   Tab,
@@ -29,10 +28,81 @@ import {
   PanelTabContainer,
   ButtonGroup
 } from '@sketchpixy/rubix';
-
 class ExportButtonGroup extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      api_key: '',
+    }
+  }
   componentDidMount() {
+    let api_key = '';
+    api_key = localStorage.getItem('api_key');
+    this.setState({ api_key: api_key })
+  }
+  handlePmaClick = () => {
+    $.ajax({
+      url: 'https://ceres.link/api/pma_request/api_key=' + this.state.api_key,
+      dataType: 'json',
+      type: 'GET',
+      success: function (data) {
+        console.log("PMA data", data)
+      }.bind(this),
+      error: function (error) {
+        console.log('PMA error', error);
+      }
+    });
+  }
+  handleCsvClick = () => {
+    $.ajax({
+      url: 'https://ceres.link/api/app/mad/csv/api_key=' + this.state.api_key,
+      dataType: 'json',
+      type: 'GET',
+      success: function (data) {
+        console.log("CSV mad", data)
+      }.bind(this),
+      error: function (error) {
+        console.log('CSV mad', error);
+      }
+    });
 
+    // ASI api
+    $.ajax({
+      url: 'https://ceres.link/api/app/asi/csv/api_key=' + this.state.api_key,
+      dataType: 'json',
+      type: 'GET',
+      success: function (data) {
+        console.log("CSV asi", data)
+      }.bind(this),
+      error: function (error) {
+        console.log('CSV asi', error);
+      }
+    });
+
+    // BDW api
+    $.ajax({
+      url: 'https://ceres.link/api/app/bdw/csv/api_key=' + this.state.api_key,
+      dataType: 'json',
+      type: 'GET',
+      success: function (data) {
+        console.log("CSV bdw", data)
+      }.bind(this),
+      error: function (error) {
+        console.log('CSV bdw', error);
+      }
+    });
+    //SMA channel
+    $.ajax({
+      url: 'https://ceres.link/api/sub_board/smart_channel/csv/api_key=' + this.state.api_key,
+      dataType: 'json',
+      type: 'GET',
+      success: function (data) {
+        console.log("CSV smart_channel", data)
+      }.bind(this),
+      error: function (error) {
+        console.log('CSV smart_channel', error);
+      }
+    });
   }
   render() {
     return (
@@ -53,8 +123,8 @@ class ExportButtonGroup extends React.Component {
                 <Col xs={12}>
                   <ButtonGroup justified>
                     <Button href="#" bsStyle='blue'>Send Customized Email</Button>
-                    <Button href="#" bsStyle='blue'>Push to Marketing Automation</Button>
-                    <Button href="#" bsStyle='blue'>Export to CSV</Button>
+                    <Button href="#" bsStyle='blue' onClick={this.handlePmaClick}>Push to Marketing Automation</Button>
+                    <Button href="#" bsStyle='blue' onClick={this.handleCsvClick}>Export to CSV</Button>
                   </ButtonGroup>
                 </Col>
               </Row>

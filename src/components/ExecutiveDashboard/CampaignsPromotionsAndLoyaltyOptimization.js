@@ -65,7 +65,6 @@ export default class CampaignsPromotionsAndLoyaltyOptimization extends React.Com
             dataType: 'json',
             type: 'GET',
             success: function (data) {
-                console.log("CSR data", data);
                 this.setState({ csr_total_market: data["total_market_spend"] })
                 this.setState({ csr_data: data });
             }.bind(this),
@@ -176,7 +175,7 @@ export default class CampaignsPromotionsAndLoyaltyOptimization extends React.Com
         (() => {
             $('#bdw_chart').html('');
             var bdw_chart = new Rubix('#bdw_chart', {
-                height: 100,
+                height: 200,
                 title: 'Customer Purchase Time Analysis',
                 subtitle: 'Best Day Of Week',
                 titleColor: '#D71F4B',
@@ -222,7 +221,7 @@ export default class CampaignsPromotionsAndLoyaltyOptimization extends React.Com
             //MAD chart
             $('#mad_chart').html('');
             var mad_chart = new Rubix('#mad_chart', {
-                height: 100,
+                height: 200,
                 title: 'Customer Purchase Time Analysis',
                 subtitle: 'Monthly Activity Distribution',
                 titleColor: '#D71F4B',

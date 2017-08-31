@@ -50,6 +50,9 @@ class ApplicationSidebar extends React.Component {
   }
 
   componentDidMount() {
+    console.log("pk", localStorage.getItem('pk'))
+    console.log("sk", localStorage.getItem('sk'))
+    console.log("ck", localStorage.getItem('ck'))
     this.UserList();
   }
 
@@ -70,13 +73,13 @@ class ApplicationSidebar extends React.Component {
       }
     })
 
-    // let pk = 'country';
-    // let sk = 'united_states';
-    // let ck = 'purchase_log_csv';
-
     let pk = 'country';
     let sk = 'united_states';
-    let ck = 'customer_profile_csv';
+    let ck = 'purchase_log_csv';
+
+    // let pk = 'country';
+    // let sk = 'united_states';
+    // let ck = 'customer_profile_csv';
     $.ajax({
       url: 'https://ceres.link/api/override_keys/api_key=' + api_key + ';data:pk=' + pk + ',sk=' + sk + ',ck=' + ck,
       dataType: 'json',
@@ -114,7 +117,7 @@ class ApplicationSidebar extends React.Component {
       })
 
       $.ajax({
-        url: 'https://ceres.link/api/override_keys/api_key=' + api_key + ';data:pk=' + keyVal + ',sk=united_states,ck=customer_profile_csv',
+        url: 'https://ceres.link/api/override_keys/api_key=' + api_key + ';data:pk=' + keyVal + ',sk=united_states,ck=purchase_log_csv',
         dataType: 'json',
         type: 'GET',
         success: function (data) {
@@ -246,6 +249,7 @@ class ApplicationSidebar extends React.Component {
                   <SidebarNavItem glyph='icon-simple-line-icons-users' name='Signup' href={::this.getPath('signup')} />
                   <SidebarNavItem glyph='icon-fontello-contacts' name='Contact Us' href={::this.getPath('contact')} />
                   <SidebarNavItem glyph='icon-feather-inbox' name='Load Data' href={::this.getPath('loaddata')} />
+                  <SidebarNavItem glyph='icon-fontello-mail' name='Send Email' href={::this.getPath('sendemail')} />
                   <SidebarNavItem glyph='icon-outlined-profile' name='Profile' href={::this.getPath('profile')} />
                   <SidebarNavItem glyph='icon-mfizz-database' name='Data Browser' href={::this.getPath('databrowser')} />
                 </SidebarNav>
