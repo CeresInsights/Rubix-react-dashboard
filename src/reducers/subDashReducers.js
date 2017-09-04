@@ -1,59 +1,32 @@
 import * as types from '../constants/actionTypes';
-import initialState from './initialState';
 
-export const subDsaReducer = (state = initialState.subDsa, action) => {
+const initialState = {
+    subChannel: [],
+    subDsa: [],
+    subAsi: [],
+    subMad: [],
+    subBdw: []
+}
+
+export const subDashboardReducer = (state = initialState, action) => {
     switch (action.type) {
         case types.FETCH_SUB_DSA_SUCCESS:
-            return action.data;
-        default:
-            return state;
-    }
-}
-
-export const subSmaChannelReducer = (state = initialState.subChannel, action) => {
-    switch (action.type) {
+            return action.subDsa;
         case types.FETCH_SUB_CHANNAL_SUCCESS:
             return [
-                ...state, Object.assign({}, action.data)
+                ...state, Object.assign({}, action.subChannel)
             ]
-        //   return action.data;
-        default:
-            return state;
-    }
-}
-
-export const subSmaProductReducer = (state = initialState.subChannel, action) => {
-    switch (action.type) {
-        case types.FETCH_SUB_CHANNAL_SUCCESS:
-            return action.data;
-        default:
-            return state;
-    }
-}
-
-export const subBdwReducer = (state = initialState.subBdw, action) => {
-    switch (action.type) {
         case types.FETCH_BDW_SUCCESS:
-            return action.data;
-        default:
-            return state;
-    }
-}
-
-export const subMadReducer = (state = initialState.subMad, action) => {
-    switch (action.type) {
+            return action.subBdw;
         case types.FETCH_MAD_SUCCESS:
-            return action.data;
+            return action.subMad;
+        case types.FETCH_ASI_SUCCESS:
+            return action.subAsi;
         default:
             return state;
     }
 }
 
-export const subAsiReducer = (state = initialState.subAsi, action) => {
-    switch (action.type) {
-        case types.FETCH_ASI_SUCCESS:
-            return action.data;
-        default:
-            return state;
-    }
+module.exports = {
+    subDashboardReducer,
 }

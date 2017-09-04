@@ -1,128 +1,433 @@
-import * as types from  '../constants/actionTypes';
+import * as types from '../constants/actionTypes';
 import Axios from 'axios';
 
+//////Sub Dashboard Normal Apis///////////////////////////////
 const apiDsa = 'https://ceres.link/api/sub_board/dsa/api_key=';
 const apiChannel = 'https://ceres.link/api/sub_board/sma_channel/api_key=';
 const apiProduct = 'https://ceres.link/api/sub_board/sma_product/api_key=';
+const apiProdPay = 'https://ceres.link/api/sub_board/prod_pay/api_key=';
+const apiProdProduct = 'https://ceres.link/api/sub_board/prod_product/api_key=';
+
 const apiBdw = 'https://ceres.link/api/app/bdw/api_key=';
 const apiMad = 'https://ceres.link/api/app/bdw/api_key=';
 const apiAsi = 'https://ceres.link/api/app/asi/api_key=';
 
-///////////////////Promotion App Apis///////////////////////////////
-    // DSA(Digital Shopping Activity) api in Promotion App
-    export const fetchDsaDataSuccess = (data) => {
-        return {
-            type: types.FETCH_SUB_DSA_SUCCESS,
-            data
-        }
-    }
+///////Sub Dashboard Recommender Apis
+const apiChannelRecommender = 'https://ceres.link/api/sub_board/smart_channel/api_key=';
+const apiProductRecommender = 'https://ceres.link/api/sub_board/smart_product/api_key=';
+const apiDsaRecommender = 'https://ceres.link/api/sub_board/smart_dsa/api_key=';
+const apiProdPayRecommender = 'https://ceres.link/api/sub_board/smart_pay/api_key=';
+const apiProdProductRecommender = 'https://ceres.link/api/sub_board/smart_prod/api_key=';
 
-    export const fetchDsaData = (apiKey) => {
-        return (dispatch) => {
-            return Axios.get(apiDsa + apiKey)
+////////////////Sub Dashboard CSV Apis////////////////////////
+const apiChannelCsv = 'https://ceres.link/api/sub_board/smart_channel/csv/api_key=';
+const apiProductCsv = 'https://ceres.link/api/sub_board/smart_product/csv/api_key=';
+const apiDsaCsv = 'https://ceres.link/api/sub_board/smart_dsa/csv/api_key=';
+const apiProdPayCsv = 'https://ceres.link/api/sub_board/smart_pay/csv/api_key=';
+const apiProdProductCsv = 'https://ceres.link/api/sub_board/smart_prod/csv/api_key=';
+
+////////////////Sub Dashboard PMA Api//////////////////////////////
+const apiPma = 'https://ceres.link/api/pma_request/api_key=';
+
+//////////////////Sub Dashboard Normal Apis///////////////////////////
+
+///////////Promotion App Apis////////////
+// DSA(Digital Shopping Activity) api in Promotion App
+export const fetchDsaDataSuccess = (dsa) => {
+    return {
+        type: types.FETCH_SUB_DSA_SUCCESS,
+        dsa
+    }
+}
+
+export const fetchDsaData = (apiKey) => {
+    return (dispatch) => {
+        return Axios.get(apiDsa + apiKey)
             .then(response => {
                 dispatch(fetchDsaDataSuccess(response.data))
             })
             .catch(error => {
-                throw(error);
+                throw (error);
             });
-        };
+    };
+}
+//SMA channel api in Promotion App
+export const fetchChannelDataSuccess = (channel) => {
+    return {
+        type: types.FETCH_SUB_CHANNAL_SUCCESS,
+        channel
     }
-    //SMA channel api in Promotion App
-    export const fetchChannelDataSuccess = (data) => {
-        return {
-            type: types.FETCH_SUB_CHANNAL_SUCCESS,
-            data
-        }
-    }
+}
 
-    export const fetchChannelData = (apiKey) => {
-        return (dispatch) => {
-            return Axios.get(apiChannel+apiKey)
+export const fetchChannelData = (apiKey) => {
+    return (dispatch) => {
+        return Axios.get(apiChannel + apiKey)
             .then(response => {
                 dispatch(fetchChannelDataSuccess(response.data))
             })
             .catch(error => {
-                throw(error);
+                throw (error);
             });
-        };
+    };
+}
+// SMA product api in Promotion App
+export const fetchProductDataSuccess = (product) => {
+    return {
+        type: types.FETCH_SUB_PRODUCT_SUCCESS,
+        product
     }
-    // SMA product api in Promotion App
-    export const fetchProductDataSuccess = (data) => {
-        return {
-            type: types.FETCH_SUB_PRODUCT_SUCCESS,
-            data
-        }
-    }
+}
 
-    export const fetchProductData = (apiKey) => {
-        return (dispatch) => {
-            return Axios.get(apiProduct + apiKey)
+export const fetchProductData = (apiKey) => {
+    return (dispatch) => {
+        return Axios.get(apiProduct + apiKey)
             .then(response => {
                 dispatch(fetchProductDataSuccess(response.data))
             })
             .catch(error => {
-                throw(error);
+                throw (error);
             });
-        };
+    };
+}
+// Prod Pay Api////////////
+export const fetchProdPayDataSuccess = (prodPay) => {
+    return {
+        type: types.FETCH_SUB_PROD_PAY_SUCCESS,
+        prodPay
     }
+}
+
+export const fetchProdPayData = (apiKey) => {
+    return (dispatch) => {
+        return Axios.get(apiProdPay + apiKey)
+            .then(response => {
+                dispatch(fetchProdPayDataSuccess(response.data))
+            })
+            .catch(error => {
+                throw (error);
+            });
+    };
+}
+//Prod Product Api//////////////////
+export const fetchProdProductDataSuccess = (prodProduct) => {
+    return {
+        type: types.FETCH_SUB_PROD_PRODUCT_SUCCESS,
+        prodProduct
+    }
+}
+
+export const fetchProdProductData = (apiKey) => {
+    return (dispatch) => {
+        return Axios.get(apiProdProduct + apiKey)
+            .then(response => {
+                dispatch(fetchProdProductDataSuccess(response.data))
+            })
+            .catch(error => {
+                throw (error);
+            });
+    };
+}
 
 ////////// Campaigns App CPTA 3 Apis//////////////////////
-    // BDW Api
-    export const fetchBdwDataSuccess = (data) => {
-        return {
-            type: types.FETCH_BDW_SUCCESS,
-            data
-        }
-    }
+/////////////////////////MAD api/////////////
+export const fetchMadDataSuccess = (mad) => {
 
-    export const fetchBdwData = (apiKey) => {
-        return (dispatch) => {
-            return Axios.get(apiBdw + apiKey)
+    return {
+        type: types.FETCH_MAD_SUCCESS,
+        mad
+    }
+}
+
+export const fetchMadData = (apiKey) => {
+
+    return (dispatch) => {
+        return Axios.get(apiMad + apiKey)
             .then(response => {
-                dispatch(fetchBdwDataSuccess(response.data))
+                dispatch(fetchMadDataSuccess(response.data))
             })
             .catch(error => {
-                throw(error);
+                throw (error);
             });
-        };
-    }
+    };
+}
 
-    //Mad Api
-    export const fetchBdwDataSuccess = (data) => {
-        return {
-            type: types.FETCH_MAD_SUCCESS,
-            data
-        }
-    }
+//////////////////////// ASI api///////////////////////////
+export const fetchAsiDataSuccess = (asi) => {
 
-    export const fetchBdwData = (apiKey) => {
-        return (dispatch) => {
-            return Axios.get(apiMad + apiKey)
-            .then(response => {
-                dispatch(fetchBdwDataSuccess(response.data))
-            })
-            .catch(error => {
-                throw(error);
-            });
-        };
+    return {
+        type: types.FETCH_ASI_SUCCESS,
+        asi
     }
-    //ASI Api
-    export const fetchAsiDataSuccess = (data) => {
-        return {
-            type: types.FETCH_ASI_SUCCESS,
-            data
-        }
-    }
+}
 
-    export const fetchAsiData = (apiKey) => {
-        return (dispatch) => {
-            return Axios.get(apiAsi + apiKey)
+export const fetchAsiData = (apiKey) => {
+
+    return (dispatch) => {
+        return Axios.get(apiAsi + apiKey)
             .then(response => {
                 dispatch(fetchAsiDataSuccess(response.data))
             })
             .catch(error => {
-                throw(error);
+                throw (error);
             });
-        };
+    };
+}
+/////////////////////////BDW api////////////////////////
+export const fetchBdwDataSuccess = (bdw) => {
+
+    return {
+        type: types.FETCH_BDW_SUCCESS,
+        bdw
     }
+}
+
+export const fetchBdwData = (apiKey) => {
+
+    return (dispatch) => {
+        return Axios.get(apiBdw + apiKey)
+            .then(response => {
+                dispatch(fetchBdwDataSuccess(response.data))
+            })
+            .catch(error => {
+                throw (error);
+            });
+    };
+}
+
+//////////////////Sub Dashboard CSV Apis////////////////////
+////////////////////// Sma Channel Csv api////////////
+export const fetchChannelCsvDataSuccess = (channelCsv) => {
+
+    return {
+        type: types.FETCH_SUB_CHANNEL_CSV_SUCCESS,
+        channelCsv
+    }
+}
+
+export const fetchChannelCsvData = (apiKey) => {
+
+    return (dispatch) => {
+        return Axios.get(apiChannelCsv + apiKey)
+            .then(response => {
+                dispatch(fetchChannelCsvDataSuccess(response.data))
+            })
+            .catch(error => {
+                throw (error);
+            });
+    };
+}
+/////////////////////// Sma Product Csv api//////////////
+export const fetchProductCsvDataSuccess = (productCsv) => {
+
+    return {
+        type: types.FETCH_SUB_PRODUCT_CSV_SUCCESS,
+        productCsv
+    }
+}
+
+export const fetchProductCsvData = (apiKey) => {
+
+    return (dispatch) => {
+        return Axios.get(apiProductCsv + apiKey)
+            .then(response => {
+                dispatch(fetchProductCsvDataSuccess(response.data))
+            })
+            .catch(error => {
+                throw (error);
+            });
+    };
+}
+/////////////////// DSA CSV api///////////////////////
+export const fetchDsaCsvDataSuccess = (dsaCsv) => {
+
+    return {
+        type: types.FETCH_SUB_DSA_CSV_SUCCESS,
+        dsaCsv
+    }
+}
+
+export const fetchDsaCsvData = (apiKey) => {
+
+    return (dispatch) => {
+        return Axios.get(apiDsaCsv + apiKey)
+            .then(response => {
+                dispatch(fetchDsaCsvDataSuccess(response.data))
+            })
+            .catch(error => {
+                throw (error);
+            });
+    };
+}
+
+/////////////////////////////Prod Pay Api////////////////////////
+export const fetchProdPayCsvDataSuccess = (prodPayCsv) => {
+
+    return {
+        type: types.FETCH_SUB_PROD_PAY_CSV_SUCCESS,
+        prodPayCsv
+    }
+}
+
+export const fetchProdPayCsvData = (apiKey) => {
+
+    return (dispatch) => {
+        return Axios.get(apiProdPayCsv + apiKey)
+            .then(response => {
+                dispatch(fetchProdPayCsvDataSuccess(response.data))
+            })
+            .catch(error => {
+                throw (error);
+            });
+    };
+}
+////////////////////////Prod Product Api//////////////////////
+export const fetchProdProductCsvDataSuccess = (prodProductCsv) => {
+
+    return {
+        type: types.FETCH_SUB_PROD_PRODUCT_CSV_SUCCESS,
+        prodProductCsv
+    }
+}
+
+export const fetchProdProductCsvData = (apiKey) => {
+
+    return (dispatch) => {
+        return Axios.get(apiProdProductCsv + apiKey)
+            .then(response => {
+                dispatch(fetchProdProductCsvDataSuccess(response.data))
+            })
+            .catch(error => {
+                throw (error);
+            });
+    };
+}
+////////////////////Sub Dashboard Recommender Apis////////////////
+//////////////////////////////////////////////////////////////////
+////////////////////// Sma Channel Csv api////////////
+export const fetchChannelRecommenderDataSuccess = (channelRecommender) => {
+
+    return {
+        type: types.FETCH_SUB_CHANNEL_RECOMMENDER_SUCCESS,
+        channelRecommender
+    }
+}
+
+export const fetchChannelRecommenderData = (apiKey) => {
+
+    return (dispatch) => {
+        return Axios.get(apiChannelRecommender + apiKey)
+            .then(response => {
+                dispatch(fetchChannelRecommenderDataSuccess(response.data))
+            })
+            .catch(error => {
+                throw (error);
+            });
+    };
+}
+/////////////////////// Sma Product Csv api//////////////
+export const fetchProductRecommenderDataSuccess = (productRecommender) => {
+
+    return {
+        type: types.FETCH_SUB_PRODUCT_RECOMMENDER_SUCCESS,
+        productRecommender
+    }
+}
+
+export const fetchProductRecommenderData = (apiKey) => {
+
+    return (dispatch) => {
+        return Axios.get(apiProductRecommender + apiKey)
+            .then(response => {
+                dispatch(fetchProductRecommenderDataSuccess(response.data))
+            })
+            .catch(error => {
+                throw (error);
+            });
+    };
+}
+/////////////////// DSA CSV api///////////////////////
+export const fetchDsaRecommenderDataSuccess = (dsaRecommender) => {
+
+    return {
+        type: types.FETCH_SUB_DSA_RECOMMENDER_SUCCESS,
+        dsaRecommender
+    }
+}
+
+export const fetchDsaRecommenderData = (apiKey) => {
+
+    return (dispatch) => {
+        return Axios.get(apiDsaRecommender + apiKey)
+            .then(response => {
+                dispatch(fetchDsaRecommenderDataSuccess(response.data))
+            })
+            .catch(error => {
+                throw (error);
+            });
+    };
+}
+
+/////////////////////////////Prod Pay Api////////////////////////
+export const fetchProdPayRecommenderDataSuccess = (prodPayRecommender) => {
+
+    return {
+        type: types.FETCH_SUB_PROD_PAY_RECOMMENDER_SUCCESS,
+        prodPayRecommender
+    }
+}
+
+export const fetchProdPayRecommenderData = (apiKey) => {
+
+    return (dispatch) => {
+        return Axios.get(apiProdPayCsv + apiKey)
+            .then(response => {
+                dispatch(fetchProdPayRecommenderDataSuccess(response.data))
+            })
+            .catch(error => {
+                throw (error);
+            });
+    };
+}
+////////////////////////Prod Product Recommender Api//////////////////////
+export const fetchProdProductRecommenderDataSuccess = (prodProductRecommender) => {
+
+    return {
+        type: types.FETCH_SUB_PROD_PRODUCT_RECOMMENDER_SUCCESS,
+        prodProductRecommender
+    }
+}
+
+export const fetchProdProductRecommenderData = (apiKey) => {
+
+    return (dispatch) => {
+        return Axios.get(apiProdProductRecommender + apiKey)
+            .then(response => {
+                dispatch(fetchProdProductRecommenderDataSuccess(response.data))
+            })
+            .catch(error => {
+                throw (error);
+            });
+    };
+}
+
+///////////////////////////////Sub Dashboard PMA Api///////////////////
+export const fetchPmaDataSuccess = (pma) => {
+
+    return {
+        type: types.FETCH_PMA_SUCCESS,
+        pma
+    }
+}
+
+export const fetchPmaData = (apiKey) => {
+
+    return (dispatch) => {
+        return Axios.get(apiPma + apiKey)
+            .then(response => {
+                dispatch(fetchPmaDataSuccess(response.data))
+            })
+            .catch(error => {
+                throw (error);
+            });
+    };
+}

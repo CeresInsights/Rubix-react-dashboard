@@ -152,10 +152,10 @@ export default class Signup extends React.Component {
                                   <Col xs={12} collapseLeft collapseRight>
                                     <Button type='submit' outlined lg bsStyle='blue' block onClick={::this.signup}>Create account</Button>
                                     <div className='text-center' style={{ marginTop: 25 }}>
-                                      Already have an account? <Link to={::this.getPath('login')}>Login</Link>
+                                      Already have an account? <Link to="/login">Login</Link>
                                     </div>
                                     <div className='text-center' style={{ marginTop: 25 }}>
-                                      Have you already done email preregistration? <Link to={::this.getPath('queueemail')}>Email Preregistration</Link>
+                                      Have you already done email preregistration? <Link to="/queueemail">Email Preregistration</Link>
                                     </div>
                                     </Col>
                                   </Row>

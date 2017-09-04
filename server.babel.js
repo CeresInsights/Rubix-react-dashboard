@@ -7,8 +7,18 @@ import React from 'react';
 import ReactDOMServer from 'react-dom/server';
 
 import routes from './src/routes';
-import { renderHTMLString } from '@sketchpixy/rubix/lib/node/router';
+// import { renderHTMLString } from '@sketchpixy/rubix/lib/node/router';
+import { 
+  setupReducers,
+  renderHTMLString,
+  // applyMiddleware
+ } from '@sketchpixy/rubix/lib/node/redux-router';
+import rootReducer from './src/reducers';
+// import thunkMiddleware from 'redux-thunk';
 import RubixAssetMiddleware from '@sketchpixy/rubix/lib/node/RubixAssetMiddleware';
+
+setupReducers(rootReducer);
+// applyMiddleware(thunkMiddleware);
 
 const port = process.env.PORT || 8080;
 

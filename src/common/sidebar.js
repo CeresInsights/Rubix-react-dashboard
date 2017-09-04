@@ -47,11 +47,11 @@ class ApplicationSidebar extends React.Component {
     this._nav.search(e.target.value);
   }
 
-  getPath(path) {
-    var dir = this.props.location.pathname.search('rtl') !== -1 ? 'rtl' : 'ltr';
-    path = `/${dir}/${path}`;
-    return path;
-  }
+  // getPath(path) {
+  //   var dir = this.props.location.pathname.search('rtl') !== -1 ? 'rtl' : 'ltr';
+  //   path = `/${dir}/${path}`;
+  //   return path;
+  // }
 
   componentDidMount() {
     console.log("pk", localStorage.getItem('pk'))
@@ -232,10 +232,10 @@ class ApplicationSidebar extends React.Component {
                   { /** Pages Section */}
                   <div className='sidebar-header'>PAGES</div>
 
-                  <SidebarNavItem glyph='icon-fontello-gauge' name='Executive Dashboard' href={::this.getPath('executivedashboard')} />
-                  <SidebarNavItem glyph='icon-ikons-chart' name='Campaigns App' href={::this.getPath('sub_campaigns')} />
-                  <SidebarNavItem glyph='icon-ikons-chart-1-4' name='Promotion App' href={::this.getPath('sub_promotion')} />
-                  <SidebarNavItem glyph='icon-fontello-chart-bar' name='Product App' href={::this.getPath('sub_product')} />
+                  <SidebarNavItem glyph='icon-fontello-gauge' name='Executive Dashboard' href="/executivedashboard" />
+                  <SidebarNavItem glyph='icon-ikons-chart' name='Campaigns App' href="/sub_campaigns" />
+                  <SidebarNavItem glyph='icon-ikons-chart-1-4' name='Promotion App' href="/sub_promotion" />
+                  <SidebarNavItem glyph='icon-fontello-chart-bar' name='Product App' href="/sub_product" />
                   <SidebarDivider />
 
                   { /** Components Section */}
@@ -271,13 +271,13 @@ class ApplicationSidebar extends React.Component {
 
                   { /** Extras Section */}
                   <div className='sidebar-header'>EXTRAS</div>
-                  <SidebarNavItem glyph='icon-ikons-login' name='Login' href={::this.getPath('login')} />
-                  <SidebarNavItem glyph='icon-simple-line-icons-users' name='Signup' href={::this.getPath('signup')} />
-                  <SidebarNavItem glyph='icon-fontello-contacts' name='Contact Us' href={::this.getPath('contact')} />
-                  <SidebarNavItem glyph='icon-feather-inbox' name='Load Data' href={::this.getPath('loaddata')} />
-                  <SidebarNavItem glyph='icon-fontello-mail' name='Send Email' href={::this.getPath('sendemail')} />
-                  <SidebarNavItem glyph='icon-outlined-profile' name='Profile' href={::this.getPath('profile')} />
-                  <SidebarNavItem glyph='icon-mfizz-database' name='Data Browser' href={::this.getPath('databrowser')} />
+                  <SidebarNavItem glyph='icon-ikons-login' name='Login' href="/login"  />
+                  <SidebarNavItem glyph='icon-simple-line-icons-users' name='Signup' href="/signup"  />
+                  <SidebarNavItem glyph='icon-fontello-contacts' name='Contact Us' href="/contact"  />
+                  <SidebarNavItem glyph='icon-feather-inbox' name='Load Data' href="/loaddata"  />
+                  <SidebarNavItem glyph='icon-fontello-mail' name='Send Email' href="/sendemail"  />
+                  <SidebarNavItem glyph='icon-outlined-profile' name='Profile' href="/profile"  />
+                  <SidebarNavItem glyph='icon-mfizz-database' name='Data Browser' href="/databrowser"  />
                 </SidebarNav>
                 <br />
                 <br />

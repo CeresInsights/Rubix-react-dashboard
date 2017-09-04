@@ -49,7 +49,7 @@ export default class AdminLogin extends React.Component {
             type: 'GET',
             success: function (data) {
                 if (data == 'Admin: <' + this.un + '> logged in to <home>') {
-                    browserHistory.push('/ltr/executivedashboard');
+                    browserHistory.push('/executivedashboard');
                 } else {
                     this.Notification(data);
                 }

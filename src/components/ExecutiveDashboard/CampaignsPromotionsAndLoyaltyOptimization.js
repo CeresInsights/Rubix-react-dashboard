@@ -59,61 +59,61 @@ export default class CampaignsPromotionsAndLoyaltyOptimization extends React.Com
         let api_key = '';
         api_key = localStorage.getItem('api_key');
 
-        // CSR api
-        $.ajax({
-            url: 'https://ceres.link/api/app/csr/api_key=' + api_key,
-            dataType: 'json',
-            type: 'GET',
-            success: function (data) {
-                this.setState({ csr_total_market: data["total_market_spend"] })
-                this.setState({ csr_data: data });
-            }.bind(this),
-            error: function (error) {
-                console.log('error', error);
-            }
-        });
-        /////////////////////CPTA APIS////////////////
-        // BWD api
-        $.ajax({
-            url: 'https://ceres.link/api/app/bdw/api_key=' + api_key,
-            dataType: 'json',
-            type: 'GET',
-            success: function (data) {
-                console.log("BDW data", data);
-                this.setState({ 'bdw_data': data });
-            }.bind(this),
-            error: function (error) {
-                console.log('bdw_data error', error);
-            }
-        });
+        // // CSR api
+        // $.ajax({
+        //     url: 'https://ceres.link/api/app/csr/api_key=' + api_key,
+        //     dataType: 'json',
+        //     type: 'GET',
+        //     success: function (data) {
+        //         this.setState({ csr_total_market: data["total_market_spend"] })
+        //         this.setState({ csr_data: data });
+        //     }.bind(this),
+        //     error: function (error) {
+        //         console.log('error', error);
+        //     }
+        // });
+        // /////////////////////CPTA APIS////////////////
+        // // BWD api
+        // $.ajax({
+        //     url: 'https://ceres.link/api/app/bdw/api_key=' + api_key,
+        //     dataType: 'json',
+        //     type: 'GET',
+        //     success: function (data) {
+        //         console.log("BDW data", data);
+        //         this.setState({ 'bdw_data': data });
+        //     }.bind(this),
+        //     error: function (error) {
+        //         console.log('bdw_data error', error);
+        //     }
+        // });
 
-        //MAD api
-        $.ajax({
-            url: 'https://ceres.link/api/app/mad/api_key=' + api_key,
-            dataType: 'json',
-            type: 'GET',
-            success: function (data) {
-                console.log("MAD data", data)
-                this.setState({ 'mad_data': data });
-            }.bind(this),
-            error: function (error) {
-                console.log('error', error);
-            }
-        });
+        // //MAD api
+        // $.ajax({
+        //     url: 'https://ceres.link/api/app/mad/api_key=' + api_key,
+        //     dataType: 'json',
+        //     type: 'GET',
+        //     success: function (data) {
+        //         console.log("MAD data", data)
+        //         this.setState({ 'mad_data': data });
+        //     }.bind(this),
+        //     error: function (error) {
+        //         console.log('error', error);
+        //     }
+        // });
 
-        // ASI api
-        $.ajax({
-            url: 'https://ceres.link/api/app/asi/api_key=' + api_key,
-            dataType: 'json',
-            type: 'GET',
-            success: function (data) {
-                console.log("ADI data", data)
-                this.setState({ 'asi_data': data });
-            }.bind(this),
-            error: function (error) {
-                console.log('asi_data error', error);
-            }
-        });
+        // // ASI api
+        // $.ajax({
+        //     url: 'https://ceres.link/api/app/asi/api_key=' + api_key,
+        //     dataType: 'json',
+        //     type: 'GET',
+        //     success: function (data) {
+        //         console.log("ADI data", data)
+        //         this.setState({ 'asi_data': data });
+        //     }.bind(this),
+        //     error: function (error) {
+        //         console.log('asi_data error', error);
+        //     }
+        // });
         /////////////////PLE API////////////////////
         //Get Data For Executive Dashboard SMA Channel 
         $.ajax({
