@@ -1,5 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router';
+import { connect } from 'react-redux';
+import * as execDashActions from '../../actions/execDashActions';
 import '../app.scss';
 
 import {
@@ -31,7 +33,7 @@ import {
     ButtonGroup
 } from '@sketchpixy/rubix';
 
-
+@connect((state) => state)
 export default class ProductPromotionByChannel extends React.Component {
     constructor(props) {
         super(props);
@@ -44,56 +46,45 @@ export default class ProductPromotionByChannel extends React.Component {
         }
     }
     componentDidMount() {
-        let api_key = '';
-        api_key = localStorage.getItem('api_key');
-        //Get Data For Executive Dashboard SMA Product
-        $.ajax({
-            url: 'https://ceres.link/api/exec_board/sma_product/api_key=' + api_key,
-            dataType: 'json',
-            type: 'GET',
-            success: function (data) {
-                console.log("ExecProduct", data);
-                let sma_product_keys = [];
-                let sma_product_values = [];
-
-                sma_product_keys = Object.keys(data);
-                sma_product_keys.map((item) => {
-                    sma_product_values.push(data[item]["most popular"])
-                })
-                this.setState({
-                    sma_product_keys: sma_product_keys,
-                    sma_product_values: sma_product_values
-                })
-            }.bind(this),
-            error: function (error) {
-                console.log('ExecProductError', error);
-            }
-        });
-
-        //Get Data For Executive Dashboard DSA
-        $.ajax({
-            url: 'https://ceres.link/api/exec_board/dsa/api_key=' + api_key,
-            dataType: 'json',
-            type: 'GET',
-            success: function (data) {
-                let dsa_keys = [];
-                let dsa_values = [];
-
-                dsa_keys = Object.keys(data);
-                dsa_keys.map((item) => {
-                    dsa_values.push(data[item]["most popular"])
-                })
-                this.setState({
-                    dsa_keys: dsa_keys,
-                    dsa_values: dsa_values
-                })
-            }.bind(this),
-            error: function (error) {
-                console.log('ExecDsaError', error);
-            }
-        });
-
+        let temp = {};
+        let apiKey = '';
+        temp = this.props.authReducer;
+        apiKey = temp["key"];
+        const { dispatch } = this.props;
+        dispatch(execDashActions.fetchDsaData(apiKey));
+        dispatch(execDashActions.fetchProductData(apiKey));
     }
+    componentWillReceiveProps(nextProps) {
+        ////////////////SMA Product Data operation/////////////////
+        let temp_product = {};
+        let sma_product_keys = [];
+        let sma_product_values = [];
+        
+        temp_product = nextProps.product;
+        sma_product_keys = Object.keys(temp_product);
+        sma_product_keys.map((item) => {
+            sma_product_values.push(temp_product[item]["most popular"])
+        })
+        this.setState({
+            sma_product_keys: sma_product_keys,
+            sma_product_values: sma_product_values
+        })
+        /////////////////DSA Data Operation/////////////////////
+        let temp_dsa = {};
+        let dsa_keys = [];
+        let dsa_values = [];
+
+        temp_dsa = nextProps.dsa;
+        dsa_keys = Object.keys(temp_dsa);
+        dsa_keys.map((item) => {
+            dsa_values.push(temp_dsa[item]["most popular"])
+        })
+        this.setState({
+            dsa_keys: dsa_keys,
+            dsa_values: dsa_values
+        })
+    }
+
     renderSmaProductTiles = () => {
         let sma_product_keys = [];
         let sma_product_values = [];

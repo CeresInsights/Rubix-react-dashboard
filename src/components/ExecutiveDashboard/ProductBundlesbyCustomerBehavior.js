@@ -45,9 +45,6 @@ export default class ProductBundlesbyCustomerBehavior extends React.Component {
         }
     }
     componentDidMount() {
-
-        // let api_key = '';
-        // api_key = localStorage.getItem('api_key');
         let temp = {};
         let apiKey = '';
         temp = this.props.authReducer;
@@ -57,8 +54,6 @@ export default class ProductBundlesbyCustomerBehavior extends React.Component {
         dispatch(execDashActions.fetchProdProductData(apiKey));
     }
     componentWillReceiveProps(nextProps) {
-        console.log("proPay", nextProps.prodPay)
-        console.log("proProduct", nextProps.prodProduct)
         ///////ProdPay Data Operation///////////
         let temp_pay = {};
         let prod_pay_keys = [];
