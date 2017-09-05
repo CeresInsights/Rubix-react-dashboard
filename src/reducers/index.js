@@ -43,7 +43,8 @@ import {
   defaultKeysReducer,
   selectedKeysReducer,
   dataLoadReducer,
-  browserDataReducer
+  defaultBrowserDataReducer,
+  selectedBrowserDataReducer
 } from './dataBrowserReducers';
 
 module.exports = {
@@ -62,8 +63,8 @@ module.exports = {
   defaultKeys: defaultKeysReducer,
   selectedKeys: selectedKeysReducer,
   loadData: dataLoadReducer,
-  browserData: browserDataReducer,
-
+  defaultBrowserData: defaultBrowserDataReducer,
+  selectedBrowserData: selectedBrowserDataReducer,
   subProdPay: subProdPayReducer,
   subProdProduct: subProdProductReducer,
   subChannel: subChannelReducer,

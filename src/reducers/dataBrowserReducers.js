@@ -5,7 +5,8 @@ const initialState = {
   defaultKeys: {},
   selectedKeys: {},
   loadData: '',
-  browserData: {},
+  defaultBrowserData: {},
+  selectedBrowserData: {}
 }
 
 export const allKeysReducer = (state = initialState.allKeys, action) => {
@@ -40,10 +41,18 @@ export const dataLoadReducer = (state = initialState.loadData, action) => {
       return state;
   }
 }
-export const browserDataReducer = (state = initialState.browserData, action) => {
+export const defaultBrowserDataReducer = (state = initialState.defaultBrowserData, action) => {
   switch (action.type) {
-    case types.FETCH_DATA_BROWSER_SUCCESS:
-      return action.browserData;
+    case types.FETCH_DEFAULT_DATA_BROWSER_SUCCESS:
+      return action.defaultBrowserData;
+    default:
+      return state;
+  }
+}
+export const selectedBrowserDataReducer = (state = initialState.selectedBrowserData, action) => {
+  switch (action.type) {
+    case types.FETCH_SELECTED_DATA_BROWSER_SUCCESS:
+      return action.selectedBrowserData;
     default:
       return state;
   }
@@ -54,5 +63,6 @@ module.exports = {
   defaultKeysReducer,
   selectedKeysReducer,
   dataLoadReducer,
-  browserDataReducer
+  defaultBrowserDataReducer,
+  selectedBrowserDataReducer
 };

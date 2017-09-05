@@ -7,20 +7,41 @@ const apiAllKeys = 'https://ceres.link/api/graphmeta/api_key=';
 const apiDataLoad = 'https://ceres.link/api/add_data/api_key=';
 
 ////////////// Data Browser Api////////////////////////////
-export const fetchBrowserDataSuccess = (browserData) => {
+export const fetchDefaultBrowserDataSuccess = (defaultBrowserData) => {
 
     return {
-        type: types.FETCH_DATA_BROWSER_SUCCESS,
-        browserData
+        type: types.FETCH_DEFAULT_DATA_BROWSER_SUCCESS,
+        defaultBrowserData
     }
 }
 
-export const fetchBrowserData = (apiKey) => {
+export const fetchDefaultBrowserData = (apiKey) => {
 
     return (dispatch) => {
         return Axios.get(apiDataBrowser + apiKey + ';data:pk=country,sk=united_states,ck=purchase_log_csv')
             .then(response => {
-                dispatch(fetchBrowserDataSuccess(response.data))
+                dispatch(fetchDefaultBrowserDataSuccess(response.data))
+            })
+            .catch(error => {
+                throw (error);
+            });
+    };
+}
+//////////////////dynamic data browser api////////////////
+export const fetchSelectedBrowserDataSuccess = (selectedBrowserData) => {
+
+    return {
+        type: types.FETCH_SELECTED_DATA_BROWSER_SUCCESS,
+        selectedBrowserData
+    }
+}
+
+export const fetchSelectedBrowserData = (apiKey, pk, sk, ck) => {
+
+    return (dispatch) => {
+        return Axios.get(apiDataBrowser + apiKey + ';data:pk=' + pk + ',sk=' + sk + ',ck=' + ck)
+            .then(response => {
+                dispatch(fetchSelectedBrowserDataSuccess(response.data))
             })
             .catch(error => {
                 throw (error);
@@ -38,7 +59,7 @@ export const fetchLoadDataSuccess = (loadData) => {
 
 export const fetchLoadData = (apiKey, loadData) => {
     return (dispatch) => {
-        return Axios.get(apiDataLoad + apiKey +';data:' +loadData)
+        return Axios.get(apiDataLoad + apiKey + ';data:' + loadData)
             .then(response => {
                 dispatch(fetchLoadDataSuccess(response.data))
             })
@@ -92,7 +113,7 @@ export const fetchSelectedKeysData = (apiKey, pk, sk, ck) => {
     };
 }
 
-// Api for getting default keys(pk=country, sk=united_states, ck=purchase_log_csv)
+// Api for getting initial keys
 export const fetchDefaultKeysSuccess = (defaultKeys) => {
 
     return {
@@ -102,7 +123,7 @@ export const fetchDefaultKeysSuccess = (defaultKeys) => {
 }
 
 export const fetchDefaultKeys = (apiKey) => {
-    
+
     return (dispatch) => {
         return Axios.get(apiSelectedKeys + apiKey + ';data:pk=country,sk=united_states,ck=purchase_log_csv')
             .then(response => {
