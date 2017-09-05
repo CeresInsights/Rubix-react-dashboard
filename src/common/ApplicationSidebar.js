@@ -62,7 +62,6 @@ export default class ApplicationSidebar extends React.Component {
 
     const { dispatch } = this.props;
     let temp_allKeys = {};
-    let temp_defaultKeys = {};
     let temp_selectedKeys = {};
     let adminLoginData = '';
     let loginData = '';
@@ -79,7 +78,6 @@ export default class ApplicationSidebar extends React.Component {
     }
 
     temp_allKeys = nextProps.allKeys;
-    temp_defaultKeys = nextProps.defaultKeys;
     this.setState({
       pri_keys: Object.keys(temp_allKeys),
       initial_data: temp_allKeys

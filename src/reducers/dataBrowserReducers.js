@@ -4,7 +4,7 @@ const initialState = {
   allKeys: {},
   defaultKeys: {},
   selectedKeys: {},
-  loadData: {},
+  loadData: '',
   browserData: {},
 }
 

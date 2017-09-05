@@ -1,6 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-
+import { connect } from 'react-redux';
+import * as dataActions from '../actions/dataActions';
 import {
     Row,
     Col,
@@ -17,13 +18,14 @@ import {
     MenuItem
 } from '@sketchpixy/rubix';
 
+@connect((state) => state)
 export default class DatatableComponent extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            pk: '',
-            sk: '',
-            ck: '',
+            pk: 'country',
+            sk: 'united_states',
+            ck: 'purchase_log_csv',
             table_data_header: [],
             table_data_content: [],
             // max_length: 0,
@@ -41,63 +43,62 @@ export default class DatatableComponent extends React.Component {
         };
     }
     componentDidMount() {
-        // $(ReactDOM.findDOMNode(this.example))
-        //     .addClass('nowrap')
-        //     .dataTable({
-        //         retrieve: true,
-        //         responsive: true
-        //     });
+        let temp = {};
+        let apiKey = ''
+        temp = this.props.login;
+        apiKey = temp["key"];
+        console.log("apiKey", apiKey)
+        const { dispatch } = this.props;
+        dispatch(dataActions.fetchFilterContentData(apiKey));
+        dispatch(dataActions.fetchBrowserData(apiKey));
+        this.setState({ apiKey: apiKey })
+    }
+    componentWillReceiveProps(nextProps) {
+        const { dispatch } = this.props;
+        let temp_allKeys = {};
+        let temp_browserData = {};
+        let temp_selectedKeys = {};
 
-        let api_key = localStorage.getItem('api_key');
-        $.ajax({
-            url: 'https://ceres.link/api/graphmeta/api_key=' + api_key,
-            dataType: 'json',
-            type: 'GET',
-            success: function (data) {
-                this.setState({
-                    pri_keys: Object.keys(data),
-                    initial_data: data
-                })
-            }.bind(this),
-            error: function (error) {
-                console.log(error);
-            }
+        temp_allKeys = nextProps.allKeys;
+        temp_browserData = nextProps.browserData;
+        temp_selectedKeys = nextProps.selectedKeys;
+        //////////Select option initial data///////////////
+        this.setState({
+            pri_keys: Object.keys(temp_allKeys),
+            initial_data: temp_allKeys
         })
 
-        let pk = 'country';
-        let sk = 'united_states';
-        let ck = 'purchase_log_csv';
+        let table_data_header = [];
+        let table_data_content = [];
+        // let length_array = [];
 
-        // let pk = 'country';
-        // let sk = 'united_states';
-        // let ck = 'customer_profile_csv';
-        $.ajax({
-            url: 'https://ceres.link/api/override/api_key=' + api_key + ';data:pk=' + pk + ',sk=' + sk + ',ck=' + ck,
-            dataType: 'json',
-            type: 'GET',
-            success: function (data) {
-                let table_data_header = [];
-                let table_data_content = [];
-                // let length_array = [];
+        ///////Initial Table header and body data//////////////////////
+        table_data_header = Object.keys(temp_browserData);
+        table_data_header.map((header, item) => {
+            table_data_content.push(temp_browserData[header])
+        })
+        // table_data_content.map((content) => {
+        //    length_array.push(content.length);   
+        // })
+        this.setState({
+            table_data_header: table_data_header,
+            table_data_content: table_data_content,
+            // max_length: Math.max(...length_array)
+        })
+        /////////////dynamic table header and body data//////////
+        if (Object.keys(temp_selectedKeys).length !== 0){
+            let table_data_header = [];
+            let table_data_content = [];
 
-                table_data_header = Object.keys(data);
-                table_data_header.map((header, item) => {
-                    table_data_content.push(data[header])
-                })
-                // table_data_content.map((content) => {
-                //    length_array.push(content.length);   
-                // })
-                this.setState({
-                    table_data_header: table_data_header,
-                    table_data_content: table_data_content,
-                    // max_length: Math.max(...length_array)
-                })
-                console.log("Default Successful Key Get Message", data)
-            }.bind(this),
-            error: function (error) {
-                console.log("Default Failure Key Get Msg", error);
-            }
-        });
+            table_data_header = Object.keys(temp_selectedKeys);
+            table_data_header.map((header, item) => {
+                table_data_content.push(temp_selectedKeys[header])
+            })
+            this.setState({
+                table_data_header: table_data_header,
+                table_data_content: table_data_content
+            })
+        }
     }
 
     // componentDidUpdate() {
@@ -110,7 +111,6 @@ export default class DatatableComponent extends React.Component {
     // }
     handleClick(keyVal, keyKind) {
 
-        let api_key = localStorage.getItem('api_key');
         let initial_data = this.state.initial_data;
         let sec_keys = [];
         let pri_values = {};
@@ -118,10 +118,8 @@ export default class DatatableComponent extends React.Component {
         let pk = '';
         let sk = '';
         let ck = '';
-
+        const { dispatch } = this.props;
         if (keyKind == 'primary') {
-
-            localStorage.setItem('pk', keyVal);
             pri_values = initial_data[keyVal];
             sec_keys = Object.keys(pri_values);
             this.setState({
@@ -130,71 +128,27 @@ export default class DatatableComponent extends React.Component {
                 pri_values: pri_values,
                 sec_keys: sec_keys
             })
-            $.ajax({
-                url: 'https://ceres.link/api/override/api_key=' + api_key + ';data:pk=' + keyVal + ',sk=united_states,ck=purchase_log_csv',
-                dataType: 'json',
-                type: 'GET',
-                success: function (data) {
-                    console.log("Successful Key Get Message", data)
-                }.bind(this),
-                error: function (error) {
-                    console.log("Failure Key Get Msg", error);
-                }
-            });
-
+            dispatch(dataActions.fetchSelectedKeysData(this.state.apiKey, keyVal, 'united_states', 'purchase_log_csv'));
         }
         if (this.state.pk_selected && keyKind == 'second') {
-            localStorage.setItem('sk', keyVal);
             third_keys = this.state.pri_values[keyVal];
             this.setState({
                 sk: keyVal,
                 sk_selected: true,
                 third_keys: third_keys
-            })
-            $.ajax({
-                url: 'https://ceres.link/api/override/api_key=' + api_key + ';data:pk=' + this.state.pk + ',sk=' + keyVal + ',ck=purchase_log_csv',
-                dataType: 'json',
-                type: 'GET',
-                success: function (data) {
-
-                    console.log("Successful Key Get Message", data)
-                }.bind(this),
-                error: function (error) {
-                    console.log("Failure Key Get Msg", error);
-                }
             });
+            dispatch(dataActions.fetchSelectedKeysData(this.state.apiKey, this.state.pk, keyVal, 'purchase_log_csv'));
         }
         if (this.state.pk_selected && this.state.sk_selected && keyKind == 'third') {
-            localStorage.setItem('ck', keyVal);
             this.setState({
                 ck_selected: true,
                 ck: keyVal
             })
-            $.ajax({
-                url: 'https://ceres.link/api/override/api_key=' + api_key + ';data:pk=' + this.state.pk + ',sk=' + this.state.sk + ',ck=' + keyVal,
-                dataType: 'json',
-                type: 'GET',
-                success: function (data) {
-                    let table_data_header = [];
-                    let table_data_content = [];
-    
-                    table_data_header = Object.keys(data);
-                    table_data_header.map((header, item) => {
-                        table_data_content.push(data[header])
-                    })
-                    this.setState({
-                        table_data_header: table_data_header,
-                        table_data_content: table_data_content
-                    })
-                    console.log("Successful Key Get Message", data)
-                }.bind(this),
-                error: function (error) {
-                    console.log("Failure Key Get Msg", error);
-                }
-            });
+            dispatch(dataActions.fetchSelectedKeysData(this.state.apiKey, this.state.pk, this.state.sk, keyVal));
         }
 
     }
+
     render() {
         let _this = this;
         let pri_title = '', sec_title = '', third_title = '';
@@ -288,7 +242,6 @@ export default class DatatableComponent extends React.Component {
                                             )} */}
                                         </tbody>
                                     </Table>
-
                                 }
                             </Col>
                         </Row>

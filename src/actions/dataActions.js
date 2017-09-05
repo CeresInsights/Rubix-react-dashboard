@@ -18,7 +18,7 @@ export const fetchBrowserDataSuccess = (browserData) => {
 export const fetchBrowserData = (apiKey) => {
 
     return (dispatch) => {
-        return Axios.get(apiDataBrowser + apiKey)
+        return Axios.get(apiDataBrowser + apiKey + ';data:pk=country,sk=united_states,ck=purchase_log_csv')
             .then(response => {
                 dispatch(fetchBrowserDataSuccess(response.data))
             })
@@ -36,10 +36,9 @@ export const fetchLoadDataSuccess = (loadData) => {
     }
 }
 
-export const fetchLoadData = (apiKey) => {
-
+export const fetchLoadData = (apiKey, loadData) => {
     return (dispatch) => {
-        return Axios.get(apiDataLoad + apiKey)
+        return Axios.get(apiDataLoad + apiKey +';data:' +loadData)
             .then(response => {
                 dispatch(fetchLoadDataSuccess(response.data))
             })

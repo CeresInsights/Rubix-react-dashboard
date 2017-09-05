@@ -61,7 +61,7 @@ module.exports = {
   allKeys: allKeysReducer,
   defaultKeys: defaultKeysReducer,
   selectedKeys: selectedKeysReducer,
-  dataLoad: dataLoadReducer,
+  loadData: dataLoadReducer,
   browserData: browserDataReducer,
 
   subProdPay: subProdPayReducer,

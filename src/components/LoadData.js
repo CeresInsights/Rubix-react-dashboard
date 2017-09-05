@@ -1,6 +1,8 @@
 import React from 'react';
 import { Link } from 'react-router';
-
+import ReactDOM from 'react-dom';
+import { connect } from 'react-redux';
+import * as dataActions from '../actions/dataActions';
 import {
   Row,
   Col,
@@ -18,79 +20,60 @@ import {
   Form, FormGroup, InputGroup, FormControl
 } from '@sketchpixy/rubix';
 
+@connect((state) => state)
 export default class LoadData extends React.Component {
-  constructor(props){
+  constructor(props) {
     super(props);
     this.state = {
-      api_key: '',
+      apiKey: '',
       progress_flag: false
     }
   }
+
   componentDidMount() {
-    // Messenger.options = {
-    //   theme: 'flat'
-    // };
-    let api_key = '';
-    api_key = localStorage.getItem('api_key');
+    Messenger.options = {
+      theme: 'flat'
+    };
+    let temp = {};
+    let apiKey = '';
+    temp = this.props.login;
+    apiKey = temp["key"];
     this.setState({
-      api_key: api_key
+      apiKey: apiKey
     })
-      
   }
-  // handleClick(e) {
-  //   e.preventDefault();
-  //   e.stopPropagation();
-  //   let email = $('#email').val();
-  //   $.ajax({
-  //     url: 'http://ceres.link/api/email/queue/data:email=' + email,
-  //     dataType: 'json',
-  //     type: 'GET',
-  //     success: function (data) {
-  //       this.errorNotification(data);
-  //     }.bind(this),
-  //     error: function (error) {
-  //       console.log(error);
-  //     }
-  //   })
-  // }
+
   handleClick = (e) => {
-    // this.setState({
-    //   progress_flag: true
-    // })
     e.preventDefault();
     e.stopPropagation();
-    let dataLoad = '';
-    dataLoad = $('#dataLoad').val();
-    console.log("AAAAAAAA", dataLoad)
-    if(dataLoad!==undefined){
+    let loadData = '';
+    const { dispatch } = this.props;
+    loadData = ReactDOM.findDOMNode(this.loadData).value;
+    if (loadData) {
       this.setState({
         progress_flag: true
       })
     }
-    $.ajax({
-      url: 'https://ceres.link/api/add_data/api_key='+this.state.api_key+';data:'+dataLoad,
-      dataType: 'json',
-      type: 'GET',
-      success: function (data) {
-        if(data!==undefined){
-          this.setState({
-            progress_flag: false
-          })
-        }
-        console.log("Successful Data Loader", data)
-      }.bind(this),
-      error: function (error) {
-        console.log("DataLoadError", error);
-      }
-    })
-  }
 
-  // errorNotification(str) {
-  //   Messenger().post({
-  //     message: str,
-  //     showCloseButton: true
-  //   });
-  // }
+    dispatch(dataActions.fetchLoadData(this.state.apiKey, loadData));
+  }
+  componentWillReceiveProps(nextProps) {
+    let loadData = '';
+    loadData = nextProps.loadData;
+    if (loadData) {
+      this.setState({
+        progress_flag: false
+      })
+    } else {
+      this.errorNotification(loadData);
+    }
+  }
+  errorNotification(str) {
+    Messenger().post({
+      message: str,
+      showCloseButton: true
+    });
+  }
   render() {
     return (
       <Panel>
@@ -103,7 +86,7 @@ export default class LoadData extends React.Component {
                   <InputGroup.Addon>
                     <Icon bundle='glyphicon' glyph='align-justify' />
                   </InputGroup.Addon>
-                  <FormControl autoFocus type='dataLoad' className='border-focus-blue' placeholder='Data Load URL' />
+                  <FormControl autoFocus type='dataLoad' className='border-focus-blue' placeholder='Data Load URL' ref={(loadData) => this.loadData = loadData} />
                 </InputGroup>
               </FormGroup>
               <FormGroup>
@@ -111,18 +94,18 @@ export default class LoadData extends React.Component {
                   <Row>
                     <Col xs={12} collapseLeft collapseRight className='text-right'>
                       <Button outlined lg type='submit' bsStyle='blue' onClick={this.handleClick}>Load Data</Button>
-                      </Col>
-                    </Row>
-                  </Grid>
-              </FormGroup>       
-            </Form>       
+                    </Col>
+                  </Row>
+                </Grid>
+              </FormGroup>
+            </Form>
           </Col>
         </Row>
         <Row>
           <Col xs={12}>
-          {this.state.progress_flag&&
-            <Progress active value={100} />
-          }
+            {this.state.progress_flag &&
+              <Progress active value={100} />
+            }
           </Col>
         </Row>
       </Panel >
