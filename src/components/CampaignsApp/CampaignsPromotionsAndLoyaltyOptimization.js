@@ -1,6 +1,8 @@
 import React from 'react';
 import '../app.scss';
-
+import { connect } from 'react-redux';
+import * as subDashActions from '../../actions/subDashActions';
+import * as execDashActions from '../../actions/execDashActions';
 import {
     Row,
     Tab,
@@ -29,7 +31,7 @@ import {
     PanelTabContainer,
     ButtonGroup
 } from '@sketchpixy/rubix';
-
+@connect((state) => state)
 export default class CampaignsPromotionsAndLoyaltyOptimization extends React.Component {
     constructor(props) {
         super(props);
@@ -68,8 +70,7 @@ export default class CampaignsPromotionsAndLoyaltyOptimization extends React.Com
 
         return null;
     }
-    componentDidMount() {
-        var api_key = localStorage.getItem('api_key');
+    componentWillReceiveProps(nextProps) {
 
         let sma_channel = {};
         let smart_channel = {};
@@ -101,181 +102,137 @@ export default class CampaignsPromotionsAndLoyaltyOptimization extends React.Com
         let recommenderContentsChannel = [];
         let recommenderTitlesChannel = [];
 
-
         // let mainTileTitles = [];
         let mainTileTitlesChannelDisplay = [];
+        /////////////////Data Operation////////////////
+        let mad = {};
+        let asi = [];
+        let bdw = {};
+        let csr = {};
+        let subChannel = {};
+        let subChannelRecommender = {};
 
-        /////////////////////////////// CPTA Apis/////////////////////////////////
-        // MAD api
-        $.ajax({
-            url: 'https://ceres.link/api/app/mad/api_key=' + api_key,
-            dataType: 'json',
-            type: 'GET',
-            success: function (data) {
-                this.setState({ mad_data: data });
-            }.bind(this),
-            error: function (error) {
-                console.log('error', error);
-            }
-        });
-
-        // ASI api
-        $.ajax({
-            url: 'https://ceres.link/api/app/asi/api_key=' + api_key,
-            dataType: 'json',
-            type: 'GET',
-            success: function (data) {
-                this.setState({ asi_data: data });
-            }.bind(this),
-            error: function (error) {
-                console.log('error', error);
-            }
-        });
-
-        // BDW api
-        $.ajax({
-            url: 'https://ceres.link/api/app/bdw/api_key=' + api_key,
-            dataType: 'json',
-            type: 'GET',
-            success: function (data) {
-                this.setState({ bdw_data: data });
-            }.bind(this),
-            error: function (error) {
-                console.log('error', error);
-            }
-        });
+        mad = nextProps.mad;
+        asi = nextProps.asi;
+        bdw = nextProps.bdw;
+        csr = nextProps.csr;
+        subChannel = nextProps.subChannel;
+        subChannelRecommender = nextProps.subChannelRecommender;
+console.log("total_market_spend", csr["total_market_spend"])
+        this.setState({
+            mad_data: mad,
+            asi_data: asi,
+            bdw_data: bdw,
+            sma_channel: subChannel,
+            smart_channel: subChannelRecommender,
+            csr_data: csr,
+            csr_total_market: csr["total_market_spend"]
+        })
 
         //Get Data For Sub-Dashboard(Campaigns App) SMA Channel and Recommender///////////////
-        $.ajax({
-            url: 'https://ceres.link/api/sub_board/sma_channel/api_key=' + api_key,
-            dataType: 'json',
-            type: 'GET',
-            success: function (data) {
-                this.setState({
-                    sma_channel: data
-                })
-                ///////Main Tile Types Fetch///////////////
-                mainTileTypesChannel = Object.keys(data);
-                ////////////Main Tile Data Fetch////////////////
-                mainTileTypesChannel.map((key) => {
-                    mainTileContentsChannel.push(data[key]);
-                })
-                mainTileContentsChannel.map((item) => {
-                    mainTileTitlesChannel.push(Object.keys(item));
-                })
-                mainTileTitlesChannel.map((itemArray) => {
-                    itemArray.map((item) => {
-                        mainTileTitlesRealChannel.push(item);
-                    })
-                })
-                //// Recommender API for Sub-Dashboard(Campaigns App)//////////////
-                $.ajax({
-                    url: 'https://ceres.link/api/sub_board/smart_channel/api_key=' + api_key,
-                    dataType: 'json',
-                    type: 'GET',
-                    success: function (data) {
-                        this.setState({
-                            smart_channel: data
-                        })
-                        ////// Recommender Type Fetch//////////////////////
-                        recommenderTypesChannel = Object.keys(data);
-                        ///////////////Recommender Data Fetch(html, spectrogram, optimizer_chart)/////////////
-                        recommenderTypesChannel.map((key) => {
-                            recommenderContentsChannel.push(data[key]);
-                            htmlTxtChannel.push(data[key]["text/html"]);
-                        })
-                        recommenderContentsChannel.map((item) => {
-                            spectro_labels_channel.push((item["spectrogram"])["labels"]);
-                            spectro_data_channel.push((item["spectrogram"])["data"]);
-                            optimizer_labels_channel.push((item["optimizer_chart"])["labels"]);
-                            optimizer_data_channel.push((item["optimizer_chart"])["data"]);
-                        })
-                      
-                        ///// recommender labels array for getting best recommender data////////
-                        spectro_labels_channel.map((itemArray) => {
-                            itemArray.map((item) => {
-                                spectro_labels_real_channel.push(item);
-                            })
-                        })
 
-                        ////////////////Best Recommender Fetch////////////////////
-                        recommenderTitlesChannel = mainTileTitlesRealChannel.filter(e => !spectro_labels_real_channel.includes(e));
+        ///////Main Tile Types Fetch///////////////
+        mainTileTypesChannel = Object.keys(subChannel);
+        ////////////Main Tile Data Fetch////////////////
+        mainTileTypesChannel.map((key) => {
+            mainTileContentsChannel.push(subChannel[key]);
+        })
+        mainTileContentsChannel.map((item) => {
+            mainTileTitlesChannel.push(Object.keys(item));
+        })
+        mainTileTitlesChannel.map((itemArray) => {
+            itemArray.map((item) => {
+                mainTileTitlesRealChannel.push(item);
+            })
+        })
+        //// Recommender API for Sub-Dashboard(Campaigns App)//////////////
 
-                        //////////////////// Best Recommender Data and Main Tile Data Fetch ///////////////
-                        /// Remove Best Recommender in main tile data and Best Recommender Data Fetch
-                        mainTileContentsChannel.map((temp) => {
-                            recommenderTitlesChannel.map((item) => {
-                                recommenderContentsTemp.push(temp[item])
-                                // delete temp[item]
-                            })
-                        })
-                        // mainTileContentsChannel.map((temp) => {
-                        //     mainTileTitlesChannelDisplay.push(Object.keys(temp))
-                        // })
-                        // console.log("Wwwwwwwwwwwwwwwwww", mainTileTitlesChannelDisplay)
-                        recommenderContentsTemp.map((item) => {
-                            if (item !== undefined) {
-                                bestRecommenderContentsChannel.push(item)
-                            }
-                        })
-                        /////////Main Tile Data Fetch/////////////
+        ////// Recommender Type Fetch//////////////////////
+        recommenderTypesChannel = Object.keys(subChannelRecommender);
+        ///////////////Recommender Data Fetch(html, spectrogram, optimizer_chart)/////////////
+        recommenderTypesChannel.map((key) => {
+            recommenderContentsChannel.push(subChannelRecommender[key]);
+            htmlTxtChannel.push(subChannelRecommender[key]["text/html"]);
+        })
+        recommenderContentsChannel.map((item) => {
+            spectro_labels_channel.push((item["spectrogram"])["labels"]);
+            spectro_data_channel.push((item["spectrogram"])["data"]);
+            optimizer_labels_channel.push((item["optimizer_chart"])["labels"]);
+            optimizer_data_channel.push((item["optimizer_chart"])["data"]);
+        })
 
-                        // mainTileContentsChannel.map((item) => {
-                        //     mainTileTitles.push(Object.keys(item))
-                        //     mainTileTitles.map((temp) => {
-                        //         temp.map((title) => {
-                        //             mainTileContentsRealTemp.push(item[title])
-                        //         })
-                        //     })
-                        // })
-                        // mainTileContentsRealTemp.map((item) => {
-                        //     if (item !== undefined) {
-                        //         mainTileContentsReal.push(item)
-                        //     }
-                        // })
-                        // console.log("mainTileContentsChannel", mainTileContentsChannel)
-                        this.setState({
-                            recommenderTypesChannel: recommenderTypesChannel,
-                            recommenderTitlesChannel: recommenderTitlesChannel,
-                            bestRecommenderContentsChannel: bestRecommenderContentsChannel,
-                            // // mainTileContentsReal: mainTileContentsReal
-                            // mainTileContentsChannel: mainTileContentsChannel,
-                            // mainTileTitlesChannelDisplay: mainTileTitlesChannelDisplay,
+        ///// recommender labels array for getting best recommender data////////
+        spectro_labels_channel.map((itemArray) => {
+            itemArray.map((item) => {
+                spectro_labels_real_channel.push(item);
+            })
+        })
 
-                            htmlTxtChannel: htmlTxtChannel,
-                            spectro_labels_channel: spectro_labels_channel,
-                            spectro_data_channel: spectro_data_channel,
-                            optimizer_labels_channel: optimizer_labels_channel,
-                            optimizer_data_channel: optimizer_data_channel
-                        })
+        ////////////////Best Recommender Fetch////////////////////
+        recommenderTitlesChannel = mainTileTitlesRealChannel.filter(e => !spectro_labels_real_channel.includes(e));
 
-                    }.bind(this),
-                    error: function (error) {
-                        console.log('SubChannelSmartUpdateERROR', error);
-                    }
-                });
-
-            }.bind(this),
-            error: function (error) {
-                console.log('SubChannelUpdateERROR', error);
+        //////////////////// Best Recommender Data and Main Tile Data Fetch ///////////////
+        /// Remove Best Recommender in main tile data and Best Recommender Data Fetch
+        mainTileContentsChannel.map((temp) => {
+            recommenderTitlesChannel.map((item) => {
+                recommenderContentsTemp.push(temp[item])
+                // delete temp[item]
+            })
+        })
+        // mainTileContentsChannel.map((temp) => {
+        //     mainTileTitlesChannelDisplay.push(Object.keys(temp))
+        // })
+        recommenderContentsTemp.map((item) => {
+            if (item !== undefined) {
+                bestRecommenderContentsChannel.push(item)
             }
-        });
+        })
+        /////////Main Tile Data Fetch/////////////
 
-        // CSR api
-        $.ajax({
-            url: 'https://ceres.link/api/app/csr/api_key=' + api_key,
-            dataType: 'json',
-            type: 'GET',
-            success: function (data) {
-                this.setState({ csr_total_market: data["total_market_spend"] })
-                this.setState({ csr_data: data });
-            }.bind(this),
-            error: function (error) {
-                console.log('error', error);
-            }
-        });
+        // mainTileContentsChannel.map((item) => {
+        //     mainTileTitles.push(Object.keys(item))
+        //     mainTileTitles.map((temp) => {
+        //         temp.map((title) => {
+        //             mainTileContentsRealTemp.push(item[title])
+        //         })
+        //     })
+        // })
+        // mainTileContentsRealTemp.map((item) => {
+        //     if (item !== undefined) {
+        //         mainTileContentsReal.push(item)
+        //     }
+        // })
+        // console.log("mainTileContentsChannel", mainTileContentsChannel)
+        this.setState({
+            recommenderTypesChannel: recommenderTypesChannel,
+            recommenderTitlesChannel: recommenderTitlesChannel,
+            bestRecommenderContentsChannel: bestRecommenderContentsChannel,
+            // // mainTileContentsReal: mainTileContentsReal
+            // mainTileContentsChannel: mainTileContentsChannel,
+            // mainTileTitlesChannelDisplay: mainTileTitlesChannelDisplay,
 
+            htmlTxtChannel: htmlTxtChannel,
+            spectro_labels_channel: spectro_labels_channel,
+            spectro_data_channel: spectro_data_channel,
+            optimizer_labels_channel: optimizer_labels_channel,
+            optimizer_data_channel: optimizer_data_channel
+        })
 
+    }
+    componentDidMount() {
+
+        let temp = {};
+        let apiKey = '';
+        temp = this.props.login;
+        apiKey = temp["key"];
+        const { dispatch } = this.props;
+        dispatch(execDashActions.fetchMadData(apiKey));
+        dispatch(execDashActions.fetchCsrData(apiKey));
+        dispatch(execDashActions.fetchBdwData(apiKey));
+        dispatch(execDashActions.fetchAsiData(apiKey));
+
+        dispatch(subDashActions.fetchChannelData(apiKey));
+        dispatch(subDashActions.fetchChannelRecommenderData(apiKey));
 
     }
     componentDidUpdate() {
@@ -627,6 +584,7 @@ export default class CampaignsPromotionsAndLoyaltyOptimization extends React.Com
         bestRecommenderContentsChannel = this.state.bestRecommenderContentsChannel;
         ////////////////////Recommender Data//////////////
         htmlTxtChannel = this.state.htmlTxtChannel;
+
         return (
             <Grid>
                 {
@@ -689,6 +647,7 @@ export default class CampaignsPromotionsAndLoyaltyOptimization extends React.Com
 
     }
     render() {
+        console.log("csr_total_market", this.state.csr_total_market)
         return (
             <PanelTabContainer id='campaigns_promotions_loyaltypanel' defaultActiveKey="cpta" onSelect={this.onTabSelect}>
                 <Panel>

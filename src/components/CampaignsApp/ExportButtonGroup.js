@@ -1,6 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import * as subDashActions from '../../actions/subDashActions';
+import * as execDashActions from '../../actions/execDashActions';
 import {
     Row,
     Tab,
@@ -34,7 +35,7 @@ export default class ExportButtonGroup extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            apiKey: ''
+            api_key: '',
         }
     }
     componentDidMount() {
@@ -51,8 +52,10 @@ export default class ExportButtonGroup extends React.Component {
     }
     handleCsvClick = () => {
         const { dispatch } = this.props;
-        dispatch(subDashActions.fetchProductCsvData(this.state.apiKey));
-        dispatch(subDashActions.fetchDsaCsvData(this.state.apiKey));
+        dispatch(execDashActions.fetchMadCsvData(this.state.apiKey));
+        dispatch(execDashActions.fetchAsiCsvData(this.state.apiKey));
+        dispatch(execDashActions.fetchBdwCsvData(this.state.apiKey));
+        dispatch(subDashActions.fetchChannelCsvData(this.state.apiKey));
     }
     render() {
         return (
