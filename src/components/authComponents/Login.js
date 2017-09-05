@@ -3,7 +3,7 @@ import ReactDOM from 'react-dom';
 import { connect } from 'react-redux';
 import classNames from 'classnames';
 import { Link, browserHistory } from 'react-router';
-import * as extraActions from '../../actions/authActions'
+import * as extraActions from '../../actions/authActions';
 import {
   Row,
   Col,

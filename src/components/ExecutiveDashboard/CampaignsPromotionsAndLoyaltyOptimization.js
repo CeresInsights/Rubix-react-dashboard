@@ -1,5 +1,8 @@
 import React from 'react';
 import { Link } from 'react-router';
+import { connect } from 'react-redux';
+import * as execDashActions from '../../actions/execDashActions';
+
 import '../app.scss';
 import {
     Row,
@@ -29,7 +32,7 @@ import {
     PanelTabContainer,
     ButtonGroup
 } from '@sketchpixy/rubix';
-
+@connect((state) => state)
 export default class CampaignsPromotionsAndLoyaltyOptimization extends React.Component {
     constructor(props) {
         super(props);
@@ -56,122 +59,42 @@ export default class CampaignsPromotionsAndLoyaltyOptimization extends React.Com
     }
 
     componentDidMount() {
-        let api_key = '';
-        api_key = localStorage.getItem('api_key');
-
-        // // CSR api
-        // $.ajax({
-        //     url: 'https://ceres.link/api/app/csr/api_key=' + api_key,
-        //     dataType: 'json',
-        //     type: 'GET',
-        //     success: function (data) {
-        //         this.setState({ csr_total_market: data["total_market_spend"] })
-        //         this.setState({ csr_data: data });
-        //     }.bind(this),
-        //     error: function (error) {
-        //         console.log('error', error);
-        //     }
-        // });
-        // /////////////////////CPTA APIS////////////////
-        // // BWD api
-        // $.ajax({
-        //     url: 'https://ceres.link/api/app/bdw/api_key=' + api_key,
-        //     dataType: 'json',
-        //     type: 'GET',
-        //     success: function (data) {
-        //         console.log("BDW data", data);
-        //         this.setState({ 'bdw_data': data });
-        //     }.bind(this),
-        //     error: function (error) {
-        //         console.log('bdw_data error', error);
-        //     }
-        // });
-
-        // //MAD api
-        // $.ajax({
-        //     url: 'https://ceres.link/api/app/mad/api_key=' + api_key,
-        //     dataType: 'json',
-        //     type: 'GET',
-        //     success: function (data) {
-        //         console.log("MAD data", data)
-        //         this.setState({ 'mad_data': data });
-        //     }.bind(this),
-        //     error: function (error) {
-        //         console.log('error', error);
-        //     }
-        // });
-
-        // // ASI api
-        // $.ajax({
-        //     url: 'https://ceres.link/api/app/asi/api_key=' + api_key,
-        //     dataType: 'json',
-        //     type: 'GET',
-        //     success: function (data) {
-        //         console.log("ADI data", data)
-        //         this.setState({ 'asi_data': data });
-        //     }.bind(this),
-        //     error: function (error) {
-        //         console.log('asi_data error', error);
-        //     }
-        // });
-        /////////////////PLE API////////////////////
-        //Get Data For Executive Dashboard SMA Channel 
-        $.ajax({
-            url: 'https://ceres.link/api/exec_board/sma_channel/api_key=' + api_key,
-            dataType: 'json',
-            type: 'GET',
-            success: function (data) {
-                console.log("ExecChannel", data);
-                let sma_channel_keys = [];
-                let sma_channel_values = [];
-
-                sma_channel_keys = Object.keys(data);
-
-                sma_channel_keys.map((item) => {
-                    sma_channel_values.push(data[item]["most popular"])
-                })
-                this.setState({
-                    sma_channel_keys: sma_channel_keys,
-                    sma_channel_values: sma_channel_values
-                })
-
-            }.bind(this),
-            error: function (error) {
-                console.log('SubDashChannelError', error);
-            }
-        });
+        let temp = {};
+        let apiKey = '';
+        temp = this.props.authReducer;
+        apiKey = temp["key"];
+        const { dispatch } = this.props;
+        dispatch(execDashActions.fetchMadData(apiKey));
+        dispatch(execDashActions.fetchCsrData(apiKey));
+        dispatch(execDashActions.fetchBdwData(apiKey));
+        dispatch(execDashActions.fetchAsiData(apiKey));
+        dispatch(execDashActions.fetchChannelData(apiKey));
     }
-    renderSmaChannel = () => {
+    componentWillReceiveProps(nextProps) {
+
+        //// sma channel data operation///////////
+        let sma_channel = {};
         let sma_channel_keys = [];
         let sma_channel_values = [];
-        let temp_array = [];
 
-        sma_channel_keys = this.state.sma_channel_keys;
-        sma_channel_values = this.state.sma_channel_values;
+        sma_channel = nextProps.channel
+        sma_channel_keys = Object.keys(sma_channel);
 
-        let sma_channel_tiles = [];
-        for (let i = 0; i < sma_channel_keys.length; i++) {
-            temp_array[i] = sma_channel_values[i];
-            sma_channel_tiles.push(
-                <div className="sma_channel_tile">
-                    <p className="sma_channel_title">{sma_channel_keys[i]}</p>
-                    <p className="sma_channel_content">{temp_array[i][0]}</p>
-                    <div className="sma_channel_bottom">
-                        <p className="sma_channel_percent">{temp_array[i][1]}</p>
-                        <div className="sma_channel_number_area">
-                            <p className="sma_channel_number">{temp_array[i][2]}</p>
-                            <p>counts</p>
-                        </div>
-                    </div>
-                </div>
-            )
-        }
-        return sma_channel_tiles;
-    }
-    componentDidUpdate() {
-
-        ////////////////////// CPTA chart /////////////////
-        //////////BDW chart//////////
+        sma_channel_keys.map((item) => {
+            sma_channel_values.push(sma_channel[item]["most popular"])
+        })
+        this.setState({
+            sma_channel_keys: sma_channel_keys,
+            sma_channel_values: sma_channel_values
+        })
+        /////////csr data operation//////////////
+        let temp = {};
+        temp = nextProps.csr;
+        this.setState({ csr_total_market: temp["total_market_spend"] })
+        this.setState({ csr_data: temp });
+        ////////////api data operation/////////////
+        this.setState({ asi_data: nextProps.asi });
+        ////////////mad, bdw, csr data operation///////////
         (() => {
             $('#bdw_chart').html('');
             var bdw_chart = new Rubix('#bdw_chart', {
@@ -208,7 +131,7 @@ export default class CampaignsPromotionsAndLoyaltyOptimization extends React.Com
                 color: '#D71F4B'
             });
 
-            var tmp = this.state.bdw_data;
+            var tmp = nextProps.bdw;
             var tmp_array = [];
             for (var i in tmp) {
                 var t = new Object;
@@ -254,7 +177,7 @@ export default class CampaignsPromotionsAndLoyaltyOptimization extends React.Com
                 color: '#D71F4B'
             });
 
-            tmp = this.state.mad_data;
+            tmp = nextProps.mad;
             tmp_array = [];
             for (var i in tmp) {
                 var t = new Object;
@@ -274,7 +197,7 @@ export default class CampaignsPromotionsAndLoyaltyOptimization extends React.Com
                 height: 300
             });
 
-            var csr_data = this.state.csr_data;
+            var csr_data = nextProps.csr;
             delete csr_data["total_market_spend"];
             var tmp_array = [];
             for (var i in csr_data) {
@@ -326,7 +249,7 @@ export default class CampaignsPromotionsAndLoyaltyOptimization extends React.Com
                 color: '#C0504D',
             })
 
-            var csr_data = this.state.csr_data;
+            var csr_data = nextProps.csr;
             delete csr_data["total_market_spend"];
 
             let high_array = [];
@@ -349,6 +272,36 @@ export default class CampaignsPromotionsAndLoyaltyOptimization extends React.Com
         })();
 
     }
+
+
+    renderSmaChannel = () => {
+        let sma_channel_keys = [];
+        let sma_channel_values = [];
+        let temp_array = [];
+
+        sma_channel_keys = this.state.sma_channel_keys;
+        sma_channel_values = this.state.sma_channel_values;
+
+        let sma_channel_tiles = [];
+        for (let i = 0; i < sma_channel_keys.length; i++) {
+            temp_array[i] = sma_channel_values[i];
+            sma_channel_tiles.push(
+                <div className="sma_channel_tile">
+                    <p className="sma_channel_title">{sma_channel_keys[i]}</p>
+                    <p className="sma_channel_content">{temp_array[i][0]}</p>
+                    <div className="sma_channel_bottom">
+                        <p className="sma_channel_percent">{temp_array[i][1]}</p>
+                        <div className="sma_channel_number_area">
+                            <p className="sma_channel_number">{temp_array[i][2]}</p>
+                            <p>counts</p>
+                        </div>
+                    </div>
+                </div>
+            )
+        }
+        return sma_channel_tiles;
+    }
+
     render() {
 
         return (
@@ -358,7 +311,7 @@ export default class CampaignsPromotionsAndLoyaltyOptimization extends React.Com
                         <Grid>
                             <Row>
                                 <Col xs={12} className="text-center">
-                                    <Link className="title_link" to="/ltr/sub_campaigns"><h4>Campaigns,Promotions, and Loyalty Optimization </h4></Link>
+                                    <Link className="title_link" to="/sub_campaigns"><h4>Campaigns,Promotions, and Loyalty Optimization </h4></Link>
                                 </Col>
                             </Row>
                         </Grid>

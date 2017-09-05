@@ -10,6 +10,7 @@ const apiChannel = 'https://ceres.link/api/exec_board/sma_channel/api_key=';
 const apiProduct = 'https://ceres.link/api/exec_board/sma_product/api_key=';
 const apiDemographics = 'https://ceres.link/api/exec_board/demographics/api_key=';
 const apiProdPay = 'https://ceres.link/api/exec_board/prod_pay/api_key=';
+const apiProdProduct = 'https://ceres.link/api/exec_board/prod_product/api_key=';
 const apiDsa = 'https://ceres.link/api/exec_board/dsa/api_key=';
 
 //Executive Dashboard CSV Apis
@@ -113,7 +114,27 @@ export const fetchProdPayData = (apiKey) => {
             });
     };
 }
+/////////////Prod Product Api//////////////////////////////
+export const fetchProdProductDataSuccess = (prodProduct) => {
 
+    return {
+        type: types.FETCH_EXEC_PROD_PRODUCT_SUCCESS,
+        prodProduct
+    }
+}
+
+export const fetchProdProductData = (apiKey) => {
+
+    return (dispatch) => {
+        return Axios.get(apiProdProduct + apiKey)
+            .then(response => {
+                dispatch(fetchProdProductDataSuccess(response.data))
+            })
+            .catch(error => {
+                throw (error);
+            });
+    };
+}
 // DSA Api in Product Promotion By Channel
 export const fetchDsaDataSuccess = (dsa) => {
 
@@ -157,10 +178,10 @@ export const fetchChannelData = (apiKey) => {
 }
 
 // SMA product Api in Product Promotion By Channel
-export const fetchProductDataSuccess = (data) => {
+export const fetchProductDataSuccess = (product) => {
     return {
         type: types.FETCH_EXEC_PRODUCT_SUCCESS,
-        data
+        product
     }
 }
 

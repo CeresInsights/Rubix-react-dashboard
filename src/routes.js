@@ -37,39 +37,40 @@ import ProductBundle from './components/ProductApp/index';
 class App extends React.Component {
   render() {
     return (
-      this.props.children
+      <MainContainer>
+        {this.props.children}
+      </MainContainer>
     );
   }
 }
 
 class Main extends React.Component {
-  // constructor(props) {
-  //   super(props);
-  //   this.state = {
-  //     tbl_ready: '',
-  //     pk: '',
-  //     sk: '',
-  //     ck: '',
-  //   };
-
+  constructor(props) {
+    super(props);
+    this.state = {
+      tbl_ready: '',
+      pk: '',
+      sk: '',
+      ck: '',
+    }
+  }
   // handleLanguage(langValue, pk, sk, ck) {
   //   this.setState({ tbl_ready: langValue, pk: pk, ck: ck, sk: sk });
   // }
   render() {
-    // var childrenWithMoreProps = React.Children.map(this.props.children, (child) => {
-    //   return React.cloneElement(child, {
-    //     third_changed: this.state.tbl_ready,
-    //     pk: this.state.pk,
-    //     sk: this.state.sk,
-    //     ck: this.state.ck
-    //   });
-    // });
+    var childrenWithMoreProps = React.Children.map(this.props.children, (child) => {
+      return React.cloneElement(child, {
+        third_changed: this.state.tbl_ready,
+        pk: this.state.pk,
+        sk: this.state.sk,
+        ck: this.state.ck
+      });
+    });
     return (
       <MainContainer {...this.props}>
+        <Sidebar />
         <Header />
-        <Sidebar open="true"/>
-        {this.props.children}
-        {/* <div id='body'>
+        <div id='body'>
           <Grid>
             <Row>
               <Col xs={12}>
@@ -77,12 +78,13 @@ class Main extends React.Component {
               </Col>
             </Row>
           </Grid>
-        </div> */}
+        </div>
         <Footer />
       </MainContainer>
     );
   }
 }
+
 class Auth extends React.Component {
   render() {
     return (
