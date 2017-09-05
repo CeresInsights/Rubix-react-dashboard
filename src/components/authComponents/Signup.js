@@ -1,7 +1,9 @@
 import React from 'react';
 import classNames from 'classnames';
-import { Link, withRouter, browserHistory } from 'react-router';
-
+import ReactDOM from 'react-dom';
+import { connect } from 'react-redux';
+import { Link, browserHistory } from 'react-router';
+import * as authActions from '../../actions/authActions';
 import {
   Row,
   Col,
@@ -21,7 +23,7 @@ import {
   PanelContainer,
 } from '@sketchpixy/rubix';
 
-@withRouter
+@connect((state) => state)
 export default class Signup extends React.Component {
   back(e) {
     e.preventDefault();
@@ -29,31 +31,28 @@ export default class Signup extends React.Component {
     this.props.router.goBack();
   }
 
-  signup(e) {
+  signup = (e) => {
     e.preventDefault();
     e.stopPropagation();
-    var un = $('#username').val();
-    var pw = $('#password').val();
-    var t = $('#paycode').val();
-    var e = $('#email').val();
-    $.ajax({
-      url: 'https://ceres.link/api/register/data:un=' + un + ',pw=' + pw + ',t=' + t + ',e=' + e + ',fn="",ln="",s="Male",dobm="",dobd="",doby=""',
-      dataType: 'json',
-      type: 'GET',
-      success: function (data) {
-        if (data.status == 'User Registration Successful') {
-          localStorage.setItem('api_key', data.key);
-          browserHistory.push('ltr/execdashboard');
-        } else {
-          this.errorNotification(data);
-        }
-      }.bind(this),
-      error: function (error) {
-        console.log(error);
-      }
-    })
-  }
 
+    const { dispatch } = this.props;
+    let un = ReactDOM.findDOMNode(this.username).value;
+    let pw = ReactDOM.findDOMNode(this.password).value;
+    let email = ReactDOM.findDOMNode(this.email).value;
+    let fn = ReactDOM.findDOMNode(this.firstname).value;
+    let ln = ReactDOM.findDOMNode(this.lastname).value;
+    let paycode = ReactDOM.findDOMNode(this.paycode).value;
+
+    dispatch(authActions.fetchSignupData(un, pw, email, fn, ln, paycode));
+  }
+  componentWillReceiveProps(nextProps){
+    let signupData = {};
+    signupData = nextProps.signup;
+    this.errorNotification(signupData);
+    if(signupData["status"] === 'User Registration Successful'){
+      browserHistory.push('/executivedashboard');
+    }
+  }
   errorNotification(str) {
     Messenger().post({
       message: str,
@@ -62,17 +61,6 @@ export default class Signup extends React.Component {
   }
   componentDidMount() {
     $('html').addClass('authentication');
-    //   $.ajax({
-    //     url: 'https://ceres.link/api/preregister/data:email=rkxld3j@dispostable.com',
-    //     dataType: 'json',
-    //     type: 'GET',
-    //     success:function(data){
-    //       console.log(data);
-    //     }.bind(this),
-    //     error:function(error){
-    //       console.log(error);
-    //     }
-    //   })
     Messenger.options = {
       theme: 'flat'
     };
@@ -81,13 +69,6 @@ export default class Signup extends React.Component {
   componentWillUnmount() {
     $('html').removeClass('authentication');
   }
-
-  getPath(path) {
-    var dir = this.props.location.pathname.search('rtl') !== -1 ? 'rtl' : 'ltr';
-    path = `/${dir}/${path}`;
-    return path;
-  }
-
   render() {
     return (
       <div id='auth-container' className='login'>
@@ -104,13 +85,29 @@ export default class Signup extends React.Component {
                         </div>
                         <div>
                           <div style={{ padding: 25, paddingTop: 0, paddingBottom: 0, margin: 'auto', marginBottom: 25, marginTop: 25 }}>
-                            <Form onSubmit={::this.signup}>
+                            <Form onSubmit={this.signup}>
                               <FormGroup controlId='username'>
                               <InputGroup bsSize='large'>
                                 <InputGroup.Addon>
                                   <Icon glyph='icon-fontello-user' />
                                 </InputGroup.Addon>
-                                <FormControl autoFocus type='text' className='border-focus-blue' placeholder='Username' />
+                                <FormControl autoFocus type='text' className='border-focus-blue' placeholder='Username' ref={(username) => this.username = username} />
+                              </InputGroup>
+                            </FormGroup>
+                            <FormGroup controlId='firstname'>
+                              <InputGroup bsSize='large'>
+                                <InputGroup.Addon>
+                                  <Icon glyph='icon-fontello-user' />
+                                </InputGroup.Addon>
+                                <FormControl autoFocus type='text' className='border-focus-blue' placeholder='LastName' ref={(firstname) => this.firstname = firstname} />
+                              </InputGroup>
+                            </FormGroup>
+                            <FormGroup controlId='lastname'>
+                              <InputGroup bsSize='large'>
+                                <InputGroup.Addon>
+                                  <Icon glyph='icon-fontello-user' />
+                                </InputGroup.Addon>
+                                <FormControl autoFocus type='text' className='border-focus-blue' placeholder='FirstName' ref={(lastname) => this.lastname = lastname} />
                               </InputGroup>
                             </FormGroup>
                             <FormGroup controlId='email'>
@@ -118,7 +115,7 @@ export default class Signup extends React.Component {
                                 <InputGroup.Addon>
                                   <Icon glyph='icon-fontello-email' />
                                 </InputGroup.Addon>
-                                <FormControl autoFocus type='email' className='border-focus-blue' placeholder='Email Address' />
+                                <FormControl autoFocus type='email' className='border-focus-blue' placeholder='Email Address' ref={(email) => this.email = email} />
                               </InputGroup>
                             </FormGroup>
                             <FormGroup controlId='password'>
@@ -126,7 +123,7 @@ export default class Signup extends React.Component {
                                 <InputGroup.Addon>
                                   <Icon glyph='icon-fontello-key' />
                                 </InputGroup.Addon>
-                                <FormControl type='password' className='border-focus-blue' placeholder='Password' />
+                                <FormControl type='password' className='border-focus-blue' placeholder='Password' ref={(password) => this.password = password}/>
                               </InputGroup>
                             </FormGroup>
                             <FormGroup controlId='confirm_password'>
@@ -143,14 +140,14 @@ export default class Signup extends React.Component {
                                 <InputGroup.Addon>
                                   <Icon glyph='icon-fontello-dot-3' />
                                 </InputGroup.Addon>
-                                <FormControl autoFocus type='text' className='border-focus-blue' placeholder='Pay Code' />
+                                <FormControl autoFocus type='text' className='border-focus-blue' placeholder='Pay Code' ref={(paycode) => this.paycode =paycode} />
                               </InputGroup>
                             </FormGroup>
                             <FormGroup>
                               <Grid>
                                 <Row>
                                   <Col xs={12} collapseLeft collapseRight>
-                                    <Button type='submit' outlined lg bsStyle='blue' block onClick={::this.signup}>Create account</Button>
+                                    <Button type='submit' outlined lg bsStyle='blue' block onClick={this.signup}>Create account</Button>
                                     <div className='text-center' style={{ marginTop: 25 }}>
                                       Already have an account? <Link to="/login">Login</Link>
                                     </div>

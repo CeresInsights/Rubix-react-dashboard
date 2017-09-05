@@ -1,7 +1,8 @@
 import React from 'react';
-import classNames from 'classnames';
 import { Link } from 'react-router';
-
+import { connect } from 'react-redux';
+import ReactDOM from 'react-dom';
+import * as authActions from '../../actions/authActions';
 import {
     Row,
     Col,
@@ -21,6 +22,7 @@ import {
     PanelContainer,
 } from '@sketchpixy/rubix';
 
+@connect((state) => state)
 export default class QueueEmail extends React.Component {
     constructor(props) {
         super(props);
@@ -29,26 +31,23 @@ export default class QueueEmail extends React.Component {
         }
         this.emails = [];
     }
-    sendQueueRequest(e) {
+    sendQueueRequest = (e) => {
         e.preventDefault();
-        // e.stopPropagation();
-        let email = $('#email').val();
-        $.ajax({
-            url: 'http://ceres.link/api/email/queue/data:email=' + email,
-            dataType: 'json',
-            type: 'GET',
-            success: function (data) {
-                if (data === 'Queue OK') {
-                    this.emails.push(email);
-                    this.Notification(data);
-                }
-                localStorage.setItem('emails', JSON.stringify(this.emails));
-            }.bind(this),
-            error: function (error) {
-                console.log(error);
-            }
-        })
+        e.stopPropagation();
+        const { dispatch } = this.props;
+        let email = ReactDOM.findDOMNode(this.email).value;
+        dispatch(authActions.fetchQueueEmailData(email));
         
+    }
+    componentWillReceiveProps(nextProps){
+        let queueEmailData = '';
+        queueEmailData = nextProps.queueEmail;
+        if(queueEmailData){
+            this.Notification(queueEmailData)
+        }
+        // if(queueEmailData === 'Queue OK'){
+          
+        // }
     }
 
     Notification(str) {
@@ -73,20 +72,20 @@ export default class QueueEmail extends React.Component {
                                                 </div>
                                                 <div>
                                                     <div style={{ padding: 25, paddingTop: 0, paddingBottom: 0, margin: 'auto', marginBottom: 25, marginTop: 25 }}>
-                                                        <Form onSubmit={::this.sendQueueRequest}>
+                                                        <Form onSubmit={this.sendQueueRequest}>
                                                             <FormGroup controlId='email'>
                                                             <InputGroup bsSize='large'>
                                                                 <InputGroup.Addon>
                                                                     <Icon glyph='icon-fontello-mail' />
                                                                 </InputGroup.Addon>
-                                                                <FormControl autoFocus type='text' className='border-focus-blue' placeholder='Email' />
+                                                                <FormControl autoFocus type='text' className='border-focus-blue' placeholder='Email' ref={(email) => this.email = email} />
                                                             </InputGroup>
                                                         </FormGroup>
                                                         <FormGroup>
                                                             <Grid>
                                                                 <Row>
                                                                     <Col xs={12} collapseLeft collapseRight>
-                                                                        <Button outlined lg type='submit' bsStyle='blue' onClick={::this.sendQueueRequest}>Preregistration</Button>
+                                                                        <Button outlined lg type='submit' bsStyle='blue' onClick={this.sendQueueRequest}>Preregistration</Button>
                                                                         </Col>
                                                                     </Row>
                                                                 </Grid>
@@ -96,7 +95,7 @@ export default class QueueEmail extends React.Component {
                                                             <Row>
                                                                 <Col xs={12} collapseLeft collapseRight>
                                                                     <div className='text-center' style={{ marginTop: 25 }}>
-                                                                        Did you get a pay code in your email? <Link to="/ltr/signup">Sign Up</Link>
+                                                                        Did you get a pay code in your email? <Link to="/signup">Sign Up</Link>
                                                                     </div>
                                                                 </Col>
                                                             </Row>

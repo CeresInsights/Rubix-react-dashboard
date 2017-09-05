@@ -47,7 +47,7 @@ export default class ProductBundlesbyCustomerBehavior extends React.Component {
     componentDidMount() {
         let temp = {};
         let apiKey = '';
-        temp = this.props.authReducer;
+        temp = this.props.login;
         apiKey = temp["key"];
         const { dispatch } = this.props;
         dispatch(execDashActions.fetchProdPayData(apiKey));

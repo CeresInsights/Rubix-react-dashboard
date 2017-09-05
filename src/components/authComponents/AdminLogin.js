@@ -1,7 +1,8 @@
 import React from 'react';
-import classNames from 'classnames';
-import { Link, withRouter, browserHistory } from 'react-router';
-
+import { Link, browserHistory } from 'react-router';
+import { connect } from 'react-redux';
+import ReactDOM from 'react-dom';
+import * as authActions from '../../actions/authActions';
 import {
     Row,
     Col,
@@ -21,14 +22,14 @@ import {
     PanelContainer,
 } from '@sketchpixy/rubix';
 
-@withRouter
+@connect((state) => state)
 export default class AdminLogin extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
+            un: '',
+            pw: ''
         }
-        this.un = '';
-        this.pw = '';
     }
     back(e) {
         e.preventDefault();
@@ -36,41 +37,51 @@ export default class AdminLogin extends React.Component {
         this.props.router.goBack();
     }
 
-    proceed_login(e) {
+    proceed_login = (e) => {
         e.preventDefault();
         e.stopPropagation();
-        this.un = $('#username').val();
-        this.pw = $('#password').val();
-        localStorage.setItem('un', this.un);
-        localStorage.setItem('pw', this.pw);
-        $.ajax({
-            url: 'https://ceres.link/api/admin/login/data:area=home,un=' + this.un + ',pw=' + this.pw,
-            dataType: 'json',
-            type: 'GET',
-            success: function (data) {
-                if (data == 'Admin: <' + this.un + '> logged in to <home>') {
-                    browserHistory.push('/executivedashboard');
-                } else {
-                    this.Notification(data);
-                }
-            }.bind(this),
-            error: function (error) {
-                console.log(error);
-            }
+
+        const { dispatch } = this.props;
+        let un = ReactDOM.findDOMNode(this.username).value;
+        let pw = ReactDOM.findDOMNode(this.password).value;
+
+        dispatch(authActions.fetchAdminLoginData(un, pw));
+        this.setState({
+            un: un,
+            pw: pw
         })
     }
-    proceed_logout(e) {
-        $.ajax({
-            url: 'https://ceres.link/api/admin/logout/data:area=home,un=' + this.un + ',pw=' + this.pw,
-            dataType: 'json',
-            type: 'GET',
-            success: function (data) {
-                this.Notification(data);
-            }.bind(this),
-            error: function (error) {
-                console.log(error);
-            }
-        })
+    componentWillReceiveProps(nextProps) {
+        let adminLoginData = '';
+        let adminLogoutData = '';
+        let pendingEmailList = {};
+        const { dispatch } = this.props;
+
+        adminLoginData = nextProps.adminLogin;
+        adminLogoutData = nextProps.adminLogout;
+        // if(adminLoginData!==null && adminLogoutData!==null){
+        //     this.Notification(adminLoginData);
+        //     this.Notification(adminLogoutData);
+        // }
+
+        if (adminLoginData === 'Admin: <' + this.state.un + '> logged in to <home>') {
+            
+            dispatch(authActions.fetchPendingEmailData(this.state.un, this.state.pw));
+            
+            browserHistory.push('/executivedashboard');
+            this.setState({
+                loginStatus: true
+            })
+        }
+        else {
+            this.Notification(adminLoginData);
+        }
+    }
+    proceed_logout = (e) => {
+        const { dispatch } = this.props;
+        let un = ReactDOM.findDOMNode(this.username).value;
+        let pw = ReactDOM.findDOMNode(this.password).value;
+        dispatch(authActions.fetchAdminLogoutData(un, pw));
     }
     Notification(str) {
         Messenger().post({
@@ -84,12 +95,6 @@ export default class AdminLogin extends React.Component {
 
     componentWillUnmount() {
         $('html').removeClass('authentication');
-    }
-
-    getPath(path) {
-        var dir = this.props.location.pathname.search('rtl') !== -1 ? 'rtl' : 'ltr';
-        path = `/${dir}/${path}`;
-        return path;
     }
 
     render() {
@@ -108,13 +113,13 @@ export default class AdminLogin extends React.Component {
                                                 </div>
                                                 <div>
                                                     <div style={{ padding: 25, paddingTop: 0, paddingBottom: 0, margin: 'auto', marginBottom: 25, marginTop: 25 }}>
-                                                        <Form onSubmit={::this.proceed_login}>
+                                                        <Form onSubmit={this.proceed_login}>
                                                             <FormGroup controlId='username'>
                                                                 <InputGroup bsSize='large'>
                                                                     <InputGroup.Addon>
                                                                         <Icon glyph='icon-fontello-mail' />
                                                                     </InputGroup.Addon>
-                                                                    <FormControl autoFocus type='text' className='border-focus-blue' placeholder='Username' />
+                                                                    <FormControl autoFocus type='text' className='border-focus-blue' placeholder='Username' ref={(username) => this.username = username} />
                                                                 </InputGroup>
                                                             </FormGroup>
                                                             <FormGroup controlId='password'>
@@ -122,33 +127,33 @@ export default class AdminLogin extends React.Component {
                                                                     <InputGroup.Addon>
                                                                         <Icon glyph='icon-fontello-key' />
                                                                     </InputGroup.Addon>
-                                                                    <FormControl type='password' className='border-focus-blue' placeholder='password' />
+                                                                    <FormControl type='password' className='border-focus-blue' placeholder='password' ref={(password) => this.password = password} />
                                                                 </InputGroup>
                                                             </FormGroup>
-                                                        <FormGroup>
-                                                            <Grid>
-                                                                <Row>
-                                                                    <Col xs={6} collapseLeft collapseRight className='text-right'>
-                                                                        <Button outlined lg type='submit' bsStyle='blue' onClick={::this.proceed_login}>Login</Button>
-                                                                    </Col>
-                                                                    <Col xs={6} collapseLeft collapseRight className='text-right'>
-                                                                        <Button outlined lg type='submit' bsStyle='blue' onClick={::this.proceed_logout}>Logout</Button>
-                                                                    </Col>
-                                                                </Row>
+                                                            <FormGroup>
+                                                                <Grid>
+                                                                    <Row>
+                                                                        <Col xs={6} collapseLeft collapseRight className='text-right'>
+                                                                            <Button outlined lg type='submit' bsStyle='blue' onClick={this.proceed_login}>Login</Button>
+                                                                        </Col>
+                                                                        <Col xs={6} collapseLeft collapseRight className='text-right'>
+                                                                            <Button outlined lg type='submit' bsStyle='blue' onClick={this.proceed_logout}>Logout</Button>
+                                                                        </Col>
+                                                                    </Row>
                                                                 </Grid>
                                                             </FormGroup>
-                                                            </Form>
-                                                        </div>
-                                                        </div>
-                                                    </PanelBody>
-                                            </Panel>
-                                        </PanelContainer>
-                                    </Col>
-                                </Row>
-                            </Grid>
-                        </div >
+                                                        </Form>
+                                                    </div>
+                                                </div>
+                                            </PanelBody>
+                                        </Panel>
+                                    </PanelContainer>
+                                </Col>
+                            </Row>
+                        </Grid>
                     </div >
                 </div >
-    );
+            </div >
+        );
     }
 }

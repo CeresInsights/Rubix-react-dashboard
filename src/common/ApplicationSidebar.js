@@ -11,12 +11,15 @@ import {
 import { Link } from 'react-router';
 import { connect } from 'react-redux';
 import * as dataActions from '../actions/dataActions';
+import * as execDashActions from '../actions/execDashActions';
+import * as subDashActions from '../actions/subDashActions';
 
 @connect((state) => state)
 export default class ApplicationSidebar extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
+      loginInfoFlag: false,
       apiKey: '',
       pri_keys: [],
       pri_values: {},
@@ -40,29 +43,84 @@ export default class ApplicationSidebar extends React.Component {
     };
   }
 
-  handleChange(e) {
+  handleChange = (e) => {
     this._nav.search(e.target.value);
   }
 
   componentDidMount() {
     let temp = {};
     let apiKey = ''
-    temp = this.props.authReducer;
+    temp = this.props.login;
     apiKey = temp["key"];
+    console.log("apiKey", apiKey)
     const { dispatch } = this.props;
     dispatch(dataActions.fetchFilterContentData(apiKey));
     dispatch(dataActions.fetchDefaultKeys(apiKey));
-    this.setState({apiKey: apiKey})
+    this.setState({ apiKey: apiKey })
   }
   componentWillReceiveProps(nextProps) {
+
+    const { dispatch } = this.props;
     let temp_allKeys = {};
     let temp_defaultKeys = {};
-    temp_allKeys = nextProps.allKeys;
-    temp_defaultKeys = nextProps.defaultKeys
+    let temp_selectedKeys = {};
+    let adminLoginData = '';
+    let loginData = '';
+    
+    adminLoginData = nextProps.adminLogin;
+    if(adminLoginData){
       this.setState({
-        pri_keys: Object.keys(temp_allKeys),
-        initial_data: temp_allKeys
-      }) 
+        loginInfoFlag: true
+      })
+    }else{
+      this.setState({
+        loginInfoFlag: false
+      })
+    }
+
+    temp_allKeys = nextProps.allKeys;
+    temp_defaultKeys = nextProps.defaultKeys;
+    this.setState({
+      pri_keys: Object.keys(temp_allKeys),
+      initial_data: temp_allKeys
+    })
+
+    temp_selectedKeys = nextProps.selectedKeys;
+    console.log("MISHA", temp_selectedKeys);
+    if (temp_selectedKeys !== null) {
+
+      // // Recall of All Executive Dashboard Apis 
+      // //Recall of Normal Apis
+      // dispatch(execDashActions.fetchMadData(this.state.apiKey));
+      // dispatch(execDashActions.fetchCsrData(this.state.apiKey));
+      // dispatch(execDashActions.fetchBdwData(this.state.apiKey));
+      // dispatch(execDashActions.fetchAsiData(this.state.apiKey));
+      // dispatch(execDashActions.fetchChannelData(this.state.apiKey));
+      // dispatch(execDashActions.fetchProdPayData(this.state.apiKey));
+      // dispatch(execDashActions.fetchProdProductData(this.state.apiKey));
+      // dispatch(execDashActions.fetchDsaData(this.state.apiKey));
+      // dispatch(execDashActions.fetchProductData(this.state.apiKey));
+      // dispatch(execDashActions.fetchDemographicsData(this.state.apiKey));
+
+      // // Recall of All Sub Dashboard Apis//////
+      // //////////Recall of Normal Apis///////////////
+      // dispatch(subDashActions.fetchMadData(this.state.apiKey));
+      // dispatch(subDashActions.fetchBdwData(this.state.apiKey));
+      // dispatch(subDashActions.fetchAsiData(this.state.apiKey));
+
+      // dispatch(subDashActions.fetchChannelData(this.state.apiKey));
+      // dispatch(subDashActions.fetchProdPayData(this.state.apiKey));
+      // dispatch(subDashActions.fetchProdProductData(this.state.apiKey));
+      // dispatch(subDashActions.fetchDsaData(this.state.apiKey));
+      // dispatch(subDashActions.fetchProductData(this.state.apiKey));
+      // //Recall Of Recommender Apis
+      // dispatch(subDashActions.fetchChannelRecommenderData(this.state.apiKey));
+      // dispatch(subDashActions.fetchProductRecommenderData(this.state.apiKey));
+      // dispatch(subDashActions.fetchDsaRecommenderData(this.state.apiKey));
+      // dispatch(subDashActions.fetchProdPayRecommenderData(this.state.apiKey));
+      // dispatch(subDashActions.fetchProdProductRecommenderData(this.state.apiKey));
+
+    }
   }
   handleClick(keyVal, keyKind) {
 
@@ -114,6 +172,7 @@ export default class ApplicationSidebar extends React.Component {
     dispatch(dataActions.fetchDefaultKeys(this.state.apiKey));
   }
   render() {
+    console.log("tttttt", this.state.loginInfoFlag)
     let _this = this;
 
     if (this.state.pk == '') {
@@ -135,11 +194,12 @@ export default class ApplicationSidebar extends React.Component {
     }
 
     return (
+      
       <div>
         <Grid>
           <Row>
             <Col xs={12}>
-              <FormControl type='text' placeholder='Search...' onChange={::this.handleChange} className='sidebar-search' style={{ border: 'none', background: 'none', margin: '10px 0 0 0', borderBottom: '1px solid #666', color: 'white' }} />
+              <FormControl type='text' placeholder='Search...' onChange={this.handleChange} className='sidebar-search' style={{ border: 'none', background: 'none', margin: '10px 0 0 0', borderBottom: '1px solid #666', color: 'white' }} />
               <div className='sidebar-nav-container'>
                 <SidebarNav style={{ marginBottom: 0 }} ref={(c) => this._nav = c}>
 
@@ -189,7 +249,7 @@ export default class ApplicationSidebar extends React.Component {
                   <SidebarNavItem glyph='icon-simple-line-icons-users' name='Signup' href="/signup" />
                   <SidebarNavItem glyph='icon-fontello-contacts' name='Contact Us' href="/contact" />
                   <SidebarNavItem glyph='icon-feather-inbox' name='Load Data' href="/loaddata" />
-                  <SidebarNavItem glyph='icon-fontello-mail' name='Send Email' href="/sendemail" />
+                  <SidebarNavItem glyph='icon-fontello-mail' name='Send Email' href="/sendemail" hidden={!this.state.loginInfoFlag? true : false} />
                   <SidebarNavItem glyph='icon-outlined-profile' name='Profile' href="/profile" />
                   <SidebarNavItem glyph='icon-mfizz-database' name='Data Browser' href="/databrowser" />
                 </SidebarNav>

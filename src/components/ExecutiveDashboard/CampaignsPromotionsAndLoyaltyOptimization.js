@@ -61,7 +61,7 @@ export default class CampaignsPromotionsAndLoyaltyOptimization extends React.Com
     componentDidMount() {
         let temp = {};
         let apiKey = '';
-        temp = this.props.authReducer;
+        temp = this.props.login;
         apiKey = temp["key"];
         const { dispatch } = this.props;
         dispatch(execDashActions.fetchMadData(apiKey));

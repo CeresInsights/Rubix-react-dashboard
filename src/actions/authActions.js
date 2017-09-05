@@ -7,6 +7,7 @@ const apiAdminLogin = 'https://ceres.link/api/admin/login/data:area=home,';
 const apiAdminLogout = 'https://ceres.link/api/admin/logout/data:area=home,';
 const apiQueueEmail = 'http://ceres.link/api/email/queue/data:email=';
 const apiPendingEmail = 'http://ceres.link/api/email/send_report/data:';
+const apiPreregister = 'https://ceres.link/api/preregister/data:email=';
 
 //Login
 export const fetchLoginDataSuccess = (loginData) => {
@@ -38,10 +39,10 @@ export const fetchSignupDataSuccess = (signupData) => {
     }
 }
 
-export const fetchSignupData = (un, pw, email, fn, ln, t) => {
+export const fetchSignupData = (un, pw, email, fn, ln, paycode) => {
 
     return (dispatch) => {
-        return Axios.get(apiSignup + 'un=' + un + ',pw=' + pw + ',e=' + email + ',fn=' + fn + ',ln=' + ln + ',t=' + t)
+        return Axios.get(apiSignup + 'un=' + un + ',pw=' + pw + ',e=' + email + ',fn=' + fn + ',ln=' + ln + ',t=' + paycode)
             .then(response => {
                 console.log("signup", response.data)
                 dispatch(fetchSignupDataSuccess(response.data))
@@ -135,3 +136,24 @@ export const fetchPendingEmailData = (un, pw) => {
             });
     };
 }
+// Email Preregister
+export const fetchEmailPreregisterDataSuccess = (emailPreregister) => {
+    
+        return {
+            type: types.FETCH_EMAIL_PREREGISTER_SUCCESS,
+            emailPreregister
+        }
+    }
+    
+    export const fetchEmailPreregisterData = (email) => {
+    
+        return (dispatch) => {
+            return Axios.get(apiPreregister + email)
+                .then(response => {
+                    dispatch(fetchEmailPreregisterDataSuccess(response.data))
+                })
+                .catch(error => {
+                    throw (error);
+                });
+        };
+    }

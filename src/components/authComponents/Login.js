@@ -1,9 +1,8 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import { connect } from 'react-redux';
-import classNames from 'classnames';
 import { Link, browserHistory } from 'react-router';
-import * as extraActions from '../../actions/authActions';
+import * as authActions from '../../actions/authActions';
 import {
   Row,
   Col,
@@ -38,7 +37,10 @@ export default class Login extends React.Component {
   }
   componentWillReceiveProps(nextProps) {
     let loginData = {};
-    loginData = nextProps.authReducer;
+    loginData = nextProps.login;
+    if(loginData){
+      this.errorNotification(loginData)
+    }
     if (loginData["status"] === 'User Login Successful') {
       browserHistory.push('/executivedashboard');
       this.setState({
@@ -55,27 +57,8 @@ export default class Login extends React.Component {
     let un = ReactDOM.findDOMNode(this.username).value;
     let pw = ReactDOM.findDOMNode(this.password).value;
 
-    dispatch(extraActions.fetchLoginData(un, pw));
+    dispatch(authActions.fetchLoginData(un, pw));
   }
-
-
-  // $.ajax({
-  //   url: 'https://ceres.link/api/login/data:un='+un+',pw='+pw,
-  //   dataType: 'json',
-  //   type: 'GET',
-  //   success:function(data){
-  //     if(data.status=='User Login Successful'){
-  //       localStorage.setItem('api_key',data.key);
-  //       browserHistory.push('/ltr/executivedashboard');  
-  //     }else{
-  //       this.errorNotification(data);
-  //     }
-  //   }.bind(this),
-  //   error:function(error){
-  //     console.log(error);
-  //   }
-  // })
-
 
   errorNotification(str) {
     Messenger().post({

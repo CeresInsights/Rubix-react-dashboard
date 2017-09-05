@@ -1,7 +1,6 @@
 
 //Executive Dashboard Reducers
 import { combineReducers } from 'redux';
-// import executiveDashboardReducer from './execDashReducers';
 import {
   madReducer,
   asiReducer,
@@ -17,8 +16,17 @@ import {
 
 import subDashboardReducer from './subDashReducers';
 
-import authReducer from './authReducers';
+// Auth Reducers
+import {
+  loginReducer,
+  signupReducer,
+  adminLoginReducer,
+  adminLogoutReducer,
+  queueEmailReducer,
+  pendingEmailReducer
+} from './authReducers';
 
+//Data Reducers
 import {
   allKeysReducer,
   defaultKeysReducer,
@@ -44,6 +52,10 @@ module.exports = {
   dataLoad: dataLoadReducer,
   browserData: browserDataReducer,
   // ...subDashboardReducer,
-  ...authReducer,
-  // ...dataBrowserReducer,
+  login: loginReducer,
+  signup: signupReducer,
+  adminLogin: adminLoginReducer,
+  adminLogout: adminLogoutReducer,
+  queueEmail: queueEmailReducer,
+  pendingEmail: pendingEmailReducer
 }

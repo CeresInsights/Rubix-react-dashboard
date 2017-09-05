@@ -48,7 +48,7 @@ export default class ProductPromotionByChannel extends React.Component {
     componentDidMount() {
         let temp = {};
         let apiKey = '';
-        temp = this.props.authReducer;
+        temp = this.props.login;
         apiKey = temp["key"];
         const { dispatch } = this.props;
         dispatch(execDashActions.fetchDsaData(apiKey));

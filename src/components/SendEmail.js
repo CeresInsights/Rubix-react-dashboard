@@ -1,6 +1,8 @@
 import React from 'react';
 import { Link } from 'react-router';
-
+import { connect } from 'react-redux';
+import ReactDOM from 'react-dom';
+import * as authActions from '../actions/authActions';
 import {
     Row,
     Col,
@@ -18,52 +20,39 @@ import {
     SplitButton, MenuItem
 } from '@sketchpixy/rubix';
 
+@connect((state) => state)
 export default class SendEmail extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            storedEmails: [],
-            un: '',
-            pw: ''
+            pendingEmailList: [],
         }
 
     }
-    componentDidMount() {
-        var storedEmails = [];
-        var un = '';
-        var pw = '';
-        storedEmails = JSON.parse(localStorage.getItem('emails'));
-
-        un = localStorage.getItem('un');
-        pw = localStorage.getItem('pw');
+    componentWillReceiveProps(nextProps) {
+        var pendingEmailData = {};
+        pendingEmailData = nextProps.pendingEmail;
+        console.log("PendingEmails", pendingEmailData)
         this.setState({
-            storedEmails: storedEmails,
-            un: un,
-            pw: pw
+            pendingEmailList: pendingEmailData["pending_emails"]
         })
         Messenger.options = {
             theme: 'flat'
         };
     }
-
-    handleClick(e) {
-
+    handleClick = (e) => {
         e.preventDefault();
         e.stopPropagation();
-console.log("asdfasd", this.state.un)
-console.log("qwer", this.state.pw)
-        // let email = $('#formControlsSelectMultiple').val();
-        // $.ajax({
-        //     url: 'http://ceres.link/api/email/send_report/data:un='+this.state.un+',pw='+this.state.pw,
-        //     dataType: 'json',
-        //     type: 'GET',
-        //     success: function (data) {
-        //         this.errorNotification(data);
-        //     }.bind(this),
-        //     error: function (error) {
-        //         console.log(error);
-        //     }
-        // })
+        let index = 0;
+        let pendingEmailList = [];
+        let preregisterEmail = '';
+
+        index = ReactDOM.findDOMNode(this.preregisterEmail).value;
+        pendingEmailList = this.state.pendingEmailList;
+        preregisterEmail = pendingEmailList[index];
+
+        const { dispatch } = this.props;
+        dispatch(authActions.fetchEmailPreregisterData(preregisterEmail));
     }
 
     errorNotification(str) {
@@ -79,13 +68,13 @@ console.log("qwer", this.state.pw)
                     <Col xs={12}>
                         <h1 className="contact_title"> Send PayCode </h1>
                         <p> Please select a email address to send the token code</p>
-                        <Form onSubmit = {this.handleClick}>
+                        <Form onSubmit={this.handleClick}>
                             <Grid>
                                 <Row>
                                     <Col xs={3}>
                                         <FormGroup controlId='formControlsSelectMultiple'>
-                                            <FormControl componentClass="select" className='border-focus-blue' multiple onChange={this.handleSelect}>
-                                                {this.state.storedEmails.map((email, index) => {
+                                            <FormControl componentClass="select" className='border-focus-blue' multiple ref={(preregisterEmail) => this.preregisterEmail = preregisterEmail}>
+                                                {this.state.pendingEmailList.map((email, index) => {
                                                     return (
                                                         <option value={index} key={index}>{email}</option>
                                                     );
