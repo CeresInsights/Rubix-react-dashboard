@@ -309,7 +309,7 @@ export const fetchProdPayRecommenderDataSuccess = (subProdPayRecommender) => {
 export const fetchProdPayRecommenderData = (apiKey) => {
 
     return (dispatch) => {
-        return Axios.get(apiProdPayCsv + apiKey)
+        return Axios.get(apiProdPayRecommender + apiKey)
             .then(response => {
                 dispatch(fetchProdPayRecommenderDataSuccess(response.data))
             })
@@ -319,11 +319,11 @@ export const fetchProdPayRecommenderData = (apiKey) => {
     };
 }
 ////////////////////////Prod Product Recommender Api//////////////////////
-export const fetchProdProductRecommenderDataSuccess = (SubProdProductRecommender) => {
+export const fetchProdProductRecommenderDataSuccess = (subProdProductRecommender) => {
 
     return {
         type: types.FETCH_SUB_PROD_PRODUCT_RECOMMENDER_SUCCESS,
-        SubProdProductRecommender
+        subProdProductRecommender
     }
 }
 
@@ -332,6 +332,7 @@ export const fetchProdProductRecommenderData = (apiKey) => {
     return (dispatch) => {
         return Axios.get(apiProdProductRecommender + apiKey)
             .then(response => {
+                console.log("prodProductRecommender", response.data)
                 dispatch(fetchProdProductRecommenderDataSuccess(response.data))
             })
             .catch(error => {
