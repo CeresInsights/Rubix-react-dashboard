@@ -4,14 +4,14 @@ import Axios from 'axios';
 const apiDataBrowser = 'https://ceres.link/api/override/api_key=';
 const apiSelectedKeys = 'https://ceres.link/api/override_keys/api_key=';
 const apiAllKeys = 'https://ceres.link/api/graphmeta/api_key=';
-const apiDataLoader = 'https://ceres.link/api/add_data/api_key=';
+const apiDataLoad = 'https://ceres.link/api/add_data/api_key=';
 
 ////////////// Data Browser Api////////////////////////////
-export const fetchBrowserDataSuccess = (dataBrowser) => {
+export const fetchBrowserDataSuccess = (browserData) => {
 
     return {
         type: types.FETCH_DATA_BROWSER_SUCCESS,
-        dataBrowser
+        browserData
     }
 }
 
@@ -28,7 +28,7 @@ export const fetchBrowserData = (apiKey) => {
     };
 }
 /////////////////////// Data Loader Api///////////////////
-export const fetchClientLoaderDataSuccess = (loadData) => {
+export const fetchLoadDataSuccess = (loadData) => {
 
     return {
         type: types.FETCH_DATA_LOADER_SUCCESS,
@@ -36,12 +36,12 @@ export const fetchClientLoaderDataSuccess = (loadData) => {
     }
 }
 
-export const fetchClientLoaderData = (apiKey) => {
+export const fetchLoadData = (apiKey) => {
 
     return (dispatch) => {
-        return Axios.get(apiDataLoader + apiKey)
+        return Axios.get(apiDataLoad + apiKey)
             .then(response => {
-                dispatch(fetchClientLoaderDataSuccess(response.data))
+                dispatch(fetchLoadDataSuccess(response.data))
             })
             .catch(error => {
                 throw (error);
@@ -58,10 +58,10 @@ export const fetchFilterContentDataSuccess = (allKeys) => {
     }
 }
 
-export const fetchFilterContentData = (apiKey, pk, sk, ck) => {
+export const fetchFilterContentData = (apiKey) => {
 
     return (dispatch) => {
-        return Axios.get(apiAllKeys + apiKey + ';data:pk=' + pk + ',sk=' + sk + ',ck=' + ck)
+        return Axios.get(apiAllKeys + apiKey)
             .then(response => {
                 dispatch(fetchFilterContentDataSuccess(response.data))
             })
@@ -72,20 +72,20 @@ export const fetchFilterContentData = (apiKey, pk, sk, ck) => {
 }
 
 //Api for getting the selected pk,sk and ck
-export const fetchKeysDataSuccess = (selectedKeys) => {
+export const fetchSelectedKeysDataSuccess = (selectedKeys) => {
 
     return {
-        type: types.FETCH_KEYS_SUCCESS,
+        type: types.FETCH_SELECTED_KEYS_SUCCESS,
         selectedKeys
     }
 }
 
-export const fetchKeysData = (apiKey, pk, sk, ck) => {
+export const fetchSelectedKeysData = (apiKey, pk, sk, ck) => {
 
     return (dispatch) => {
         return Axios.get(apiSelectedKeys + apiKey + ';data:pk=' + pk + ',sk=' + sk + ',ck=' + ck)
             .then(response => {
-                dispatch(fetchKeysDataSuccess(response.data))
+                dispatch(fetchSelectedKeysDataSuccess(response.data))
             })
             .catch(error => {
                 throw (error);
@@ -93,7 +93,7 @@ export const fetchKeysData = (apiKey, pk, sk, ck) => {
     };
 }
 
-// Api for getting default keys(pk=country, sk=germany, ck=purchase_log_csv)
+// Api for getting default keys(pk=country, sk=united_states, ck=purchase_log_csv)
 export const fetchDefaultKeysSuccess = (defaultKeys) => {
 
     return {
@@ -103,10 +103,11 @@ export const fetchDefaultKeysSuccess = (defaultKeys) => {
 }
 
 export const fetchDefaultKeys = (apiKey) => {
-    console.log("adfafasfasfasfsafsafsa")
+    
     return (dispatch) => {
-        return Axios.get(apiSelectedKeys + apiKey + ';data:pk=country,sk=germany,ck=purchase_log_csv')
+        return Axios.get(apiSelectedKeys + apiKey + ';data:pk=country,sk=united_states,ck=purchase_log_csv')
             .then(response => {
+                console.log("defaultKeys", response.data)
                 dispatch(fetchDefaultKeysSuccess(response.data))
             })
             .catch(error => {
