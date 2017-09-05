@@ -18,9 +18,6 @@ import ApplicationSidebar from './ApplicationSidebar';
 
 export default class SidebarContainer extends React.Component {
 
-  handleLangChange(tbl_ready, pk, sk, ck) {
-    this.props.onSelectLanguage(tbl_ready, pk, sk, ck);
-  }
   render() {
     return (
       <div id='sidebar'>
@@ -51,7 +48,7 @@ export default class SidebarContainer extends React.Component {
       </SidebarControls>
       <div id='sidebar-container'>
         <Sidebar sidebar={0}>
-          <ApplicationSidebar dataBrowserClickced={this.handleLangChange.bind(this)} />
+          <ApplicationSidebar />
         </Sidebar>
         <Sidebar sidebar={1}>
           <ChatComponent />

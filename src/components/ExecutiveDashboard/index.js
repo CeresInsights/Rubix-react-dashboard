@@ -184,7 +184,24 @@ export default class ExecDashboard extends React.Component {
   constructor(props) {
     super(props);
   }
-
+  // componentDidMount() {
+  //   let temp = {};
+  //   let apiKey = '';
+  //   temp = this.props.login;
+  //   apiKey = temp["key"];
+  //   console.log("KKKUUUHHH", apiKey)
+  //   const { dispatch } = this.props;
+  //   dispatch(execDashActions.fetchMadData(apiKey));
+  //   dispatch(execDashActions.fetchCsrData(apiKey));
+  //   dispatch(execDashActions.fetchBdwData(apiKey));
+  //   dispatch(execDashActions.fetchAsiData(apiKey));
+  //   dispatch(execDashActions.fetchChannelData(apiKey));
+  //   dispatch(execDashActions.fetchProdPayData(apiKey));
+  //   dispatch(execDashActions.fetchProdProductData(apiKey));
+  //   dispatch(execDashActions.fetchDsaData(apiKey));
+  //   dispatch(execDashActions.fetchProductData(apiKey));
+  //   dispatch(execDashActions.fetchDemographicsData(apiKey));
+  // }
   render() {
     return (
       <div className='execdashboard'>

@@ -14,7 +14,18 @@ import {
   csrReducer
 } from './execDashReducers';
 
-import subDashboardReducer from './subDashReducers';
+import {
+  subProdPayReducer,
+  subProdProductReducer,
+  subChannelReducer,
+  subProductReducer,
+  subDsaReducer,
+  subChannelRecommenderReducer,
+  subProductRecommenderReducer,
+  subDsaRecommenderReducer,
+  subProdPayRecommenderReducer,
+  subProdProductRecommenderReducer
+} from './subDashReducers';
 
 // Auth Reducers
 import {
@@ -46,12 +57,24 @@ module.exports = {
   demographics: demographicsReducer,
   dsa: dsaReducer,
   csr: csrReducer,
+  
   allKeys: allKeysReducer,
   defaultKeys: defaultKeysReducer,
   selectedKeys: selectedKeysReducer,
   dataLoad: dataLoadReducer,
   browserData: browserDataReducer,
-  // ...subDashboardReducer,
+
+  subProdPay: subProdPayReducer,
+  subProdProduct: subProdProductReducer,
+  subChannel: subChannelReducer,
+  subProduct: subProductReducer,
+  subDsa: subDsaReducer,
+  subChannelRecommender: subChannelRecommenderReducer,
+  subProductRecommender: subProductRecommenderReducer,
+  subDsaRecommender: subDsaRecommenderReducer,
+  subProdPayRecommender: subProdPayRecommenderReducer,
+  subProdProductRecommender: subProdProductRecommenderReducer,
+
   login: loginReducer,
   signup: signupReducer,
   adminLogin: adminLoginReducer,

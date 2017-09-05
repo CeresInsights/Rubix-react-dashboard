@@ -1,5 +1,7 @@
 import React from 'react';
 import '../app.scss';
+import { connect } from 'react-redux';
+import * as subDashActions from '../../actions/subDashActions';
 import {
     Row,
     Tab,
@@ -28,7 +30,7 @@ import {
     PanelTabContainer,
     ButtonGroup
 } from '@sketchpixy/rubix';
-
+@connect((state) => state)
 export default class ProductPromotionByChannel extends React.Component {
     constructor(props) {
         super(props);
@@ -69,7 +71,7 @@ export default class ProductPromotionByChannel extends React.Component {
 
         return null;
     }
-    componentDidMount() {
+    componentWillReceiveProps(nextProps) {
         let mainTileTypesDsa = [];
         let mainTileTypesProd = [];
 
@@ -127,200 +129,185 @@ export default class ProductPromotionByChannel extends React.Component {
         let mainTileTitlesDsament = [];
         let mainTileTitlesProduct = [];
 
+        /////////////////////Data Operation////////////////////
+        let subProduct = {};
+        let subProductRecommender = {};
+        let subDsa = {};
+        let subDsaRecommender = {};
 
-        let api_key = localStorage.getItem('api_key');
-
+        subProduct = nextProps.subProduct;
+        subProductRecommender = nextProps.subProductRecommender;
+        subDsa = nextProps.subDsa;
+        subDsaRecommender = nextProps.subDsaRecommender;
+        //////////////////////////////////SMA///////////////////////////////
         //Get Data For Sub-Dashboard(Promotion App) SMA Product
-        $.ajax({
-            url: 'https://ceres.link/api/sub_board/sma_product/api_key=' + api_key,
-            dataType: 'json',
-            type: 'GET',
-            success: function (data) {
-                this.setState({
-                    sma_product: data
-                })
-                ///////Main Tile Types Fetch///////////////
-                mainTileTypesProd = Object.keys(data);
-                ////////////Main Tile Data Fetch////////////////
-                mainTileTypesProd.map((key) => {
-                    mainTileContentsProd.push(data[key]);
-                })
+        this.setState({
+            sma_product: subProduct,
+            smart_product: subProductRecommender,
+            dsa: subDsa,
+            smart_dsa: subDsaRecommender
+        })
+        ///////Main Tile Types Fetch///////////////
+        mainTileTypesProd = Object.keys(subProduct);
+        ////////////Main Tile Data Fetch////////////////
+        mainTileTypesProd.map((key) => {
+            mainTileContentsProd.push(subProduct[key]);
+        })
 
-                mainTileContentsProd.map((item) => {
-                    mainTileTitlesProd.push(Object.keys(item));
-                })
+        mainTileContentsProd.map((item) => {
+            mainTileTitlesProd.push(Object.keys(item));
+        })
 
-                mainTileTitlesProd.map((itemArray) => {
-                    itemArray.map((item) => {
-                        mainTileTitlesRealProd.push(item);
-                    })
-                })
-                //// Recommender API for Sub-Dashboard(Promotion App) SMA Product//////////////
-                $.ajax({
-                    url: 'https://ceres.link/api/sub_board/smart_product/api_key=' + api_key,
-                    dataType: 'json',
-                    type: 'GET',
-                    success: function (data) {
-                        this.setState({
-                            smart_product: data
-                        })
-                        ////// Recommender Type Fetch//////////////////////
-                        recommenderTypesProd = Object.keys(data);
-                        ///////////////Recommender Data Fetch(html, spectrogram, optimizer_chart)/////////////
-                        recommenderTypesProd.map((key) => {
-                            recommenderContentsProd.push(data[key]);
-                            htmlTxtProd.push(data[key]["text/html"]);
-                        })
-                        recommenderContentsProd.map((item) => {
-                            spectro_labels_prod.push((item["spectrogram"])["labels"]);
-                            spectro_data_prod.push((item["spectrogram"])["data"]);
-                            optimizer_labels_prod.push((item["optimizer_chart"])["labels"]);
-                            optimizer_data_prod.push((item["optimizer_chart"])["data"]);
-                        })
+        mainTileTitlesProd.map((itemArray) => {
+            itemArray.map((item) => {
+                mainTileTitlesRealProd.push(item);
+            })
+        })
+        //// Recommender API for Sub-Dashboard(Promotion App) SMA Product//////////////
 
-                        ///// recommender labels array for getting best recommender data////////
-                        spectro_labels_prod.map((itemArray) => {
-                            itemArray.map((item) => {
-                                spectro_labels_real_prod.push(item);
-                            })
-                        })
+        // this.setState({
+        //     smart_product: subProductRecommender
+        // })
+        ////// Recommender Type Fetch//////////////////////
+        recommenderTypesProd = Object.keys(subProductRecommender);
+        ///////////////Recommender Data Fetch(html, spectrogram, optimizer_chart)/////////////
+        recommenderTypesProd.map((key) => {
+            recommenderContentsProd.push(subProductRecommender[key]);
+            htmlTxtProd.push(subProductRecommender[key]["text/html"]);
+        })
+        recommenderContentsProd.map((item) => {
+            spectro_labels_prod.push((item["spectrogram"])["labels"]);
+            spectro_data_prod.push((item["spectrogram"])["data"]);
+            optimizer_labels_prod.push((item["optimizer_chart"])["labels"]);
+            optimizer_data_prod.push((item["optimizer_chart"])["data"]);
+        })
 
-                        ////////////////Best Recommender Fetch////////////////////
-                        recommenderTitlesProd = mainTileTitlesRealProd.filter(e => !spectro_labels_real_prod.includes(e));
+        ///// recommender labels array for getting best recommender data////////
+        spectro_labels_prod.map((itemArray) => {
+            itemArray.map((item) => {
+                spectro_labels_real_prod.push(item);
+            })
+        })
 
-                        //////////////////// Best Recommender Data and Main Tile Data Fetch ///////////////
-                        /// Remove Best Recommender in main tile data and Best Recommender Data Fetch
-                        mainTileContentsProd.map((temp) => {
-                            recommenderTitlesProd.map((item) => {
-                                recommenderContentsTempProd.push(temp[item])
-                            })
-                        })
-                        recommenderContentsTempProd.map((item) => {
-                            if (item !== undefined) {
-                                bestRecommenderContentsProd.push(item)
-                            }
-                        })
+        ////////////////Best Recommender Fetch////////////////////
+        recommenderTitlesProd = mainTileTitlesRealProd.filter(e => !spectro_labels_real_prod.includes(e));
 
-                        this.setState({
-                            recommenderTypesProd: recommenderTypesProd,
-                            recommenderTitlesProd: recommenderTitlesProd,
-                            bestRecommenderContentsProd: bestRecommenderContentsProd,
-
-                            htmlTxtProd: htmlTxtProd,
-                            spectro_labels_prod: spectro_labels_prod,
-                            spectro_data_prod: spectro_data_prod,
-                            optimizer_labels_prod: optimizer_labels_prod,
-                            optimizer_data_prod: optimizer_data_prod
-                        })
-
-                    }.bind(this),
-                    error: function (error) {
-                        console.log('SubProductSmartUpdateERROR', error);
-                    }
-                });
-
-            }.bind(this),
-            error: function (error) {
-                console.log('SubProductUpdateERROR', error);
+        //////////////////// Best Recommender Data and Main Tile Data Fetch ///////////////
+        /// Remove Best Recommender in main tile data and Best Recommender Data Fetch
+        mainTileContentsProd.map((temp) => {
+            recommenderTitlesProd.map((item) => {
+                recommenderContentsTempProd.push(temp[item])
+            })
+        })
+        recommenderContentsTempProd.map((item) => {
+            if (item !== undefined) {
+                bestRecommenderContentsProd.push(item)
             }
-        });
+        })
+
+        this.setState({
+            recommenderTypesProd: recommenderTypesProd,
+            recommenderTitlesProd: recommenderTitlesProd,
+            bestRecommenderContentsProd: bestRecommenderContentsProd,
+
+            htmlTxtProd: htmlTxtProd,
+            spectro_labels_prod: spectro_labels_prod,
+            spectro_data_prod: spectro_data_prod,
+            optimizer_labels_prod: optimizer_labels_prod,
+            optimizer_data_prod: optimizer_data_prod
+        })
+        /////////////////////////////////////DSA/////////////////////////////////
 
         //Get Data For Sub-Dashboard(Promotion App) Digital Shopping Activity
-        $.ajax({
-            url: 'https://ceres.link/api/sub_board/dsa/api_key=' + api_key,
-            dataType: 'json',
-            type: 'GET',
-            success: function (data) {
-                this.setState({
-                    dsa: data
-                })
-                ///////Main Tile Types Fetch///////////////
-                mainTileTypesDsa = Object.keys(data);
-                ////////////Main Tile Data Fetch////////////////
-                mainTileTypesDsa.map((key) => {
-                    mainTileContentsDsa.push(data[key]);
-                })
 
-                mainTileContentsDsa.map((item) => {
-                    mainTileTitlesDsa.push(Object.keys(item));
-                })
+        // this.setState({
+        //     dsa: subDsa
+        // })
+        ///////Main Tile Types Fetch///////////////
+        mainTileTypesDsa = Object.keys(subDsa);
+        ////////////Main Tile Data Fetch////////////////
+        mainTileTypesDsa.map((key) => {
+            mainTileContentsDsa.push(subDsa[key]);
+        })
 
-                mainTileTitlesDsa.map((itemArray) => {
-                    itemArray.map((item) => {
-                        mainTileTitlesRealDsa.push(item);
-                    })
-                })
+        mainTileContentsDsa.map((item) => {
+            mainTileTitlesDsa.push(Object.keys(item));
+        })
 
-                //// Recommender API for Sub-Dashboard(Promotion App Digital Shopping Activity)//////////////
-                $.ajax({
-                    url: 'https://ceres.link/api/sub_board/smart_dsa/api_key=' + api_key,
-                    dataType: 'json',
-                    type: 'GET',
-                    success: function (data) {
-                        console.log("smart_dsa", data)
-                        this.setState({
-                            smart_dsa: data
-                        })
-                        ////// Recommender Type Fetch//////////////////////
-                        recommenderTypesDsa = Object.keys(data);
-                        // ///////////////Recommender Data Fetch(html, spectrogram, optimizer_chart)/////////////
-                        recommenderTypesDsa.map((key) => {
-                            recommenderContentsDsa.push(data[key]);
-                            htmlTxtDsa.push(data[key]["text/html"]);
-                        })
+        mainTileTitlesDsa.map((itemArray) => {
+            itemArray.map((item) => {
+                mainTileTitlesRealDsa.push(item);
+            })
+        })
 
-                        recommenderContentsDsa.map((item) => {
-                            spectro_labels_dsa.push((item["spectrogram"])["labels"]);
-                            spectro_data_dsa.push((item["spectrogram"])["data"]);
-                            optimizer_labels_dsa.push((item["optimizer_chart"])["labels"]);
-                            optimizer_data_dsa.push((item["optimizer_chart"])["data"]);
-                        })
-                        // ///// recommender labels array for getting best recommender data////////
-                        spectro_labels_dsa.map((itemArray) => {
-                            itemArray.map((item) => {
-                                spectro_labels_real_dsa.push(item);
-                            })
-                        })
+        //// Recommender API for Sub-Dashboard(Promotion App Digital Shopping Activity)//////////////
 
-                        // // ////////////////Best Recommender Fetch////////////////////
-                        recommenderTitlesDsa = mainTileTitlesRealDsa.filter(e => !spectro_labels_real_dsa.includes(e));
+        // this.setState({
+        //     smart_dsa: subDsaRecommender
+        // })
+        ////// Recommender Type Fetch//////////////////////
+        recommenderTypesDsa = Object.keys(subDsaRecommender);
+        // ///////////////Recommender Data Fetch(html, spectrogram, optimizer_chart)/////////////
+        recommenderTypesDsa.map((key) => {
+            recommenderContentsDsa.push(subDsaRecommender[key]);
+            htmlTxtDsa.push(subDsaRecommender[key]["text/html"]);
+        })
 
-                        // // //////////////////// Best Recommender Data and Main Tile Data Fetch ///////////////
-                        // // /// Remove Best Recommender in main tile data and Best Recommender Data Fetch
-                        mainTileContentsDsa.map((temp) => {
-                            recommenderTitlesDsa.map((item) => {
-                                recommenderContentsTempDsa.push(temp[item])
-                            })
-                        })
-                        recommenderContentsTempDsa.map((item) => {
-                            if (item !== undefined) {
-                                bestRecommenderContentsDsa.push(item)
-                            }
-                        })
+        recommenderContentsDsa.map((item) => {
+            spectro_labels_dsa.push((item["spectrogram"])["labels"]);
+            spectro_data_dsa.push((item["spectrogram"])["data"]);
+            optimizer_labels_dsa.push((item["optimizer_chart"])["labels"]);
+            optimizer_data_dsa.push((item["optimizer_chart"])["data"]);
+        })
+        // ///// recommender labels array for getting best recommender data////////
+        spectro_labels_dsa.map((itemArray) => {
+            itemArray.map((item) => {
+                spectro_labels_real_dsa.push(item);
+            })
+        })
 
-                        this.setState({
-                            recommenderTypesDsa: recommenderTypesDsa,
-                            recommenderTitlesDsa: recommenderTitlesDsa,
-                            bestRecommenderContentsDsa: bestRecommenderContentsDsa,
+        // // ////////////////Best Recommender Fetch////////////////////
+        recommenderTitlesDsa = mainTileTitlesRealDsa.filter(e => !spectro_labels_real_dsa.includes(e));
 
-                            htmlTxtDsa: htmlTxtDsa,
-                            spectro_labels_dsa: spectro_labels_dsa,
-                            spectro_data_dsa: spectro_data_dsa,
-                            optimizer_labels_dsa: optimizer_labels_dsa,
-                            optimizer_data_dsa: optimizer_data_dsa
-                        })
-
-                    }.bind(this),
-                    error: function (error) {
-                        console.log('SubDsaSmartUpdateERROR', error);
-                    }
-                });
-
-            }.bind(this),
-            error: function (error) {
-                console.log('SubDsaUpdateERROR', error);
+        // // //////////////////// Best Recommender Data and Main Tile Data Fetch ///////////////
+        // // /// Remove Best Recommender in main tile data and Best Recommender Data Fetch
+        mainTileContentsDsa.map((temp) => {
+            recommenderTitlesDsa.map((item) => {
+                recommenderContentsTempDsa.push(temp[item])
+            })
+        })
+        recommenderContentsTempDsa.map((item) => {
+            if (item !== undefined) {
+                bestRecommenderContentsDsa.push(item)
             }
-        });
+        })
+
+        this.setState({
+            recommenderTypesDsa: recommenderTypesDsa,
+            recommenderTitlesDsa: recommenderTitlesDsa,
+            bestRecommenderContentsDsa: bestRecommenderContentsDsa,
+
+            htmlTxtDsa: htmlTxtDsa,
+            spectro_labels_dsa: spectro_labels_dsa,
+            spectro_data_dsa: spectro_data_dsa,
+            optimizer_labels_dsa: optimizer_labels_dsa,
+            optimizer_data_dsa: optimizer_data_dsa
+        })
+
+
+    }
+    componentDidMount() {
+
+        let temp = {};
+        let apiKey = '';
+        temp = this.props.login;
+        apiKey = temp["key"];
+        const { dispatch } = this.props;
+        dispatch(subDashActions.fetchProductData(apiKey));
+        dispatch(subDashActions.fetchProductRecommenderData(apiKey));
+        dispatch(subDashActions.fetchDsaData(apiKey));
+        dispatch(subDashActions.fetchDsaRecommenderData(apiKey));
+
     }
 
     renderSpectroLineChartDsa = (index) => {
@@ -712,7 +699,7 @@ export default class ProductPromotionByChannel extends React.Component {
                                 </div>
                             </Col>
                             <Col md={3} className="prod_spectro_chart">
-                                <div className={{float:'left'}} id={'prod_spectro_line_chart' + index}></div>
+                                <div className={{ float: 'left' }} id={'prod_spectro_line_chart' + index}></div>
                             </Col>
                             <Col md={3} className="prod_optimmizer_chart">
                                 <div id={num < 1 ? "prod_optimizer_column_chart" + index : "prod_optimizer_bar_chart" + index}></div>
@@ -733,7 +720,7 @@ export default class ProductPromotionByChannel extends React.Component {
         let recommenderTypesProd = [];
         recommenderTypesDsa = this.state.recommenderTypesDsa;
         recommenderTypesProd = this.state.recommenderTypesProd;
-        if (key === 'sma') {
+        if (key === 'dsa') {
             recommenderTypesDsa.map((item, index) => {
                 setTimeout(() => {
                     let a = document.getElementById('dsa_spectro_line_chart' + index);
@@ -755,7 +742,7 @@ export default class ProductPromotionByChannel extends React.Component {
                 }, 250)
             })
         }
-        if (key === 'dsa') {
+        if (key === 'sma') {
             recommenderTypesProd.map((item, index) => {
                 setTimeout(() => {
                     let a = document.getElementById('prod_spectro_line_chart' + index);
@@ -812,12 +799,12 @@ export default class ProductPromotionByChannel extends React.Component {
                                         </Tab.Pane>
                                         {(this.state.sma_product !== null && this.state.smart_product !== null) &&
                                             <Tab.Pane eventKey="sma">
-                                                {this.renderDsa()}
+                                                {this.renderProduct()}
                                             </Tab.Pane>
                                         }
                                         {(this.state.dsa !== null && this.state.smart_dsa != null) &&
                                             <Tab.Pane eventKey="dsa">
-                                                {this.renderProduct()}
+                                                {this.renderDsa()}
                                             </Tab.Pane>
                                         }
                                     </Tab.Content>

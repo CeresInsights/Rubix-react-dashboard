@@ -1,6 +1,8 @@
 import React from 'react';
 import { Link } from 'react-router';
+import { connect } from 'react-redux';
 import '../app.scss';
+import * as execDashActions from '../../actions/execDashActions';
 import {
     Row,
     Tab,
@@ -29,7 +31,7 @@ import {
     PanelTabContainer,
     ButtonGroup
 } from '@sketchpixy/rubix';
-
+@connect((state) => state)
 export default class NewCustomerAcquistion extends React.Component {
     constructor(props) {
         super(props);
@@ -43,60 +45,63 @@ export default class NewCustomerAcquistion extends React.Component {
         }
     }
     componentDidMount() {
-
-        let api_key = '';
-        api_key = localStorage.getItem('api_key');
+        let temp = {};
+        let apiKey = '';
+        temp = this.props.login;
+        apiKey = temp["key"];
+        const { dispatch } = this.props;
+        
+        dispatch(execDashActions.fetchDemographicsData(apiKey));
+        
         //Get Data For Executive Dashboard Predictive Market Segmentation
-        $.ajax({
-            url: 'https://ceres.link/api/exec_board/demographics/api_key=' + api_key,
-            dataType: 'json',
-            type: 'GET',
-            success: function (data) {
-                let age_avg = 0;
-                let demographics = {};
-                let demo_keys = [];
-                let demo_contents = [];
-                let demo_contents_keys = [];
-                let demo_percent_total = [];
-                let demo_percent_total_item = [];
+        // $.ajax({
+        //     url: 'https://ceres.link/api/exec_board/demographics/api_key=' + api_key,
+        //     dataType: 'json',
+        //     type: 'GET',
+        //     success: function (data) {
+        //         let age_avg = 0;
+        //         let demographics = {};
+        //         let demo_keys = [];
+        //         let demo_contents = [];
+        //         let demo_contents_keys = [];
+        //         let demo_percent_total = [];
+        //         let demo_percent_total_item = [];
 
-                demographics = data;
-                age_avg = data["age"]["average"];
+        //         demographics = data;
+        //         age_avg = data["age"]["average"];
 
-                delete data["age"];
-                demo_keys = Object.keys(data);
-                demo_keys.map((item) => {
-                    demo_contents.push(data[item])
-                })
-                demo_contents.map((content) => {
-                    demo_contents_keys.push(Object.keys(content));
-                })
-                console.log("demo_contents_keys", demo_contents_keys)
-                demo_contents.map((content) => {
-                    demo_contents_keys.map((itemArray, index) => {
-                        itemArray.map((item) => {
-                            demo_percent_total_item.push(content[item])
-                        })
-                        demo_percent_total.push(demo_percent_total_item)
+        //         delete data["age"];
+        //         demo_keys = Object.keys(data);
+        //         demo_keys.map((item) => {
+        //             demo_contents.push(data[item])
+        //         })
+        //         demo_contents.map((content) => {
+        //             demo_contents_keys.push(Object.keys(content));
+        //         })
+        //         console.log("demo_contents_keys", demo_contents_keys)
+        //         demo_contents.map((content) => {
+        //             demo_contents_keys.map((itemArray, index) => {
+        //                 itemArray.map((item) => {
+        //                     demo_percent_total_item.push(content[item])
+        //                 })
+        //                 demo_percent_total.push(demo_percent_total_item)
 
-                    })
-                    console.log("demo_percent_total", demo_percent_total)
-                })
-                this.setState({
-                    demographics: demographics,
-                    age_avg: age_avg,
-                    demo_keys: demo_keys,
-                    demo_contents: demo_contents,
-                    demo_contents_keys: demo_contents_keys,
-                    demo_percent_total: demo_percent_total
-                })
-            }.bind(this),
-            error: function (error) {
-                console.log('ExecNewCustomerError', error);
-            }
-        });
-    }
-    componentDidUpdate() {
+        //             })
+        //             console.log("demo_percent_total", demo_percent_total)
+        //         })
+        //         this.setState({
+        //             demographics: demographics,
+        //             age_avg: age_avg,
+        //             demo_keys: demo_keys,
+        //             demo_contents: demo_contents,
+        //             demo_contents_keys: demo_contents_keys,
+        //             demo_percent_total: demo_percent_total
+        //         })
+        //     }.bind(this),
+        //     error: function (error) {
+        //         console.log('ExecNewCustomerError', error);
+        //     }
+        // });
     }
     renderDemographicsPieChart = (index) => {
         (() => {

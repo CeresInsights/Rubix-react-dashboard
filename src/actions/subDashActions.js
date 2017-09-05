@@ -8,10 +8,6 @@ const apiProduct = 'https://ceres.link/api/sub_board/sma_product/api_key=';
 const apiProdPay = 'https://ceres.link/api/sub_board/prod_pay/api_key=';
 const apiProdProduct = 'https://ceres.link/api/sub_board/prod_product/api_key=';
 
-const apiBdw = 'https://ceres.link/api/app/bdw/api_key=';
-const apiMad = 'https://ceres.link/api/app/bdw/api_key=';
-const apiAsi = 'https://ceres.link/api/app/asi/api_key=';
-
 ///////Sub Dashboard Recommender Apis
 const apiChannelRecommender = 'https://ceres.link/api/sub_board/smart_channel/api_key=';
 const apiProductRecommender = 'https://ceres.link/api/sub_board/smart_product/api_key=';
@@ -33,10 +29,10 @@ const apiPma = 'https://ceres.link/api/pma_request/api_key=';
 
 ///////////Promotion App Apis////////////
 // DSA(Digital Shopping Activity) api in Promotion App
-export const fetchDsaDataSuccess = (dsa) => {
+export const fetchDsaDataSuccess = (subDsa) => {
     return {
         type: types.FETCH_SUB_DSA_SUCCESS,
-        dsa
+        subDsa
     }
 }
 
@@ -52,10 +48,10 @@ export const fetchDsaData = (apiKey) => {
     };
 }
 //SMA channel api in Promotion App
-export const fetchChannelDataSuccess = (channel) => {
+export const fetchChannelDataSuccess = (subChannel) => {
     return {
         type: types.FETCH_SUB_CHANNAL_SUCCESS,
-        channel
+        subChannel
     }
 }
 
@@ -71,10 +67,10 @@ export const fetchChannelData = (apiKey) => {
     };
 }
 // SMA product api in Promotion App
-export const fetchProductDataSuccess = (product) => {
+export const fetchProductDataSuccess = (subProduct) => {
     return {
         type: types.FETCH_SUB_PRODUCT_SUCCESS,
-        product
+        subProduct
     }
 }
 
@@ -90,10 +86,10 @@ export const fetchProductData = (apiKey) => {
     };
 }
 // Prod Pay Api////////////
-export const fetchProdPayDataSuccess = (prodPay) => {
+export const fetchProdPayDataSuccess = (subProdPay) => {
     return {
         type: types.FETCH_SUB_PROD_PAY_SUCCESS,
-        prodPay
+        subProdPay
     }
 }
 
@@ -109,10 +105,10 @@ export const fetchProdPayData = (apiKey) => {
     };
 }
 //Prod Product Api//////////////////
-export const fetchProdProductDataSuccess = (prodProduct) => {
+export const fetchProdProductDataSuccess = (subProdProduct) => {
     return {
         type: types.FETCH_SUB_PROD_PRODUCT_SUCCESS,
-        prodProduct
+        subProdProduct
     }
 }
 
@@ -121,72 +117,6 @@ export const fetchProdProductData = (apiKey) => {
         return Axios.get(apiProdProduct + apiKey)
             .then(response => {
                 dispatch(fetchProdProductDataSuccess(response.data))
-            })
-            .catch(error => {
-                throw (error);
-            });
-    };
-}
-
-////////// Campaigns App CPTA 3 Apis//////////////////////
-/////////////////////////MAD api/////////////
-export const fetchMadDataSuccess = (mad) => {
-
-    return {
-        type: types.FETCH_MAD_SUCCESS,
-        mad
-    }
-}
-
-export const fetchMadData = (apiKey) => {
-
-    return (dispatch) => {
-        return Axios.get(apiMad + apiKey)
-            .then(response => {
-                dispatch(fetchMadDataSuccess(response.data))
-            })
-            .catch(error => {
-                throw (error);
-            });
-    };
-}
-
-//////////////////////// ASI api///////////////////////////
-export const fetchAsiDataSuccess = (asi) => {
-
-    return {
-        type: types.FETCH_ASI_SUCCESS,
-        asi
-    }
-}
-
-export const fetchAsiData = (apiKey) => {
-
-    return (dispatch) => {
-        return Axios.get(apiAsi + apiKey)
-            .then(response => {
-                dispatch(fetchAsiDataSuccess(response.data))
-            })
-            .catch(error => {
-                throw (error);
-            });
-    };
-}
-/////////////////////////BDW api////////////////////////
-export const fetchBdwDataSuccess = (bdw) => {
-
-    return {
-        type: types.FETCH_BDW_SUCCESS,
-        bdw
-    }
-}
-
-export const fetchBdwData = (apiKey) => {
-
-    return (dispatch) => {
-        return Axios.get(apiBdw + apiKey)
-            .then(response => {
-                dispatch(fetchBdwDataSuccess(response.data))
             })
             .catch(error => {
                 throw (error);
@@ -303,12 +233,12 @@ export const fetchProdProductCsvData = (apiKey) => {
 }
 ////////////////////Sub Dashboard Recommender Apis////////////////
 //////////////////////////////////////////////////////////////////
-////////////////////// Sma Channel Csv api////////////
-export const fetchChannelRecommenderDataSuccess = (channelRecommender) => {
+////////////////////// Sma Channel Recommender api////////////
+export const fetchChannelRecommenderDataSuccess = (subChannelRecommender) => {
 
     return {
         type: types.FETCH_SUB_CHANNEL_RECOMMENDER_SUCCESS,
-        channelRecommender
+        subChannelRecommender
     }
 }
 
@@ -324,12 +254,12 @@ export const fetchChannelRecommenderData = (apiKey) => {
             });
     };
 }
-/////////////////////// Sma Product Csv api//////////////
-export const fetchProductRecommenderDataSuccess = (productRecommender) => {
+/////////////////////// Sma Product Recommender api//////////////
+export const fetchProductRecommenderDataSuccess = (subProductRecommender) => {
 
     return {
         type: types.FETCH_SUB_PRODUCT_RECOMMENDER_SUCCESS,
-        productRecommender
+        subProductRecommender
     }
 }
 
@@ -345,12 +275,12 @@ export const fetchProductRecommenderData = (apiKey) => {
             });
     };
 }
-/////////////////// DSA CSV api///////////////////////
-export const fetchDsaRecommenderDataSuccess = (dsaRecommender) => {
+/////////////////// DSA Recommender api///////////////////////
+export const fetchDsaRecommenderDataSuccess = (subDsaRecommender) => {
 
     return {
         type: types.FETCH_SUB_DSA_RECOMMENDER_SUCCESS,
-        dsaRecommender
+        subDsaRecommender
     }
 }
 
@@ -367,12 +297,12 @@ export const fetchDsaRecommenderData = (apiKey) => {
     };
 }
 
-/////////////////////////////Prod Pay Api////////////////////////
-export const fetchProdPayRecommenderDataSuccess = (prodPayRecommender) => {
+/////////////////////////////Prod Pay Recommender Api////////////////////////
+export const fetchProdPayRecommenderDataSuccess = (subProdPayRecommender) => {
 
     return {
         type: types.FETCH_SUB_PROD_PAY_RECOMMENDER_SUCCESS,
-        prodPayRecommender
+        subProdPayRecommender
     }
 }
 
@@ -389,11 +319,11 @@ export const fetchProdPayRecommenderData = (apiKey) => {
     };
 }
 ////////////////////////Prod Product Recommender Api//////////////////////
-export const fetchProdProductRecommenderDataSuccess = (prodProductRecommender) => {
+export const fetchProdProductRecommenderDataSuccess = (SubProdProductRecommender) => {
 
     return {
         type: types.FETCH_SUB_PROD_PRODUCT_RECOMMENDER_SUCCESS,
-        prodProductRecommender
+        SubProdProductRecommender
     }
 }
 

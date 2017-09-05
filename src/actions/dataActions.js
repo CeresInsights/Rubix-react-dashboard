@@ -107,7 +107,6 @@ export const fetchDefaultKeys = (apiKey) => {
     return (dispatch) => {
         return Axios.get(apiSelectedKeys + apiKey + ';data:pk=country,sk=united_states,ck=purchase_log_csv')
             .then(response => {
-                console.log("defaultKeys", response.data)
                 dispatch(fetchDefaultKeysSuccess(response.data))
             })
             .catch(error => {

@@ -50,7 +50,7 @@ export default class Signup extends React.Component {
     signupData = nextProps.signup;
     this.errorNotification(signupData);
     if(signupData["status"] === 'User Registration Successful'){
-      browserHistory.push('/executivedashboard');
+      browserHistory.push('/login');
     }
   }
   errorNotification(str) {
