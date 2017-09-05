@@ -1,5 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router';
+import { connect } from 'react-redux';
+import * as execDashActions from '../../actions/execDashActions';
 import '../app.scss';
 
 import {
@@ -31,6 +33,7 @@ import {
     ButtonGroup
 } from '@sketchpixy/rubix';
 
+@connect((state) => state)
 export default class ProductBundlesbyCustomerBehavior extends React.Component {
     constructor(props) {
         super(props);
@@ -43,60 +46,51 @@ export default class ProductBundlesbyCustomerBehavior extends React.Component {
     }
     componentDidMount() {
 
-        let api_key = '';
-        api_key = localStorage.getItem('api_key');
-        //Get Data For Executive Dashboard Payment Preferences
-        $.ajax({
-            url: 'https://ceres.link/api/exec_board/prod_pay/api_key=' + api_key,
-            dataType: 'json',
-            type: 'GET',
-            success: function (data) {
-                console.log("ExecProdPay", data);
-                let prod_pay_keys = [];
-                let prod_pay_values = [];
+        // let api_key = '';
+        // api_key = localStorage.getItem('api_key');
+        let temp = {};
+        let apiKey = '';
+        temp = this.props.authReducer;
+        apiKey = temp["key"];
+        const { dispatch } = this.props;
+        dispatch(execDashActions.fetchProdPayData(apiKey));
+        dispatch(execDashActions.fetchProdProductData(apiKey));
+    }
+    componentWillReceiveProps(nextProps) {
+        console.log("proPay", nextProps.prodPay)
+        console.log("proProduct", nextProps.prodProduct)
+        ///////ProdPay Data Operation///////////
+        let temp_pay = {};
+        let prod_pay_keys = [];
+        let prod_pay_values = [];
 
-                prod_pay_keys = Object.keys(data);
+        temp_pay = nextProps.prodPay;
+        prod_pay_keys = Object.keys(temp_pay);
 
-                prod_pay_keys.map((item) => {
-                    prod_pay_values.push(data[item]["most popular"])
-                })
+        prod_pay_keys.map((item) => {
+            prod_pay_values.push(temp_pay[item]["most popular"])
+        })
 
-                this.setState({
-                    prod_pay_keys: prod_pay_keys,
-                    prod_pay_values: prod_pay_values
-                })
+        this.setState({
+            prod_pay_keys: prod_pay_keys,
+            prod_pay_values: prod_pay_values
+        })
+        /////////////////ProdProduct Data Operation//////////////
+        let temp_product = {};
+        let prod_product_keys = [];
+        let prod_product_values = [];
 
-            }.bind(this),
-            error: function (error) {
-                console.log('ExecProdPayError', error);
-            }
-        });
+        temp_product = nextProps.prodProduct;
+        prod_product_keys = Object.keys(temp_product);
 
-        //Get Data For Executive Dashboard Customer Product Appetite
-        $.ajax({
-            url: 'https://ceres.link/api/exec_board/prod_product/api_key=' + api_key,
-            dataType: 'json',
-            type: 'GET',
-            success: function (data) {
-                console.log("SubProductUpdate", data);
-                let prod_product_keys = [];
-                let prod_product_values = [];
+        prod_product_keys.map((item) => {
+            prod_product_values.push(temp_product[item]["most popular"])
+        })
 
-                prod_product_keys = Object.keys(data);
-                for (let i = 0; i < prod_product_keys.length; i++) {
-                    prod_product_values.push(data[prod_product_keys[i]]["most popular"]);
-                }
-                console.log("333333", prod_product_keys)
-                console.log("444444", prod_product_values)
-                this.setState({
-                    prod_product_keys: prod_product_keys,
-                    prod_product_values: prod_product_values
-                })
-            }.bind(this),
-            error: function (error) {
-                console.log('SubProductUpdateERROR', error);
-            }
-        });
+        this.setState({
+            prod_product_keys: prod_product_keys,
+            prod_product_values: prod_product_values
+        })
     }
     renderProdPayTiles = () => {
         let prod_pay_keys = [];
