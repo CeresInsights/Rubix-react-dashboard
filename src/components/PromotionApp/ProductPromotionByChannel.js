@@ -315,7 +315,7 @@ export default class ProductPromotionByChannel extends React.Component {
             $('#dsa_spectro_line_chart' + index).html('');
             var chart = new Rubix('#dsa_spectro_line_chart' + index, {
                 height: 200,
-                // title: 'Comparative',
+                title: 'Comparative',
                 titleColor: '#D71F4B',
                 axis: {
                     x: {
@@ -354,11 +354,11 @@ export default class ProductPromotionByChannel extends React.Component {
             labels = this.state.spectro_labels_dsa[index];
             data = this.state.spectro_data_dsa[index];
 
-            if(labels.length>max_number){
-              for(let i=0; i<max_number; i++){
-                 labels_real.push(labels[Math.floor(Math.random()*labels.length)]);
-                 data_real.push(data[Math.floor(Math.random()*data.length)]);
-              }
+            if (labels.length > max_number) {
+                for (let i = 0; i < max_number; i++) {
+                    labels_real.push(labels[Math.floor(Math.random() * labels.length)]);
+                    data_real.push(data[Math.floor(Math.random() * data.length)]);
+                }
             } else {
                 labels_real = labels;
                 data_real = data;
@@ -381,7 +381,7 @@ export default class ProductPromotionByChannel extends React.Component {
             $('#prod_spectro_line_chart' + index).html('');
             var chart = new Rubix('#prod_spectro_line_chart' + index, {
                 height: 200,
-                // title: 'Comparative',
+                title: 'Comparative',
                 titleColor: '#D71F4B',
                 axis: {
                     x: {
@@ -420,11 +420,11 @@ export default class ProductPromotionByChannel extends React.Component {
             labels = this.state.spectro_labels_prod[index];
             data = this.state.spectro_data_prod[index];
 
-            if(labels.length>max_number){
-              for(let i=0; i<max_number; i++){
-                 labels_real.push(labels[Math.floor(Math.random()*labels.length)]);
-                 data_real.push(data[Math.floor(Math.random()*data.length)]);
-              }
+            if (labels.length > max_number) {
+                for (let i = 0; i < max_number; i++) {
+                    labels_real.push(labels[Math.floor(Math.random() * labels.length)]);
+                    data_real.push(data[Math.floor(Math.random() * data.length)]);
+                }
             } else {
                 labels_real = labels;
                 data_real = data;
@@ -445,7 +445,7 @@ export default class ProductPromotionByChannel extends React.Component {
             $('#dsa_optimizer_column_chart' + index).html('');
             var chart = new Rubix('#dsa_optimizer_column_chart' + index, {
                 height: 200,
-                // title: 'Comparative',
+                title: 'Comparative',
                 titleColor: '#D71F4B',
                 axis: {
                     x: {
@@ -494,7 +494,7 @@ export default class ProductPromotionByChannel extends React.Component {
             $('#prod_optimizer_column_chart' + index).html('');
             var chart = new Rubix('#prod_optimizer_column_chart' + index, {
                 height: 200,
-                // title: 'Comparative',
+                title: 'Comparative',
                 titleColor: '#D71F4B',
                 axis: {
                     x: {
@@ -543,7 +543,7 @@ export default class ProductPromotionByChannel extends React.Component {
             $('#dsa_optimizer_bar_chart' + index).html('');
             var chart = new Rubix('#dsa_optimizer_bar_chart' + index, {
                 height: 200,
-                // title: 'Comparative',
+                title: 'Comparative',
                 titleColor: '#D71F4B',
                 axis: {
                     x: {
@@ -594,7 +594,7 @@ export default class ProductPromotionByChannel extends React.Component {
             $('#prod_optimizer_bar_chart' + index).html('');
             var chart = new Rubix('#prod_optimizer_bar_chart' + index, {
                 height: 200,
-                // title: 'Comparative',
+                title: 'Comparative',
                 titleColor: '#D71F4B',
                 axis: {
                     x: {
@@ -662,7 +662,7 @@ export default class ProductPromotionByChannel extends React.Component {
                         let num = Math.random() * 2;
                         console.log("MATH", num)
                         return <Row key={index} className="dsa_row">
-                            <Col md={3}>
+                            <Col md={2} className="dsa_recommender_tile_area">
                                 <div className="dsa_recommender_tile">
                                     <p className="da_best_recommender">Best Case</p>
                                     <p className="dsa_recommender_type">{item}</p>
@@ -671,13 +671,18 @@ export default class ProductPromotionByChannel extends React.Component {
                                     <p className="pay_recommender_total">{bestRecommenderContentsDsa[index]["total"]}</p>
                                 </div>
                             </Col>
-                            <Col md={3} className="dsa_spectro_chart">
+                            <Col md={4} className="dsa_spectro_chart">
                                 <div id={'dsa_spectro_line_chart' + index}></div>
                             </Col>
-                            <Col md={3} className="dsa_optimmizer_chart">
-                                <div id={num < 1 ? "dsa_optimizer_column_chart" + index : "dsa_optimizer_bar_chart" + index}></div>
+                            <Col md={4} className="dsa_optimmizer_chart">
+                                {num < 1 &&
+                                    <div id={"dsa_optimizer_column_chart" + index} className="dsa_optimizer_column_chart"></div>
+                                }
+                                {num > 1 &&
+                                    <div id={"dsa_optimizer_bar_chart" + index} className="dsa_optimizer_bar_chart"></div>
+                                }
                             </Col>
-                            <Col md={3}>
+                            <Col md={2} className="dsa_recommender_text_tile_area">
                                 <div className="dsa_recommender_text_tile">
                                     <p className="dsa_recommender_text">{htmlTxtDsa[index]}</p>
                                 </div>
@@ -722,13 +727,13 @@ export default class ProductPromotionByChannel extends React.Component {
                                 <div className="prod_spectro_line_chart" id={'prod_spectro_line_chart' + index}></div>
                             </Col>
                             <Col md={4} className="prod_optimmizer_chart_area">
-                            {num<1&&
-                                <div id={"prod_optimizer_column_chart" + index} className="prod_optimizer_column_chart"></div>
-                            }
-                            {num>1&&
-                                <div id={"prod_optimizer_bar_chart" + index} className="prod_optimizer_bar_chart"></div>
-                            }
-                                
+                                {num < 1 &&
+                                    <div id={"prod_optimizer_column_chart" + index} className="prod_optimizer_column_chart"></div>
+                                }
+                                {num > 1 &&
+                                    <div id={"prod_optimizer_bar_chart" + index} className="prod_optimizer_bar_chart"></div>
+                                }
+
                             </Col>
                             <Col md={2} className="prod_recommender_text_tile_area">
                                 <div className="prod_recommender_text_tile">
@@ -805,7 +810,7 @@ export default class ProductPromotionByChannel extends React.Component {
                         </Grid>
                         <Nav bsStyle="tabs" className='plain'>
                             <NavItem eventKey="cpta">
-                                CPTA
+                                Product Promotion
                             </NavItem>
                             <NavItem eventKey="sma">
                                 Shopping Modes Analysis
@@ -821,7 +826,7 @@ export default class ProductPromotionByChannel extends React.Component {
                                 <Col xs={12}>
                                     <Tab.Content>
                                         <Tab.Pane eventKey="cpta">
-                                            <div>asdfasdfasfasfd</div>
+                                            <div>Product Promotion</div>
                                         </Tab.Pane>
                                         {(this.state.sma_product !== null && this.state.smart_product !== null) &&
                                             <Tab.Pane eventKey="sma">

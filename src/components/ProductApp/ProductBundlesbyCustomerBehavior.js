@@ -801,7 +801,7 @@ export default class ProductBundlesbyCustomerBehavior extends React.Component {
                         </Grid>
                         <Nav bsStyle="tabs" className='plain'>
                             <NavItem eventKey="cpta">
-                                CPTA
+                                Product Bundles
                             </NavItem>
                             <NavItem eventKey="cpp">
                                 Customer Payment Preferences
@@ -817,7 +817,7 @@ export default class ProductBundlesbyCustomerBehavior extends React.Component {
                                 <Col xs={12}>
                                     <Tab.Content>
                                         <Tab.Pane eventKey="cpta">
-                                            <div>adfasdfasdfasdf</div>
+                                            <div>Product Bundles By Customer Behavior</div>
                                         </Tab.Pane>
                                         {(this.state.prod_pay !== null && this.state.smart_pay !== null) &&
                                             <Tab.Pane eventKey="cpp">
