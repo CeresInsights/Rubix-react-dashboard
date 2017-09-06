@@ -1,7 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router';
 import { connect } from 'react-redux';
-import '../app.scss';
 import * as execDashActions from '../../actions/execDashActions';
 import {
     Row,
@@ -50,9 +49,9 @@ export default class NewCustomerAcquistion extends React.Component {
         temp = this.props.login;
         apiKey = temp["key"];
         const { dispatch } = this.props;
-        
+
         dispatch(execDashActions.fetchDemographicsData(apiKey));
-        
+
         //Get Data For Executive Dashboard Predictive Market Segmentation
         // $.ajax({
         //     url: 'https://ceres.link/api/exec_board/demographics/api_key=' + api_key,
@@ -102,6 +101,46 @@ export default class NewCustomerAcquistion extends React.Component {
         //         console.log('ExecNewCustomerError', error);
         //     }
         // });
+    }
+    componentWillReceiveProps(nextProps) {
+
+        let age_avg = 0;
+        let demographics = {};
+        let demo_keys = [];
+        let demo_contents = [];
+        let demo_contents_keys = [];
+        let demo_percent_total = [];
+        let demo_percent_total_item = [];
+
+        demographics = nextProps.demographics;
+        console.log("demographics", demographics)
+        age_avg = demographics["age"]["average"];
+
+        delete demographics["age"];
+        demo_keys = Object.keys(demographics);
+        demo_keys.map((item) => {
+            demo_contents.push(demographics[item])
+        })
+        demo_contents.map((content) => {
+            demo_contents_keys.push(Object.keys(content));
+        })
+        demo_contents.map((content) => {
+            demo_contents_keys.map((itemArray, index) => {
+                itemArray.map((item) => {
+                    demo_percent_total_item.push(content[item])
+                })
+                demo_percent_total.push(demo_percent_total_item)
+
+            })
+        })
+        this.setState({
+            demographics: demographics,
+            age_avg: age_avg,
+            demo_keys: demo_keys,
+            demo_contents: demo_contents,
+            demo_contents_keys: demo_contents_keys,
+            demo_percent_total: demo_percent_total
+        })
     }
     renderDemographicsPieChart = (index) => {
         (() => {
@@ -273,19 +312,19 @@ export default class NewCustomerAcquistion extends React.Component {
                     if (a) {
                         this.renderDemographicsPieChart(index);
                     }
-                }, 300)
+                }, 150)
                 setTimeout(() => {
                     let b = document.getElementById('demographics_column_chart' + index);
                     if (b) {
                         this.renderDemographicsColumnChart(index);
                     }
-                }, 300)
+                }, 150)
                 setTimeout(() => {
                     let c = document.getElementById('demographics_bar_chart' + index);
                     if (c) {
                         this.renderDemographicsBarChart(index);
                     }
-                }, 300)
+                }, 150)
             })
         }
 

@@ -35,11 +35,6 @@ export default class ApplicationSidebar extends React.Component {
       pri_title: '',
       sec_title: '',
       third_title: '',
-      //table_data: {},
-      // table_data_ready: false,
-      // table_data_header: [],
-      // table_data_content: [],
-      // key_change: false
     };
   }
 
@@ -62,7 +57,7 @@ export default class ApplicationSidebar extends React.Component {
 
     const { dispatch } = this.props;
     let temp_allKeys = {};
-    let temp_selectedKeys = {};
+    // let temp_selectedKeys = {};
     let adminLoginData = '';
     let loginData = '';
     
@@ -83,42 +78,6 @@ export default class ApplicationSidebar extends React.Component {
       initial_data: temp_allKeys
     })
 
-    temp_selectedKeys = nextProps.selectedKeys;
-    console.log("MISHA", temp_selectedKeys);
-    if (Object.keys(temp_selectedKeys).length !== 0) {
-
-      // Recall of All Executive Dashboard Apis 
-      //Recall of Normal Apis
-      dispatch(execDashActions.fetchMadData(this.state.apiKey));
-      dispatch(execDashActions.fetchCsrData(this.state.apiKey));
-      dispatch(execDashActions.fetchBdwData(this.state.apiKey));
-      dispatch(execDashActions.fetchAsiData(this.state.apiKey));
-      dispatch(execDashActions.fetchChannelData(this.state.apiKey));
-      dispatch(execDashActions.fetchProdPayData(this.state.apiKey));
-      dispatch(execDashActions.fetchProdProductData(this.state.apiKey));
-      dispatch(execDashActions.fetchDsaData(this.state.apiKey));
-      dispatch(execDashActions.fetchProductData(this.state.apiKey));
-      dispatch(execDashActions.fetchDemographicsData(this.state.apiKey));
-
-      // Recall of All Sub Dashboard Apis//////
-      //////////Recall of Normal Apis///////////////
-      dispatch(subDashActions.fetchMadData(this.state.apiKey));
-      dispatch(subDashActions.fetchBdwData(this.state.apiKey));
-      dispatch(subDashActions.fetchAsiData(this.state.apiKey));
-
-      dispatch(subDashActions.fetchChannelData(this.state.apiKey));
-      dispatch(subDashActions.fetchProdPayData(this.state.apiKey));
-      dispatch(subDashActions.fetchProdProductData(this.state.apiKey));
-      dispatch(subDashActions.fetchDsaData(this.state.apiKey));
-      dispatch(subDashActions.fetchProductData(this.state.apiKey));
-      //Recall Of Recommender Apis
-      dispatch(subDashActions.fetchChannelRecommenderData(this.state.apiKey));
-      dispatch(subDashActions.fetchProductRecommenderData(this.state.apiKey));
-      dispatch(subDashActions.fetchDsaRecommenderData(this.state.apiKey));
-      dispatch(subDashActions.fetchProdPayRecommenderData(this.state.apiKey));
-      dispatch(subDashActions.fetchProdProductRecommenderData(this.state.apiKey));
-
-    }
   }
   handleClick(keyVal, keyKind) {
 

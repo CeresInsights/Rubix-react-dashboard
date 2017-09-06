@@ -1,5 +1,4 @@
 import React from 'react';
-import '../app.scss';
 import { connect } from 'react-redux';
 import * as subDashActions from '../../actions/subDashActions';
 import * as execDashActions from '../../actions/execDashActions';
@@ -453,15 +452,29 @@ console.log("total_market_spend", csr["total_market_spend"])
             var data = [];
             var tmp_array = [];
 
+            var max_number = 4;
+            var labels_real = [];
+            var data_real = [];
+
             labels = this.state.spectro_labels_channel[index];
             data = this.state.spectro_data_channel[index];
 
-            labels.map((label, index) => {
+            if(labels.length>max_number){
+              for(let i=0; i<max_number; i++){
+                 labels_real.push(labels[Math.floor(Math.random()*labels.length)]);
+                 data_real.push(data[Math.floor(Math.random()*data.length)]);
+              }
+            } else {
+                labels_real = labels;
+                data_real = data;
+            }
+            labels_real.map((label, index) => {
                 var tmp = {};
                 tmp.x = label;
-                tmp.y = data[index];
+                tmp.y = data_real[index];
                 tmp_array.push(tmp);
             })
+
             spectrogram.addData(tmp_array);
         })();
 

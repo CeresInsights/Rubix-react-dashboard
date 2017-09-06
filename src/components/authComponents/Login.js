@@ -38,7 +38,7 @@ export default class Login extends React.Component {
   componentWillReceiveProps(nextProps) {
     let loginData = {};
     loginData = nextProps.login;
-    if(loginData){
+    if(typeof(loginData)!=='object'){
       this.errorNotification(loginData)
     }
     if (loginData["status"] === 'User Login Successful') {
@@ -46,7 +46,7 @@ export default class Login extends React.Component {
       this.setState({
         loginStatus: true
       })
-    }
+    } 
   }
 
   proceed_login = (e) => {
@@ -75,7 +75,6 @@ export default class Login extends React.Component {
   }
 
   render() {
-    console.log("OK", this.state.loginStatus)
     return (
       <div id='auth-container' className='login'>
         <div id='auth-row'>

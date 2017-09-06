@@ -2,8 +2,6 @@ import React from 'react';
 import { Link } from 'react-router';
 import { connect } from 'react-redux';
 import * as execDashActions from '../../actions/execDashActions';
-import '../app.scss';
-
 import {
     Row,
     Tab,

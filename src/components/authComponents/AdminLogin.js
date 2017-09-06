@@ -59,22 +59,22 @@ export default class AdminLogin extends React.Component {
 
         adminLoginData = nextProps.adminLogin;
         adminLogoutData = nextProps.adminLogout;
-        // if(adminLoginData!==null && adminLogoutData!==null){
-        //     this.Notification(adminLoginData);
-        //     this.Notification(adminLogoutData);
-        // }
+        if (adminLoginData.length!== 0) {
+            this.Notification(adminLoginData);
+        }
+        if (adminLogoutData.length!== 0) {
+
+            this.Notification(adminLogoutData);
+        }
 
         if (adminLoginData === 'Admin: <' + this.state.un + '> logged in to <home>') {
-            
+
             dispatch(authActions.fetchPendingEmailData(this.state.un, this.state.pw));
-            
+
             browserHistory.push('/executivedashboard');
             this.setState({
                 loginStatus: true
             })
-        }
-        else {
-            this.Notification(adminLoginData);
         }
     }
     proceed_logout = (e) => {

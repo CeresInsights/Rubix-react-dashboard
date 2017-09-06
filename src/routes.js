@@ -48,15 +48,8 @@ class Main extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      tbl_ready: '',
-      pk: '',
-      sk: '',
-      ck: '',
     }
   }
-  // handleLanguage(langValue, pk, sk, ck) {
-  //   this.setState({ tbl_ready: langValue, pk: pk, ck: ck, sk: sk });
-  // }
   render() {
     var childrenWithMoreProps = React.Children.map(this.props.children, (child) => {
       return React.cloneElement(child, {

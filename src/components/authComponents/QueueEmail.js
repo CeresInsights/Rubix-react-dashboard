@@ -42,12 +42,9 @@ export default class QueueEmail extends React.Component {
     componentWillReceiveProps(nextProps){
         let queueEmailData = '';
         queueEmailData = nextProps.queueEmail;
-        if(queueEmailData){
+        if(queueEmailData.length!==0){
             this.Notification(queueEmailData)
         }
-        // if(queueEmailData === 'Queue OK'){
-          
-        // }
     }
 
     Notification(str) {

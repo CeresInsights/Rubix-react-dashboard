@@ -43,6 +43,7 @@ export const fetchMadData = (apiKey) => {
     return (dispatch) => {
         return Axios.get(apiMad + apiKey)
             .then(response => {
+                console.log("CCC", response.data)
                 dispatch(fetchMadDataSuccess(response.data))
             })
             .catch(error => {

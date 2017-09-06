@@ -1,5 +1,4 @@
 import React from 'react';
-import '../app.scss';
 import { connect } from 'react-redux';
 import * as subDashActions from '../../actions/subDashActions';
 import {
@@ -349,15 +348,31 @@ export default class ProductPromotionByChannel extends React.Component {
             var data = [];
             var tmp_array = [];
 
+            var max_number = 4;
+            var labels_real = [];
+            var data_real = [];
+
             labels = this.state.spectro_labels_dsa[index];
             data = this.state.spectro_data_dsa[index];
 
-            labels.map((label, index) => {
+            if(labels.length>max_number){
+              for(let i=0; i<max_number; i++){
+                 labels_real.push(labels[Math.floor(Math.random()*labels.length)]);
+                 data_real.push(data[Math.floor(Math.random()*data.length)]);
+              }
+            } else {
+                labels_real = labels;
+                data_real = data;
+            }
+console.log("labels_real", labels_real)
+console.log("data_real", data_real)
+            labels_real.map((label, index) => {
                 var tmp = {};
                 tmp.x = label;
-                tmp.y = data[index];
+                tmp.y = data_real[index];
                 tmp_array.push(tmp);
             })
+
             spectrogram.addData(tmp_array);
         })();
 
@@ -402,13 +417,26 @@ export default class ProductPromotionByChannel extends React.Component {
             var data = [];
             var tmp_array = [];
 
+            var max_number = 4;
+            var labels_real = [];
+            var data_real = [];
+
             labels = this.state.spectro_labels_prod[index];
             data = this.state.spectro_data_prod[index];
 
-            labels.map((label, index) => {
+            if(labels.length>max_number){
+              for(let i=0; i<max_number; i++){
+                 labels_real.push(labels[Math.floor(Math.random()*labels.length)]);
+                 data_real.push(data[Math.floor(Math.random()*data.length)]);
+              }
+            } else {
+                labels_real = labels;
+                data_real = data;
+            }
+            labels_real.map((label, index) => {
                 var tmp = {};
                 tmp.x = label;
-                tmp.y = data[index];
+                tmp.y = data_real[index];
                 tmp_array.push(tmp);
             })
             spectrogram.addData(tmp_array);
@@ -727,19 +755,19 @@ export default class ProductPromotionByChannel extends React.Component {
                     if (a) {
                         this.renderSpectroLineChartDsa(index);
                     }
-                }, 250)
+                }, 150)
                 setTimeout(() => {
                     let b = document.getElementById('dsa_optimizer_column_chart' + index);
                     if (b) {
                         this.renderOptimizerColumnChartDsa(index);
                     }
-                }, 250)
+                }, 150)
                 setTimeout(() => {
                     let c = document.getElementById('dsa_optimizer_bar_chart' + index);
                     if (c) {
                         this.renderOptimizerBarChartDsa(index);
                     }
-                }, 250)
+                }, 150)
             })
         }
         if (key === 'sma') {

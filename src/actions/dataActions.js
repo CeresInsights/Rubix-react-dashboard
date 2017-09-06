@@ -1,4 +1,6 @@
 import * as types from '../constants/actionTypes';
+import * as execDashActions from './execDashActions';
+import * as subDashActions from './subDashActions';
 import Axios from 'axios';
 
 const apiDataBrowser = 'https://ceres.link/api/override/api_key=';
@@ -92,20 +94,50 @@ export const fetchFilterContentData = (apiKey) => {
 }
 
 //Api for getting the selected pk,sk and ck
-export const fetchSelectedKeysDataSuccess = (selectedKeys) => {
+// export const fetchSelectedKeysDataSuccess = (selectedKeys) => {
 
-    return {
-        type: types.FETCH_SELECTED_KEYS_SUCCESS,
-        selectedKeys
-    }
-}
+//     return {
+//         type: types.FETCH_SELECTED_KEYS_SUCCESS,
+//         selectedKeys
+//     }
+// }
 
 export const fetchSelectedKeysData = (apiKey, pk, sk, ck) => {
 
     return (dispatch) => {
         return Axios.get(apiSelectedKeys + apiKey + ';data:pk=' + pk + ',sk=' + sk + ',ck=' + ck)
             .then(response => {
-                dispatch(fetchSelectedKeysDataSuccess(response.data))
+                let temp = {};
+                let temp_keys = [];
+                temp = response.data;
+                temp_keys = Object.keys(temp);
+                if (temp_keys.length !== 0) {
+                    dispatch(execDashActions.fetchMadData(apiKey));
+                    dispatch(execDashActions.fetchCsrData(apiKey));
+                    dispatch(execDashActions.fetchBdwData(apiKey));
+                    dispatch(execDashActions.fetchAsiData(apiKey));
+                    dispatch(execDashActions.fetchChannelData(apiKey));
+                    dispatch(execDashActions.fetchProdPayData(apiKey));
+                    dispatch(execDashActions.fetchProdProductData(apiKey));
+                    dispatch(execDashActions.fetchDsaData(apiKey));
+                    dispatch(execDashActions.fetchProductData(apiKey));
+                    dispatch(execDashActions.fetchDemographicsData(apiKey));
+
+                    // Recall of All Sub Dashboard Apis//////
+                    //////////Recall of Normal Apis///////////////
+                    dispatch(subDashActions.fetchChannelData(apiKey));
+                    dispatch(subDashActions.fetchProdPayData(apiKey));
+                    dispatch(subDashActions.fetchProdProductData(apiKey));
+                    dispatch(subDashActions.fetchDsaData(apiKey));
+                    dispatch(subDashActions.fetchProductData(apiKey));
+                    //Recall Of Recommender Apis
+                    dispatch(subDashActions.fetchChannelRecommenderData(apiKey));
+                    dispatch(subDashActions.fetchProductRecommenderData(apiKey));
+                    dispatch(subDashActions.fetchDsaRecommenderData(apiKey));
+                    dispatch(subDashActions.fetchProdPayRecommenderData(apiKey));
+                    dispatch(subDashActions.fetchProdProductRecommenderData(apiKey));
+                }
+                // dispatch(fetchSelectedKeysDataSuccess(response.data))
             })
             .catch(error => {
                 throw (error);

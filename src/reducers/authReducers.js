@@ -4,7 +4,7 @@ const initialState = {
   signupData: {},
   adminLoginData: '',
   adminLogoutData: '',
-  queueEmailData: {},
+  queueEmailData: '',
   pendingEmailData: {}
 };
 

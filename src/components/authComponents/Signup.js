@@ -48,7 +48,10 @@ export default class Signup extends React.Component {
   componentWillReceiveProps(nextProps){
     let signupData = {};
     signupData = nextProps.signup;
-    this.errorNotification(signupData);
+    if(typeof(signupData)!=='object'){
+      this.errorNotification(signupData);
+    }
+    
     if(signupData["status"] === 'User Registration Successful'){
       browserHistory.push('/login');
     }
@@ -99,7 +102,7 @@ export default class Signup extends React.Component {
                                 <InputGroup.Addon>
                                   <Icon glyph='icon-fontello-user' />
                                 </InputGroup.Addon>
-                                <FormControl autoFocus type='text' className='border-focus-blue' placeholder='LastName' ref={(firstname) => this.firstname = firstname} />
+                                <FormControl autoFocus type='text' className='border-focus-blue' placeholder='FirstName' ref={(firstname) => this.firstname = firstname} />
                               </InputGroup>
                             </FormGroup>
                             <FormGroup controlId='lastname'>
@@ -107,7 +110,7 @@ export default class Signup extends React.Component {
                                 <InputGroup.Addon>
                                   <Icon glyph='icon-fontello-user' />
                                 </InputGroup.Addon>
-                                <FormControl autoFocus type='text' className='border-focus-blue' placeholder='FirstName' ref={(lastname) => this.lastname = lastname} />
+                                <FormControl autoFocus type='text' className='border-focus-blue' placeholder='LastName' ref={(lastname) => this.lastname = lastname} />
                               </InputGroup>
                             </FormGroup>
                             <FormGroup controlId='email'>
