@@ -32,7 +32,7 @@ export default class DatatableComponent extends React.Component {
             third_title: '',
             table_data_header: [],
             table_data_content: [],
-            // max_length: 0,
+            max_length: 0,
             pri_keys: [],
             pri_values: {},
             pk: '',
@@ -59,8 +59,9 @@ export default class DatatableComponent extends React.Component {
     }
     componentWillReceiveProps(nextProps) {
         const { dispatch } = this.props;
+        let i = 0;
         let temp_allKeys = {};
-        let temp_defaultBrowserData  = {};
+        let temp_defaultBrowserData = {};
         let temp_selectedBrowserData = {};
 
         temp_allKeys = nextProps.allKeys;
@@ -74,35 +75,52 @@ export default class DatatableComponent extends React.Component {
 
         let table_data_header = [];
         let table_data_content = [];
-        // let length_array = [];
+        let table_data_header_default = [];
+        let table_data_content_default = [];
+        let length_array_default = [];
 
-        ///////Initial Table header and body data//////////////////////
-        table_data_header = Object.keys(temp_defaultBrowserData);
-        table_data_header.map((header, item) => {
-            table_data_content.push(temp_defaultBrowserData[header])
+        table_data_header_default = Object.keys(temp_defaultBrowserData);
+        table_data_header_default.map((header) => {
+            table_data_content_default.push(temp_defaultBrowserData[header])
         })
-        // table_data_content.map((content) => {
-        //    length_array.push(content.length);   
-        // })
         this.setState({
-            table_data_header: table_data_header,
-            table_data_content: table_data_content,
-            // max_length: Math.max(...length_array)
+            table_data_header: table_data_header_default,
+            table_data_content: table_data_content_default
         })
+
         /////////////dynamic table header and body data//////////
         if (Object.keys(temp_selectedBrowserData).length !== 0) {
-            let table_data_header = [];
-            let table_data_content = [];
+            let table_data_header_selected = [];
+            let table_data_content_selected = [];
+            let length_array_selected = [];
 
-            table_data_header = Object.keys(temp_selectedBrowserData);
-            table_data_header.map((header, item) => {
-                table_data_content.push(temp_selectedBrowserData[header])
+            table_data_header_selected = Object.keys(temp_selectedBrowserData);
+            table_data_header_selected.map((header) => {
+                table_data_content_selected.push(temp_selectedBrowserData[header])
             })
             this.setState({
-                table_data_header: table_data_header,
-                table_data_content: table_data_content
+                table_data_header: table_data_header_selected,
+                table_data_content: table_data_content_selected
             })
+            ///////Initial Table header and body data//////////////////////
+            // if (Object.keys(temp_defaultBrowserData).length !== 0) {
+            //     let table_data_header_default = [];
+            //     let table_data_content_default = [];
+            //     table_data_header_default = Object.keys(temp_defaultBrowserData);
+            //     table_data_header_default.map((header) => {
+            //         table_data_content_default.push(temp_defaultBrowserData[header])
+            //     })
+            //     // table_data_content.map((content) => {
+            //     //    length_array.push(content.length);   
+            //     // })
+            //     this.setState({
+            //         table_data_header: table_data_header_default,
+            //         table_data_content: table_data_content_default
+            //         // max_length: Math.max(...length_array)
+            //     })
+            // }
         }
+        // let length_array = [];
     }
 
     // componentDidUpdate() {
@@ -152,15 +170,15 @@ export default class DatatableComponent extends React.Component {
         }
 
     }
-    handleClearKeys = () => {
-        this.setState({
-            pk: '',
-            sk: '',
-            ck: '',
-        })
-        const { dispatch } = this.props;
-        dispatch(dataActions.fetchDefaultBrowserData(this.state.apiKey));
-    }
+    // handleClearKeys = () => {
+    //     this.setState({
+    //         pk: '',
+    //         sk: '',
+    //         ck: '',
+    //     })
+    //     const { dispatch } = this.props;
+    //     dispatch(dataActions.fetchDefaultBrowserData(this.state.apiKey));
+    // }
 
     render() {
         let _this = this;
@@ -170,7 +188,7 @@ export default class DatatableComponent extends React.Component {
 
         if (this.state.pk == '') {
             this.state.pri_title = 'Data Scope';
-    
+
         } else {
             this.state.pri_title = this.state.pk;
         }
@@ -188,14 +206,14 @@ export default class DatatableComponent extends React.Component {
         }
 
         breadcrumb = <Well>
-                        <Breadcrumb>
-                            <Breadcrumb.Item>{this.state.pk}</Breadcrumb.Item>
-                            <Breadcrumb.Item>{this.state.sk}</Breadcrumb.Item>
-                            <Breadcrumb.Item>{this.state.ck}</Breadcrumb.Item>
-                        </Breadcrumb>
-                    </Well>
+            <Breadcrumb>
+                <Breadcrumb.Item>{this.state.pk}</Breadcrumb.Item>
+                <Breadcrumb.Item>{this.state.sk}</Breadcrumb.Item>
+                <Breadcrumb.Item>{this.state.ck}</Breadcrumb.Item>
+            </Breadcrumb>
+        </Well>
         return (
-            <PanelContainer noOverflow className='table_panel_wrapper'>
+            <PanelContainer overflow className='table_panel_wrapper'>
                 <Panel>
                     <Grid>
                         <Row>
@@ -206,23 +224,23 @@ export default class DatatableComponent extends React.Component {
                                     })}
                                 </DropdownButton>
                             </Col>
-                            <Col xs={2}>
+                            <Col xs={3}>
                                 <DropdownButton bsStyle='darkgreen45' title={this.state.sec_title} id='secondary_dropdown'>
                                     {this.state.sec_keys.map(function (keyVal, i) {
                                         return (<MenuItem key={i} eventKey={i} onSelect={() => _this.handleClick(keyVal, 'second')}>{keyVal}</MenuItem>);
                                     })}
                                 </DropdownButton>
                             </Col>
-                            <Col xs={2}>
+                            <Col xs={3}>
                                 <DropdownButton bsStyle='darkgreen45' title={this.state.third_title} id='teritary_dropdown'>
                                     {this.state.third_keys.map(function (keyVal, i) {
                                         return (<MenuItem key={i} eventKey={i} onSelect={() => _this.handleClick(keyVal, 'third')}>{keyVal}</MenuItem>);
                                     })}
                                 </DropdownButton>
                             </Col>
-                            <Col xs={2}>
+                            {/* <Col xs={2}>
                                 <Button bsStyle='danger' onClick={this.handleClearKeys}>Clear Selections</Button>
-                            </Col>
+                            </Col> */}
                             <Col xs={4}>
                                 {breadcrumb}
                             </Col>
@@ -239,22 +257,16 @@ export default class DatatableComponent extends React.Component {
                                             </tr>
                                         </thead>
                                         <tbody>
-                                            {this.state.table_data_content.map((row, i) =>
-                                                <tr key={i}>
-                                                    {row.map((col, j) =>
-                                                        <td key={j}>{col}</td>
-                                                    )}
-                                                </tr>
+                                            {this.state.table_data_content[0] && this.state.table_data_content[0].map((row, i) =>{
+                                                return <tr key={i}>
+                                                    {
+                                                        this.state.table_data_content.map((col, j)=>{
+                                                            return <td key={j}>{col[i]}</td>
+                                                        })
+                                                    }
+                                                 </tr>
+                                            }
                                             )}
-                                            {/* {this.state.table_data_content.map((colItem, i) =>
-                                                
-                                                colItem.map((rowItem, j) => {
-                                                    <tr key={j}>
-                                                        <td>asdfadsfasdf</td>
-                                                    </tr>
-                                                })
-
-                                            )} */}
                                         </tbody>
                                     </Table>
                                 }
