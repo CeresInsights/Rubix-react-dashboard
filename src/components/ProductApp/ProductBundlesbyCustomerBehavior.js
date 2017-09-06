@@ -300,7 +300,7 @@ export default class ProductBundlesbyCustomerBehavior extends React.Component {
         (() => {
             $('#pay_spectro_line_chart' + index).html('');
             var chart = new Rubix('#pay_spectro_line_chart' + index, {
-                height: 100,
+                height: 200,
                 title: 'Comparative',
                 titleColor: '#D71F4B',
                 axis: {
@@ -340,17 +340,17 @@ export default class ProductBundlesbyCustomerBehavior extends React.Component {
             labels = this.state.spectro_labels_pay[index];
             data = this.state.spectro_data_pay[index];
 
-            if(labels.length>max_number){
-              for(let i=0; i<max_number; i++){
-                 labels_real.push(labels[Math.floor(Math.random()*labels.length)]);
-                 data_real.push(data[Math.floor(Math.random()*data.length)]);
-              }
+            if (labels.length > max_number) {
+                for (let i = 0; i < max_number; i++) {
+                    labels_real.push(labels[Math.floor(Math.random() * labels.length)]);
+                    data_real.push(data[Math.floor(Math.random() * data.length)]);
+                }
             } else {
                 labels_real = labels;
                 data_real = data;
             }
-console.log("labels_real", labels_real)
-console.log("data_real", data_real)
+            console.log("labels_real", labels_real)
+            console.log("data_real", data_real)
             labels_real.map((label, index) => {
                 var tmp = {};
                 tmp.x = label;
@@ -367,8 +367,7 @@ console.log("data_real", data_real)
         (() => {
             $('#prod_spectro_line_chart' + index).html('');
             var chart = new Rubix('#prod_spectro_line_chart' + index, {
-                height: 250,
-                width: 350,
+                height: 200,
                 title: 'Comparative',
                 titleColor: '#D71F4B',
                 axis: {
@@ -408,17 +407,17 @@ console.log("data_real", data_real)
             labels = this.state.spectro_labels_prod[index];
             data = this.state.spectro_data_prod[index];
 
-            if(labels.length>max_number){
-              for(let i=0; i<max_number; i++){
-                 labels_real.push(labels[Math.floor(Math.random()*labels.length)]);
-                 data_real.push(data[Math.floor(Math.random()*data.length)]);
-              }
+            if (labels.length > max_number) {
+                for (let i = 0; i < max_number; i++) {
+                    labels_real.push(labels[Math.floor(Math.random() * labels.length)]);
+                    data_real.push(data[Math.floor(Math.random() * data.length)]);
+                }
             } else {
                 labels_real = labels;
                 data_real = data;
             }
-console.log("labels_real", labels_real)
-console.log("data_real", data_real)
+            console.log("labels_real", labels_real)
+            console.log("data_real", data_real)
             labels_real.map((label, index) => {
                 var tmp = {};
                 tmp.x = label;
@@ -434,8 +433,7 @@ console.log("data_real", data_real)
         (() => {
             $('#pay_optimizer_column_chart' + index).html('');
             var chart = new Rubix('#pay_optimizer_column_chart' + index, {
-                height: 250,
-                width: 350,
+                height: 200,
                 title: 'Comparative',
                 titleColor: '#D71F4B',
                 axis: {
@@ -484,8 +482,7 @@ console.log("data_real", data_real)
         (() => {
             $('#prod_optimizer_column_chart' + index).html('');
             var chart = new Rubix('#prod_optimizer_column_chart' + index, {
-                height: 250,
-                width: 350,
+                height: 200,
                 title: 'Comparative',
                 titleColor: '#D71F4B',
                 axis: {
@@ -534,8 +531,7 @@ console.log("data_real", data_real)
         (() => {
             $('#pay_optimizer_bar_chart' + index).html('');
             var chart = new Rubix('#pay_optimizer_bar_chart' + index, {
-                height: 250,
-                width: 350,
+                height: 200,
                 title: 'Comparative',
                 titleColor: '#D71F4B',
                 axis: {
@@ -586,8 +582,7 @@ console.log("data_real", data_real)
         (() => {
             $('#prod_optimizer_bar_chart' + index).html('');
             var chart = new Rubix('#prod_optimizer_bar_chart' + index, {
-                height: 250,
-                width: 350,
+                height: 200,
                 title: 'Comparative',
                 titleColor: '#D71F4B',
                 axis: {
@@ -647,10 +642,6 @@ console.log("data_real", data_real)
         bestRecommenderContentsPay = this.state.bestRecommenderContentsPay;
         ////////////////////Recommender Data//////////////
         htmlTxtPay = this.state.htmlTxtPay;
-        console.log("recommenderTypesPay", recommenderTypesPay)
-        console.log("recommenderTitlesPay", recommenderTitlesPay)
-        console.log("bestRecommenderContentsPay", bestRecommenderContentsPay)
-        console.log("htmlTxtPay", htmlTxtPay)
 
         return (
             <Grid>
@@ -659,7 +650,7 @@ console.log("data_real", data_real)
                         //////////////////////////////////Sub dashboard Campaigns App PLE//////////////////
                         let num = Math.random() * 2;
                         return <Row key={index} className="pay_row">
-                            <Col md={3}>
+                            <Col md={2} className="pay_recommender_tile_area">
                                 <div className="pay_recommender_tile">
                                     <p className="pay_best_recommender">Best Case</p>
                                     <p className="pay_recommender_type">{item}</p>
@@ -668,13 +659,19 @@ console.log("data_real", data_real)
                                     <p className="pay_recommender_total">{bestRecommenderContentsPay[index]["total"]}</p>
                                 </div>
                             </Col>
-                            <Col md={3} className="pay_spectro_chart">
-                                <div id={'pay_spectro_line_chart' + index}></div>
+                            <Col md={4} className="pay_spectro_chart">
+                                <div id={'pay_spectro_line_chart' + index} className="pay_spectro_line_chart"></div>
                             </Col>
-                            <Col md={3} className="pay_optimmizer_chart">
-                                <div id={num < 1 ? "pay_optimizer_column_chart" + index : "pay_optimizer_bar_chart" + index}></div>
+                            <Col md={4} className="pay_optimmizer_chart">
+                            {num<1&&
+                                <div id={"pay_optimizer_column_chart" + index} className="pay_optimizer_column_chart"></div>
+                            }
+                            {num>1&&
+                                <div id={"pay_optimizer_bar_chart" + index} className="pay_optimizer_bar_chart"></div>
+                            }
+                                
                             </Col>
-                            <Col md={3}>
+                            <Col md={2} className="pay_recommender_text_tile_area">
                                 <div className="pay_recommender_text_tile">
                                     <p className="pay_recommender_text">{htmlTxtPay[index]}</p>
                                 </div>
@@ -708,7 +705,7 @@ console.log("data_real", data_real)
                         let num = Math.random() * 2;
                         console.log("MATH", num)
                         return <Row key={index} className="prod_row">
-                            <Col md={3}>
+                            <Col md={2} className="prod_recommender_tile_area">
                                 <div className="prod_recommender_tile">
                                     <p className="prod_best_recommender">Best Case</p>
                                     <p className="prod_recommender_type">{item}</p>
@@ -717,13 +714,19 @@ console.log("data_real", data_real)
                                     <p className="prod_recommender_total">{bestRecommenderContentsProd[index]["total"]}</p>
                                 </div>
                             </Col>
-                            <Col md={3} className="prod_spectro_chart">
+                            <Col md={4} className="prod_spectro_chart_area">
                                 <div id={'prod_spectro_line_chart' + index}></div>
                             </Col>
-                            <Col md={3} className="prod_optimmizer_chart">
-                                <div id={num < 1 ? "prod_optimizer_column_chart" + index : "prod_optimizer_bar_chart" + index}></div>
+                            <Col md={4} className="prod_optimmizer_chart_area">
+                                {num < 1 &&
+                                    <div id={"prod_optimizer_column_chart" + index} className="prod_optimizer_column_chart"></div>
+                                }
+                                {num > 1 &&
+                                    <div id={"prod_optimizer_bar_chart" + index} className="prod_optimizer_bar_chart"></div>
+                                }
+
                             </Col>
-                            <Col md={3}>
+                            <Col md={2} className="prod_recommender_text_tile_area">
                                 <div className="prod_recommender_text_tile">
                                     <p className="prod_recommender_text">{htmlTxtProd[index]}</p>
                                 </div>
@@ -768,19 +771,19 @@ console.log("data_real", data_real)
                     if (a) {
                         this.renderSpectroLineChartProd(index);
                     }
-                }, 300)
+                }, 150)
                 setTimeout(() => {
                     let b = document.getElementById('prod_optimizer_column_chart' + index);
                     if (b) {
                         this.renderOptimizerColumnChartProd(index);
                     }
-                }, 300)
+                }, 150)
                 setTimeout(() => {
                     let c = document.getElementById('prod_optimizer_bar_chart' + index);
                     if (c) {
                         this.renderOptimizerBarChartProd(index);
                     }
-                }, 300)
+                }, 150)
             })
         }
     }

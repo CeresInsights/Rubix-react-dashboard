@@ -547,10 +547,13 @@ html.authentication {
 }
 ////////////////////////Sub Dashboard Campaigns App PLE///////////////////
 ///////best recommender////////////
+// .channel_spectro_line_chart, .channel_optimizer_bar_chart, .channel_optimizer_column_chart {
+//   margin: 0 auto;
+//   width: 100%;
+// }
 .channel_recommender_tile, .pay_recommender_tile, .dsa_recommender_tile, .prod_recommender_tile {
   padding: 10px;
-  width: 220px;
-  height: 220px;
+  width: 100%;
   background: #8081FF;
   box-shadow: 10px 10px 5px #888888;
 }
@@ -590,9 +593,9 @@ html.authentication {
 
 ////////////all sub dashbard recommender text tiles///////////////
 .channel_recommender_text_tile, .pay_recommender_text_tile, .dsa_recommender_text_tile, .prod_recommender_text_tile {
-  padding: 10px;
-  width: 250px;
-  height: 250px;
+  margin: 0 auto;
+  width: 100%;
+  height: auto;
   background: #FF7F27;
   box-shadow: 10px 10px 5px #888888;
 }
@@ -625,7 +628,7 @@ html.authentication {
   color: #FFFFFF
 }
 .channel_row, .pay_row, .prod_row, .dsa_row {
-  margin: 10px
+  // margin: 5px 0;
 }
 
 

@@ -418,8 +418,7 @@ console.log("total_market_spend", csr["total_market_spend"])
         (() => {
             $('#channel_spectro_line_chart' + index).html('');
             var chart = new Rubix('#channel_spectro_line_chart' + index, {
-                height: 250,
-                width: 350,
+                height: 200,
                 title: 'Comparative',
                 titleColor: '#D71F4B',
                 axis: {
@@ -484,8 +483,7 @@ console.log("total_market_spend", csr["total_market_spend"])
         (() => {
             $('#channel_optimizer_column_chart' + index).html('');
             var chart = new Rubix('#channel_optimizer_column_chart' + index, {
-                height: 250,
-                width: 350,
+                height: 200,
                 title: 'Comparative',
                 titleColor: '#D71F4B',
                 axis: {
@@ -536,8 +534,7 @@ console.log("total_market_spend", csr["total_market_spend"])
         (() => {
             $('#channel_optimizer_bar_chart' + index).html('');
             var chart = new Rubix('#channel_optimizer_bar_chart' + index, {
-                height: 250,
-                width: 350,
+                height: 200,
                 title: 'Comparative',
                 titleColor: '#D71F4B',
                 axis: {
@@ -555,9 +552,9 @@ console.log("total_market_spend", csr["total_market_spend"])
                 //     y: '.0f'
                 //   }
                 // },
-                margin: {
-                    left: 50
-                },
+                // margin: {
+                //     left: 50
+                // },
                 grouped: false,
                 show_markers: true
             });
@@ -606,7 +603,7 @@ console.log("total_market_spend", csr["total_market_spend"])
                         let num = Math.random() * 2;
                         console.log("MATH", num)
                         return <Row key={index} className="channel_row">
-                            <Col md={3}>
+                            <Col sm={2} className="channel_recommender_tile_area">
                                 <div className="channel_recommender_tile">
                                     <p className="channel_best_recommender">Best Case</p>
                                     <p className="channel_recommender_type">{item}</p>
@@ -615,13 +612,18 @@ console.log("total_market_spend", csr["total_market_spend"])
                                     <p className="channel_recommender_total">{bestRecommenderContentsChannel[index]["total"]}</p>
                                 </div>
                             </Col>
-                            <Col md={3} className="channel_spectro_chart">
-                                <div id={'channel_spectro_line_chart' + index}></div>
+                            <Col sm={4} className="channel_spectro_chart_area">
+                                <div id={'channel_spectro_line_chart' + index} className="channel_spectro_line_chart"></div>
                             </Col>
-                            <Col md={3} className="channel_optimmizer_chart">
-                                <div id={num < 1 ? "channel_optimizer_column_chart" + index : "channel_optimizer_bar_chart" + index}></div>
+                            <Col sm={4} className="channel_optimmizer_chart_area">
+                            {num<1&&
+                                <div id={ "channel_optimizer_column_chart" + index} className="channel_optimizer_column_chart"></div>
+                            }
+                            {num>1&&
+                                <div id={"channel_optimizer_bar_chart" + index} className="channel_optimizer_bar_chart"></div>
+                            }
                             </Col>
-                            <Col md={3}>
+                            <Col sm={2} className="channel_recommender_text_tile_area">
                                 <div className="channel_recommender_text_tile">
                                     <p className="channel_recommender_text">{htmlTxtChannel[index]}</p>
                                 </div>
@@ -642,19 +644,19 @@ console.log("total_market_spend", csr["total_market_spend"])
                     if (a) {
                         this.renderSpectroLineChart(index);
                     }
-                }, 300)
+                }, 150)
                 setTimeout(() => {
                     let b = document.getElementById('channel_optimizer_column_chart' + index);
                     if (b) {
                         this.renderOptimizerColumnChart(index);
                     }
-                }, 300)
+                }, 150)
                 setTimeout(() => {
                     let c = document.getElementById('channel_optimizer_bar_chart' + index);
                     if (c) {
                         this.renderOptimizerBarChart(index);
                     }
-                }, 300)
+                }, 150)
             })
         }
 

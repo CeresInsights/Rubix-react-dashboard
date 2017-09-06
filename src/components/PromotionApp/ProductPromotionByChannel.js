@@ -314,8 +314,7 @@ export default class ProductPromotionByChannel extends React.Component {
         (() => {
             $('#dsa_spectro_line_chart' + index).html('');
             var chart = new Rubix('#dsa_spectro_line_chart' + index, {
-                height: 250,
-                width: 350,
+                height: 200,
                 // title: 'Comparative',
                 titleColor: '#D71F4B',
                 axis: {
@@ -364,8 +363,6 @@ export default class ProductPromotionByChannel extends React.Component {
                 labels_real = labels;
                 data_real = data;
             }
-console.log("labels_real", labels_real)
-console.log("data_real", data_real)
             labels_real.map((label, index) => {
                 var tmp = {};
                 tmp.x = label;
@@ -383,8 +380,7 @@ console.log("data_real", data_real)
         (() => {
             $('#prod_spectro_line_chart' + index).html('');
             var chart = new Rubix('#prod_spectro_line_chart' + index, {
-                height: 250,
-                width: 350,
+                height: 200,
                 // title: 'Comparative',
                 titleColor: '#D71F4B',
                 axis: {
@@ -448,8 +444,7 @@ console.log("data_real", data_real)
         (() => {
             $('#dsa_optimizer_column_chart' + index).html('');
             var chart = new Rubix('#dsa_optimizer_column_chart' + index, {
-                height: 250,
-                width: 350,
+                height: 200,
                 // title: 'Comparative',
                 titleColor: '#D71F4B',
                 axis: {
@@ -498,8 +493,7 @@ console.log("data_real", data_real)
         (() => {
             $('#prod_optimizer_column_chart' + index).html('');
             var chart = new Rubix('#prod_optimizer_column_chart' + index, {
-                height: 250,
-                width: 350,
+                height: 200,
                 // title: 'Comparative',
                 titleColor: '#D71F4B',
                 axis: {
@@ -548,8 +542,7 @@ console.log("data_real", data_real)
         (() => {
             $('#dsa_optimizer_bar_chart' + index).html('');
             var chart = new Rubix('#dsa_optimizer_bar_chart' + index, {
-                height: 250,
-                width: 350,
+                height: 200,
                 // title: 'Comparative',
                 titleColor: '#D71F4B',
                 axis: {
@@ -600,8 +593,7 @@ console.log("data_real", data_real)
         (() => {
             $('#prod_optimizer_bar_chart' + index).html('');
             var chart = new Rubix('#prod_optimizer_bar_chart' + index, {
-                height: 250,
-                width: 350,
+                height: 200,
                 // title: 'Comparative',
                 titleColor: '#D71F4B',
                 axis: {
@@ -717,7 +709,7 @@ console.log("data_real", data_real)
                         //////////////////////////////////Sub dashboard Campaigns App PLE//////////////////
                         let num = Math.random() * 2;
                         return <Row key={index} className="prod_row">
-                            <Col md={3}>
+                            <Col md={2} className="prod_recommender_tile_area">
                                 <div className="prod_recommender_tile">
                                     <p className="prod_best_recommender">Best Case</p>
                                     <p className="prod_recommender_type">{item}</p>
@@ -726,13 +718,19 @@ console.log("data_real", data_real)
                                     <p className="prod_recommender_total">{bestRecommenderContentsProd[index]["total"]}</p>
                                 </div>
                             </Col>
-                            <Col md={3} className="prod_spectro_chart">
-                                <div className={{ float: 'left' }} id={'prod_spectro_line_chart' + index}></div>
+                            <Col md={4} className="prod_spectro_chart_area">
+                                <div className="prod_spectro_line_chart" id={'prod_spectro_line_chart' + index}></div>
                             </Col>
-                            <Col md={3} className="prod_optimmizer_chart">
-                                <div id={num < 1 ? "prod_optimizer_column_chart" + index : "prod_optimizer_bar_chart" + index}></div>
+                            <Col md={4} className="prod_optimmizer_chart_area">
+                            {num<1&&
+                                <div id={"prod_optimizer_column_chart" + index} className="prod_optimizer_column_chart"></div>
+                            }
+                            {num>1&&
+                                <div id={"prod_optimizer_bar_chart" + index} className="prod_optimizer_bar_chart"></div>
+                            }
+                                
                             </Col>
-                            <Col md={3}>
+                            <Col md={2} className="prod_recommender_text_tile_area">
                                 <div className="prod_recommender_text_tile">
                                     <p className="prod_recommender_text">{htmlTxtProd[index]}</p>
                                 </div>
@@ -777,19 +775,19 @@ console.log("data_real", data_real)
                     if (a) {
                         this.renderSpectroLineChartProd(index);
                     }
-                }, 250)
+                }, 150)
                 setTimeout(() => {
                     let b = document.getElementById('prod_optimizer_column_chart' + index);
                     if (b) {
                         this.renderOptimizerColumnChartProd(index);
                     }
-                }, 250)
+                }, 150)
                 setTimeout(() => {
                     let c = document.getElementById('prod_optimizer_bar_chart' + index);
                     if (c) {
                         this.renderOptimizerBarChartProd(index);
                     }
-                }, 250)
+                }, 150)
             })
         }
     }
