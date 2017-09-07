@@ -320,23 +320,23 @@ export default class ProductPromotionByChannel extends React.Component {
                 axis: {
                     x: {
                         type: 'ordinal',
+                        tickCount: 0
                     },
                     y: {
                         type: 'linear',
-                        tickFormat: 'd'
+                        tickFormat: '.2f'
                     }
                 },
-                // tooltip: {
-                //   color: '#D71F4B',
-                //   format: {
-                //     y: '.0f'
-                //   }
-                // },
-                // margin: {
-                //     left: 50
-                // },
+                tooltip: {
+                  color: '#D71F4B',
+                  format: {
+                    y: '.2f'
+                  }
+                },
+                margin: {
+                    left: 50
+                },
                 grouped: false,
-                show_markers: true
             });
 
             var spectrogram = chart.line_series({
@@ -347,26 +347,13 @@ export default class ProductPromotionByChannel extends React.Component {
             var data = [];
             var tmp_array = [];
 
-            var max_number = 4;
-            var labels_real = [];
-            var data_real = [];
-
             labels = this.state.spectro_labels_dsa[index];
             data = this.state.spectro_data_dsa[index];
 
-            if (labels.length > max_number) {
-                for (let i = 0; i < max_number; i++) {
-                    labels_real.push(labels[Math.floor(Math.random() * labels.length)]);
-                    data_real.push(data[Math.floor(Math.random() * data.length)]);
-                }
-            } else {
-                labels_real = labels;
-                data_real = data;
-            }
-            labels_real.map((label, index) => {
+            labels.map((label, index) => {
                 var tmp = {};
                 tmp.x = label;
-                tmp.y = data_real[index];
+                tmp.y = data[index];
                 tmp_array.push(tmp);
             })
 
@@ -386,23 +373,23 @@ export default class ProductPromotionByChannel extends React.Component {
                 axis: {
                     x: {
                         type: 'ordinal',
+                        tickCount: 0
                     },
                     y: {
                         type: 'linear',
-                        tickFormat: 'd'
+                        tickFormat: '.2f'
                     }
                 },
-                // tooltip: {
-                //   color: '#D71F4B',
-                //   format: {
-                //     y: '.0f'
-                //   }
-                // },
-                // margin: {
-                //     left: 50
-                // },
+                tooltip: {
+                  color: '#D71F4B',
+                  format: {
+                    y: '.2f'
+                  }
+                },
+                margin: {
+                    left: 50
+                },
                 grouped: false,
-                show_markers: true
             });
 
             var spectrogram = chart.line_series({
@@ -413,26 +400,12 @@ export default class ProductPromotionByChannel extends React.Component {
             var data = [];
             var tmp_array = [];
 
-            var max_number = 4;
-            var labels_real = [];
-            var data_real = [];
-
             labels = this.state.spectro_labels_prod[index];
             data = this.state.spectro_data_prod[index];
-
-            if (labels.length > max_number) {
-                for (let i = 0; i < max_number; i++) {
-                    labels_real.push(labels[Math.floor(Math.random() * labels.length)]);
-                    data_real.push(data[Math.floor(Math.random() * data.length)]);
-                }
-            } else {
-                labels_real = labels;
-                data_real = data;
-            }
-            labels_real.map((label, index) => {
+            labels.map((label, index) => {
                 var tmp = {};
                 tmp.x = label;
-                tmp.y = data_real[index];
+                tmp.y = data[index];
                 tmp_array.push(tmp);
             })
             spectrogram.addData(tmp_array);
@@ -450,23 +423,23 @@ export default class ProductPromotionByChannel extends React.Component {
                 axis: {
                     x: {
                         type: 'ordinal',
+                        tickCount: 0
                     },
                     y: {
                         type: 'linear',
-                        tickFormat: 'd'
+                        tickFormat: '.2f'
                     }
                 },
-                // tooltip: {
-                //   color: '#D71F4B',
-                //   format: {
-                //     y: '.0f'
-                //   }
-                // },
-                // margin: {
-                //     left: 50
-                // },
+                tooltip: {
+                  color: '#D71F4B',
+                  format: {
+                    y: '.2f'
+                  }
+                },
+                margin: {
+                    left: 50
+                },
                 grouped: false,
-                show_markers: true
             });
 
             var optimizer_column = chart.column_series({
@@ -499,23 +472,23 @@ export default class ProductPromotionByChannel extends React.Component {
                 axis: {
                     x: {
                         type: 'ordinal',
+                        tickCount: 0
                     },
                     y: {
                         type: 'linear',
-                        tickFormat: 'd'
+                        tickFormat: '.2f'
                     }
                 },
-                // tooltip: {
-                //   color: '#D71F4B',
-                //   format: {
-                //     y: '.0f'
-                //   }
-                // },
-                // margin: {
-                //     left: 50
-                // },
+                tooltip: {
+                  color: '#D71F4B',
+                  format: {
+                    y: '.2f'
+                  }
+                },
+                margin: {
+                    left: 50
+                },
                 grouped: false,
-                show_markers: true
             });
 
             var optimizer_column = chart.column_series({
@@ -548,23 +521,23 @@ export default class ProductPromotionByChannel extends React.Component {
                 axis: {
                     x: {
                         type: 'ordinal',
+                        tickCount: 0
                     },
                     y: {
                         type: 'linear',
-                        tickFormat: 'd'
+                        tickFormat: '.2f'
                     }
                 },
-                // tooltip: {
-                //   color: '#D71F4B',
-                //   format: {
-                //     y: '.0f'
-                //   }
-                // },
-                // margin: {
-                //     left: 50
-                // },
+                tooltip: {
+                  color: '#D71F4B',
+                  format: {
+                    y: '.2f'
+                  }
+                },
+                margin: {
+                    left: 50
+                },
                 grouped: false,
-                show_markers: true
             });
 
             var optimizer_bar = chart.bar_series({
@@ -599,23 +572,23 @@ export default class ProductPromotionByChannel extends React.Component {
                 axis: {
                     x: {
                         type: 'ordinal',
+                        tickCount: 0
                     },
                     y: {
                         type: 'linear',
-                        tickFormat: 'd'
+                        tickFormat: '.2f'
                     }
                 },
-                // tooltip: {
-                //   color: '#D71F4B',
-                //   format: {
-                //     y: '.0f'
-                //   }
-                // },
-                // margin: {
-                //     left: 50
-                // },
+                tooltip: {
+                  color: '#D71F4B',
+                  format: {
+                    y: '.2f'
+                  }
+                },
+                margin: {
+                    left: 50
+                },
                 grouped: false,
-                show_markers: true
             });
 
             var optimizer_bar = chart.bar_series({

@@ -37,9 +37,7 @@ import ProductBundle from './components/ProductApp/index';
 class App extends React.Component {
   render() {
     return (
-      <MainContainer>
-        {this.props.children}
-      </MainContainer>
+      this.props.children
     );
   }
 }

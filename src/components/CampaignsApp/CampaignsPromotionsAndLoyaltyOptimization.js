@@ -250,20 +250,19 @@ console.log("total_market_spend", csr["total_market_spend"])
                     },
                     y: {
                         type: 'linear',
-                        tickFormat: 'd'
+                        tickFormat: '.2f'
                     }
                 },
-                // tooltip: {
-                //   color: '#D71F4B',
-                //   format: {
-                //     y: '.0f'
-                //   }
-                // },
+                tooltip: {
+                  color: '#D71F4B',
+                  format: {
+                    y: '.2f'
+                  }
+                },
                 margin: {
                     left: 50
                 },
                 grouped: false,
-                show_markers: true
             });
 
             var bdw = chart.column_series({
@@ -296,20 +295,19 @@ console.log("total_market_spend", csr["total_market_spend"])
                     },
                     y: {
                         type: 'linear',
-                        tickFormat: 'd'
+                        tickFormat: '.2f'
                     }
                 },
-                // tooltip: {
-                //   color: '#D71F4B',
-                //   format: {
-                //     y: '.0f'
-                //   }
-                // },
+                tooltip: {
+                  color: '#D71F4B',
+                  format: {
+                    y: '.2f'
+                  }
+                },
                 margin: {
                     left: 50
                 },
                 grouped: false,
-                show_markers: true
             });
 
             var mad = chart.column_series({
@@ -424,18 +422,19 @@ console.log("total_market_spend", csr["total_market_spend"])
                 axis: {
                     x: {
                         type: 'ordinal',
+                        tickCount: 0
                     },
                     y: {
                         type: 'linear',
-                        tickFormat: 'd'
+                        tickFormat: '.2f'
                     }
                 },
-                // tooltip: {
-                //   color: '#D71F4B',
-                //   format: {
-                //     y: '.0f'
-                //   }
-                // },
+                tooltip: {
+                  color: '#D71F4B',
+                  format: {
+                    y: '.2f'
+                  }
+                },
                 margin: {
                     left: 50
                 },
@@ -451,26 +450,13 @@ console.log("total_market_spend", csr["total_market_spend"])
             var data = [];
             var tmp_array = [];
 
-            var max_number = 4;
-            var labels_real = [];
-            var data_real = [];
-
             labels = this.state.spectro_labels_channel[index];
             data = this.state.spectro_data_channel[index];
 
-            if(labels.length>max_number){
-              for(let i=0; i<max_number; i++){
-                 labels_real.push(labels[Math.floor(Math.random()*labels.length)]);
-                 data_real.push(data[Math.floor(Math.random()*data.length)]);
-              }
-            } else {
-                labels_real = labels;
-                data_real = data;
-            }
-            labels_real.map((label, index) => {
+            labels.map((label, index) => {
                 var tmp = {};
                 tmp.x = label;
-                tmp.y = data_real[index];
+                tmp.y = data[index];
                 tmp_array.push(tmp);
             })
 
@@ -489,23 +475,23 @@ console.log("total_market_spend", csr["total_market_spend"])
                 axis: {
                     x: {
                         type: 'ordinal',
+                        tickCount: 0
                     },
                     y: {
                         type: 'linear',
-                        tickFormat: 'd'
+                        tickFormat: '.2f'
                     }
                 },
-                // tooltip: {
-                //   color: '#D71F4B',
-                //   format: {
-                //     y: '.0f'
-                //   }
-                // },
+                tooltip: {
+                  color: '#D71F4B',
+                  format: {
+                    y: '.2f'
+                  }
+                },
                 margin: {
                     left: 50
                 },
                 grouped: false,
-                show_markers: true
             });
 
             var optimizer_column = chart.column_series({
@@ -540,23 +526,23 @@ console.log("total_market_spend", csr["total_market_spend"])
                 axis: {
                     x: {
                         type: 'ordinal',
+                        tickCount: 0
                     },
                     y: {
                         type: 'linear',
-                        tickFormat: 'd'
+                        tickFormat: '.2f'
                     }
                 },
-                // tooltip: {
-                //   color: '#D71F4B',
-                //   format: {
-                //     y: '.0f'
-                //   }
-                // },
-                // margin: {
-                //     left: 50
-                // },
+                tooltip: {
+                  color: '#D71F4B',
+                  format: {
+                    y: '.2f'
+                  }
+                },
+                margin: {
+                    left: 50
+                },
                 grouped: false,
-                show_markers: true
             });
 
             var optimizer_bar = chart.bar_series({
