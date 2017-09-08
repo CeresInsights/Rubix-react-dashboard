@@ -164,7 +164,6 @@ export default class ProductBundlesbyCustomerBehavior extends React.Component {
 
         ////// Recommender Type Fetch//////////////////////
         recommenderTypesPay = Object.keys(subProdPayRecommender);
-        console.log("RECOM", recommenderTypesPay)
         // ///////////////Recommender Data Fetch(html, spectrogram, optimizer_chart)/////////////
         recommenderTypesPay.map((key) => {
             recommenderContentsPay.push(subProdPayRecommender[key]);
@@ -314,10 +313,10 @@ export default class ProductBundlesbyCustomerBehavior extends React.Component {
                     }
                 },
                 tooltip: {
-                  color: '#D71F4B',
-                  format: {
-                    y: '.2f'
-                  }
+                    color: '#D71F4B',
+                    format: {
+                        y: '.2f'
+                    }
                 },
                 margin: {
                     left: 50
@@ -366,16 +365,16 @@ export default class ProductBundlesbyCustomerBehavior extends React.Component {
                     }
                 },
                 tooltip: {
-                  color: '#D71F4B',
-                  format: {
-                    y: '.2f'
-                  }
+                    color: '#D71F4B',
+                    format: {
+                        y: '.2f'
+                    }
                 },
                 margin: {
                     left: 50
                 },
                 grouped: false,
-                
+
             });
             var spectrogram = chart.line_series({
                 name: 'Spectrogram',
@@ -385,24 +384,9 @@ export default class ProductBundlesbyCustomerBehavior extends React.Component {
             var data = [];
             var tmp_array = [];
 
-            // var max_number = 4;
-            // var labels_real = [];
-            // var data_real = [];
-
             labels = this.state.spectro_labels_prod[index];
             data = this.state.spectro_data_prod[index];
 
-            // if (labels.length > max_number) {
-            //     for (let i = 0; i < max_number; i++) {
-            //         labels_real.push(labels[Math.floor(Math.random() * labels.length)]);
-            //         data_real.push(data[Math.floor(Math.random() * data.length)]);
-            //     }
-            // } else {
-            //     labels_real = labels;
-            //     data_real = data;
-            // }
-            // console.log("labels_real", labels_real)
-            // console.log("data_real", data_real)
             labels.map((label, index) => {
                 var tmp = {};
                 tmp.x = label;
@@ -432,10 +416,10 @@ export default class ProductBundlesbyCustomerBehavior extends React.Component {
                     }
                 },
                 tooltip: {
-                  color: '#D71F4B',
-                  format: {
-                    y: '.2f'
-                  }
+                    color: '#D71F4B',
+                    format: {
+                        y: '.2f'
+                    }
                 },
                 margin: {
                     left: 50
@@ -481,10 +465,10 @@ export default class ProductBundlesbyCustomerBehavior extends React.Component {
                     }
                 },
                 tooltip: {
-                  color: '#D71F4B',
-                  format: {
-                    y: '.2f'
-                  }
+                    color: '#D71F4B',
+                    format: {
+                        y: '.2f'
+                    }
                 },
                 margin: {
                     left: 50
@@ -530,10 +514,10 @@ export default class ProductBundlesbyCustomerBehavior extends React.Component {
                     }
                 },
                 tooltip: {
-                  color: '#D71F4B',
-                  format: {
-                    y: '.2f'
-                  }
+                    color: '#D71F4B',
+                    format: {
+                        y: '.2f'
+                    }
                 },
                 margin: {
                     left: 50
@@ -581,10 +565,10 @@ export default class ProductBundlesbyCustomerBehavior extends React.Component {
                     }
                 },
                 tooltip: {
-                  color: '#D71F4B',
-                  format: {
-                    y: '.2f'
-                  }
+                    color: '#D71F4B',
+                    format: {
+                        y: '.2f'
+                    }
                 },
                 margin: {
                     left: 50
@@ -648,13 +632,7 @@ export default class ProductBundlesbyCustomerBehavior extends React.Component {
                                 <div id={'pay_spectro_line_chart' + index} className="pay_spectro_line_chart"></div>
                             </Col>
                             <Col md={4} className="pay_optimmizer_chart">
-                            {num<1&&
-                                <div id={"pay_optimizer_column_chart" + index} className="pay_optimizer_column_chart"></div>
-                            }
-                            {num>1&&
-                                <div id={"pay_optimizer_bar_chart" + index} className="pay_optimizer_bar_chart"></div>
-                            }
-                                
+                                <div id={num < 1 ? "pay_optimizer_column_chart" + index : "pay_optimizer_bar_chart" + index}></div>
                             </Col>
                             <Col md={2} className="pay_recommender_text_tile_area">
                                 <div className="pay_recommender_text_tile">
@@ -703,13 +681,7 @@ export default class ProductBundlesbyCustomerBehavior extends React.Component {
                                 <div id={'prod_spectro_line_chart' + index}></div>
                             </Col>
                             <Col md={4} className="prod_optimmizer_chart_area">
-                                {num < 1 &&
-                                    <div id={"prod_optimizer_column_chart" + index} className="prod_optimizer_column_chart"></div>
-                                }
-                                {num > 1 &&
-                                    <div id={"prod_optimizer_bar_chart" + index} className="prod_optimizer_bar_chart"></div>
-                                }
-
+                                <div id={num < 1 ? "prod_optimizer_column_chart" + index : "prod_optimizer_bar_chart" + index}></div>
                             </Col>
                             <Col md={2} className="prod_recommender_text_tile_area">
                                 <div className="prod_recommender_text_tile">

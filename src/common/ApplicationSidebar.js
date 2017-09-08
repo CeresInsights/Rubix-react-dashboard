@@ -161,10 +161,10 @@ export default class ApplicationSidebar extends React.Component {
                   { /** Pages Section */}
                   <div className='sidebar-header'>PAGES</div>
 
-                  <SidebarNavItem glyph='icon-fontello-gauge' name='Executive Dashboard' href="/executivedashboard" />
-                  <SidebarNavItem glyph='icon-ikons-chart' name='Campaigns App' href="/sub_campaigns" />
-                  <SidebarNavItem glyph='icon-ikons-chart-1-4' name='Promotion App' href="/sub_promotion" />
-                  <SidebarNavItem glyph='icon-fontello-chart-bar' name='Product App' href="/sub_product" />
+                  <SidebarNavItem glyph='icon-fontello-gauge' name='Executive Dashboard' href="/ltr/executivedashboard" />
+                  <SidebarNavItem glyph='icon-ikons-chart' name='Campaigns App' href="/ltr/sub_campaigns" />
+                  <SidebarNavItem glyph='icon-ikons-chart-1-4' name='Promotion App' href="/ltr/sub_promotion" />
+                  <SidebarNavItem glyph='icon-fontello-chart-bar' name='Product App' href="/ltr/sub_product" />
                   <SidebarDivider />
 
                   { /** Components Section */}
@@ -203,10 +203,10 @@ export default class ApplicationSidebar extends React.Component {
                   <SidebarNavItem glyph='icon-ikons-login' name='Login' href="/login" />
                   <SidebarNavItem glyph='icon-simple-line-icons-users' name='Signup' href="/signup" />
                   <SidebarNavItem glyph='icon-fontello-contacts' name='Contact Us' href="/contact" />
-                  <SidebarNavItem glyph='icon-feather-inbox' name='Load Data' href="/loaddata" />
-                  <SidebarNavItem glyph='icon-fontello-mail' name='Send Email' href="/sendemail" hidden={!this.state.loginInfoFlag? true : false} />
-                  <SidebarNavItem glyph='icon-outlined-profile' name='Profile' href="/profile" />
-                  <SidebarNavItem glyph='icon-mfizz-database' name='Data Browser' href="/databrowser" />
+                  <SidebarNavItem glyph='icon-feather-inbox' name='Load Data' href="/ltr/loaddata" />
+                  <SidebarNavItem glyph='icon-fontello-mail' name='Send Email' href="/ltr/sendemail" hidden={!this.state.loginInfoFlag? true : false} />
+                  <SidebarNavItem glyph='icon-outlined-profile' name='Profile' href="/ltr/profile" />
+                  <SidebarNavItem glyph='icon-mfizz-database' name='Data Browser' href="/ltr/databrowser" />
                 </SidebarNav>
                 <br />
                 <br />

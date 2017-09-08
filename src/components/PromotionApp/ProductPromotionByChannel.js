@@ -328,10 +328,10 @@ export default class ProductPromotionByChannel extends React.Component {
                     }
                 },
                 tooltip: {
-                  color: '#D71F4B',
-                  format: {
-                    y: '.2f'
-                  }
+                    color: '#D71F4B',
+                    format: {
+                        y: '.2f'
+                    }
                 },
                 margin: {
                     left: 50
@@ -381,10 +381,10 @@ export default class ProductPromotionByChannel extends React.Component {
                     }
                 },
                 tooltip: {
-                  color: '#D71F4B',
-                  format: {
-                    y: '.2f'
-                  }
+                    color: '#D71F4B',
+                    format: {
+                        y: '.2f'
+                    }
                 },
                 margin: {
                     left: 50
@@ -431,10 +431,10 @@ export default class ProductPromotionByChannel extends React.Component {
                     }
                 },
                 tooltip: {
-                  color: '#D71F4B',
-                  format: {
-                    y: '.2f'
-                  }
+                    color: '#D71F4B',
+                    format: {
+                        y: '.2f'
+                    }
                 },
                 margin: {
                     left: 50
@@ -480,10 +480,10 @@ export default class ProductPromotionByChannel extends React.Component {
                     }
                 },
                 tooltip: {
-                  color: '#D71F4B',
-                  format: {
-                    y: '.2f'
-                  }
+                    color: '#D71F4B',
+                    format: {
+                        y: '.2f'
+                    }
                 },
                 margin: {
                     left: 50
@@ -529,10 +529,10 @@ export default class ProductPromotionByChannel extends React.Component {
                     }
                 },
                 tooltip: {
-                  color: '#D71F4B',
-                  format: {
-                    y: '.2f'
-                  }
+                    color: '#D71F4B',
+                    format: {
+                        y: '.2f'
+                    }
                 },
                 margin: {
                     left: 50
@@ -580,10 +580,10 @@ export default class ProductPromotionByChannel extends React.Component {
                     }
                 },
                 tooltip: {
-                  color: '#D71F4B',
-                  format: {
-                    y: '.2f'
-                  }
+                    color: '#D71F4B',
+                    format: {
+                        y: '.2f'
+                    }
                 },
                 margin: {
                     left: 50
@@ -648,12 +648,7 @@ export default class ProductPromotionByChannel extends React.Component {
                                 <div id={'dsa_spectro_line_chart' + index}></div>
                             </Col>
                             <Col md={4} className="dsa_optimmizer_chart">
-                                {num < 1 &&
-                                    <div id={"dsa_optimizer_column_chart" + index} className="dsa_optimizer_column_chart"></div>
-                                }
-                                {num > 1 &&
-                                    <div id={"dsa_optimizer_bar_chart" + index} className="dsa_optimizer_bar_chart"></div>
-                                }
+                                <div id={num < 1 ? "dsa_optimizer_column_chart" + index : "dsa_optimizer_bar_chart" + index}></div>
                             </Col>
                             <Col md={2} className="dsa_recommender_text_tile_area">
                                 <div className="dsa_recommender_text_tile">
@@ -700,13 +695,7 @@ export default class ProductPromotionByChannel extends React.Component {
                                 <div className="prod_spectro_line_chart" id={'prod_spectro_line_chart' + index}></div>
                             </Col>
                             <Col md={4} className="prod_optimmizer_chart_area">
-                                {num < 1 &&
-                                    <div id={"prod_optimizer_column_chart" + index} className="prod_optimizer_column_chart"></div>
-                                }
-                                {num > 1 &&
-                                    <div id={"prod_optimizer_bar_chart" + index} className="prod_optimizer_bar_chart"></div>
-                                }
-
+                                <div id={num < 1 ? "prod_optimizer_column_chart" + index : "prod_optimizer_bar_chart" + index}></div>
                             </Col>
                             <Col md={2} className="prod_recommender_text_tile_area">
                                 <div className="prod_recommender_text_tile">

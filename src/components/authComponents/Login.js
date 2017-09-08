@@ -1,7 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import { connect } from 'react-redux';
-import { Link, browserHistory } from 'react-router';
+import { Link, browserHistory, router, withRouter } from 'react-router';
 import * as authActions from '../../actions/authActions';
 import {
   Row,
@@ -26,9 +26,6 @@ import {
 export default class Login extends React.Component {
   constructor(props) {
     super(props);
-    this.state = {
-      loginStatus: false
-    }
   }
   back(e) {
     e.preventDefault();
@@ -42,7 +39,7 @@ export default class Login extends React.Component {
       this.errorNotification(loginData)
     }
     if (loginData["status"] === 'User Login Successful') {
-      browserHistory.push('/executivedashboard');
+      nextProps.router.push('/ltr/executivedashboard');
     }
   }
 
@@ -72,7 +69,6 @@ export default class Login extends React.Component {
   }
 
   render() {
-    console.log("LoginStatus", this.state.loginStatus)
     return (
       <div id='auth-container' className='login'>
         <div id='auth-row'>

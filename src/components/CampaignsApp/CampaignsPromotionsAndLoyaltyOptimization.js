@@ -117,7 +117,7 @@ export default class CampaignsPromotionsAndLoyaltyOptimization extends React.Com
         csr = nextProps.csr;
         subChannel = nextProps.subChannel;
         subChannelRecommender = nextProps.subChannelRecommender;
-console.log("total_market_spend", csr["total_market_spend"])
+        console.log("total_market_spend", csr["total_market_spend"])
         this.setState({
             mad_data: mad,
             asi_data: asi,
@@ -254,10 +254,10 @@ console.log("total_market_spend", csr["total_market_spend"])
                     }
                 },
                 tooltip: {
-                  color: '#D71F4B',
-                  format: {
-                    y: '.2f'
-                  }
+                    color: '#D71F4B',
+                    format: {
+                        y: '.2f'
+                    }
                 },
                 margin: {
                     left: 50
@@ -299,10 +299,10 @@ console.log("total_market_spend", csr["total_market_spend"])
                     }
                 },
                 tooltip: {
-                  color: '#D71F4B',
-                  format: {
-                    y: '.2f'
-                  }
+                    color: '#D71F4B',
+                    format: {
+                        y: '.2f'
+                    }
                 },
                 margin: {
                     left: 50
@@ -430,10 +430,10 @@ console.log("total_market_spend", csr["total_market_spend"])
                     }
                 },
                 tooltip: {
-                  color: '#D71F4B',
-                  format: {
-                    y: '.2f'
-                  }
+                    color: '#D71F4B',
+                    format: {
+                        y: '.2f'
+                    }
                 },
                 margin: {
                     left: 50
@@ -483,10 +483,10 @@ console.log("total_market_spend", csr["total_market_spend"])
                     }
                 },
                 tooltip: {
-                  color: '#D71F4B',
-                  format: {
-                    y: '.2f'
-                  }
+                    color: '#D71F4B',
+                    format: {
+                        y: '.2f'
+                    }
                 },
                 margin: {
                     left: 50
@@ -534,10 +534,10 @@ console.log("total_market_spend", csr["total_market_spend"])
                     }
                 },
                 tooltip: {
-                  color: '#D71F4B',
-                  format: {
-                    y: '.2f'
-                  }
+                    color: '#D71F4B',
+                    format: {
+                        y: '.2f'
+                    }
                 },
                 margin: {
                     left: 50
@@ -602,12 +602,7 @@ console.log("total_market_spend", csr["total_market_spend"])
                                 <div id={'channel_spectro_line_chart' + index} className="channel_spectro_line_chart"></div>
                             </Col>
                             <Col sm={4} className="channel_optimmizer_chart_area">
-                            {num<1&&
-                                <div id={ "channel_optimizer_column_chart" + index} className="channel_optimizer_column_chart"></div>
-                            }
-                            {num>1&&
-                                <div id={"channel_optimizer_bar_chart" + index} className="channel_optimizer_bar_chart"></div>
-                            }
+                                <div id={num < 1 ? "channel_optimizer_column_chart" + index : "channel_optimizer_bar_chart" + index}></div>
                             </Col>
                             <Col sm={2} className="channel_recommender_text_tile_area">
                                 <div className="channel_recommender_text_tile">

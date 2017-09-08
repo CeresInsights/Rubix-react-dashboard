@@ -74,37 +74,38 @@ export default class Homepage extends React.Component {
         </HeroHeader>
         <Grid>
           <Row>
-            <Col sm={7} collapseLeft collapseRight>
+            <Col sm={12} collapseLeft collapseRight>
               <p style={{ marginTop: 60 }}>
-                “ In this age of the customer, the only sustainable competitive advantage is knowledge of and engagement with customers.” – Forrester Research”
+                <p>“ In this age of the customer, the only sustainable competitive advantage is knowledge of and engagement with customers.” – Forrester Research”
                   Innovations in technology and the rise of digital have changed the way firms have to communicate with consumers. A great brand can resonate with customers, inspire loyalty, and rejuvenate a company on the edge.
                   In this new era of customer engagement, what will separate the winners from everyone else is a differentiated brand experience that delivers relevant engagements with compelling personalization regardless of where the customer is.
-                  Yet many firms struggle with gaining the necessary insight from their customer data to confidently answer important business questions such as:
-                  •	Who are our most valuable customers?
-                  •	What are our best-performing channels?
-                  •	What are our most effective campaigns?
-                  •	Are we allocating resources appropriately?
-                  •	What are our best opportunities for growth?
-                  •	Where should we focus our marketing spend?
-                  •	What should we do next to increase our results?
-                </p>
+                  Yet many firms struggle with gaining the necessary insight from their customer data to confidently<strong>answer important business questions</strong> such as:</p>
+                <p>•	Who are our most valuable customers?</p>
+                <p>•	What are our best-performing channels?</p>
+                <p>•	What are our most effective campaigns?</p>
+                <p>•	Are we allocating resources appropriately?</p>
+                <p>•	What are our best opportunities for growth?</p>
+                <p>•	Where should we focus our marketing spend?</p>
+                <p>•	What should we do next to increase our results?</p>
+                <p>Companies are leveraging customer data to move ever closer to the elusive goal of truly personalized marketing: the right offer, at the right time, in the right location and context, to the right person. Using technology and data, firms today can better understand their customers, deliver personalized one-to-one experiences, and drive significant bottom-line results</p>
+              </p>
             </Col>
-            <Col sm={5} collapseLeft collapseRight>
+            {/* <Col sm={5} collapseLeft collapseRight>
               <div className='hidden-xs text-right'>
                 <img src='/imgs/app/homepage/reactcode.png' />
               </div>
               <div className='visible-xs text-center'>
                 <img width='250' src='/imgs/app/homepage/reactcode.png' />
               </div>
-            </Col>
+            </Col> */}
           </Row>
         </Grid>
       </Hero>
       <div className="homepage-hero" id="laptop_wrapper" >
         <div className="container">
-          <div className="homepage-hero-header2"><span >Where does it come from? </span></div>
-          <p className="text-center">Rubix implements custom React Components on top of the popular react-bootstrap project enabling you to write shorter, semantic markup. Say Goodbye to unwieldy classnames and spaghetti code!</p>
-          <div className="text-center" id="laptop_img_wrapper" >
+          <div className="homepage-hero-header2"><span >Ceres: The Platform </span></div>
+          <p style={{ marginTop: '60' }} className="text-center">From the ground up, we have developed a cloud based Customer Behavioral Insight Platform. The sustainable advantage of our platform is the use to our proprietary and patented Artificial Intelligence Algorithms to not only predict behaviors, but also provide recommended actions to take based on the behaviors identified in the data. Our algorithms have been designed to produce recommendations, which are also in alignment with business growth metrics to improve business results.</p>
+          <div style={{ marginTop: '30' }} className="text-center" id="laptop_img_wrapper" >
             <img src="imgs/app/homepage/laptop.png" />
           </div>
         </div>
@@ -118,9 +119,15 @@ export default class Homepage extends React.Component {
           <Row>
             <Col sm={7} collapseLeft collapseRight>
               <p style={{ marginTop: 60 }}>
-                Rubix is built on top of React which uses a Virtual DOM implementation for ultra-high performance and semantic markup coupled with CommonJS for composable Components.
-                </p>
-              <p>The result: <strong>clean and elegant code.</strong></p>
+                <p>Ceres Offers Impactful Consumer Insights Consulting
+                With Ceres we combine your current data with its powerful capacities to provide you with impactful consumer insights and also:</p>
+                <p>•	Assist you with collecting any additional data that would be helpful for advanced consumer insights</p>
+                <p>•	Develop models which predict customer behavior and assist you with developing highly targeted marketing campaigns</p>
+                <p>•	Provide you with improved analytics and prediction recommendations compared to current tools</p>
+                <p>•	Design visualizations so you can easily see current opportunities for growth as well as your most successful campaigns</p>
+                <p>•	Review your business strategy and help you establish a series of new attainable goals that you can begin implementing right away</p>
+                <p>•	Provide frequent reports so you can track the progress of our new recommendations and easily compare new results to your prior campaigns</p>
+              </p>
             </Col>
             <Col sm={5} collapseLeft collapseRight>
               <div className='hidden-xs text-right'>
@@ -135,7 +142,7 @@ export default class Homepage extends React.Component {
       </Hero>
       <Hero style={{ position: 'relative', zIndex: 2 }}>
         <HeroHeader>
-          <span>{"Advanced Theming and Customizations "}</span>
+          <span>{"Don't hesitate to contact us. We are here to help"}</span>
         </HeroHeader>
         <div className='text-center' style={{ marginTop: 25, marginBottom: 25 }}>
           <div>
@@ -143,7 +150,7 @@ export default class Homepage extends React.Component {
           </div>
         </div>
         <p className='text-center'>
-          {"We provide SASS mixins to customize individual UI elements or even the entire theme!"}
+          {"Email: support@ceres-a-i.com"}
         </p>
       </Hero>
       <div>

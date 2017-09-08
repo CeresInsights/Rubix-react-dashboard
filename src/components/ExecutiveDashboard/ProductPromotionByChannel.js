@@ -150,7 +150,6 @@ export default class ProductPromotionByChannel extends React.Component {
                         <Grid>
                             <Row>
                                 <Col xs={12} className="text-center">
-                                    {/* <Link className="title_link" to={::this.getPath('sub_ppbc')}><h4>Product Promotion By Channel</h4></Link> */}
                                     <Link className="title_link" to="/ltr/sub_ppbc"><h4>Product Promotion By Channel</h4></Link>
                                 </Col>
                             </Row>

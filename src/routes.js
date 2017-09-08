@@ -68,27 +68,25 @@ class Auth extends React.Component {
  * Includes Sidebar, Header and Footer.
  */
 export default (
-  <Router history={browserHistory} >
-    <Route path="/" component={App}>
-      <IndexRoute component={Homepage} />
-      <Route component={Auth}>
-        <Route path='/login' component={Login} />
-        <Route path='/adminlogin' component={AdminLogin} />
-        <Route path='/signup' component={Signup} />
-        <Route path='/queueemail' component={QueueEmail} />
-      </Route>
-      <Route component={Main}>
-        <Route path='/executivedashboard' component={ExecutiveDashboard} />
-        <Route path='/databrowser' component={DataBrowser} />
-        <Route path='/contact' component={Contact} />
-        <Route path='/loaddata' component={LoadData} />
-        <Route path='/sendemail' component={SendEmail} />
-        <Route path='/profile' component={Profile} />
-        <Route path='/sub_campaigns' component={CampaignsPromotionsAndLoyaltyDashboard} />
-        <Route path='/sub_promotion' component={ProductPromotionsByChannel} />
-        <Route path='/sub_product' component={ProductBundle} />
-      </Route>
+  <Route path="/" component={App}>
+    <IndexRoute component={Homepage} />
+    <Route component={Auth}>
+      <Route path='/login' component={Login} />
+      <Route path='/adminlogin' component={AdminLogin} />
+      <Route path='/signup' component={Signup} />
+      <Route path='/queueemail' component={QueueEmail} />
     </Route>
-  </Router>
+    <Route path="/ltr" component={Main}>
+      <Route path='/ltr/executivedashboard' component={ExecutiveDashboard} />
+      <Route path='/ltr/databrowser' component={DataBrowser} />
+      <Route path='/ltr/contact' component={Contact} />
+      <Route path='/ltr/loaddata' component={LoadData} />
+      <Route path='/ltr/sendemail' component={SendEmail} />
+      <Route path='/ltr/profile' component={Profile} />
+      <Route path='/ltr/sub_campaigns' component={CampaignsPromotionsAndLoyaltyDashboard} />
+      <Route path='/ltr/sub_promotion' component={ProductPromotionsByChannel} />
+      <Route path='/ltr/sub_product' component={ProductBundle} />
+    </Route>
+  </Route>
 );
 

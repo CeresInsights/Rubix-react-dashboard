@@ -37,8 +37,6 @@ export default class CampaignsPromotionsAndLoyaltyOptimization extends React.Com
         this.state = {
             csr_total_market: '',
             csr_data: {},
-            bdw_data: {},
-            mad_data: {},
             asi_data: '',
             prod_product_keys: [],
             prod_product_values: []
@@ -65,7 +63,7 @@ export default class CampaignsPromotionsAndLoyaltyOptimization extends React.Com
         apiKey = temp["key"];
         const { dispatch } = this.props;
         dispatch(execDashActions.fetchMadData(apiKey));
-        // dispatch(execDashActions.fetchCsrData(apiKey));
+        dispatch(execDashActions.fetchCsrData(apiKey));
         dispatch(execDashActions.fetchBdwData(apiKey));
         dispatch(execDashActions.fetchAsiData(apiKey));
         dispatch(execDashActions.fetchProdProductData(apiKey));
@@ -90,6 +88,7 @@ export default class CampaignsPromotionsAndLoyaltyOptimization extends React.Com
         /////////csr data operation//////////////
         let temp = {};
         temp = nextProps.csr;
+        console.log("CSR", temp)
         this.setState({ csr_total_market: temp["total_market_spend"] })
         this.setState({ csr_data: temp });
         ////////////api data operation/////////////
@@ -347,7 +346,9 @@ export default class CampaignsPromotionsAndLoyaltyOptimization extends React.Com
                                             <Col md={12}>
                                                 <div className="csr_tile">
                                                     <p className="csr_title">Total Market Spend</p>
+                                                    {this.state.csr_total_market&&
                                                     <p className="csr_content">{this.state.csr_total_market}</p>
+                                                    }
                                                 </div>
                                             </Col>
                                         </Tab.Pane>

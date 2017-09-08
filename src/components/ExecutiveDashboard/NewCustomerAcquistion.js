@@ -114,33 +114,35 @@ export default class NewCustomerAcquistion extends React.Component {
 
         demographics = nextProps.demographics;
         console.log("demographics", demographics)
-        age_avg = demographics["age"]["average"];
+        if (Object.keys(demographics).length > 0) {
+            age_avg = demographics["age"]["average"];
 
-        delete demographics["age"];
-        demo_keys = Object.keys(demographics);
-        demo_keys.map((item) => {
-            demo_contents.push(demographics[item])
-        })
-        demo_contents.map((content) => {
-            demo_contents_keys.push(Object.keys(content));
-        })
-        demo_contents.map((content) => {
-            demo_contents_keys.map((itemArray, index) => {
-                itemArray.map((item) => {
-                    demo_percent_total_item.push(content[item])
-                })
-                demo_percent_total.push(demo_percent_total_item)
-
+            delete demographics["age"];
+            demo_keys = Object.keys(demographics);
+            demo_keys.map((item) => {
+                demo_contents.push(demographics[item])
             })
-        })
-        this.setState({
-            demographics: demographics,
-            age_avg: age_avg,
-            demo_keys: demo_keys,
-            demo_contents: demo_contents,
-            demo_contents_keys: demo_contents_keys,
-            demo_percent_total: demo_percent_total
-        })
+            demo_contents.map((content) => {
+                demo_contents_keys.push(Object.keys(content));
+            })
+            demo_contents.map((content) => {
+                demo_contents_keys.map((itemArray, index) => {
+                    itemArray.map((item) => {
+                        demo_percent_total_item.push(content[item])
+                    })
+                    demo_percent_total.push(demo_percent_total_item)
+
+                })
+            })
+            this.setState({
+                demographics: demographics,
+                age_avg: age_avg,
+                demo_keys: demo_keys,
+                demo_contents: demo_contents,
+                demo_contents_keys: demo_contents_keys,
+                demo_percent_total: demo_percent_total
+            })
+        }
     }
     renderDemographicsPieChart = (index) => {
         (() => {
@@ -168,7 +170,6 @@ export default class NewCustomerAcquistion extends React.Component {
             chart.addData(tmp_array);
         })();
 
-
     }
     renderDemographicsColumnChart = (index) => {
         (() => {
@@ -188,10 +189,10 @@ export default class NewCustomerAcquistion extends React.Component {
                     }
                 },
                 tooltip: {
-                  color: '#D71F4B',
-                  format: {
-                    y: '.2f'
-                  }
+                    color: '#D71F4B',
+                    format: {
+                        y: '.2f'
+                    }
                 },
                 margin: {
                     left: 50
@@ -239,10 +240,10 @@ export default class NewCustomerAcquistion extends React.Component {
                     }
                 },
                 tooltip: {
-                  color: '#D71F4B',
-                  format: {
-                    y: '.2f'
-                  }
+                    color: '#D71F4B',
+                    format: {
+                        y: '.2f'
+                    }
                 },
                 margin: {
                     left: 50
@@ -305,7 +306,7 @@ export default class NewCustomerAcquistion extends React.Component {
     onTabSelect = (key) => {
         let demo_keys = [];
         demo_keys = this.state.demo_keys;
-        if (key === 'pms' && demo_keys.length!==0) {
+        if (key === 'pms' && demo_keys.length !== 0) {
             demo_keys.map((item, index) => {
                 setTimeout(() => {
                     let a = document.getElementById('demographics_pie_chart' + index);
@@ -358,7 +359,7 @@ export default class NewCustomerAcquistion extends React.Component {
                                         <Tab.Pane eventKey="pclv">
                                             <div>RoadMap</div>
                                         </Tab.Pane>
-                                        {this.state.demo_keys.length!==0 &&
+                                        {this.state.demo_keys.length > 0 &&
                                             <Tab.Pane eventKey="pms">
                                                 {this.renderDemographicsData()}
                                             </Tab.Pane>
