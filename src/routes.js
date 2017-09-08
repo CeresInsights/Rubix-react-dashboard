@@ -1,22 +1,13 @@
 import React from 'react';
-import classNames from 'classnames';
-import { IndexRoute, Route, Router } from 'react-router';
-import { Provider } from 'react-redux';
-// import configureStore from './stores/configureStores';
-// import initialState from './reducers/initialState';
-
+import { IndexRoute, Route, Router, browserHistory } from 'react-router';
 import { Grid, Row, Col, MainContainer } from '@sketchpixy/rubix';
-
 /* Common Components */
-
 import Sidebar from './common/sidebar';
 import Header from './common/header';
 import Footer from './common/footer';
 
-/* Pages */
-
 import Homepage from './components/Homepage';
-
+//Executive Dashboard
 import ExecutiveDashboard from './components/ExecutiveDashboard/index';
 
 import Contact from './components/Contact';
@@ -24,6 +15,7 @@ import LoadData from './components/LoadData';
 import SendEmail from './components/SendEmail';
 import Profile from './components/Profile';
 import DataBrowser from './components/DataBrowser';
+//Auth Components
 import Login from './components/authComponents/Login';
 import AdminLogin from './components/authComponents/AdminLogin';
 import Signup from './components/authComponents/Signup';
@@ -43,20 +35,7 @@ class App extends React.Component {
 }
 
 class Main extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-    }
-  }
   render() {
-    var childrenWithMoreProps = React.Children.map(this.props.children, (child) => {
-      return React.cloneElement(child, {
-        third_changed: this.state.tbl_ready,
-        pk: this.state.pk,
-        sk: this.state.sk,
-        ck: this.state.ck
-      });
-    });
     return (
       <MainContainer {...this.props}>
         <Sidebar />
@@ -65,7 +44,7 @@ class Main extends React.Component {
           <Grid>
             <Row>
               <Col xs={12}>
-                {childrenWithMoreProps}
+                {this.props.children}
               </Col>
             </Row>
           </Grid>
@@ -89,25 +68,27 @@ class Auth extends React.Component {
  * Includes Sidebar, Header and Footer.
  */
 export default (
-  <Route path="/" component={App}>
-    <IndexRoute component={Homepage} />
-    <Route component={Auth}>
-      <Route path='/login' component={Login} />
-      <Route path='/adminlogin' component={AdminLogin} />
-      <Route path='/signup' component={Signup} />
-      <Route path='/queueemail' component={QueueEmail} />
+  <Router history={browserHistory} >
+    <Route path="/" component={App}>
+      <IndexRoute component={Homepage} />
+      <Route component={Auth}>
+        <Route path='/login' component={Login} />
+        <Route path='/adminlogin' component={AdminLogin} />
+        <Route path='/signup' component={Signup} />
+        <Route path='/queueemail' component={QueueEmail} />
+      </Route>
+      <Route component={Main}>
+        <Route path='/executivedashboard' component={ExecutiveDashboard} />
+        <Route path='/databrowser' component={DataBrowser} />
+        <Route path='/contact' component={Contact} />
+        <Route path='/loaddata' component={LoadData} />
+        <Route path='/sendemail' component={SendEmail} />
+        <Route path='/profile' component={Profile} />
+        <Route path='/sub_campaigns' component={CampaignsPromotionsAndLoyaltyDashboard} />
+        <Route path='/sub_promotion' component={ProductPromotionsByChannel} />
+        <Route path='/sub_product' component={ProductBundle} />
+      </Route>
     </Route>
-    <Route component={Main}>
-      <Route path='/executivedashboard' component={ExecutiveDashboard} />
-      <Route path='/databrowser' component={DataBrowser} />
-      <Route path='/contact' component={Contact} />
-      <Route path='/loaddata' component={LoadData} />
-      <Route path='/sendemail' component={SendEmail} />
-      <Route path='/profile' component={Profile} />
-      <Route path='/sub_campaigns' component={CampaignsPromotionsAndLoyaltyDashboard} />
-      <Route path='/sub_promotion' component={ProductPromotionsByChannel} />
-      <Route path='/sub_product' component={ProductBundle} />
-    </Route>
-  </Route>
+  </Router>
 );
 

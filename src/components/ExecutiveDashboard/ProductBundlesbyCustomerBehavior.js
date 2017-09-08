@@ -39,8 +39,8 @@ export default class ProductBundlesbyCustomerBehavior extends React.Component {
         this.state = {
             prod_pay_keys: [],
             prod_pay_values: [],
-            prod_product_keys: [],
-            prod_product_values: []
+            product_keys: [],
+            product_values: []
         }
     }
     componentDidMount() {
@@ -50,7 +50,7 @@ export default class ProductBundlesbyCustomerBehavior extends React.Component {
         apiKey = temp["key"];
         const { dispatch } = this.props;
         dispatch(execDashActions.fetchProdPayData(apiKey));
-        dispatch(execDashActions.fetchProdProductData(apiKey));
+        dispatch(execDashActions.fetchProductData(apiKey));
     }
     componentWillReceiveProps(nextProps) {
         ///////ProdPay Data Operation///////////
@@ -69,21 +69,21 @@ export default class ProductBundlesbyCustomerBehavior extends React.Component {
             prod_pay_keys: prod_pay_keys,
             prod_pay_values: prod_pay_values
         })
-        /////////////////ProdProduct Data Operation//////////////
+        /////////////////Product Data Operation//////////////
         let temp_product = {};
-        let prod_product_keys = [];
-        let prod_product_values = [];
+        let product_keys = [];
+        let product_values = [];
 
-        temp_product = nextProps.prodProduct;
-        prod_product_keys = Object.keys(temp_product);
+        temp_product = nextProps.product;
+        product_keys = Object.keys(temp_product);
 
-        prod_product_keys.map((item) => {
-            prod_product_values.push(temp_product[item]["most popular"])
+        product_keys.map((item) => {
+            product_values.push(temp_product[item]["most popular"])
         })
 
         this.setState({
-            prod_product_keys: prod_product_keys,
-            prod_product_values: prod_product_values
+            product_keys: product_keys,
+            product_values: product_values
         })
     }
     renderProdPayTiles = () => {
@@ -105,7 +105,7 @@ export default class ProductBundlesbyCustomerBehavior extends React.Component {
                         <p className="prod_product_percent">{temp_array[i][1]}</p>
                         <div className="prod_product_number_area">
                             <p className="prod_product_number">{temp_array[i][2]}</p>
-                            <p>counts</p>
+                            <p className="counts">counts</p>
                         </div>
                     </div>
                 </div>
@@ -114,44 +114,44 @@ export default class ProductBundlesbyCustomerBehavior extends React.Component {
         return prod_pay_tiles;
     }
 
-    renderProdProductTiles = () => {
-        let prod_product_keys = [];
-        let prod_product_values = [];
+    renderProductTiles = () => {
+        let product_keys = [];
+        let product_values = [];
         let temp_array = [];
 
-        prod_product_keys = this.state.prod_product_keys;
-        prod_product_values = this.state.prod_product_values;
+        product_keys = this.state.product_keys;
+        product_values = this.state.product_values;
 
-        let prod_product_tiles = [];
-        for (let i = 0; i < prod_product_keys.length; i++) {
-            temp_array[i] = prod_product_values[i];
-            prod_product_tiles.push(
+        let product_tiles = [];
+        for (let i = 0; i < product_keys.length; i++) {
+            temp_array[i] = product_values[i];
+            product_tiles.push(
                 <div className="prod_pay_tile">
-                    <p className="prod_pay_title">{prod_product_keys[i]}</p>
+                    <p className="prod_pay_title">{product_keys[i]}</p>
                     <p className="prod_pay_content">{temp_array[i][0]}</p>
                     <div className="prod_pay_bottom">
                         <p className="prod_pay_percent">{temp_array[i][1]}</p>
                         <div className="prod_pay_number_area">
                             <p className="prod_pay_number">{temp_array[i][2]}</p>
-                            <p>counts</p>
+                            <p className="counts">counts</p>
                         </div>
                     </div>
                 </div>
             )
         }
-        return prod_product_tiles;
+        return product_tiles;
     }
 
     render() {
         let prod_pay_keys = [];
         let prod_pay_values = [];
-        let prod_product_keys = [];
-        let prod_product_values = [];
+        let product_keys = [];
+        let product_values = [];
 
         prod_pay_keys = this.state.prod_pay_keys;
         prod_pay_values = this.state.prod_pay_values;
-        prod_product_keys = this.state.prod_product_keys;
-        prod_product_values = this.state.prod_product_values;
+        product_keys = this.state.product_keys;
+        product_values = this.state.product_values;
 
         return (
             <PanelTabContainer id='panel-body-header-footer-both-plain-tabs' defaultActiveKey="cpp">
@@ -184,9 +184,9 @@ export default class ProductBundlesbyCustomerBehavior extends React.Component {
                                                 {this.renderProdPayTiles()}
                                             </Tab.Pane>
                                         }
-                                        {(prod_product_keys !== null && prod_product_values !== null) &&
+                                        {(product_keys !== null && product_values !== null) &&
                                             <Tab.Pane eventKey="cpa">
-                                                {this.renderProdProductTiles()}
+                                                {this.renderProductTiles()}
                                             </Tab.Pane>
                                         }
                                     </Tab.Content>

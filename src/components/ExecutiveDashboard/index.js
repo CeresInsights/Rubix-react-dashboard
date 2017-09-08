@@ -1,10 +1,10 @@
 import React from 'react';
-import { Link } from 'react-router';
 import CampaignsPromotionsAndLoyaltyOptimization from './CampaignsPromotionsAndLoyaltyOptimization';
 import ProductPromotionByChannel from './ProductPromotionByChannel';
 import ProductBundlesbyCustomerBehavior from './ProductBundlesbyCustomerBehavior';
 import NewCustomerAcquistion from './NewCustomerAcquistion';
 import ExportButtonGroup from './ExportButtonGroup';
+import PriceOptimization from './PriceOptimization';
 
 import {
   Row,
@@ -81,48 +81,6 @@ class RealTimeLocationAnalysis extends React.Component {
     );
   }
 }
-
-class PriceOptimization extends React.Component {
-  componentDidMount() {
-
-  }
-  render() {
-    return (
-      <PanelTabContainer id='price-optimization-panel-tab' defaultActiveKey="cslr">
-        <Panel>
-          <PanelHeader className='bg-blue fg-white' style={{ display: 'block' }}>
-            <Grid>
-              <Row>
-                <Col xs={12} className="text-center">
-                  <h4>Price Optimization</h4>
-                </Col>
-              </Row>
-            </Grid>
-            <Nav bsStyle="tabs" className='plain'>
-              <NavItem eventKey="cslr">
-                Customer Spending Limits & Ranges
-              </NavItem>
-            </Nav>
-          </PanelHeader>
-          <PanelBody>
-            <Grid>
-              <Row>
-                <Col xs={12}>
-                  <Tab.Content>
-                    <Tab.Pane eventKey="cslr">
-                      <h3> Customer Spending Limits & Ranges</h3>
-                    </Tab.Pane>
-                  </Tab.Content>
-                </Col>
-              </Row>
-            </Grid>
-          </PanelBody>
-        </Panel>
-      </PanelTabContainer>
-    );
-  }
-}
-
 class MapPanel extends React.Component {
   componentDidMount() {
     setTimeout(() => {
@@ -184,24 +142,6 @@ export default class ExecDashboard extends React.Component {
   constructor(props) {
     super(props);
   }
-  // componentDidMount() {
-  //   let temp = {};
-  //   let apiKey = '';
-  //   temp = this.props.login;
-  //   apiKey = temp["key"];
-  //   console.log("KKKUUUHHH", apiKey)
-  //   const { dispatch } = this.props;
-  //   dispatch(execDashActions.fetchMadData(apiKey));
-  //   dispatch(execDashActions.fetchCsrData(apiKey));
-  //   dispatch(execDashActions.fetchBdwData(apiKey));
-  //   dispatch(execDashActions.fetchAsiData(apiKey));
-  //   dispatch(execDashActions.fetchChannelData(apiKey));
-  //   dispatch(execDashActions.fetchProdPayData(apiKey));
-  //   dispatch(execDashActions.fetchProdProductData(apiKey));
-  //   dispatch(execDashActions.fetchDsaData(apiKey));
-  //   dispatch(execDashActions.fetchProductData(apiKey));
-  //   dispatch(execDashActions.fetchDemographicsData(apiKey));
-  // }
   render() {
     return (
       <div className='execdashboard'>

@@ -70,15 +70,24 @@ export default class Homepage extends React.Component {
       </div>
       <Hero className="second_title">
         <HeroHeader>
-          <span>{"Don't wait for Web Components "}</span>
+          <span>{"Ceres"}</span>
         </HeroHeader>
         <Grid>
           <Row>
             <Col sm={7} collapseLeft collapseRight>
               <p style={{ marginTop: 60 }}>
-                Rubix is built on top of React which uses a Virtual DOM implementation for ultra-high performance and semantic markup coupled with CommonJS for composable Components.
+                “ In this age of the customer, the only sustainable competitive advantage is knowledge of and engagement with customers.” – Forrester Research”
+                  Innovations in technology and the rise of digital have changed the way firms have to communicate with consumers. A great brand can resonate with customers, inspire loyalty, and rejuvenate a company on the edge.
+                  In this new era of customer engagement, what will separate the winners from everyone else is a differentiated brand experience that delivers relevant engagements with compelling personalization regardless of where the customer is.
+                  Yet many firms struggle with gaining the necessary insight from their customer data to confidently answer important business questions such as:
+                  •	Who are our most valuable customers?
+                  •	What are our best-performing channels?
+                  •	What are our most effective campaigns?
+                  •	Are we allocating resources appropriately?
+                  •	What are our best opportunities for growth?
+                  •	Where should we focus our marketing spend?
+                  •	What should we do next to increase our results?
                 </p>
-              <p>The result: <strong>clean and elegant code.</strong></p>
             </Col>
             <Col sm={5} collapseLeft collapseRight>
               <div className='hidden-xs text-right'>

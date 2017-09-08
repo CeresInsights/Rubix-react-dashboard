@@ -8,7 +8,6 @@ import {
   SidebarDivider, DropdownButton, MenuItem, Button
 } from '@sketchpixy/rubix';
 
-import { Link } from 'react-router';
 import { connect } from 'react-redux';
 import * as dataActions from '../actions/dataActions';
 import * as execDashActions from '../actions/execDashActions';
@@ -126,7 +125,7 @@ export default class ApplicationSidebar extends React.Component {
       ck: '',
     })
     const { dispatch } = this.props;
-    dispatch(dataActions.fetchDefaultKeys(this.state.apiKey));
+    dispatch(dataActions.fetchSelectedKeysData(this.state.apiKey, 'country', 'united_states', 'purchase_log_csv'));
   }
   render() {
     let _this = this;

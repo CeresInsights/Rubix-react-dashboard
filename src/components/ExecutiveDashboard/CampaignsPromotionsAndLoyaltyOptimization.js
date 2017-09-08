@@ -40,6 +40,8 @@ export default class CampaignsPromotionsAndLoyaltyOptimization extends React.Com
             bdw_data: {},
             mad_data: {},
             asi_data: '',
+            prod_product_keys: [],
+            prod_product_values: []
         }
     }
     getObjectKeyIndex(obj, keyToFind) {
@@ -63,27 +65,27 @@ export default class CampaignsPromotionsAndLoyaltyOptimization extends React.Com
         apiKey = temp["key"];
         const { dispatch } = this.props;
         dispatch(execDashActions.fetchMadData(apiKey));
-        dispatch(execDashActions.fetchCsrData(apiKey));
+        // dispatch(execDashActions.fetchCsrData(apiKey));
         dispatch(execDashActions.fetchBdwData(apiKey));
         dispatch(execDashActions.fetchAsiData(apiKey));
-        dispatch(execDashActions.fetchChannelData(apiKey));
+        dispatch(execDashActions.fetchProdProductData(apiKey));
     }
     componentWillReceiveProps(nextProps) {
 
         //// sma channel data operation///////////
-        let sma_channel = {};
-        let sma_channel_keys = [];
-        let sma_channel_values = [];
+        let prod_product = {};
+        let prod_product_keys = [];
+        let prod_product_values = [];
 
-        sma_channel = nextProps.channel
-        sma_channel_keys = Object.keys(sma_channel);
+        prod_product = nextProps.prodProduct;
+        prod_product_keys = Object.keys(prod_product);
 
-        sma_channel_keys.map((item) => {
-            sma_channel_values.push(sma_channel[item]["most popular"])
+        prod_product_keys.map((item) => {
+            prod_product_values.push(prod_product[item]["most popular"])
         })
         this.setState({
-            sma_channel_keys: sma_channel_keys,
-            sma_channel_values: sma_channel_values
+            prod_product_keys: prod_product_keys,
+            prod_product_values: prod_product_values
         })
         /////////csr data operation//////////////
         let temp = {};
@@ -107,21 +109,19 @@ export default class CampaignsPromotionsAndLoyaltyOptimization extends React.Com
                     },
                     y: {
                         type: 'linear',
-                        tickFormat: 'd',
-                        tickCount: 5
+                        tickFormat: '.2f',
                     }
                 },
-                // tooltip: {
-                //   color: '#D71F4B',
-                //   format: {
-                //     y: '.0f'
-                //   }
-                // },
+                tooltip: {
+                  color: '#D71F4B',
+                  format: {
+                    y: '.2f'
+                  }
+                },
                 margin: {
                     left: 50
                 },
                 grouped: false,
-                show_markers: true
             });
 
             var bdw = bdw_chart.column_series({
@@ -132,7 +132,7 @@ export default class CampaignsPromotionsAndLoyaltyOptimization extends React.Com
             var tmp = nextProps.bdw;
             var tmp_array = [];
             for (var i in tmp) {
-                var t = new Object;
+                var t = {};
                 t.x = i;
                 t.y = tmp[i];
                 tmp_array.push(t);
@@ -153,21 +153,19 @@ export default class CampaignsPromotionsAndLoyaltyOptimization extends React.Com
                     },
                     y: {
                         type: 'linear',
-                        tickFormat: 'd',
-                        tickCount: 5
+                        tickFormat: '.2f',
                     }
                 },
-                // tooltip: {
-                //     color: '#D71F4B',
-                //     format: {
-                //         y: '.0f'
-                //     }
-                // },
+                tooltip: {
+                    color: '#D71F4B',
+                    format: {
+                        y: '.2f'
+                    }
+                },
                 margin: {
                     left: 50
                 },
                 grouped: false,
-                show_markers: true
             });
 
             var mad = mad_chart.column_series({
@@ -178,12 +176,11 @@ export default class CampaignsPromotionsAndLoyaltyOptimization extends React.Com
             tmp = nextProps.mad;
             tmp_array = [];
             for (var i in tmp) {
-                var t = new Object;
+                var t = {};
                 t.x = i;
                 t.y = tmp[i];
                 tmp_array.push(t);
             }
-            // console.log("MAD ARRARY", tmp_array)
             mad.addData(tmp_array);
 
             ///////////////// CSR Charts/////////////////////
@@ -199,7 +196,7 @@ export default class CampaignsPromotionsAndLoyaltyOptimization extends React.Com
             delete csr_data["total_market_spend"];
             var tmp_array = [];
             for (var i in csr_data) {
-                var t = new Object;
+                var t = {};
                 t.name = i;
                 t.value = csr_data[i]["market_share_%"];
                 t.color = color_array[this.getObjectKeyIndex(csr_data, i)];
@@ -221,21 +218,19 @@ export default class CampaignsPromotionsAndLoyaltyOptimization extends React.Com
                     },
                     y: {
                         type: 'linear',
-                        tickFormat: 'd',
-                        tickCount: 5
+                        tickFormat: '.0f',
                     }
                 },
-                // tooltip: {
-                //   color: '#D71F4B',
-                //   format: {
-                //     y: '.0f'
-                //   }
-                // },
+                tooltip: {
+                  color: '#D71F4B',
+                  format: {
+                    y: '.2f'
+                  }
+                },
                 margin: {
                     left: 50
                 },
                 grouped: true,
-                show_markers: true
             });
 
             var high_bar = csr_bar_chart.column_series({
@@ -254,8 +249,8 @@ export default class CampaignsPromotionsAndLoyaltyOptimization extends React.Com
             let low_array = [];
 
             for (var i in csr_data) {
-                var high = new Object;
-                var low = new Object;
+                var high = {};
+                var low = {};
                 high.x = i;
                 high.y = csr_data[i]["high"];
                 high_array.push(high);
@@ -272,34 +267,33 @@ export default class CampaignsPromotionsAndLoyaltyOptimization extends React.Com
     }
 
 
-    renderSmaChannel = () => {
-        let sma_channel_keys = [];
-        let sma_channel_values = [];
+    renderProdProduct = () => {
+        let prod_product_keys = [];
+        let prod_product_values = [];
         let temp_array = [];
 
-        sma_channel_keys = this.state.sma_channel_keys;
-        sma_channel_values = this.state.sma_channel_values;
+        prod_product_keys = this.state.prod_product_keys;
+        prod_product_values = this.state.prod_product_values;
 
-        let sma_channel_tiles = [];
-        for (let i = 0; i < sma_channel_keys.length; i++) {
-            temp_array[i] = sma_channel_values[i];
-            sma_channel_tiles.push(
-                <div className="sma_channel_tile">
-                    <p className="sma_channel_title">{sma_channel_keys[i]}</p>
-                    <p className="sma_channel_content">{temp_array[i][0]}</p>
-                    <div className="sma_channel_bottom">
-                        <p className="sma_channel_percent">{temp_array[i][1]}</p>
-                        <div className="sma_channel_number_area">
-                            <p className="sma_channel_number">{temp_array[i][2]}</p>
-                            <p>counts</p>
+        let prod_product_tiles = [];
+        for (let i = 0; i < prod_product_keys.length; i++) {
+            temp_array[i] = prod_product_values[i];
+            prod_product_tiles.push(
+                <div className="prod_pay_tile">
+                    <p className="prod_pay_title">{prod_product_keys[i]}</p>
+                    <p className="prod_pay_content">{temp_array[i][0]}</p>
+                    <div className="prod_pay_bottom">
+                        <p className="prod_pay_percent">{temp_array[i][1]}</p>
+                        <div className="prod_pay_number_area">
+                            <p className="prod_pay_number">{temp_array[i][2]}</p>
+                            <p className="counts">counts</p>
                         </div>
                     </div>
                 </div>
             )
         }
-        return sma_channel_tiles;
+        return prod_product_tiles;
     }
-
     render() {
 
         return (
@@ -342,9 +336,9 @@ export default class CampaignsPromotionsAndLoyaltyOptimization extends React.Com
                                                 </div>
                                             </div>
                                         </Tab.Pane>
-                                        {(this.state.sma_channel_keys !== null && this.state.sma_channel_values) &&
+                                        {(this.state.prod_product_keys !== null && this.state.prod_product_values) &&
                                             <Tab.Pane eventKey="ple">
-                                                {this.renderSmaChannel()}
+                                                {this.renderProdProduct()}
                                             </Tab.Pane>
                                         }
                                         <Tab.Pane eventKey="csr">

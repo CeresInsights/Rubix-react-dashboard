@@ -38,8 +38,8 @@ export default class ProductPromotionByChannel extends React.Component {
         this.state = {
             dsa_keys: [],
             dsa_values: [],
-            sma_product_keys: [],
-            sma_product_values: [],
+            sma_channel_keys: [],
+            sma_channel_values: [],
             dsa_data: {}
         }
     }
@@ -50,22 +50,22 @@ export default class ProductPromotionByChannel extends React.Component {
         apiKey = temp["key"];
         const { dispatch } = this.props;
         dispatch(execDashActions.fetchDsaData(apiKey));
-        dispatch(execDashActions.fetchProductData(apiKey));
+        dispatch(execDashActions.fetchChannelData(apiKey));
     }
     componentWillReceiveProps(nextProps) {
         ////////////////SMA Product Data operation/////////////////
-        let temp_product = {};
-        let sma_product_keys = [];
-        let sma_product_values = [];
+        let temp_channel = {};
+        let sma_channel_keys = [];
+        let sma_channel_values = [];
         
-        temp_product = nextProps.product;
-        sma_product_keys = Object.keys(temp_product);
-        sma_product_keys.map((item) => {
-            sma_product_values.push(temp_product[item]["most popular"])
+        temp_channel = nextProps.channel;
+        sma_channel_keys = Object.keys(temp_channel);
+        sma_channel_keys.map((item) => {
+            sma_channel_values.push(temp_channel[item]["most popular"])
         })
         this.setState({
-            sma_product_keys: sma_product_keys,
-            sma_product_values: sma_product_values
+            sma_channel_keys: sma_channel_keys,
+            sma_channel_values: sma_channel_values
         })
         /////////////////DSA Data Operation/////////////////////
         let temp_dsa = {};
@@ -83,31 +83,31 @@ export default class ProductPromotionByChannel extends React.Component {
         })
     }
 
-    renderSmaProductTiles = () => {
-        let sma_product_keys = [];
-        let sma_product_values = [];
+    renderSmaChannelTiles = () => {
+        let sma_channel_keys = [];
+        let sma_channel_values = [];
         let temp_array = [];
 
-        sma_product_keys = this.state.sma_product_keys;
-        sma_product_values = this.state.sma_product_values;
-        let product_tiles = [];
-        for (let i = 0; i < sma_product_keys.length; i++) {
-            temp_array[i] = sma_product_values[i];
-            product_tiles.push(
-                <div className="sma_product_tile">
-                    <p className="sma_product_title">{sma_product_keys[i]}</p>
-                    <p className="sma_product_content">{temp_array[i][0]}</p>
-                    <div className="sma_product_bottom">
-                        <p className="sma_product_percent">{temp_array[i][1]}</p>
-                        <div className="sma_product_number_area">
-                            <p className="sma_product_number">{temp_array[i][2]}</p>
-                            <p>counts</p>
+        sma_channel_keys = this.state.sma_channel_keys;
+        sma_channel_values = this.state.sma_channel_values;
+        let channel_tiles = [];
+        for (let i = 0; i < sma_channel_keys.length; i++) {
+            temp_array[i] = sma_channel_values[i];
+            channel_tiles.push(
+                <div className="sma_channel_tile">
+                    <p className="sma_channel_title">{sma_channel_keys[i]}</p>
+                    <p className="sma_channel_content">{temp_array[i][0]}</p>
+                    <div className="sma_channel_bottom">
+                        <p className="sma_channel_percent">{temp_array[i][1]}</p>
+                        <div className="sma_channel_number_area">
+                            <p className="sma_channel_number">{temp_array[i][2]}</p>
+                            <p className="counts">counts</p>
                         </div>
                     </div>
                 </div>
             )
         }
-        return product_tiles;
+        return channel_tiles;
     }
     renderDsaTiles = () => {
         let dsa_keys = [];
@@ -128,7 +128,7 @@ export default class ProductPromotionByChannel extends React.Component {
                         <p className="dsa_percent">{temp_array[i][1]}</p>
                         <div className="dsa_number_area">
                             <p className="dsa_number">{temp_array[i][2]}</p>
-                            <p>counts</p>
+                            <p className="counts">counts</p>
                         </div>
                     </div>
                 </div>
@@ -137,8 +137,8 @@ export default class ProductPromotionByChannel extends React.Component {
         return dsa_tiles;
     }
     render() {
-        let sma_product_keys = [];
-        let sma_product_values = [];
+        let sma_channel_keys = [];
+        let sma_channel_values = [];
         let dsa_keys = [];
         let dsa_values = [];
         dsa_keys = this.state.dsa_keys;
@@ -169,9 +169,9 @@ export default class ProductPromotionByChannel extends React.Component {
                             <Row>
                                 <Col xs={12}>
                                     <Tab.Content>
-                                        {(sma_product_keys !== null && sma_product_values !== null) &&
+                                        {(sma_channel_keys !== null && sma_channel_values !== null) &&
                                             <Tab.Pane eventKey="sma">
-                                                {this.renderSmaProductTiles()}
+                                                {this.renderSmaChannelTiles()}
                                             </Tab.Pane>
                                         }
                                         {(dsa_keys !== null && dsa_values !== null) &&

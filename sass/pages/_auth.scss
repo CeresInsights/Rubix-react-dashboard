@@ -260,8 +260,8 @@ html.authentication {
   float: left;
   margin: 50px;
   padding: 10px;
-  width: 200px;
-  height: 200px;
+  width: 250px;
+  height: 250px;
   background: #FF7F27;
   box-shadow: 10px 10px 5px #888888;
 }
@@ -274,7 +274,7 @@ html.authentication {
 }
 
 .sma_channel_content {
-  font-size: 14px;
+  font-size: 20px;
   text-align: center;
   font-weight: bold;
   color: #FFFFFF
@@ -293,7 +293,7 @@ html.authentication {
 }
 
 .sma_channel_number {
-  font-size: 12px;
+  font-size: 28px;
   font-weight: bold;
   color: #FFFFFF
 }
@@ -379,8 +379,8 @@ html.authentication {
   float: left;
   margin: 50px;
   padding: 10px;
-  width: 200px;
-  height: 200px;
+  width: 250px;
+  height: 250px;
   background: #8081FF;
   box-shadow: 10px 10px 5px #888888;
 }
@@ -400,7 +400,7 @@ html.authentication {
 }
 
 .dsa_bottom {
-  margin-top: 50px
+  margin-top: 30px
 }
 
 .dsa_percent {
@@ -412,7 +412,7 @@ html.authentication {
 }
 
 .dsa_number {
-  font-size: 12px;
+  font-size: 28px;
   font-weight: bold;
   color: #FFFFFF
 }
@@ -428,8 +428,8 @@ html.authentication {
   float: left;
   margin: 50px;
   padding: 10px;
-  width: 200px;
-  height: 200px;
+  width: 250px;
+  height: 250px;
   background: #8081FF;
   box-shadow: 10px 10px 5px #888888;
 }
@@ -449,7 +449,7 @@ html.authentication {
 }
 
 .prod_pay_bottom {
-  margin-top: 50px
+  margin-top: 30px
 }
 
 .prod_pay_percent {
@@ -461,7 +461,7 @@ html.authentication {
 }
 
 .prod_pay_number {
-  font-size: 12px;
+  font-size: 30px;
   font-weight: bold;
   color: #FFFFFF
 }
@@ -477,8 +477,8 @@ html.authentication {
   float: left;
   margin: 50px;
   padding: 10px;
-  width: 200px;
-  height: 200px;
+  width: 250px;
+  height: 250px;
   background: #8081FF;
   box-shadow: 10px 10px 5px #888888;
 }
@@ -498,7 +498,7 @@ html.authentication {
 }
 
 .prod_product_bottom {
-  margin-top: 50px
+  margin-top: 30px
 }
 
 .prod_product_percent {
@@ -510,7 +510,7 @@ html.authentication {
 }
 
 .prod_product_number {
-  font-size: 12px;
+  font-size: 28px;
   font-weight: bold;
   color: #FFFFFF
 }
@@ -544,6 +544,9 @@ html.authentication {
   font-size: 42px;
   text-align: center;
   color: #FFFFFF;
+}
+.counts {
+  font-size: 20px
 }
 ////////////////////////Sub Dashboard Campaigns App PLE///////////////////
 ///////best recommender////////////

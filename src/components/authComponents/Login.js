@@ -38,15 +38,12 @@ export default class Login extends React.Component {
   componentWillReceiveProps(nextProps) {
     let loginData = {};
     loginData = nextProps.login;
-    if(typeof(loginData)!=='object'){
+    if (typeof (loginData) !== 'object') {
       this.errorNotification(loginData)
     }
     if (loginData["status"] === 'User Login Successful') {
       browserHistory.push('/executivedashboard');
-      this.setState({
-        loginStatus: true
-      })
-    } 
+    }
   }
 
   proceed_login = (e) => {
@@ -75,6 +72,7 @@ export default class Login extends React.Component {
   }
 
   render() {
+    console.log("LoginStatus", this.state.loginStatus)
     return (
       <div id='auth-container' className='login'>
         <div id='auth-row'>
@@ -92,45 +90,40 @@ export default class Login extends React.Component {
                           <div style={{ padding: 25, paddingTop: 0, paddingBottom: 0, margin: 'auto', marginBottom: 25, marginTop: 25 }}>
                             <Form onSubmit={this.proceed_login}>
                               <FormGroup controlId='username'>
-                              <InputGroup bsSize='large'>
-                                <InputGroup.Addon>
-                                  <Icon glyph='icon-fontello-mail' />
-                                </InputGroup.Addon>
-                                <FormControl autoFocus type='text' className='border-focus-blue' placeholder='Username' ref={(username) => this.username = username} />
-                              </InputGroup>
-                            </FormGroup>
-                            <FormGroup controlId='password'>
-                              <InputGroup bsSize='large'>
-                                <InputGroup.Addon>
-                                  <Icon glyph='icon-fontello-key' />
-                                </InputGroup.Addon>
-                                <FormControl type='password' className='border-focus-blue' placeholder='password' ref={(password) => this.password = password} />
-                              </InputGroup>
-                            </FormGroup>
-                            <FormGroup>
-                              <Grid>
-                                <Row>
-                                  <Col xs={6} collapseLeft collapseRight style={{ paddingTop: 10 }}>
-                                    <Link to="/signup">Create a CERES account</Link>
-                                  </Col>
-                                  <Col xs={6} collapseLeft collapseRight className='text-right'>
-                                    {this.state.loginStatus &&
-                                      <Button outlined lg type='submit' bsStyle='blue' onClick={this.proceed_login} href="/executivedashboard">Login</Button>
-                                    }
-                                    {!this.state.loginStatus &&
-                                      <Button outlined lg type='submit' bsStyle='blue' onClick={this.proceed_login}>Login</Button>
-                                    }
-                                  </Col>
-                                </Row>
-                                <Row>
-                                  <Col xs={6} collapseLeft collapseRight style={{ paddingTop: 10 }}>
-                                    <Link to="/adminlogin">You have admin account?</Link>
-                                  </Col>
-                                </Row>
-                              </Grid>
-                            </FormGroup>
+                                <InputGroup bsSize='large'>
+                                  <InputGroup.Addon>
+                                    <Icon glyph='icon-fontello-mail' />
+                                  </InputGroup.Addon>
+                                  <FormControl autoFocus type='text' className='border-focus-blue' placeholder='Username' ref={(username) => this.username = username} />
+                                </InputGroup>
+                              </FormGroup>
+                              <FormGroup controlId='password'>
+                                <InputGroup bsSize='large'>
+                                  <InputGroup.Addon>
+                                    <Icon glyph='icon-fontello-key' />
+                                  </InputGroup.Addon>
+                                  <FormControl type='password' className='border-focus-blue' placeholder='password' ref={(password) => this.password = password} />
+                                </InputGroup>
+                              </FormGroup>
+                              <FormGroup>
+                                <Grid>
+                                  <Row>
+                                    <Col xs={6} collapseLeft collapseRight style={{ paddingTop: 10 }}>
+                                      <Link to="/signup">Create a CERES account</Link>
+                                    </Col>
+                                    <Col xs={6} collapseLeft collapseRight className='text-right'>
+                                      <Button outlined lg type='submit' bsStyle='blue'>Login</Button>
+                                    </Col>
+                                  </Row>
+                                  <Row>
+                                    <Col xs={6} collapseLeft collapseRight style={{ paddingTop: 10 }}>
+                                      <Link to="/adminlogin">You have admin account?</Link>
+                                    </Col>
+                                  </Row>
+                                </Grid>
+                              </FormGroup>
                             </Form>
-                        </div>
+                          </div>
                         </div>
                       </PanelBody>
                     </Panel>
@@ -138,14 +131,9 @@ export default class Login extends React.Component {
                 </Col>
               </Row>
             </Grid>
-        </div>
-      </div >
+          </div>
+        </div >
       </div >
     );
   }
 }
-
-// const mapStateToProps = (state) => ({
-//     loginData: state.authReducer.loginData,
-// })
-// export default connect(mapStateToProps)(Login);

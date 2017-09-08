@@ -180,23 +180,23 @@ export default class NewCustomerAcquistion extends React.Component {
                 axis: {
                     x: {
                         type: 'ordinal',
+                        tickCount: 0
                     },
                     y: {
                         type: 'linear',
-                        tickFormat: 'd'
+                        tickFormat: '.2f'
                     }
                 },
-                // tooltip: {
-                //   color: '#D71F4B',
-                //   format: {
-                //     y: '.0f'
-                //   }
-                // },
+                tooltip: {
+                  color: '#D71F4B',
+                  format: {
+                    y: '.2f'
+                  }
+                },
                 margin: {
                     left: 50
                 },
                 grouped: false,
-                show_markers: true
             });
 
             var demographics_column = chart.column_series({
@@ -231,23 +231,23 @@ export default class NewCustomerAcquistion extends React.Component {
                 axis: {
                     x: {
                         type: 'ordinal',
+                        tickCount: 0
                     },
                     y: {
                         type: 'linear',
-                        tickFormat: 'd'
+                        tickFormat: '.2f',
                     }
                 },
-                // tooltip: {
-                //   color: '#D71F4B',
-                //   format: {
-                //     y: '.0f'
-                //   }
-                // },
+                tooltip: {
+                  color: '#D71F4B',
+                  format: {
+                    y: '.2f'
+                  }
+                },
                 margin: {
                     left: 50
                 },
                 grouped: false,
-                show_markers: true
             });
 
             var demographics_bar = chart.bar_series({
@@ -305,7 +305,7 @@ export default class NewCustomerAcquistion extends React.Component {
     onTabSelect = (key) => {
         let demo_keys = [];
         demo_keys = this.state.demo_keys;
-        if (key === 'pms') {
+        if (key === 'pms' && demo_keys.length!==0) {
             demo_keys.map((item, index) => {
                 setTimeout(() => {
                     let a = document.getElementById('demographics_pie_chart' + index);
@@ -356,10 +356,9 @@ export default class NewCustomerAcquistion extends React.Component {
                                 <Col xs={12}>
                                     <Tab.Content>
                                         <Tab.Pane eventKey="pclv">
-                                            {/* <MaleFemaleChart /> */}
-                                            <div>good</div>
+                                            <div>RoadMap</div>
                                         </Tab.Pane>
-                                        {this.state.demographics &&
+                                        {this.state.demo_keys.length!==0 &&
                                             <Tab.Pane eventKey="pms">
                                                 {this.renderDemographicsData()}
                                             </Tab.Pane>
