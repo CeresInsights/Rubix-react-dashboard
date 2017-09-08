@@ -167,12 +167,10 @@ export default class PriceOptimization extends React.Component {
                       <div id="csr_pie_chart1"></div>
                       <div id="csr_bar_chart1"></div>
                       <Col md={12}>
-                        {Object.keys(this.state.csr_data).length !== 0 &&
+                        {(Object.keys(this.state.csr_data).length !== 0 && this.state.csr_total_market.length !== 0) &&
                           <div className="csr_tile">
                             <p className="csr_title">Total Market Spend</p>
-                            {this.state.csr_total_market &&
-                              <p className="csr_content">{this.state.csr_total_market}</p>
-                            }
+                            <p className="csr_content">{this.state.csr_total_market}</p>
                           </div>
                         }
                       </Col>
@@ -187,3 +185,4 @@ export default class PriceOptimization extends React.Component {
     );
   }
 }
+

@@ -55,8 +55,8 @@ export default class NewCustomerAcquistion extends React.Component {
         let demo_percent_total_item = [];
 
         demographics = nextProps.demographics;
-        console.log("demographics", demographics)
-        if (Object.keys(demographics).length > 0) {
+        // if (Object.keys(demographics).length > 0) {
+            console.log("demographics", demographics)
             age_avg = demographics["age"]["average"];
 
             delete demographics["age"];
@@ -104,7 +104,7 @@ export default class NewCustomerAcquistion extends React.Component {
                 demo_contents_keys: demo_contents_keys,
                 demo_percent_total: demo_percent_total
             })
-        }
+        
     }
     renderDemographicsPieChart = (index) => {
         (() => {
