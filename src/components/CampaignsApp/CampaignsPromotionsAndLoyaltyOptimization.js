@@ -199,6 +199,26 @@ export default class CampaignsPromotionsAndLoyaltyOptimization extends React.Com
                     bestRecommenderContentsChannel.push(item)
                 }
             })
+            recommenderTypesChannel.map((item, index) => {
+                setTimeout(() => {
+                    let a = document.getElementById('channel_spectro_line_chart' + index);
+                    if (a) {
+                        this.renderSpectroLineChart(index);
+                    }
+                }, 150)
+                setTimeout(() => {
+                    let b = document.getElementById('channel_optimizer_column_chart' + index);
+                    if (b) {
+                        this.renderOptimizerColumnChart(index);
+                    }
+                }, 150)
+                setTimeout(() => {
+                    let c = document.getElementById('channel_optimizer_bar_chart' + index);
+                    if (c) {
+                        this.renderOptimizerBarChart(index);
+                    }
+                }, 150)
+            })
             /////////Main Tile Data Fetch/////////////
             this.setState({
                 recommenderTypesChannel: recommenderTypesChannel,
@@ -214,18 +234,6 @@ export default class CampaignsPromotionsAndLoyaltyOptimization extends React.Com
     }
     componentDidMount() {
 
-        let temp = {};
-        let apiKey = '';
-        temp = this.props.login;
-        apiKey = temp["key"];
-        const { dispatch } = this.props;
-        dispatch(execDashActions.fetchMadData(apiKey));
-        dispatch(execDashActions.fetchCsrData(apiKey));
-        dispatch(execDashActions.fetchBdwData(apiKey));
-        dispatch(execDashActions.fetchAsiData(apiKey));
-
-        dispatch(subDashActions.fetchChannelData(apiKey));
-        dispatch(subDashActions.fetchChannelRecommenderData(apiKey));
 
     }
     componentDidUpdate() {
@@ -354,7 +362,7 @@ export default class CampaignsPromotionsAndLoyaltyOptimization extends React.Com
                     },
                     y: {
                         type: 'linear',
-                        tickFormat: '.2f',
+                        tickFormat: '.0f',
                     }
                 },
                 tooltip: {
@@ -429,7 +437,6 @@ export default class CampaignsPromotionsAndLoyaltyOptimization extends React.Com
                     left: 50
                 },
                 grouped: false,
-                show_markers: true
             });
 
             var spectrogram = chart.line_series({
@@ -604,33 +611,33 @@ export default class CampaignsPromotionsAndLoyaltyOptimization extends React.Com
             </Grid>
         )
     }
-    onTabSelect = (key) => {
-        let recommenderTypesChannel = [];
-        recommenderTypesChannel = this.state.recommenderTypesChannel;
-        if (key === 'ple') {
-            recommenderTypesChannel.map((item, index) => {
-                setTimeout(() => {
-                    let a = document.getElementById('channel_spectro_line_chart' + index);
-                    if (a) {
-                        this.renderSpectroLineChart(index);
-                    }
-                }, 150)
-                setTimeout(() => {
-                    let b = document.getElementById('channel_optimizer_column_chart' + index);
-                    if (b) {
-                        this.renderOptimizerColumnChart(index);
-                    }
-                }, 150)
-                setTimeout(() => {
-                    let c = document.getElementById('channel_optimizer_bar_chart' + index);
-                    if (c) {
-                        this.renderOptimizerBarChart(index);
-                    }
-                }, 150)
-            })
-        }
+    // onTabSelect = (key) => {
+    //     let recommenderTypesChannel = [];
+    //     recommenderTypesChannel = this.state.recommenderTypesChannel;
+    //     if (key === 'ple') {
+    //         recommenderTypesChannel.map((item, index) => {
+    //             setTimeout(() => {
+    //                 let a = document.getElementById('channel_spectro_line_chart' + index);
+    //                 if (a) {
+    //                     this.renderSpectroLineChart(index);
+    //                 }
+    //             }, 150)
+    //             setTimeout(() => {
+    //                 let b = document.getElementById('channel_optimizer_column_chart' + index);
+    //                 if (b) {
+    //                     this.renderOptimizerColumnChart(index);
+    //                 }
+    //             }, 150)
+    //             setTimeout(() => {
+    //                 let c = document.getElementById('channel_optimizer_bar_chart' + index);
+    //                 if (c) {
+    //                     this.renderOptimizerBarChart(index);
+    //                 }
+    //             }, 150)
+    //         })
+    //     }
 
-    }
+    // }
     render() {
         let csr_total_market = '';
         csr_total_market = this.state.csr_total_market;

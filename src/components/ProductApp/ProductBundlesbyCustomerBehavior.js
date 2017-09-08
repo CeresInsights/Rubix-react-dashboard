@@ -201,7 +201,26 @@ export default class ProductBundlesbyCustomerBehavior extends React.Component {
                     bestRecommenderContentsPay.push(item)
                 }
             })
-
+            recommenderTypesPay.map((item, index) => {
+                setTimeout(() => {
+                    let a = document.getElementById('pay_spectro_line_chart' + index);
+                    if (a) {
+                        this.renderSpectroLineChartPay(index);
+                    }
+                }, 150)
+                setTimeout(() => {
+                    let b = document.getElementById('pay_optimizer_column_chart' + index);
+                    if (b) {
+                        this.renderOptimizerColumnChartPay(index);
+                    }
+                }, 150)
+                setTimeout(() => {
+                    let c = document.getElementById('pay_optimizer_bar_chart' + index);
+                    if (c) {
+                        this.renderOptimizerBarChartPay(index);
+                    }
+                }, 150)
+            })
             this.setState({
                 recommenderTypesPay: recommenderTypesPay,
                 recommenderTitlesPay: recommenderTitlesPay,
@@ -274,6 +293,26 @@ export default class ProductBundlesbyCustomerBehavior extends React.Component {
                     bestRecommenderContentsProd.push(item)
                 }
             })
+            recommenderTypesProd.map((item, index) => {
+                setTimeout(() => {
+                    let a = document.getElementById('prod_spectro_line_chart' + index);
+                    if (a) {
+                        this.renderSpectroLineChartProd(index);
+                    }
+                }, 150)
+                setTimeout(() => {
+                    let b = document.getElementById('prod_optimizer_column_chart' + index);
+                    if (b) {
+                        this.renderOptimizerColumnChartProd(index);
+                    }
+                }, 150)
+                setTimeout(() => {
+                    let c = document.getElementById('prod_optimizer_bar_chart' + index);
+                    if (c) {
+                        this.renderOptimizerBarChartProd(index);
+                    }
+                }, 150)
+            })
             this.setState({
                 recommenderTypesProd: recommenderTypesProd,
                 recommenderTitlesProd: recommenderTitlesProd,
@@ -286,19 +325,6 @@ export default class ProductBundlesbyCustomerBehavior extends React.Component {
                 optimizer_data_prod: optimizer_data_prod
             })
         }
-    }
-    componentDidMount() {
-
-        let temp = {};
-        let apiKey = '';
-        temp = this.props.login;
-        apiKey = temp["key"];
-        const { dispatch } = this.props;
-        dispatch(subDashActions.fetchProdPayData(apiKey));
-        dispatch(subDashActions.fetchProdPayRecommenderData(apiKey));
-        dispatch(subDashActions.fetchProdProductData(apiKey));
-        dispatch(subDashActions.fetchProdProductRecommenderData(apiKey));
-
     }
     renderSpectroLineChartPay = (index) => {
 
@@ -700,59 +726,59 @@ export default class ProductBundlesbyCustomerBehavior extends React.Component {
             </Grid>
         )
     }
-    onTabSelect = (key) => {
-        let recommenderTypesPay = [];
-        let recommenderTypesProd = [];
-        recommenderTypesPay = this.state.recommenderTypesPay;
-        recommenderTypesProd = this.state.recommenderTypesProd;
-        if (key === 'cpp') {
-            recommenderTypesPay.map((item, index) => {
-                setTimeout(() => {
-                    let a = document.getElementById('pay_spectro_line_chart' + index);
-                    if (a) {
-                        this.renderSpectroLineChartPay(index);
-                    }
-                }, 150)
-                setTimeout(() => {
-                    let b = document.getElementById('pay_optimizer_column_chart' + index);
-                    if (b) {
-                        this.renderOptimizerColumnChartPay(index);
-                    }
-                }, 150)
-                setTimeout(() => {
-                    let c = document.getElementById('pay_optimizer_bar_chart' + index);
-                    if (c) {
-                        this.renderOptimizerBarChartPay(index);
-                    }
-                }, 150)
-            })
-        }
-        if (key === 'cpa') {
-            recommenderTypesProd.map((item, index) => {
-                setTimeout(() => {
-                    let a = document.getElementById('prod_spectro_line_chart' + index);
-                    if (a) {
-                        this.renderSpectroLineChartProd(index);
-                    }
-                }, 150)
-                setTimeout(() => {
-                    let b = document.getElementById('prod_optimizer_column_chart' + index);
-                    if (b) {
-                        this.renderOptimizerColumnChartProd(index);
-                    }
-                }, 150)
-                setTimeout(() => {
-                    let c = document.getElementById('prod_optimizer_bar_chart' + index);
-                    if (c) {
-                        this.renderOptimizerBarChartProd(index);
-                    }
-                }, 150)
-            })
-        }
-    }
+    // onTabSelect = (key) => {
+    //     let recommenderTypesPay = [];
+    //     let recommenderTypesProd = [];
+    //     recommenderTypesPay = this.state.recommenderTypesPay;
+    //     recommenderTypesProd = this.state.recommenderTypesProd;
+    //     if (key === 'cpp') {
+    //         recommenderTypesPay.map((item, index) => {
+    //             setTimeout(() => {
+    //                 let a = document.getElementById('pay_spectro_line_chart' + index);
+    //                 if (a) {
+    //                     this.renderSpectroLineChartPay(index);
+    //                 }
+    //             }, 150)
+    //             setTimeout(() => {
+    //                 let b = document.getElementById('pay_optimizer_column_chart' + index);
+    //                 if (b) {
+    //                     this.renderOptimizerColumnChartPay(index);
+    //                 }
+    //             }, 150)
+    //             setTimeout(() => {
+    //                 let c = document.getElementById('pay_optimizer_bar_chart' + index);
+    //                 if (c) {
+    //                     this.renderOptimizerBarChartPay(index);
+    //                 }
+    //             }, 150)
+    //         })
+    //     }
+    //     if (key === 'cpa') {
+    //         recommenderTypesProd.map((item, index) => {
+    //             setTimeout(() => {
+    //                 let a = document.getElementById('prod_spectro_line_chart' + index);
+    //                 if (a) {
+    //                     this.renderSpectroLineChartProd(index);
+    //                 }
+    //             }, 150)
+    //             setTimeout(() => {
+    //                 let b = document.getElementById('prod_optimizer_column_chart' + index);
+    //                 if (b) {
+    //                     this.renderOptimizerColumnChartProd(index);
+    //                 }
+    //             }, 150)
+    //             setTimeout(() => {
+    //                 let c = document.getElementById('prod_optimizer_bar_chart' + index);
+    //                 if (c) {
+    //                     this.renderOptimizerBarChartProd(index);
+    //                 }
+    //             }, 150)
+    //         })
+    //     }
+    // }
     render() {
         return (
-            <PanelTabContainer id='panel-body-header-footer-both-plain-tabs' defaultActiveKey="cpta" onSelect={this.onTabSelect}>
+            <PanelTabContainer id='panel-body-header-footer-both-plain-tabs' defaultActiveKey="cpp" onSelect={this.onTabSelect}>
                 <Panel>
                     <PanelHeader className='bg-blue fg-white' style={{ display: 'block' }}>
                         <Grid>
@@ -763,9 +789,6 @@ export default class ProductBundlesbyCustomerBehavior extends React.Component {
                             </Row>
                         </Grid>
                         <Nav bsStyle="tabs" className='plain'>
-                            <NavItem eventKey="cpta">
-                                Product Bundles
-                            </NavItem>
                             <NavItem eventKey="cpp">
                                 Customer Payment Preferences
                             </NavItem>
@@ -779,9 +802,6 @@ export default class ProductBundlesbyCustomerBehavior extends React.Component {
                             <Row>
                                 <Col xs={12}>
                                     <Tab.Content>
-                                        <Tab.Pane eventKey="cpta">
-                                            <div>Product Bundles By Customer Behavior</div>
-                                        </Tab.Pane>
                                         {(this.state.prod_pay !== null && this.state.smart_pay !== null) &&
                                             <Tab.Pane eventKey="cpp">
                                                 {this.renderPay()}

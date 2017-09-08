@@ -55,19 +55,6 @@ export default class CampaignsPromotionsAndLoyaltyOptimization extends React.Com
 
         return null;
     }
-
-    componentDidMount() {
-        let temp = {};
-        let apiKey = '';
-        temp = this.props.login;
-        apiKey = temp["key"];
-        const { dispatch } = this.props;
-        dispatch(execDashActions.fetchMadData(apiKey));
-        dispatch(execDashActions.fetchCsrData(apiKey));
-        dispatch(execDashActions.fetchBdwData(apiKey));
-        dispatch(execDashActions.fetchAsiData(apiKey));
-        dispatch(execDashActions.fetchProdProductData(apiKey));
-    }
     componentWillReceiveProps(nextProps) {
 
         //// sma channel data operation///////////
@@ -216,7 +203,7 @@ export default class CampaignsPromotionsAndLoyaltyOptimization extends React.Com
                     },
                     y: {
                         type: 'linear',
-                        tickFormat: '.2f',
+                        tickFormat: '.0f',
                     }
                 },
                 tooltip: {
@@ -263,7 +250,6 @@ export default class CampaignsPromotionsAndLoyaltyOptimization extends React.Com
         })();
 
     }
-
 
     renderProdProduct = () => {
         let prod_product_keys = [];
@@ -343,12 +329,14 @@ export default class CampaignsPromotionsAndLoyaltyOptimization extends React.Com
                                             <div id="csr_pie_chart"></div>
                                             <div id="csr_bar_chart"></div>
                                             <Col md={12}>
+                                            {Object.keys(this.state.csr_data).length!==0&&
                                                 <div className="csr_tile">
                                                     <p className="csr_title">Total Market Spend</p>
                                                     {this.state.csr_total_market&&
                                                     <p className="csr_content">{this.state.csr_total_market}</p>
                                                     }
                                                 </div>
+                                            }
                                             </Col>
                                         </Tab.Pane>
                                     </Tab.Content>

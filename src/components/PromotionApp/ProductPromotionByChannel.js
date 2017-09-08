@@ -199,7 +199,26 @@ export default class ProductPromotionByChannel extends React.Component {
                     bestRecommenderContentsProd.push(item)
                 }
             })
-
+            recommenderTypesProd.map((item, index) => {
+                setTimeout(() => {
+                    let a = document.getElementById('prod_spectro_line_chart' + index);
+                    if (a) {
+                        this.renderSpectroLineChartProd(index);
+                    }
+                }, 150)
+                setTimeout(() => {
+                    let b = document.getElementById('prod_optimizer_column_chart' + index);
+                    if (b) {
+                        this.renderOptimizerColumnChartProd(index);
+                    }
+                }, 150)
+                setTimeout(() => {
+                    let c = document.getElementById('prod_optimizer_bar_chart' + index);
+                    if (c) {
+                        this.renderOptimizerBarChartProd(index);
+                    }
+                }, 150)
+            })
             this.setState({
                 recommenderTypesProd: recommenderTypesProd,
                 recommenderTitlesProd: recommenderTitlesProd,
@@ -273,7 +292,26 @@ export default class ProductPromotionByChannel extends React.Component {
                     bestRecommenderContentsDsa.push(item)
                 }
             })
-
+            recommenderTypesDsa.map((item, index) => {
+                setTimeout(() => {
+                    let a = document.getElementById('dsa_spectro_line_chart' + index);
+                    if (a) {
+                        this.renderSpectroLineChartDsa(index);
+                    }
+                }, 150)
+                setTimeout(() => {
+                    let b = document.getElementById('dsa_optimizer_column_chart' + index);
+                    if (b) {
+                        this.renderOptimizerColumnChartDsa(index);
+                    }
+                }, 150)
+                setTimeout(() => {
+                    let c = document.getElementById('dsa_optimizer_bar_chart' + index);
+                    if (c) {
+                        this.renderOptimizerBarChartDsa(index);
+                    }
+                }, 150)
+            })
             this.setState({
                 recommenderTypesDsa: recommenderTypesDsa,
                 recommenderTitlesDsa: recommenderTitlesDsa,
@@ -286,19 +324,6 @@ export default class ProductPromotionByChannel extends React.Component {
                 optimizer_data_dsa: optimizer_data_dsa
             })
         }
-
-    }
-    componentDidMount() {
-
-        let temp = {};
-        let apiKey = '';
-        temp = this.props.login;
-        apiKey = temp["key"];
-        const { dispatch } = this.props;
-        dispatch(subDashActions.fetchProductData(apiKey));
-        dispatch(subDashActions.fetchProductRecommenderData(apiKey));
-        dispatch(subDashActions.fetchDsaData(apiKey));
-        dispatch(subDashActions.fetchDsaRecommenderData(apiKey));
 
     }
 
@@ -701,59 +726,59 @@ export default class ProductPromotionByChannel extends React.Component {
             </Grid>
         )
     }
-    onTabSelect = (key) => {
-        let recommenderTypesDsa = [];
-        let recommenderTypesProd = [];
-        recommenderTypesDsa = this.state.recommenderTypesDsa;
-        recommenderTypesProd = this.state.recommenderTypesProd;
-        if (key === 'dsa') {
-            recommenderTypesDsa.map((item, index) => {
-                setTimeout(() => {
-                    let a = document.getElementById('dsa_spectro_line_chart' + index);
-                    if (a) {
-                        this.renderSpectroLineChartDsa(index);
-                    }
-                }, 150)
-                setTimeout(() => {
-                    let b = document.getElementById('dsa_optimizer_column_chart' + index);
-                    if (b) {
-                        this.renderOptimizerColumnChartDsa(index);
-                    }
-                }, 150)
-                setTimeout(() => {
-                    let c = document.getElementById('dsa_optimizer_bar_chart' + index);
-                    if (c) {
-                        this.renderOptimizerBarChartDsa(index);
-                    }
-                }, 150)
-            })
-        }
-        if (key === 'sma') {
-            recommenderTypesProd.map((item, index) => {
-                setTimeout(() => {
-                    let a = document.getElementById('prod_spectro_line_chart' + index);
-                    if (a) {
-                        this.renderSpectroLineChartProd(index);
-                    }
-                }, 150)
-                setTimeout(() => {
-                    let b = document.getElementById('prod_optimizer_column_chart' + index);
-                    if (b) {
-                        this.renderOptimizerColumnChartProd(index);
-                    }
-                }, 150)
-                setTimeout(() => {
-                    let c = document.getElementById('prod_optimizer_bar_chart' + index);
-                    if (c) {
-                        this.renderOptimizerBarChartProd(index);
-                    }
-                }, 150)
-            })
-        }
-    }
+    // onTabSelect = (key) => {
+    //     let recommenderTypesDsa = [];
+    //     let recommenderTypesProd = [];
+    //     recommenderTypesDsa = this.state.recommenderTypesDsa;
+    //     recommenderTypesProd = this.state.recommenderTypesProd;
+    //     if (key === 'dsa') {
+    //         recommenderTypesDsa.map((item, index) => {
+    //             setTimeout(() => {
+    //                 let a = document.getElementById('dsa_spectro_line_chart' + index);
+    //                 if (a) {
+    //                     this.renderSpectroLineChartDsa(index);
+    //                 }
+    //             }, 150)
+    //             setTimeout(() => {
+    //                 let b = document.getElementById('dsa_optimizer_column_chart' + index);
+    //                 if (b) {
+    //                     this.renderOptimizerColumnChartDsa(index);
+    //                 }
+    //             }, 150)
+    //             setTimeout(() => {
+    //                 let c = document.getElementById('dsa_optimizer_bar_chart' + index);
+    //                 if (c) {
+    //                     this.renderOptimizerBarChartDsa(index);
+    //                 }
+    //             }, 150)
+    //         })
+    //     }
+    //     if (key === 'sma') {
+    //         recommenderTypesProd.map((item, index) => {
+    //             setTimeout(() => {
+    //                 let a = document.getElementById('prod_spectro_line_chart' + index);
+    //                 if (a) {
+    //                     this.renderSpectroLineChartProd(index);
+    //                 }
+    //             }, 150)
+    //             setTimeout(() => {
+    //                 let b = document.getElementById('prod_optimizer_column_chart' + index);
+    //                 if (b) {
+    //                     this.renderOptimizerColumnChartProd(index);
+    //                 }
+    //             }, 150)
+    //             setTimeout(() => {
+    //                 let c = document.getElementById('prod_optimizer_bar_chart' + index);
+    //                 if (c) {
+    //                     this.renderOptimizerBarChartProd(index);
+    //                 }
+    //             }, 150)
+    //         })
+    //     }
+    // }
     render() {
         return (
-            <PanelTabContainer id='panel-body-header-footer-both-plain-tabs' defaultActiveKey="cpta" onSelect={this.onTabSelect}>
+            <PanelTabContainer id='panel-body-header-footer-both-plain-tabs' defaultActiveKey="sma" onSelect={this.onTabSelect}>
                 <Panel>
                     <PanelHeader className='bg-blue fg-white' style={{ display: 'block' }}>
                         <Grid>
@@ -764,9 +789,6 @@ export default class ProductPromotionByChannel extends React.Component {
                             </Row>
                         </Grid>
                         <Nav bsStyle="tabs" className='plain'>
-                            <NavItem eventKey="cpta">
-                                Product Promotion
-                            </NavItem>
                             <NavItem eventKey="sma">
                                 Shopping Modes Analysis
                             </NavItem>
@@ -780,9 +802,6 @@ export default class ProductPromotionByChannel extends React.Component {
                             <Row>
                                 <Col xs={12}>
                                     <Tab.Content>
-                                        <Tab.Pane eventKey="cpta">
-                                            <div>Product Promotion</div>
-                                        </Tab.Pane>
                                         {(this.state.sma_product !== null && this.state.smart_product !== null) &&
                                             <Tab.Pane eventKey="sma">
                                                 {this.renderProduct()}

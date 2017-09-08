@@ -104,8 +104,8 @@ export default class Homepage extends React.Component {
       <div className="homepage-hero" id="laptop_wrapper" >
         <div className="container">
           <div className="homepage-hero-header2"><span >Ceres: The Platform </span></div>
-          <p style={{ marginTop: '60' }} className="text-center">From the ground up, we have developed a cloud based Customer Behavioral Insight Platform. The sustainable advantage of our platform is the use to our proprietary and patented Artificial Intelligence Algorithms to not only predict behaviors, but also provide recommended actions to take based on the behaviors identified in the data. Our algorithms have been designed to produce recommendations, which are also in alignment with business growth metrics to improve business results.</p>
-          <div style={{ marginTop: '30' }} className="text-center" id="laptop_img_wrapper" >
+          <p style={{ marginTop: 60 }} className="text-center">From the ground up, we have developed a cloud based Customer Behavioral Insight Platform. The sustainable advantage of our platform is the use to our proprietary and patented Artificial Intelligence Algorithms to not only predict behaviors, but also provide recommended actions to take based on the behaviors identified in the data. Our algorithms have been designed to produce recommendations, which are also in alignment with business growth metrics to improve business results.</p>
+          <div style={{ marginTop: 30 }} className="text-center" id="laptop_img_wrapper" >
             <img src="imgs/app/homepage/laptop.png" />
           </div>
         </div>
@@ -118,7 +118,7 @@ export default class Homepage extends React.Component {
         <Grid>
           <Row>
             <Col sm={7} collapseLeft collapseRight>
-              <p style={{ marginTop: '60' }}>
+              <div style={{ marginTop: 60 }}>
                 <p>Ceres Offers Impactful Consumer Insights Consulting
                 With Ceres we combine your current data with its powerful capacities to provide you with impactful consumer insights and also:</p>
                 <p>•	Assist you with collecting any additional data that would be helpful for advanced consumer insights</p>
@@ -127,7 +127,7 @@ export default class Homepage extends React.Component {
                 <p>•	Design visualizations so you can easily see current opportunities for growth as well as your most successful campaigns</p>
                 <p>•	Review your business strategy and help you establish a series of new attainable goals that you can begin implementing right away</p>
                 <p>•	Provide frequent reports so you can track the progress of our new recommendations and easily compare new results to your prior campaigns</p>
-              </p>
+              </div>
             </Col>
             <Col sm={5} collapseLeft collapseRight>
               <div className='hidden-xs text-right'>

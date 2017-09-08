@@ -50,6 +50,35 @@ export default class ApplicationSidebar extends React.Component {
     const { dispatch } = this.props;
     dispatch(dataActions.fetchFilterContentData(apiKey));
     dispatch(dataActions.fetchDefaultKeys(apiKey));
+    ////////////Product App
+    dispatch(subDashActions.fetchProdPayData(apiKey));
+    dispatch(subDashActions.fetchProdPayRecommenderData(apiKey));
+    dispatch(subDashActions.fetchProdProductData(apiKey));
+    dispatch(subDashActions.fetchProdProductRecommenderData(apiKey));
+    ////Promotion App
+    dispatch(subDashActions.fetchProductData(apiKey));
+    dispatch(subDashActions.fetchProductRecommenderData(apiKey));
+    dispatch(subDashActions.fetchDsaData(apiKey));
+    dispatch(subDashActions.fetchDsaRecommenderData(apiKey));
+    ////Campaign Apps
+    dispatch(execDashActions.fetchMadData(apiKey));
+    dispatch(execDashActions.fetchCsrData(apiKey));
+    dispatch(execDashActions.fetchBdwData(apiKey));
+    dispatch(execDashActions.fetchAsiData(apiKey));
+
+    dispatch(subDashActions.fetchChannelData(apiKey));
+    dispatch(subDashActions.fetchChannelRecommenderData(apiKey));
+    ///////Executive Dash////////////////////
+    dispatch(execDashActions.fetchDemographicsData(apiKey));
+    dispatch(execDashActions.fetchMadData(apiKey));
+    dispatch(execDashActions.fetchCsrData(apiKey));
+    dispatch(execDashActions.fetchBdwData(apiKey));
+    dispatch(execDashActions.fetchAsiData(apiKey));
+    dispatch(execDashActions.fetchProdProductData(apiKey));
+    dispatch(execDashActions.fetchProdPayData(apiKey));
+    dispatch(execDashActions.fetchProductData(apiKey));
+    dispatch(execDashActions.fetchDsaData(apiKey));
+    dispatch(execDashActions.fetchChannelData(apiKey));
     this.setState({ apiKey: apiKey })
   }
   componentWillReceiveProps(nextProps) {
@@ -59,13 +88,13 @@ export default class ApplicationSidebar extends React.Component {
     // let temp_selectedKeys = {};
     let adminLoginData = '';
     let loginData = '';
-    
+
     adminLoginData = nextProps.adminLogin;
-    if(adminLoginData){
+    if (adminLoginData) {
       this.setState({
         loginInfoFlag: true
       })
-    }else{
+    } else {
       this.setState({
         loginInfoFlag: false
       })
@@ -149,7 +178,7 @@ export default class ApplicationSidebar extends React.Component {
     }
 
     return (
-      
+
       <div>
         <Grid>
           <Row>
@@ -204,7 +233,7 @@ export default class ApplicationSidebar extends React.Component {
                   <SidebarNavItem glyph='icon-simple-line-icons-users' name='Signup' href="/signup" />
                   <SidebarNavItem glyph='icon-fontello-contacts' name='Contact Us' href="/contact" />
                   <SidebarNavItem glyph='icon-feather-inbox' name='Load Data' href="/ltr/loaddata" />
-                  <SidebarNavItem glyph='icon-fontello-mail' name='Send Email' href="/ltr/sendemail" hidden={!this.state.loginInfoFlag? true : false} />
+                  <SidebarNavItem glyph='icon-fontello-mail' name='Send Email' href="/ltr/sendemail" hidden={!this.state.loginInfoFlag ? true : false} />
                   <SidebarNavItem glyph='icon-outlined-profile' name='Profile' href="/ltr/profile" />
                   <SidebarNavItem glyph='icon-mfizz-database' name='Data Browser' href="/ltr/databrowser" />
                 </SidebarNav>

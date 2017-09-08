@@ -43,65 +43,7 @@ export default class NewCustomerAcquistion extends React.Component {
             demo_percent_total: []
         }
     }
-    componentDidMount() {
-        let temp = {};
-        let apiKey = '';
-        temp = this.props.login;
-        apiKey = temp["key"];
-        const { dispatch } = this.props;
 
-        dispatch(execDashActions.fetchDemographicsData(apiKey));
-
-        //Get Data For Executive Dashboard Predictive Market Segmentation
-        // $.ajax({
-        //     url: 'https://ceres.link/api/exec_board/demographics/api_key=' + api_key,
-        //     dataType: 'json',
-        //     type: 'GET',
-        //     success: function (data) {
-        //         let age_avg = 0;
-        //         let demographics = {};
-        //         let demo_keys = [];
-        //         let demo_contents = [];
-        //         let demo_contents_keys = [];
-        //         let demo_percent_total = [];
-        //         let demo_percent_total_item = [];
-
-        //         demographics = data;
-        //         age_avg = data["age"]["average"];
-
-        //         delete data["age"];
-        //         demo_keys = Object.keys(data);
-        //         demo_keys.map((item) => {
-        //             demo_contents.push(data[item])
-        //         })
-        //         demo_contents.map((content) => {
-        //             demo_contents_keys.push(Object.keys(content));
-        //         })
-        //         console.log("demo_contents_keys", demo_contents_keys)
-        //         demo_contents.map((content) => {
-        //             demo_contents_keys.map((itemArray, index) => {
-        //                 itemArray.map((item) => {
-        //                     demo_percent_total_item.push(content[item])
-        //                 })
-        //                 demo_percent_total.push(demo_percent_total_item)
-
-        //             })
-        //             console.log("demo_percent_total", demo_percent_total)
-        //         })
-        //         this.setState({
-        //             demographics: demographics,
-        //             age_avg: age_avg,
-        //             demo_keys: demo_keys,
-        //             demo_contents: demo_contents,
-        //             demo_contents_keys: demo_contents_keys,
-        //             demo_percent_total: demo_percent_total
-        //         })
-        //     }.bind(this),
-        //     error: function (error) {
-        //         console.log('ExecNewCustomerError', error);
-        //     }
-        // });
-    }
     componentWillReceiveProps(nextProps) {
 
         let age_avg = 0;
@@ -133,6 +75,26 @@ export default class NewCustomerAcquistion extends React.Component {
                     demo_percent_total.push(demo_percent_total_item)
 
                 })
+            })
+            demo_keys.map((item, index) => {
+                setTimeout(() => {
+                    let a = document.getElementById('demographics_pie_chart' + index);
+                    if (a) {
+                        this.renderDemographicsPieChart(index);
+                    }
+                }, 150)
+                setTimeout(() => {
+                    let b = document.getElementById('demographics_column_chart' + index);
+                    if (b) {
+                        this.renderDemographicsColumnChart(index);
+                    }
+                }, 150)
+                setTimeout(() => {
+                    let c = document.getElementById('demographics_bar_chart' + index);
+                    if (c) {
+                        this.renderDemographicsBarChart(index);
+                    }
+                }, 150)
             })
             this.setState({
                 demographics: demographics,
@@ -303,33 +265,33 @@ export default class NewCustomerAcquistion extends React.Component {
             </Grid>
         )
     }
-    onTabSelect = (key) => {
-        let demo_keys = [];
-        demo_keys = this.state.demo_keys;
-        if (key === 'pms' && demo_keys.length !== 0) {
-            demo_keys.map((item, index) => {
-                setTimeout(() => {
-                    let a = document.getElementById('demographics_pie_chart' + index);
-                    if (a) {
-                        this.renderDemographicsPieChart(index);
-                    }
-                }, 150)
-                setTimeout(() => {
-                    let b = document.getElementById('demographics_column_chart' + index);
-                    if (b) {
-                        this.renderDemographicsColumnChart(index);
-                    }
-                }, 150)
-                setTimeout(() => {
-                    let c = document.getElementById('demographics_bar_chart' + index);
-                    if (c) {
-                        this.renderDemographicsBarChart(index);
-                    }
-                }, 150)
-            })
-        }
+    // onTabSelect = (key) => {
+    //     let demo_keys = [];
+    //     demo_keys = this.state.demo_keys;
+    //     if (key === 'pms' && demo_keys.length !== 0) {
+    //         demo_keys.map((item, index) => {
+    //             setTimeout(() => {
+    //                 let a = document.getElementById('demographics_pie_chart' + index);
+    //                 if (a) {
+    //                     this.renderDemographicsPieChart(index);
+    //                 }
+    //             }, 150)
+    //             setTimeout(() => {
+    //                 let b = document.getElementById('demographics_column_chart' + index);
+    //                 if (b) {
+    //                     this.renderDemographicsColumnChart(index);
+    //                 }
+    //             }, 150)
+    //             setTimeout(() => {
+    //                 let c = document.getElementById('demographics_bar_chart' + index);
+    //                 if (c) {
+    //                     this.renderDemographicsBarChart(index);
+    //                 }
+    //             }, 150)
+    //         })
+    //     }
 
-    }
+    // }
     render() {
         return (
             <PanelTabContainer id='panel-body-header-footer-both-plain-tabs' defaultActiveKey="pclv" onSelect={this.onTabSelect}>
