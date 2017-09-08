@@ -163,9 +163,6 @@ export default class ProductPromotionByChannel extends React.Component {
             })
             //// Recommender API for Sub-Dashboard(Promotion App) SMA Product//////////////
 
-            // this.setState({
-            //     smart_product: subProductRecommender
-            // })
             ////// Recommender Type Fetch//////////////////////
             recommenderTypesProd = Object.keys(subProductRecommender);
             ///////////////Recommender Data Fetch(html, spectrogram, optimizer_chart)/////////////
@@ -240,10 +237,6 @@ export default class ProductPromotionByChannel extends React.Component {
             })
 
             //// Recommender API for Sub-Dashboard(Promotion App Digital Shopping Activity)//////////////
-
-            // this.setState({
-            //     smart_dsa: subDsaRecommender
-            // })
             ////// Recommender Type Fetch//////////////////////
             recommenderTypesDsa = Object.keys(subDsaRecommender);
             // ///////////////Recommender Data Fetch(html, spectrogram, optimizer_chart)/////////////
