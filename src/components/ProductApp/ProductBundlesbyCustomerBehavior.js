@@ -135,151 +135,157 @@ export default class ProductBundlesbyCustomerBehavior extends React.Component {
         subProdPayRecommender = nextProps.subProdPayRecommender;
         subProdProduct = nextProps.subProdProduct;
         subProdProductRecommender = nextProps.subProdProductRecommender;
-        this.setState({
-            prod_pay: subProdPay,
-            smart_pay: subProdPayRecommender,
-            prod_product: subProdProduct,
-            smart_prod: subProdProductRecommender
-        })
-        //Get Data For Sub-Dashboard(Product App) Payment Preferences
 
-        ///////Main Tile Types Fetch///////////////
-        mainTileTypesPay = Object.keys(subProdPay);
-        ////////////Main Tile Data Fetch////////////////
-        mainTileTypesPay.map((key) => {
-            mainTileContentsPay.push(subProdPay[key]);
-        })
-
-        mainTileContentsPay.map((item) => {
-            mainTileTitlesPay.push(Object.keys(item));
-        })
-
-        mainTileTitlesPay.map((itemArray) => {
-            itemArray.map((item) => {
-                mainTileTitlesRealPay.push(item);
+        if (Object.keys(subProdPay).length > 0 && Object.keys(subProdPayRecommender).length > 0) {
+            this.setState({
+                prod_pay: subProdPay,
+                smart_pay: subProdPayRecommender,
+                prod_product: subProdProduct,
+                smart_prod: subProdProductRecommender
             })
-        })
+            //Get Data For Sub-Dashboard(Product App) Payment Preferences
 
-        //// Recommender API for Sub-Dashboard(Product App Payment Preferences)//////////////
-
-        ////// Recommender Type Fetch//////////////////////
-        recommenderTypesPay = Object.keys(subProdPayRecommender);
-        // ///////////////Recommender Data Fetch(html, spectrogram, optimizer_chart)/////////////
-        recommenderTypesPay.map((key) => {
-            recommenderContentsPay.push(subProdPayRecommender[key]);
-            htmlTxtPay.push(subProdPayRecommender[key]["text/html"]);
-        })
-
-        recommenderContentsPay.map((item) => {
-            spectro_labels_pay.push((item["spectrogram"])["labels"]);
-            spectro_data_pay.push((item["spectrogram"])["data"]);
-            optimizer_labels_pay.push((item["optimizer_chart"])["labels"]);
-            optimizer_data_pay.push((item["optimizer_chart"])["data"]);
-        })
-
-        // ///// recommender labels array for getting best recommender data////////
-        spectro_labels_pay.map((itemArray) => {
-            itemArray.map((item) => {
-                spectro_labels_real_pay.push(item);
+            ///////Main Tile Types Fetch///////////////
+            mainTileTypesPay = Object.keys(subProdPay);
+            ////////////Main Tile Data Fetch////////////////
+            mainTileTypesPay.map((key) => {
+                mainTileContentsPay.push(subProdPay[key]);
             })
-        })
 
-        // // ////////////////Best Recommender Fetch////////////////////
-        recommenderTitlesPay = mainTileTitlesRealPay.filter(e => !spectro_labels_real_pay.includes(e));
-
-        // // //////////////////// Best Recommender Data and Main Tile Data Fetch ///////////////
-        // // /// Remove Best Recommender in main tile data and Best Recommender Data Fetch
-        mainTileContentsPay.map((temp) => {
-            recommenderTitlesPay.map((item) => {
-                recommenderContentsTempPay.push(temp[item])
+            mainTileContentsPay.map((item) => {
+                mainTileTitlesPay.push(Object.keys(item));
             })
-        })
-        recommenderContentsTempPay.map((item) => {
-            if (item !== undefined) {
-                bestRecommenderContentsPay.push(item)
-            }
-        })
 
-        this.setState({
-            recommenderTypesPay: recommenderTypesPay,
-            recommenderTitlesPay: recommenderTitlesPay,
-            bestRecommenderContentsPay: bestRecommenderContentsPay,
-
-            htmlTxtPay: htmlTxtPay,
-            spectro_labels_pay: spectro_labels_pay,
-            spectro_data_pay: spectro_data_pay,
-            optimizer_labels_pay: optimizer_labels_pay,
-            optimizer_data_pay: optimizer_data_pay
-        })
-
-
-        //Get Data For Sub-Dashboard(Product App) Product Appetite
-
-        ///////Main Tile Types Fetch///////////////
-        mainTileTypesProd = Object.keys(subProdProduct);
-        ////////////Main Tile Data Fetch////////////////
-        mainTileTypesProd.map((key) => {
-            mainTileContentsProd.push(subProdProduct[key]);
-        })
-
-        mainTileContentsProd.map((item) => {
-            mainTileTitlesProd.push(Object.keys(item));
-        })
-
-        mainTileTitlesProd.map((itemArray) => {
-            itemArray.map((item) => {
-                mainTileTitlesRealProd.push(item);
+            mainTileTitlesPay.map((itemArray) => {
+                itemArray.map((item) => {
+                    mainTileTitlesRealPay.push(item);
+                })
             })
-        })
-        //// Recommender API for Sub-Dashboard(Product App) Product Appetite//////////////
 
-        ////// Recommender Type Fetch//////////////////////
-        recommenderTypesProd = Object.keys(subProdProductRecommender);
-        ///////////////Recommender Data Fetch(html, spectrogram, optimizer_chart)/////////////
-        recommenderTypesProd.map((key) => {
-            recommenderContentsProd.push(subProdProductRecommender[key]);
-            htmlTxtProd.push(subProdProductRecommender[key]["text/html"]);
-        })
-        recommenderContentsProd.map((item) => {
-            spectro_labels_prod.push((item["spectrogram"])["labels"]);
-            spectro_data_prod.push((item["spectrogram"])["data"]);
-            optimizer_labels_prod.push((item["optimizer_chart"])["labels"]);
-            optimizer_data_prod.push((item["optimizer_chart"])["data"]);
-        })
-        ///// recommender labels array for getting best recommender data////////
-        spectro_labels_prod.map((itemArray) => {
-            itemArray.map((item) => {
-                spectro_labels_real_prod.push(item);
+            //// Recommender API for Sub-Dashboard(Product App Payment Preferences)//////////////
+
+            ////// Recommender Type Fetch//////////////////////
+            recommenderTypesPay = Object.keys(subProdPayRecommender);
+            // ///////////////Recommender Data Fetch(html, spectrogram, optimizer_chart)/////////////
+            recommenderTypesPay.map((key) => {
+                recommenderContentsPay.push(subProdPayRecommender[key]);
+                htmlTxtPay.push(subProdPayRecommender[key]["text/html"]);
             })
-        })
 
-        ////////////////Best Recommender Fetch////////////////////
-        recommenderTitlesProd = mainTileTitlesRealProd.filter(e => !spectro_labels_real_prod.includes(e));
-
-        //////////////////// Best Recommender Data and Main Tile Data Fetch ///////////////
-        /// Remove Best Recommender in main tile data and Best Recommender Data Fetch
-        mainTileContentsProd.map((temp) => {
-            recommenderTitlesProd.map((item) => {
-                recommenderContentsTempProd.push(temp[item])
+            recommenderContentsPay.map((item) => {
+                spectro_labels_pay.push((item["spectrogram"])["labels"]);
+                spectro_data_pay.push((item["spectrogram"])["data"]);
+                optimizer_labels_pay.push((item["optimizer_chart"])["labels"]);
+                optimizer_data_pay.push((item["optimizer_chart"])["data"]);
             })
-        })
-        recommenderContentsTempProd.map((item) => {
-            if (item !== undefined) {
-                bestRecommenderContentsProd.push(item)
-            }
-        })
-        this.setState({
-            recommenderTypesProd: recommenderTypesProd,
-            recommenderTitlesProd: recommenderTitlesProd,
-            bestRecommenderContentsProd: bestRecommenderContentsProd,
 
-            htmlTxtProd: htmlTxtProd,
-            spectro_labels_prod: spectro_labels_prod,
-            spectro_data_prod: spectro_data_prod,
-            optimizer_labels_prod: optimizer_labels_prod,
-            optimizer_data_prod: optimizer_data_prod
-        })
+            // ///// recommender labels array for getting best recommender data////////
+            spectro_labels_pay.map((itemArray) => {
+                itemArray.map((item) => {
+                    spectro_labels_real_pay.push(item);
+                })
+            })
 
+            // // ////////////////Best Recommender Fetch////////////////////
+            recommenderTitlesPay = mainTileTitlesRealPay.filter(e => !spectro_labels_real_pay.includes(e));
+
+            // // //////////////////// Best Recommender Data and Main Tile Data Fetch ///////////////
+            // // /// Remove Best Recommender in main tile data and Best Recommender Data Fetch
+            mainTileContentsPay.map((temp) => {
+                recommenderTitlesPay.map((item) => {
+                    recommenderContentsTempPay.push(temp[item])
+                })
+            })
+            recommenderContentsTempPay.map((item) => {
+                if (item !== undefined) {
+                    bestRecommenderContentsPay.push(item)
+                }
+            })
+
+            this.setState({
+                recommenderTypesPay: recommenderTypesPay,
+                recommenderTitlesPay: recommenderTitlesPay,
+                bestRecommenderContentsPay: bestRecommenderContentsPay,
+
+                htmlTxtPay: htmlTxtPay,
+                spectro_labels_pay: spectro_labels_pay,
+                spectro_data_pay: spectro_data_pay,
+                optimizer_labels_pay: optimizer_labels_pay,
+                optimizer_data_pay: optimizer_data_pay
+            })
+        }
+        if (Object.keys(subProdProduct).length > 0 && Object.keys(subProdProductRecommender).length > 0) {
+            this.setState({
+                prod_product: subProdProduct,
+                smart_prod: subProdProductRecommender
+            })
+            //Get Data For Sub-Dashboard(Product App) Product Appetite
+
+            ///////Main Tile Types Fetch///////////////
+            mainTileTypesProd = Object.keys(subProdProduct);
+            ////////////Main Tile Data Fetch////////////////
+            mainTileTypesProd.map((key) => {
+                mainTileContentsProd.push(subProdProduct[key]);
+            })
+
+            mainTileContentsProd.map((item) => {
+                mainTileTitlesProd.push(Object.keys(item));
+            })
+
+            mainTileTitlesProd.map((itemArray) => {
+                itemArray.map((item) => {
+                    mainTileTitlesRealProd.push(item);
+                })
+            })
+            //// Recommender API for Sub-Dashboard(Product App) Product Appetite//////////////
+
+            ////// Recommender Type Fetch//////////////////////
+            recommenderTypesProd = Object.keys(subProdProductRecommender);
+            ///////////////Recommender Data Fetch(html, spectrogram, optimizer_chart)/////////////
+            recommenderTypesProd.map((key) => {
+                recommenderContentsProd.push(subProdProductRecommender[key]);
+                htmlTxtProd.push(subProdProductRecommender[key]["text/html"]);
+            })
+            recommenderContentsProd.map((item) => {
+                spectro_labels_prod.push((item["spectrogram"])["labels"]);
+                spectro_data_prod.push((item["spectrogram"])["data"]);
+                optimizer_labels_prod.push((item["optimizer_chart"])["labels"]);
+                optimizer_data_prod.push((item["optimizer_chart"])["data"]);
+            })
+            ///// recommender labels array for getting best recommender data////////
+            spectro_labels_prod.map((itemArray) => {
+                itemArray.map((item) => {
+                    spectro_labels_real_prod.push(item);
+                })
+            })
+
+            ////////////////Best Recommender Fetch////////////////////
+            recommenderTitlesProd = mainTileTitlesRealProd.filter(e => !spectro_labels_real_prod.includes(e));
+
+            //////////////////// Best Recommender Data and Main Tile Data Fetch ///////////////
+            /// Remove Best Recommender in main tile data and Best Recommender Data Fetch
+            mainTileContentsProd.map((temp) => {
+                recommenderTitlesProd.map((item) => {
+                    recommenderContentsTempProd.push(temp[item])
+                })
+            })
+            recommenderContentsTempProd.map((item) => {
+                if (item !== undefined) {
+                    bestRecommenderContentsProd.push(item)
+                }
+            })
+            this.setState({
+                recommenderTypesProd: recommenderTypesProd,
+                recommenderTitlesProd: recommenderTitlesProd,
+                bestRecommenderContentsProd: bestRecommenderContentsProd,
+
+                htmlTxtProd: htmlTxtProd,
+                spectro_labels_prod: spectro_labels_prod,
+                spectro_data_prod: spectro_data_prod,
+                optimizer_labels_prod: optimizer_labels_prod,
+                optimizer_data_prod: optimizer_data_prod
+            })
+        }
     }
     componentDidMount() {
 

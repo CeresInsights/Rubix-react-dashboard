@@ -88,8 +88,7 @@ export default class CampaignsPromotionsAndLoyaltyOptimization extends React.Com
         /////////csr data operation//////////////
         let temp = {};
         temp = nextProps.csr;
-        console.log("CSR", temp)
-        this.setState({ csr_total_market: temp["total_market_spend"] })
+        this.setState({ csr_total_market: temp["total_market_spend"] });
         this.setState({ csr_data: temp });
         ////////////api data operation/////////////
         this.setState({ asi_data: nextProps.asi });
@@ -217,7 +216,7 @@ export default class CampaignsPromotionsAndLoyaltyOptimization extends React.Com
                     },
                     y: {
                         type: 'linear',
-                        tickFormat: '.0f',
+                        tickFormat: '.2f',
                     }
                 },
                 tooltip: {

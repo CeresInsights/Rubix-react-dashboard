@@ -105,11 +105,12 @@ export default class CampaignsPromotionsAndLoyaltyOptimization extends React.Com
         let mainTileTitlesChannelDisplay = [];
         /////////////////Data Operation////////////////
         let mad = {};
-        let asi = [];
+        let asi = '';
         let bdw = {};
         let csr = {};
         let subChannel = {};
         let subChannelRecommender = {};
+        let csr_total_market = '';
 
         mad = nextProps.mad;
         asi = nextProps.asi;
@@ -117,106 +118,99 @@ export default class CampaignsPromotionsAndLoyaltyOptimization extends React.Com
         csr = nextProps.csr;
         subChannel = nextProps.subChannel;
         subChannelRecommender = nextProps.subChannelRecommender;
-        console.log("total_market_spend", csr["total_market_spend"])
-        this.setState({
-            mad_data: mad,
-            asi_data: asi,
-            bdw_data: bdw,
-            sma_channel: subChannel,
-            smart_channel: subChannelRecommender,
-            csr_data: csr,
-            csr_total_market: csr["total_market_spend"]
-        })
-
-        //Get Data For Sub-Dashboard(Campaigns App) SMA Channel and Recommender///////////////
-
-        ///////Main Tile Types Fetch///////////////
-        mainTileTypesChannel = Object.keys(subChannel);
-        ////////////Main Tile Data Fetch////////////////
-        mainTileTypesChannel.map((key) => {
-            mainTileContentsChannel.push(subChannel[key]);
-        })
-        mainTileContentsChannel.map((item) => {
-            mainTileTitlesChannel.push(Object.keys(item));
-        })
-        mainTileTitlesChannel.map((itemArray) => {
-            itemArray.map((item) => {
-                mainTileTitlesRealChannel.push(item);
+        if (Object.keys(bdw).length > 0) {
+            this.setState({
+                bdw_data: bdw,
             })
-        })
-        //// Recommender API for Sub-Dashboard(Campaigns App)//////////////
-
-        ////// Recommender Type Fetch//////////////////////
-        recommenderTypesChannel = Object.keys(subChannelRecommender);
-        ///////////////Recommender Data Fetch(html, spectrogram, optimizer_chart)/////////////
-        recommenderTypesChannel.map((key) => {
-            recommenderContentsChannel.push(subChannelRecommender[key]);
-            htmlTxtChannel.push(subChannelRecommender[key]["text/html"]);
-        })
-        recommenderContentsChannel.map((item) => {
-            spectro_labels_channel.push((item["spectrogram"])["labels"]);
-            spectro_data_channel.push((item["spectrogram"])["data"]);
-            optimizer_labels_channel.push((item["optimizer_chart"])["labels"]);
-            optimizer_data_channel.push((item["optimizer_chart"])["data"]);
-        })
-
-        ///// recommender labels array for getting best recommender data////////
-        spectro_labels_channel.map((itemArray) => {
-            itemArray.map((item) => {
-                spectro_labels_real_channel.push(item);
+        }
+        if (Object.keys(mad).length > 0) {
+            this.setState({
+                mad_data: mad,
             })
-        })
-
-        ////////////////Best Recommender Fetch////////////////////
-        recommenderTitlesChannel = mainTileTitlesRealChannel.filter(e => !spectro_labels_real_channel.includes(e));
-
-        //////////////////// Best Recommender Data and Main Tile Data Fetch ///////////////
-        /// Remove Best Recommender in main tile data and Best Recommender Data Fetch
-        mainTileContentsChannel.map((temp) => {
-            recommenderTitlesChannel.map((item) => {
-                recommenderContentsTemp.push(temp[item])
-                // delete temp[item]
+        }
+        if (Object.keys(csr).length > 0) {
+            this.setState({
+                csr_data: csr,
+                csr_total_market: csr["total_market_spend"]
             })
-        })
-        // mainTileContentsChannel.map((temp) => {
-        //     mainTileTitlesChannelDisplay.push(Object.keys(temp))
-        // })
-        recommenderContentsTemp.map((item) => {
-            if (item !== undefined) {
-                bestRecommenderContentsChannel.push(item)
-            }
-        })
-        /////////Main Tile Data Fetch/////////////
+        }
+        if (asi.length !== 0) {
+            this.setState({
+                asi_data: asi
+            })
+        }
+        if (Object.keys(subChannel).length > 0 && Object.keys(subChannelRecommender).length > 0) {
+            this.setState({
+                sma_channel: subChannel,
+                smart_channel: subChannelRecommender,
+            })
 
-        // mainTileContentsChannel.map((item) => {
-        //     mainTileTitles.push(Object.keys(item))
-        //     mainTileTitles.map((temp) => {
-        //         temp.map((title) => {
-        //             mainTileContentsRealTemp.push(item[title])
-        //         })
-        //     })
-        // })
-        // mainTileContentsRealTemp.map((item) => {
-        //     if (item !== undefined) {
-        //         mainTileContentsReal.push(item)
-        //     }
-        // })
-        // console.log("mainTileContentsChannel", mainTileContentsChannel)
-        this.setState({
-            recommenderTypesChannel: recommenderTypesChannel,
-            recommenderTitlesChannel: recommenderTitlesChannel,
-            bestRecommenderContentsChannel: bestRecommenderContentsChannel,
-            // // mainTileContentsReal: mainTileContentsReal
-            // mainTileContentsChannel: mainTileContentsChannel,
-            // mainTileTitlesChannelDisplay: mainTileTitlesChannelDisplay,
+            //Get Data For Sub-Dashboard(Campaigns App) SMA Channel and Recommender///////////////
 
-            htmlTxtChannel: htmlTxtChannel,
-            spectro_labels_channel: spectro_labels_channel,
-            spectro_data_channel: spectro_data_channel,
-            optimizer_labels_channel: optimizer_labels_channel,
-            optimizer_data_channel: optimizer_data_channel
-        })
+            ///////Main Tile Types Fetch///////////////
+            mainTileTypesChannel = Object.keys(subChannel);
+            ////////////Main Tile Data Fetch////////////////
+            mainTileTypesChannel.map((key) => {
+                mainTileContentsChannel.push(subChannel[key]);
+            })
+            mainTileContentsChannel.map((item) => {
+                mainTileTitlesChannel.push(Object.keys(item));
+            })
+            mainTileTitlesChannel.map((itemArray) => {
+                itemArray.map((item) => {
+                    mainTileTitlesRealChannel.push(item);
+                })
+            })
+            //// Recommender API for Sub-Dashboard(Campaigns App)//////////////
 
+            ////// Recommender Type Fetch//////////////////////
+            recommenderTypesChannel = Object.keys(subChannelRecommender);
+            ///////////////Recommender Data Fetch(html, spectrogram, optimizer_chart)/////////////
+            recommenderTypesChannel.map((key) => {
+                recommenderContentsChannel.push(subChannelRecommender[key]);
+                htmlTxtChannel.push(subChannelRecommender[key]["text/html"]);
+            })
+            recommenderContentsChannel.map((item) => {
+                spectro_labels_channel.push((item["spectrogram"])["labels"]);
+                spectro_data_channel.push((item["spectrogram"])["data"]);
+                optimizer_labels_channel.push((item["optimizer_chart"])["labels"]);
+                optimizer_data_channel.push((item["optimizer_chart"])["data"]);
+            })
+
+            ///// recommender labels array for getting best recommender data////////
+            spectro_labels_channel.map((itemArray) => {
+                itemArray.map((item) => {
+                    spectro_labels_real_channel.push(item);
+                })
+            })
+
+            ////////////////Best Recommender Fetch////////////////////
+            recommenderTitlesChannel = mainTileTitlesRealChannel.filter(e => !spectro_labels_real_channel.includes(e));
+
+            //////////////////// Best Recommender Data and Main Tile Data Fetch ///////////////
+            /// Remove Best Recommender in main tile data and Best Recommender Data Fetch
+            mainTileContentsChannel.map((temp) => {
+                recommenderTitlesChannel.map((item) => {
+                    recommenderContentsTemp.push(temp[item])
+                })
+            })
+            recommenderContentsTemp.map((item) => {
+                if (item !== undefined) {
+                    bestRecommenderContentsChannel.push(item)
+                }
+            })
+            /////////Main Tile Data Fetch/////////////
+            this.setState({
+                recommenderTypesChannel: recommenderTypesChannel,
+                recommenderTitlesChannel: recommenderTitlesChannel,
+                bestRecommenderContentsChannel: bestRecommenderContentsChannel,
+                htmlTxtChannel: htmlTxtChannel,
+                spectro_labels_channel: spectro_labels_channel,
+                spectro_data_channel: spectro_data_channel,
+                optimizer_labels_channel: optimizer_labels_channel,
+                optimizer_data_channel: optimizer_data_channel
+            })
+        }
     }
     componentDidMount() {
 
@@ -360,21 +354,19 @@ export default class CampaignsPromotionsAndLoyaltyOptimization extends React.Com
                     },
                     y: {
                         type: 'linear',
-                        tickFormat: 'd',
-                        tickCount: 5
+                        tickFormat: '.2f',
                     }
                 },
-                // tooltip: {
-                //   color: '#D71F4B',
-                //   format: {
-                //     y: '.0f'
-                //   }
-                // },
+                tooltip: {
+                    color: '#D71F4B',
+                    format: {
+                        y: '.2f'
+                    }
+                },
                 margin: {
                     left: 50
                 },
                 grouped: true,
-                show_markers: true
             });
 
             var high_bar = csr_bar_chart.column_series({
@@ -402,9 +394,7 @@ export default class CampaignsPromotionsAndLoyaltyOptimization extends React.Com
                 low.x = i;
                 low.y = csr_data[i]["low"];
                 low_array.push(low);
-
             }
-
             high_bar.addData(high_array);
             low_bar.addData(low_array);
 
@@ -587,7 +577,6 @@ export default class CampaignsPromotionsAndLoyaltyOptimization extends React.Com
                     recommenderTypesChannel.map((item, index) => {
                         //////////////////////////////////Sub dashboard Campaigns App PLE//////////////////
                         let num = Math.random() * 2;
-                        console.log("MATH", num)
                         return <Row key={index} className="channel_row">
                             <Col sm={2} className="channel_recommender_tile_area">
                                 <div className="channel_recommender_tile">
@@ -643,7 +632,9 @@ export default class CampaignsPromotionsAndLoyaltyOptimization extends React.Com
 
     }
     render() {
-        console.log("csr_total_market", this.state.csr_total_market)
+        let csr_total_market = '';
+        csr_total_market = this.state.csr_total_market;
+
         return (
             <PanelTabContainer id='campaigns_promotions_loyaltypanel' defaultActiveKey="cpta" onSelect={this.onTabSelect}>
                 <Panel>
@@ -690,14 +681,22 @@ export default class CampaignsPromotionsAndLoyaltyOptimization extends React.Com
                                             </Tab.Pane>
                                         }
                                         <Tab.Pane eventKey="csr">
-                                            <div id="csr_pie_chart"></div>
-                                            <div id="csr_bar_chart"></div>
-                                            <Col md={12}>
-                                                <div className="csr_tile">
-                                                    <p className="csr_title">Total Market Spend</p>
-                                                    <p className="csr_content">{this.state.csr_total_market}</p>
-                                                </div>
-                                            </Col>
+                                            <Row>
+                                                <Col md={12}>
+                                                    <div id="csr_pie_chart"></div>
+                                                </Col>
+                                                <Col md={12}>
+                                                    <div id="csr_bar_chart"></div>
+                                                </Col>
+                                                <Col md={12}>
+                                                    <div className="csr_tile">
+                                                        <p className="csr_title">Total Market Spend</p>
+                                                        {csr_total_market &&
+                                                            <p className="csr_content">{csr_total_market}</p>
+                                                        }
+                                                    </div>
+                                                </Col>
+                                            </Row>
                                         </Tab.Pane>
                                     </Tab.Content>
                                 </Col>

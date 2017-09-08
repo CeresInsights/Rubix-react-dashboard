@@ -139,160 +139,160 @@ export default class ProductPromotionByChannel extends React.Component {
         subDsa = nextProps.subDsa;
         subDsaRecommender = nextProps.subDsaRecommender;
         //////////////////////////////////SMA///////////////////////////////
-        //Get Data For Sub-Dashboard(Promotion App) SMA Product
-        this.setState({
-            sma_product: subProduct,
-            smart_product: subProductRecommender,
-            dsa: subDsa,
-            smart_dsa: subDsaRecommender
-        })
-        ///////Main Tile Types Fetch///////////////
-        mainTileTypesProd = Object.keys(subProduct);
-        ////////////Main Tile Data Fetch////////////////
-        mainTileTypesProd.map((key) => {
-            mainTileContentsProd.push(subProduct[key]);
-        })
-
-        mainTileContentsProd.map((item) => {
-            mainTileTitlesProd.push(Object.keys(item));
-        })
-
-        mainTileTitlesProd.map((itemArray) => {
-            itemArray.map((item) => {
-                mainTileTitlesRealProd.push(item);
+        if (Object.keys(subProduct).length > 0 && Object.keys(subProductRecommender).length > 0) {
+            //Get Data For Sub-Dashboard(Promotion App) SMA Product
+            this.setState({
+                sma_product: subProduct,
+                smart_product: subProductRecommender,
             })
-        })
-        //// Recommender API for Sub-Dashboard(Promotion App) SMA Product//////////////
-
-        // this.setState({
-        //     smart_product: subProductRecommender
-        // })
-        ////// Recommender Type Fetch//////////////////////
-        recommenderTypesProd = Object.keys(subProductRecommender);
-        ///////////////Recommender Data Fetch(html, spectrogram, optimizer_chart)/////////////
-        recommenderTypesProd.map((key) => {
-            recommenderContentsProd.push(subProductRecommender[key]);
-            htmlTxtProd.push(subProductRecommender[key]["text/html"]);
-        })
-        recommenderContentsProd.map((item) => {
-            spectro_labels_prod.push((item["spectrogram"])["labels"]);
-            spectro_data_prod.push((item["spectrogram"])["data"]);
-            optimizer_labels_prod.push((item["optimizer_chart"])["labels"]);
-            optimizer_data_prod.push((item["optimizer_chart"])["data"]);
-        })
-
-        ///// recommender labels array for getting best recommender data////////
-        spectro_labels_prod.map((itemArray) => {
-            itemArray.map((item) => {
-                spectro_labels_real_prod.push(item);
+            ///////Main Tile Types Fetch///////////////
+            mainTileTypesProd = Object.keys(subProduct);
+            ////////////Main Tile Data Fetch////////////////
+            mainTileTypesProd.map((key) => {
+                mainTileContentsProd.push(subProduct[key]);
             })
-        })
 
-        ////////////////Best Recommender Fetch////////////////////
-        recommenderTitlesProd = mainTileTitlesRealProd.filter(e => !spectro_labels_real_prod.includes(e));
-
-        //////////////////// Best Recommender Data and Main Tile Data Fetch ///////////////
-        /// Remove Best Recommender in main tile data and Best Recommender Data Fetch
-        mainTileContentsProd.map((temp) => {
-            recommenderTitlesProd.map((item) => {
-                recommenderContentsTempProd.push(temp[item])
+            mainTileContentsProd.map((item) => {
+                mainTileTitlesProd.push(Object.keys(item));
             })
-        })
-        recommenderContentsTempProd.map((item) => {
-            if (item !== undefined) {
-                bestRecommenderContentsProd.push(item)
-            }
-        })
 
-        this.setState({
-            recommenderTypesProd: recommenderTypesProd,
-            recommenderTitlesProd: recommenderTitlesProd,
-            bestRecommenderContentsProd: bestRecommenderContentsProd,
+            mainTileTitlesProd.map((itemArray) => {
+                itemArray.map((item) => {
+                    mainTileTitlesRealProd.push(item);
+                })
+            })
+            //// Recommender API for Sub-Dashboard(Promotion App) SMA Product//////////////
 
-            htmlTxtProd: htmlTxtProd,
-            spectro_labels_prod: spectro_labels_prod,
-            spectro_data_prod: spectro_data_prod,
-            optimizer_labels_prod: optimizer_labels_prod,
-            optimizer_data_prod: optimizer_data_prod
-        })
+            // this.setState({
+            //     smart_product: subProductRecommender
+            // })
+            ////// Recommender Type Fetch//////////////////////
+            recommenderTypesProd = Object.keys(subProductRecommender);
+            ///////////////Recommender Data Fetch(html, spectrogram, optimizer_chart)/////////////
+            recommenderTypesProd.map((key) => {
+                recommenderContentsProd.push(subProductRecommender[key]);
+                htmlTxtProd.push(subProductRecommender[key]["text/html"]);
+            })
+            recommenderContentsProd.map((item) => {
+                spectro_labels_prod.push((item["spectrogram"])["labels"]);
+                spectro_data_prod.push((item["spectrogram"])["data"]);
+                optimizer_labels_prod.push((item["optimizer_chart"])["labels"]);
+                optimizer_data_prod.push((item["optimizer_chart"])["data"]);
+            })
+
+            ///// recommender labels array for getting best recommender data////////
+            spectro_labels_prod.map((itemArray) => {
+                itemArray.map((item) => {
+                    spectro_labels_real_prod.push(item);
+                })
+            })
+
+            ////////////////Best Recommender Fetch////////////////////
+            recommenderTitlesProd = mainTileTitlesRealProd.filter(e => !spectro_labels_real_prod.includes(e));
+
+            //////////////////// Best Recommender Data and Main Tile Data Fetch ///////////////
+            /// Remove Best Recommender in main tile data and Best Recommender Data Fetch
+            mainTileContentsProd.map((temp) => {
+                recommenderTitlesProd.map((item) => {
+                    recommenderContentsTempProd.push(temp[item])
+                })
+            })
+            recommenderContentsTempProd.map((item) => {
+                if (item !== undefined) {
+                    bestRecommenderContentsProd.push(item)
+                }
+            })
+
+            this.setState({
+                recommenderTypesProd: recommenderTypesProd,
+                recommenderTitlesProd: recommenderTitlesProd,
+                bestRecommenderContentsProd: bestRecommenderContentsProd,
+
+                htmlTxtProd: htmlTxtProd,
+                spectro_labels_prod: spectro_labels_prod,
+                spectro_data_prod: spectro_data_prod,
+                optimizer_labels_prod: optimizer_labels_prod,
+                optimizer_data_prod: optimizer_data_prod
+            })
+        }
         /////////////////////////////////////DSA/////////////////////////////////
-
-        //Get Data For Sub-Dashboard(Promotion App) Digital Shopping Activity
-
-        // this.setState({
-        //     dsa: subDsa
-        // })
-        ///////Main Tile Types Fetch///////////////
-        mainTileTypesDsa = Object.keys(subDsa);
-        ////////////Main Tile Data Fetch////////////////
-        mainTileTypesDsa.map((key) => {
-            mainTileContentsDsa.push(subDsa[key]);
-        })
-
-        mainTileContentsDsa.map((item) => {
-            mainTileTitlesDsa.push(Object.keys(item));
-        })
-
-        mainTileTitlesDsa.map((itemArray) => {
-            itemArray.map((item) => {
-                mainTileTitlesRealDsa.push(item);
+        if (Object.keys(subDsa).length > 0 && Object.keys(subDsaRecommender).length > 0) {
+            this.setState({
+                dsa: subDsa,
+                smart_dsa: subDsaRecommender
             })
-        })
-
-        //// Recommender API for Sub-Dashboard(Promotion App Digital Shopping Activity)//////////////
-
-        // this.setState({
-        //     smart_dsa: subDsaRecommender
-        // })
-        ////// Recommender Type Fetch//////////////////////
-        recommenderTypesDsa = Object.keys(subDsaRecommender);
-        // ///////////////Recommender Data Fetch(html, spectrogram, optimizer_chart)/////////////
-        recommenderTypesDsa.map((key) => {
-            recommenderContentsDsa.push(subDsaRecommender[key]);
-            htmlTxtDsa.push(subDsaRecommender[key]["text/html"]);
-        })
-
-        recommenderContentsDsa.map((item) => {
-            spectro_labels_dsa.push((item["spectrogram"])["labels"]);
-            spectro_data_dsa.push((item["spectrogram"])["data"]);
-            optimizer_labels_dsa.push((item["optimizer_chart"])["labels"]);
-            optimizer_data_dsa.push((item["optimizer_chart"])["data"]);
-        })
-        // ///// recommender labels array for getting best recommender data////////
-        spectro_labels_dsa.map((itemArray) => {
-            itemArray.map((item) => {
-                spectro_labels_real_dsa.push(item);
+            //Get Data For Sub-Dashboard(Promotion App) Digital Shopping Activity
+            ///////Main Tile Types Fetch///////////////
+            mainTileTypesDsa = Object.keys(subDsa);
+            ////////////Main Tile Data Fetch////////////////
+            mainTileTypesDsa.map((key) => {
+                mainTileContentsDsa.push(subDsa[key]);
             })
-        })
 
-        // // ////////////////Best Recommender Fetch////////////////////
-        recommenderTitlesDsa = mainTileTitlesRealDsa.filter(e => !spectro_labels_real_dsa.includes(e));
-
-        // // //////////////////// Best Recommender Data and Main Tile Data Fetch ///////////////
-        // // /// Remove Best Recommender in main tile data and Best Recommender Data Fetch
-        mainTileContentsDsa.map((temp) => {
-            recommenderTitlesDsa.map((item) => {
-                recommenderContentsTempDsa.push(temp[item])
+            mainTileContentsDsa.map((item) => {
+                mainTileTitlesDsa.push(Object.keys(item));
             })
-        })
-        recommenderContentsTempDsa.map((item) => {
-            if (item !== undefined) {
-                bestRecommenderContentsDsa.push(item)
-            }
-        })
 
-        this.setState({
-            recommenderTypesDsa: recommenderTypesDsa,
-            recommenderTitlesDsa: recommenderTitlesDsa,
-            bestRecommenderContentsDsa: bestRecommenderContentsDsa,
+            mainTileTitlesDsa.map((itemArray) => {
+                itemArray.map((item) => {
+                    mainTileTitlesRealDsa.push(item);
+                })
+            })
 
-            htmlTxtDsa: htmlTxtDsa,
-            spectro_labels_dsa: spectro_labels_dsa,
-            spectro_data_dsa: spectro_data_dsa,
-            optimizer_labels_dsa: optimizer_labels_dsa,
-            optimizer_data_dsa: optimizer_data_dsa
-        })
+            //// Recommender API for Sub-Dashboard(Promotion App Digital Shopping Activity)//////////////
 
+            // this.setState({
+            //     smart_dsa: subDsaRecommender
+            // })
+            ////// Recommender Type Fetch//////////////////////
+            recommenderTypesDsa = Object.keys(subDsaRecommender);
+            // ///////////////Recommender Data Fetch(html, spectrogram, optimizer_chart)/////////////
+            recommenderTypesDsa.map((key) => {
+                recommenderContentsDsa.push(subDsaRecommender[key]);
+                htmlTxtDsa.push(subDsaRecommender[key]["text/html"]);
+            })
+
+            recommenderContentsDsa.map((item) => {
+                spectro_labels_dsa.push((item["spectrogram"])["labels"]);
+                spectro_data_dsa.push((item["spectrogram"])["data"]);
+                optimizer_labels_dsa.push((item["optimizer_chart"])["labels"]);
+                optimizer_data_dsa.push((item["optimizer_chart"])["data"]);
+            })
+            // ///// recommender labels array for getting best recommender data////////
+            spectro_labels_dsa.map((itemArray) => {
+                itemArray.map((item) => {
+                    spectro_labels_real_dsa.push(item);
+                })
+            })
+
+            // // ////////////////Best Recommender Fetch////////////////////
+            recommenderTitlesDsa = mainTileTitlesRealDsa.filter(e => !spectro_labels_real_dsa.includes(e));
+
+            // // //////////////////// Best Recommender Data and Main Tile Data Fetch ///////////////
+            // // /// Remove Best Recommender in main tile data and Best Recommender Data Fetch
+            mainTileContentsDsa.map((temp) => {
+                recommenderTitlesDsa.map((item) => {
+                    recommenderContentsTempDsa.push(temp[item])
+                })
+            })
+            recommenderContentsTempDsa.map((item) => {
+                if (item !== undefined) {
+                    bestRecommenderContentsDsa.push(item)
+                }
+            })
+
+            this.setState({
+                recommenderTypesDsa: recommenderTypesDsa,
+                recommenderTitlesDsa: recommenderTitlesDsa,
+                bestRecommenderContentsDsa: bestRecommenderContentsDsa,
+
+                htmlTxtDsa: htmlTxtDsa,
+                spectro_labels_dsa: spectro_labels_dsa,
+                spectro_data_dsa: spectro_data_dsa,
+                optimizer_labels_dsa: optimizer_labels_dsa,
+                optimizer_data_dsa: optimizer_data_dsa
+            })
+        }
 
     }
     componentDidMount() {

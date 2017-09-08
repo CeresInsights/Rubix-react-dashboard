@@ -69,7 +69,7 @@ class RealTimeLocationAnalysis extends React.Component {
                       <MapPanel />
                     </Tab.Pane>
                     <Tab.Pane eventKey="clp">
-                      <h3> Customer Location/Shop/Site Preferences</h3>
+                      <h3>LoadMap</h3>
                     </Tab.Pane>
                   </Tab.Content>
                 </Col>

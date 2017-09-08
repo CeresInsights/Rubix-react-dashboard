@@ -118,7 +118,7 @@ export default class Homepage extends React.Component {
         <Grid>
           <Row>
             <Col sm={7} collapseLeft collapseRight>
-              <p style={{ marginTop: 60 }}>
+              <p style={{ marginTop: '60' }}>
                 <p>Ceres Offers Impactful Consumer Insights Consulting
                 With Ceres we combine your current data with its powerful capacities to provide you with impactful consumer insights and also:</p>
                 <p>•	Assist you with collecting any additional data that would be helpful for advanced consumer insights</p>
