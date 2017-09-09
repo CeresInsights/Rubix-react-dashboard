@@ -20,7 +20,7 @@ import RubixAssetMiddleware from '@sketchpixy/rubix/lib/node/RubixAssetMiddlewar
 setupReducers(rootReducer);
 // applyMiddleware(thunkMiddleware);
 
-const port = process.env.PORT || 8081;
+const port = process.env.PORT || 8082;
 
 let app = express();
 app.use(compression());
