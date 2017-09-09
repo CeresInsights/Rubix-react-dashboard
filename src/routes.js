@@ -71,12 +71,12 @@ export default (
   <Route path="/" component={App}>
     <IndexRoute component={Homepage} />
     <Route component={Auth}>
-      <Route path='/login' component={Login} />
-      <Route path='/adminlogin' component={AdminLogin} />
-      <Route path='/signup' component={Signup} />
-      <Route path='/queueemail' component={QueueEmail} />
+      <Route path='/ltr/login' component={Login} />
+      <Route path='/ltr/adminlogin' component={AdminLogin} />
+      <Route path='/ltr/signup' component={Signup} />
+      <Route path='/ltr/queueemail' component={QueueEmail} />
     </Route>
-    <Route path="/ltr" component={Main}>
+    <Route component={Main}>
       <Route path='/ltr/executivedashboard' component={ExecutiveDashboard} />
       <Route path='/ltr/databrowser' component={DataBrowser} />
       <Route path='/ltr/contact' component={Contact} />

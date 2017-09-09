@@ -13,11 +13,11 @@ import {
   renderHTMLString,
   // applyMiddleware
  } from '@sketchpixy/rubix/lib/node/redux-router';
-import rootReducer from './src/reducers';
+import reducers from './src/reducers';
 // import thunkMiddleware from 'redux-thunk';
 import RubixAssetMiddleware from '@sketchpixy/rubix/lib/node/RubixAssetMiddleware';
 
-setupReducers(rootReducer);
+setupReducers(reducers);
 // applyMiddleware(thunkMiddleware);
 
 const port = process.env.PORT || 8082;
@@ -78,18 +78,9 @@ app.post('/dropzone/file-upload', function(req, res) {
   res.status(200).end();
 });
 
-app.get('/', RubixAssetMiddleware('ltr'), (req, res, next) => {
+app.get('*', RubixAssetMiddleware('ltr'), (req, res, next) => {
   renderHTML(req, res);
 });
-
-app.get('/ltr/*', RubixAssetMiddleware('ltr'), (req, res, next) => {
-  renderHTML(req, res);
-});
-
-app.get('/rtl/*', RubixAssetMiddleware('rtl'), (req, res, next) => {
-  renderHTML(req, res);
-});
-
 app.listen(port, () => {
   console.log(`Node.js app is running at http://localhost:${port}/`);
 });

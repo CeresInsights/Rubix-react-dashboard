@@ -92,7 +92,7 @@ export default class QueueEmail extends React.Component {
                                                             <Row>
                                                                 <Col xs={12} collapseLeft collapseRight>
                                                                     <div className='text-center' style={{ marginTop: 25 }}>
-                                                                        Did you get a pay code in your email? <Link to="/signup">Sign Up</Link>
+                                                                        Did you get a pay code in your email? <Link to="/ltr/signup">Sign Up</Link>
                                                                     </div>
                                                                 </Col>
                                                             </Row>

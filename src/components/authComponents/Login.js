@@ -105,7 +105,7 @@ export default class Login extends React.Component {
                                 <Grid>
                                   <Row>
                                     <Col xs={6} collapseLeft collapseRight style={{ paddingTop: 10 }}>
-                                      <Link to="/signup">Create a CERES account</Link>
+                                      <Link to="/ltr/signup">Create a CERES account</Link>
                                     </Col>
                                     <Col xs={6} collapseLeft collapseRight className='text-right'>
                                       <Button outlined lg type='submit' bsStyle='blue'>Login</Button>
@@ -113,7 +113,7 @@ export default class Login extends React.Component {
                                   </Row>
                                   <Row>
                                     <Col xs={6} collapseLeft collapseRight style={{ paddingTop: 10 }}>
-                                      <Link to="/adminlogin">You have admin account?</Link>
+                                      <Link to="/ltr/adminlogin">You have admin account?</Link>
                                     </Col>
                                   </Row>
                                 </Grid>

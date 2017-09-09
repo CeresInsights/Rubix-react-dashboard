@@ -594,7 +594,8 @@ export default class CampaignsPromotionsAndLoyaltyOptimization extends React.Com
                                 <div id={'channel_spectro_line_chart' + index} className="channel_spectro_line_chart"></div>
                             </Col>
                             <Col sm={4} className="channel_optimmizer_chart_area">
-                                <div id={num < 1 ? "channel_optimizer_column_chart" + index : "channel_optimizer_bar_chart" + index}></div>
+                                {/* <div id={num < 1 ? "channel_optimizer_column_chart" + index : "channel_optimizer_bar_chart" + index}></div> */}
+                                <div id={ "channel_optimizer_column_chart" + index }></div>
                             </Col>
                             <Col sm={2} className="channel_recommender_text_tile_area">
                                 <div className="channel_recommender_text_tile">

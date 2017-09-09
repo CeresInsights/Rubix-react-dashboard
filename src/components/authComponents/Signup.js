@@ -53,7 +53,7 @@ export default class Signup extends React.Component {
     }
     
     if(signupData["status"] === 'User Registration Successful'){
-      browserHistory.push('/login');
+      browserHistory.push('/ltr/login');
     }
   }
   errorNotification(str) {
@@ -152,10 +152,10 @@ export default class Signup extends React.Component {
                                   <Col xs={12} collapseLeft collapseRight>
                                     <Button type='submit' outlined lg bsStyle='blue' block onClick={this.signup}>Create account</Button>
                                     <div className='text-center' style={{ marginTop: 25 }}>
-                                      Already have an account? <Link to="/login">Login</Link>
+                                      Already have an account? <Link to="/ltr/login">Login</Link>
                                     </div>
                                     <div className='text-center' style={{ marginTop: 25 }}>
-                                      Have you already done email preregistration? <Link to="/queueemail">Email Preregistration</Link>
+                                      Have you already done email preregistration? <Link to="/ltr/queueemail">Email Preregistration</Link>
                                     </div>
                                     </Col>
                                   </Row>

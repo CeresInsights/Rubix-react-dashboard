@@ -213,9 +213,9 @@ export default class ApplicationSidebar extends React.Component {
 
                   { /** Extras Section */}
                   <div className='sidebar-header'>EXTRAS</div>
-                  <SidebarNavItem glyph='icon-ikons-login' name='Login' href="/login" />
-                  <SidebarNavItem glyph='icon-simple-line-icons-users' name='Signup' href="/signup" />
-                  <SidebarNavItem glyph='icon-fontello-contacts' name='Contact Us' href="/contact" />
+                  <SidebarNavItem glyph='icon-ikons-login' name='Login' href="/ltr/login" />
+                  <SidebarNavItem glyph='icon-simple-line-icons-users' name='Signup' href="/ltr/signup" />
+                  <SidebarNavItem glyph='icon-fontello-contacts' name='Contact Us' href="/ltr/contact" />
                   <SidebarNavItem glyph='icon-feather-inbox' name='Load Data' href="/ltr/loaddata" />
                   <SidebarNavItem glyph='icon-fontello-mail' name='Send Email' href="/ltr/sendemail" hidden={!this.state.loginInfoFlag ? true : false} />
                   <SidebarNavItem glyph='icon-outlined-profile' name='Profile' href="/ltr/profile" />

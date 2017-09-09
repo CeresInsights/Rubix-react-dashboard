@@ -71,7 +71,7 @@ export default class AdminLogin extends React.Component {
 
             dispatch(authActions.fetchPendingEmailData(this.state.un, this.state.pw));
 
-            browserHistory.push('/executivedashboard');
+            browserHistory.push('/ltr/executivedashboard');
             this.setState({
                 loginStatus: true
             })

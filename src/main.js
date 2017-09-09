@@ -11,9 +11,9 @@ import render, {
   applyMiddleware
 } from '@sketchpixy/rubix/lib/node/redux-router';
 
-import rootReducer from './reducers';
+import reducers from './reducers';
 // import thunkMiddleware from 'redux-thunk';
- setupReducers(rootReducer);
+ setupReducers(reducers);
 //  applyMiddleware(thunkMiddleware);
 
 l20n.initializeLocales({
