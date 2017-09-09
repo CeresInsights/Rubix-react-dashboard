@@ -55,19 +55,19 @@ export default class CampaignsPromotionsAndLoyaltyOptimization extends React.Com
 
         return null;
     }
-    // componentDidMount(){
-    //     let temp = {};
-    //     let apiKey = ''
-    //     temp = this.props.login;
-    //     apiKey = temp["key"];
-    //     console.log("apiKey", apiKey)
-    //     const { dispatch } = this.props;
-    //     dispatch(execDashActions.fetchMadData(apiKey));
-    //     dispatch(execDashActions.fetchCsrData(apiKey));
-    //     dispatch(execDashActions.fetchBdwData(apiKey));
-    //     dispatch(execDashActions.fetchAsiData(apiKey));
-    //     dispatch(execDashActions.fetchProdProductData(apiKey));
-    // }
+    componentDidMount(){
+        let temp = {};
+        let apiKey = ''
+        temp = this.props.login;
+        apiKey = temp["key"];
+        console.log("apiKey", apiKey)
+        const { dispatch } = this.props;
+        dispatch(execDashActions.fetchMadData(apiKey));
+        dispatch(execDashActions.fetchCsrData(apiKey));
+        dispatch(execDashActions.fetchBdwData(apiKey));
+        dispatch(execDashActions.fetchAsiData(apiKey));
+        dispatch(execDashActions.fetchProdProductData(apiKey));
+    }
     componentWillReceiveProps(nextProps) {
 
         //// sma channel data operation///////////

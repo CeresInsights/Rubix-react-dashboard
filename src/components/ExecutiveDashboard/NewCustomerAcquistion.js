@@ -43,14 +43,14 @@ export default class NewCustomerAcquistion extends React.Component {
             demo_percent_total: []
         }
     }
-    // componentDidMount() {
-    //     let temp = {};
-    //     let apiKey = ''
-    //     temp = this.props.login;
-    //     apiKey = temp["key"];
-    //     const { dispatch } = this.props;
-    //     dispatch(execDashActions.fetchDemographicsData(apiKey));
-    //   }
+    componentDidMount() {
+        let temp = {};
+        let apiKey = ''
+        temp = this.props.login;
+        apiKey = temp["key"];
+        const { dispatch } = this.props;
+        dispatch(execDashActions.fetchDemographicsData(apiKey));
+      }
     componentWillReceiveProps(nextProps) {
 
         let age_avg = 0;

@@ -232,10 +232,6 @@ export default class CampaignsPromotionsAndLoyaltyOptimization extends React.Com
             })
         }
     }
-    componentDidMount() {
-
-
-    }
     componentDidUpdate() {
         ////////////////////////// Sub dashboard Campaigns App CPTA////////////////////////        
         //BDW chart
