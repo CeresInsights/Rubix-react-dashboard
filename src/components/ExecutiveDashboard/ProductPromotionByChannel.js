@@ -91,21 +91,23 @@ export default class ProductPromotionByChannel extends React.Component {
     sma_channel_keys = this.state.sma_channel_keys;
     sma_channel_values = this.state.sma_channel_values;
     let channel_tiles = [];
-    for (let i = 0; i < sma_channel_keys.length; i++) {
-      temp_array[i] = sma_channel_values[i];
-      channel_tiles.push(
-        <div className="sma_channel_tile">
-          <p className="sma_channel_title">{sma_channel_keys[i]}</p>
-          <p className="sma_channel_content">{temp_array[i][0]}</p>
-          <div className="sma_channel_bottom">
-            <p className="sma_channel_percent">{temp_array[i][1]}</p>
-            <div className="sma_channel_number_area">
-              <p className="sma_channel_number">{temp_array[i][2]}</p>
-              <p className="counts">counts</p>
+    if (sma_channel_keys.length > 0) {
+      for (let i = 0; i < sma_channel_keys.length; i++) {
+        temp_array[i] = sma_channel_values[i];
+        channel_tiles.push(
+          <div className="sma_channel_tile">
+            <p className="sma_channel_title">{sma_channel_keys[i]}</p>
+            <p className="sma_channel_content">{temp_array[i][0]}</p>
+            <div className="sma_channel_bottom">
+              <p className="sma_channel_percent">{temp_array[i][1]}</p>
+              <div className="sma_channel_number_area">
+                <p className="sma_channel_number">{temp_array[i][2]}</p>
+                <p className="counts">counts</p>
+              </div>
             </div>
           </div>
-        </div>
-      )
+        )
+      }
     }
     return channel_tiles;
   }

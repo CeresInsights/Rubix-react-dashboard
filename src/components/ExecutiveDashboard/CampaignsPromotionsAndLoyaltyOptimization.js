@@ -55,7 +55,7 @@ export default class CampaignsPromotionsAndLoyaltyOptimization extends React.Com
 
         return null;
     }
-    componentDidMount(){
+    componentDidMount() {
         let temp = {};
         let apiKey = ''
         temp = this.props.login;
@@ -342,7 +342,7 @@ export default class CampaignsPromotionsAndLoyaltyOptimization extends React.Com
                                             <div id="csr_pie_chart"></div>
                                             <div id="csr_bar_chart"></div>
                                             <Col md={12}>
-                                                {Object.keys(this.state.csr_data).length!== 0&&
+                                                {Object.keys(this.state.csr_data).length !== 0 &&
                                                     <div className="csr_tile">
                                                         <p className="csr_title">Total Market Spend</p>
                                                         <p className="csr_content">{this.state.csr_total_market}</p>

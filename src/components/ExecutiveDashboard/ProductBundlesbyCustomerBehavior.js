@@ -49,7 +49,7 @@ export default class ProductBundlesbyCustomerBehavior extends React.Component {
     temp = this.props.login;
     apiKey = temp["key"];
     const { dispatch } = this.props;
-    dispatch(execDashActions.fetchProdProductData(apiKey));
+    dispatch(execDashActions.fetchProductData(apiKey));
     dispatch(execDashActions.fetchProdPayData(apiKey));
   }
   componentWillReceiveProps(nextProps) {
@@ -95,23 +95,40 @@ export default class ProductBundlesbyCustomerBehavior extends React.Component {
     prod_pay_values = this.state.prod_pay_values;
 
     let prod_pay_tiles = [];
-    for (let i = 0; i < prod_pay_keys.length; i++) {
-      temp_array[i] = prod_pay_values[i];
-      prod_pay_tiles.push(
-        <div className="prod_product_tile">
-          <p className="prod_product_title">{prod_pay_keys[i]}</p>
-          <p className="prod_product_content">{temp_array[i][0]}</p>
-          <div className="prod_product_bottom">
-            <p className="prod_product_percent">{temp_array[i][1]}</p>
-            <div className="prod_product_number_area">
-              <p className="prod_product_number">{temp_array[i][2]}</p>
-              <p className="counts">counts</p>
+    if (prod_pay_keys.length > 0) {
+      for (let i = 0; i < prod_pay_keys.length; i++) {
+        temp_array[i] = prod_pay_values[i];
+        prod_pay_tiles.push(
+          <div className="prod_product_tile">
+            <p className="prod_product_title">{prod_pay_keys[i]}</p>
+            <p className="prod_product_content">{temp_array[i][0]}</p>
+            <div className="prod_product_bottom">
+              <p className="prod_product_percent">{temp_array[i][1]}</p>
+              <div className="prod_product_number_area">
+                <p className="prod_product_number">{temp_array[i][2]}</p>
+                <p className="counts">counts</p>
+              </div>
             </div>
           </div>
-        </div>
-      )
+        )
+      }
     }
     return prod_pay_tiles;
+  //   prod_pay_keys.map((pay_key, index) => {
+  //     prod_pay_values.map((pay_value) => {
+  //         return <div className="prod_pay_tile" key={index}>
+  //                     <p className="prod_pay_title">{pay_key}</p>
+  //                     <p className="prod_pay_content">{pay_value[0]}</p>
+  //                     <div className="prod_pay_bottom">
+  //                         <p className="prod_pay_percent">{pay_value[1]}</p>
+  //                         <div className="prod_pay_number_area">
+  //                             <p className="prod_pay_number">{pay_value[2]}</p>
+  //                             <p className="counts">counts</p>
+  //                         </div>
+  //                     </div>
+  //                 </div>
+  //     })
+  // })
   }
 
   renderProductTiles = () => {

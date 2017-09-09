@@ -63,17 +63,6 @@ export default class ApplicationSidebar extends React.Component {
     //Campaigns App
     dispatch(subDashActions.fetchChannelData(apiKey));
     dispatch(subDashActions.fetchChannelRecommenderData(apiKey));
-    // // ///////Executive Dash////////////////////
-    // dispatch(execDashActions.fetchDemographicsData(apiKey));
-    // dispatch(execDashActions.fetchMadData(apiKey));
-    // dispatch(execDashActions.fetchCsrData(apiKey));
-    // dispatch(execDashActions.fetchBdwData(apiKey));
-    // dispatch(execDashActions.fetchAsiData(apiKey));
-    // dispatch(execDashActions.fetchProdProductData(apiKey));
-    // dispatch(execDashActions.fetchProdPayData(apiKey));
-    // dispatch(execDashActions.fetchProductData(apiKey));
-    // dispatch(execDashActions.fetchDsaData(apiKey));
-    // dispatch(execDashActions.fetchChannelData(apiKey));
     this.setState({ apiKey: apiKey })
   }
   componentWillReceiveProps(nextProps) {
