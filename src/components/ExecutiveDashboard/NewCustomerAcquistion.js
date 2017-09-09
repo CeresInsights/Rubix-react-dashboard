@@ -43,7 +43,14 @@ export default class NewCustomerAcquistion extends React.Component {
             demo_percent_total: []
         }
     }
-
+    // componentDidMount() {
+    //     let temp = {};
+    //     let apiKey = ''
+    //     temp = this.props.login;
+    //     apiKey = temp["key"];
+    //     const { dispatch } = this.props;
+    //     dispatch(execDashActions.fetchDemographicsData(apiKey));
+    //   }
     componentWillReceiveProps(nextProps) {
 
         let age_avg = 0;
@@ -55,7 +62,7 @@ export default class NewCustomerAcquistion extends React.Component {
         let demo_percent_total_item = [];
 
         demographics = nextProps.demographics;
-        // if (Object.keys(demographics).length > 0) {
+        if (Object.keys(demographics).length > 0) {
             console.log("demographics", demographics)
             age_avg = demographics["age"]["average"];
 
@@ -104,7 +111,7 @@ export default class NewCustomerAcquistion extends React.Component {
                 demo_contents_keys: demo_contents_keys,
                 demo_percent_total: demo_percent_total
             })
-        
+        }
     }
     renderDemographicsPieChart = (index) => {
         (() => {

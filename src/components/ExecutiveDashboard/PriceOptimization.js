@@ -51,6 +51,14 @@ export default class PriceOptimization extends React.Component {
 
     return null;
   }
+  // componentDidMount() {
+  //   let temp = {};
+  //   let apiKey = ''
+  //   temp = this.props.login;
+  //   apiKey = temp["key"];
+  //   const { dispatch } = this.props;
+  //   dispatch(execDashActions.fetchCsrData(apiKey));
+  // }
   componentWillReceiveProps(nextProps) {
 
     /////////csr data operation//////////////
