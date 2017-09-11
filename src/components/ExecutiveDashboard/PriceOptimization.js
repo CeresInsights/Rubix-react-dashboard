@@ -176,7 +176,7 @@ export default class PriceOptimization extends React.Component {
     let csr_total_market = '';
     csr_total_market = this.state.csr_total_market;
     return (
-      <PanelTabContainer id='price-optimization-panel-tab' defaultActiveKey="cslr">
+      <PanelTabContainer id='price-optimization-panel-tab'>
         <Panel>
           <PanelHeader className='bg-blue fg-white' style={{ display: 'block' }}>
             <Grid>
