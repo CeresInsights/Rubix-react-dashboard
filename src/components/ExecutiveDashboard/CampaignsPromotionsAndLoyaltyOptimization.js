@@ -55,19 +55,16 @@ export default class CampaignsPromotionsAndLoyaltyOptimization extends React.Com
 
         return null;
     }
-    componentDidMount() {
-        let temp = {};
-        let apiKey = ''
-        temp = this.props.login;
-        apiKey = temp["key"];
-        console.log("apiKey", apiKey)
-        const { dispatch } = this.props;
-        dispatch(execDashActions.fetchMadData(apiKey));
-        dispatch(execDashActions.fetchCsrData(apiKey));
-        dispatch(execDashActions.fetchBdwData(apiKey));
-        dispatch(execDashActions.fetchAsiData(apiKey));
-        dispatch(execDashActions.fetchProdProductData(apiKey));
-    }
+    // componentDidMount() {
+    //     let apiKey = '';
+    //     apiKey = localStorage.getItem('apiKey');
+    //     const { dispatch } = this.props;
+    //     dispatch(execDashActions.fetchMadData(apiKey));
+    //     dispatch(execDashActions.fetchCsrData(apiKey));
+    //     dispatch(execDashActions.fetchBdwData(apiKey));
+    //     dispatch(execDashActions.fetchAsiData(apiKey));
+    //     dispatch(execDashActions.fetchProdProductData(apiKey));
+    // }
     componentWillReceiveProps(nextProps) {
 
         //// sma channel data operation///////////
@@ -87,23 +84,27 @@ export default class CampaignsPromotionsAndLoyaltyOptimization extends React.Com
         })
         /////////csr data operation//////////////
         let temp = {};
+        let csr_total_market = '';
         temp = nextProps.csr;
-        this.setState({ csr_total_market: temp["total_market_spend"] });
+        csr_total_market = temp["total_market_spend"];
+        console.log("TOTAL", csr_total_market)
+        this.setState({ csr_total_market: csr_total_market });
         this.setState({ csr_data: temp });
         ////////////api data operation/////////////
+        
         this.setState({ asi_data: nextProps.asi });
+        
         ////////////mad, bdw, csr data operation///////////
         (() => {
             $('#bdw_chart').html('');
             var bdw_chart = new Rubix('#bdw_chart', {
                 height: 200,
-                title: 'Customer Purchase Time Analysis',
-                subtitle: 'Best Day Of Week',
+                title: 'Best Day Of Week',
                 titleColor: '#D71F4B',
-                subtitleColor: '#D71F4B',
                 axis: {
                     x: {
                         type: 'ordinal',
+                        tickCount: 0,
                     },
                     y: {
                         type: 'linear',
@@ -141,13 +142,12 @@ export default class CampaignsPromotionsAndLoyaltyOptimization extends React.Com
             $('#mad_chart').html('');
             var mad_chart = new Rubix('#mad_chart', {
                 height: 200,
-                title: 'Customer Purchase Time Analysis',
-                subtitle: 'Monthly Activity Distribution',
+                title: 'Monthly Activity Distribution',
                 titleColor: '#D71F4B',
-                subtitleColor: '#D71F4B',
                 axis: {
                     x: {
                         type: 'ordinal',
+                        tickCount: 0
                     },
                     y: {
                         type: 'linear',
@@ -213,6 +213,7 @@ export default class CampaignsPromotionsAndLoyaltyOptimization extends React.Com
                 axis: {
                     x: {
                         type: 'ordinal',
+                        tickCount: 0
                     },
                     y: {
                         type: 'linear',
@@ -291,8 +292,24 @@ export default class CampaignsPromotionsAndLoyaltyOptimization extends React.Com
         }
         return prod_product_tiles;
     }
-    render() {
+    renderCsr = () => {
 
+        return <Row>
+            <Col md={4}>
+                <div id="csr_pie_chart"></div>
+            </Col>
+            <Col md={4}>
+                <div id="csr_bar_chart"></div>
+            </Col>
+            <Col md={4}>
+                <p className="csr_text">Total Market Spend</p>
+                <div className="csr_tile">
+                    <p className="csr_content">{this.state.csr_total_market}</p>
+                </div>
+            </Col>
+        </Row>
+    }
+    render() {
         return (
             <PanelTabContainer id='campaigns_promotions_loyaltypanel' defaultActiveKey="cpta">
                 <Panel>
@@ -322,16 +339,21 @@ export default class CampaignsPromotionsAndLoyaltyOptimization extends React.Com
                                 <Col xs={12}>
                                     <Tab.Content>
                                         <Tab.Pane eventKey="cpta">
-                                            <div id="bdw_chart" ></div>
-                                            <div id="mad_chart" ></div>
-                                            <div id="asi_area" >
-                                                <p className="cptaTxt">Customer Purchase Time Analysis</p>
-                                                <p className="asiTxt">Average Shopping Interval</p>
-                                                <div className="asi_tile">
-                                                    <p className="daysTxt">Days</p>
-                                                    <p className="daysNumTxt">{this.state.asi_data}</p>
+                                            <Col md={4}>
+                                                <div id="bdw_chart" ></div>
+                                            </Col>
+                                            <Col md={4}>
+                                                <div id="mad_chart" ></div>
+                                            </Col>
+                                            <Col md={4}>
+                                                <div id="asi_area" >
+                                                    <p className="asi_text">Average Shopping Interval</p>
+                                                    <div className="asi_tile">
+                                                        <p className="days_text">Days</p>
+                                                        <p className="days_number_text">{this.state.asi_data}</p>
+                                                    </div>
                                                 </div>
-                                            </div>
+                                            </Col>
                                         </Tab.Pane>
                                         {(this.state.prod_product_keys !== null && this.state.prod_product_values) &&
                                             <Tab.Pane eventKey="ple">
@@ -339,16 +361,7 @@ export default class CampaignsPromotionsAndLoyaltyOptimization extends React.Com
                                             </Tab.Pane>
                                         }
                                         <Tab.Pane eventKey="csr">
-                                            <div id="csr_pie_chart"></div>
-                                            <div id="csr_bar_chart"></div>
-                                            <Col md={12}>
-                                                {Object.keys(this.state.csr_data).length !== 0 &&
-                                                    <div className="csr_tile">
-                                                        <p className="csr_title">Total Market Spend</p>
-                                                        <p className="csr_content">{this.state.csr_total_market}</p>
-                                                    </div>
-                                                }
-                                            </Col>
+                                            {this.renderCsr()}
                                         </Tab.Pane>
                                     </Tab.Content>
                                 </Col>

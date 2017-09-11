@@ -542,7 +542,8 @@ export default class ProductBundlesbyCustomerBehavior extends React.Component {
                     },
                     y: {
                         type: 'linear',
-                        tickFormat: '.2f'
+                        tickFormat: '.2f',
+                        tickCount: 0
                     }
                 },
                 tooltip: {
@@ -728,59 +729,9 @@ export default class ProductBundlesbyCustomerBehavior extends React.Component {
             </Grid>
         )
     }
-    // onTabSelect = (key) => {
-    //     let recommenderTypesPay = [];
-    //     let recommenderTypesProd = [];
-    //     recommenderTypesPay = this.state.recommenderTypesPay;
-    //     recommenderTypesProd = this.state.recommenderTypesProd;
-    //     if (key === 'cpp') {
-    //         recommenderTypesPay.map((item, index) => {
-    //             setTimeout(() => {
-    //                 let a = document.getElementById('pay_spectro_line_chart' + index);
-    //                 if (a) {
-    //                     this.renderSpectroLineChartPay(index);
-    //                 }
-    //             }, 150)
-    //             setTimeout(() => {
-    //                 let b = document.getElementById('pay_optimizer_column_chart' + index);
-    //                 if (b) {
-    //                     this.renderOptimizerColumnChartPay(index);
-    //                 }
-    //             }, 150)
-    //             setTimeout(() => {
-    //                 let c = document.getElementById('pay_optimizer_bar_chart' + index);
-    //                 if (c) {
-    //                     this.renderOptimizerBarChartPay(index);
-    //                 }
-    //             }, 150)
-    //         })
-    //     }
-    //     if (key === 'cpa') {
-    //         recommenderTypesProd.map((item, index) => {
-    //             setTimeout(() => {
-    //                 let a = document.getElementById('prod_spectro_line_chart' + index);
-    //                 if (a) {
-    //                     this.renderSpectroLineChartProd(index);
-    //                 }
-    //             }, 150)
-    //             setTimeout(() => {
-    //                 let b = document.getElementById('prod_optimizer_column_chart' + index);
-    //                 if (b) {
-    //                     this.renderOptimizerColumnChartProd(index);
-    //                 }
-    //             }, 150)
-    //             setTimeout(() => {
-    //                 let c = document.getElementById('prod_optimizer_bar_chart' + index);
-    //                 if (c) {
-    //                     this.renderOptimizerBarChartProd(index);
-    //                 }
-    //             }, 150)
-    //         })
-    //     }
-    // }
     render() {
         return (
-            <PanelTabContainer id='panel-body-header-footer-both-plain-tabs' defaultActiveKey="cpp" onSelect={this.onTabSelect}>
+            <PanelTabContainer id='panel-body-header-footer-both-plain-tabs' defaultActiveKey="cpp">
                 <Panel>
                     <PanelHeader className='bg-blue fg-white' style={{ display: 'block' }}>
                         <Grid>

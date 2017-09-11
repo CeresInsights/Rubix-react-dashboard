@@ -64,15 +64,7 @@ export default class LoadData extends React.Component {
       this.setState({
         progress_flag: false
       })
-    } else {
-      this.errorNotification(loadData);
-    }
-  }
-  errorNotification(str) {
-    Messenger().post({
-      message: str,
-      showCloseButton: true
-    });
+    } 
   }
   render() {
     return (

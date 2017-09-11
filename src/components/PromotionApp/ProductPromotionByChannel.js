@@ -543,7 +543,8 @@ export default class ProductPromotionByChannel extends React.Component {
                     },
                     y: {
                         type: 'linear',
-                        tickFormat: '.2f'
+                        tickFormat: '.2f',
+                        tickCount: 0
                     }
                 },
                 tooltip: {
@@ -651,7 +652,6 @@ export default class ProductPromotionByChannel extends React.Component {
                     recommenderTypesDsa.map((item, index) => {
                         //////////////////////////////////Sub dashboard Campaigns App PLE//////////////////
                         let num = Math.random() * 2;
-                        console.log("MATH", num)
                         return <Row key={index} className="dsa_row">
                             <Col md={2} className="dsa_recommender_tile_area">
                                 <div className="dsa_recommender_tile">
@@ -728,59 +728,9 @@ export default class ProductPromotionByChannel extends React.Component {
             </Grid>
         )
     }
-    // onTabSelect = (key) => {
-    //     let recommenderTypesDsa = [];
-    //     let recommenderTypesProd = [];
-    //     recommenderTypesDsa = this.state.recommenderTypesDsa;
-    //     recommenderTypesProd = this.state.recommenderTypesProd;
-    //     if (key === 'dsa') {
-    //         recommenderTypesDsa.map((item, index) => {
-    //             setTimeout(() => {
-    //                 let a = document.getElementById('dsa_spectro_line_chart' + index);
-    //                 if (a) {
-    //                     this.renderSpectroLineChartDsa(index);
-    //                 }
-    //             }, 150)
-    //             setTimeout(() => {
-    //                 let b = document.getElementById('dsa_optimizer_column_chart' + index);
-    //                 if (b) {
-    //                     this.renderOptimizerColumnChartDsa(index);
-    //                 }
-    //             }, 150)
-    //             setTimeout(() => {
-    //                 let c = document.getElementById('dsa_optimizer_bar_chart' + index);
-    //                 if (c) {
-    //                     this.renderOptimizerBarChartDsa(index);
-    //                 }
-    //             }, 150)
-    //         })
-    //     }
-    //     if (key === 'sma') {
-    //         recommenderTypesProd.map((item, index) => {
-    //             setTimeout(() => {
-    //                 let a = document.getElementById('prod_spectro_line_chart' + index);
-    //                 if (a) {
-    //                     this.renderSpectroLineChartProd(index);
-    //                 }
-    //             }, 150)
-    //             setTimeout(() => {
-    //                 let b = document.getElementById('prod_optimizer_column_chart' + index);
-    //                 if (b) {
-    //                     this.renderOptimizerColumnChartProd(index);
-    //                 }
-    //             }, 150)
-    //             setTimeout(() => {
-    //                 let c = document.getElementById('prod_optimizer_bar_chart' + index);
-    //                 if (c) {
-    //                     this.renderOptimizerBarChartProd(index);
-    //                 }
-    //             }, 150)
-    //         })
-    //     }
-    // }
     render() {
         return (
-            <PanelTabContainer id='panel-body-header-footer-both-plain-tabs' defaultActiveKey="sma" onSelect={this.onTabSelect}>
+            <PanelTabContainer id='panel-body-header-footer-both-plain-tabs' defaultActiveKey="sma">
                 <Panel>
                     <PanelHeader className='bg-blue fg-white' style={{ display: 'block' }}>
                         <Grid>

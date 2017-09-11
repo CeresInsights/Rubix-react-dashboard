@@ -332,7 +332,6 @@ export const fetchProdProductRecommenderData = (apiKey) => {
     return (dispatch) => {
         return Axios.get(apiProdProductRecommender + apiKey)
             .then(response => {
-                console.log("prodProductRecommender", response.data)
                 dispatch(fetchProdProductRecommenderDataSuccess(response.data))
             })
             .catch(error => {

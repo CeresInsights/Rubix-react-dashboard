@@ -198,22 +198,22 @@ html.authentication {
 ////////////////////////////////////////////////////Dashboard Tiles//////////////////////////////////////
 
 // execdashboard CPTA
-.cptaTxt {
-  font-family: Lato, "Lucida Grande", Arial, Helvetica, sans-serif;
-  text-align: center;
-  user-select: none;
-  font-weight: bold;
-  font-size: 16px;
-  color: rgb(215, 31, 75);
-  margin-top: 10px;
-  cursor: default;
-}
+// .cptaTxt {
+//   font-family: Lato, "Lucida Grande", Arial, Helvetica, sans-serif;
+//   text-align: center;
+//   user-select: none;
+//   font-weight: bold;
+//   font-size: 16px;
+//   color: rgb(215, 31, 75);
+//   margin-top: 10px;
+//   cursor: default;
+// }
 
-.asiTxt {
+.asi_text, .csr_text{
   font-family: Lato, "Lucida Grande", Arial, Helvetica, sans-serif;
   text-align: center;
   user-select: none;
-  font-size: 12px;
+  font-size: 16px;
   color: rgb(215, 31, 75);
   margin-top: 5px;
   cursor: default;
@@ -229,8 +229,8 @@ html.authentication {
   background: #FF7F27;
 }
 
-.daysTxt,
-.daysNumTxt,
+.days_text,
+.days_number_text,
 .ple_type1,
 .ple_type2,
 .ple_title1,
@@ -245,11 +245,11 @@ html.authentication {
   color: #FFFFFF
 }
 
-.daysTxt {
+.days_text {
   font-size: 22px
 }
 
-.daysNumTxt {
+.days_number_text {
   font-size: 48px;
   font-weight: bold;
   text-align: center
@@ -319,7 +319,6 @@ html.authentication {
   color: #FFFFFF
 }
 .csr_content {
-  margin-top: 50px;
   text-align: center;
   font-size: 18px;
   font-weight: bold;
@@ -550,11 +549,8 @@ html.authentication {
 }
 ////////////////////////Sub Dashboard Campaigns App PLE///////////////////
 ///////best recommender////////////
-// .channel_spectro_line_chart, .channel_optimizer_bar_chart, .channel_optimizer_column_chart {
-//   margin: 0 auto;
-//   width: 100%;
-// }
 .channel_recommender_tile, .pay_recommender_tile, .dsa_recommender_tile, .prod_recommender_tile {
+  margin: auto;
   padding: 10px;
   width: 100%;
   background: #8081FF;
@@ -597,6 +593,8 @@ html.authentication {
 ////////////all sub dashbard recommender text tiles///////////////
 .channel_recommender_text_tile, .pay_recommender_text_tile, .dsa_recommender_text_tile, .prod_recommender_text_tile {
   margin: 0 auto;
+  padding: 10px;
+  box-sizing: border-box;
   width: 100%;
   height: auto;
   background: #FF7F27;
@@ -605,7 +603,8 @@ html.authentication {
 
 .channel_recommender_text, .pay_recommender_text, .dsa_recommender_text, .prod_recommender_text {
   font-size: 10px;
-  text-align: center;
+  word-break: break-all;
+  text-align: left;
   font-weight: bold;
   color: #FFFFFF
 }
@@ -631,7 +630,7 @@ html.authentication {
   color: #FFFFFF
 }
 .channel_row, .pay_row, .prod_row, .dsa_row {
-  // margin: 5px 0;
+   margin: 10px;
 }
 
 

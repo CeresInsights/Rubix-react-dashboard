@@ -43,14 +43,12 @@ export default class NewCustomerAcquistion extends React.Component {
             demo_percent_total: []
         }
     }
-    componentDidMount() {
-        let temp = {};
-        let apiKey = ''
-        temp = this.props.login;
-        apiKey = temp["key"];
-        const { dispatch } = this.props;
-        dispatch(execDashActions.fetchDemographicsData(apiKey));
-      }
+    // componentDidMount() {
+    //     let apiKey = '';
+    //     apiKey = localStorage.getItem('apiKey');
+    //     const { dispatch } = this.props;
+    //     dispatch(execDashActions.fetchDemographicsData(apiKey));
+    // }
     componentWillReceiveProps(nextProps) {
 
         let age_avg = 0;
@@ -62,56 +60,51 @@ export default class NewCustomerAcquistion extends React.Component {
         let demo_percent_total_item = [];
 
         demographics = nextProps.demographics;
-        if (Object.keys(demographics).length > 0) {
-            console.log("demographics", demographics)
-            age_avg = demographics["age"]["average"];
-
-            delete demographics["age"];
-            demo_keys = Object.keys(demographics);
-            demo_keys.map((item) => {
-                demo_contents.push(demographics[item])
-            })
-            demo_contents.map((content) => {
-                demo_contents_keys.push(Object.keys(content));
-            })
-            demo_contents.map((content) => {
-                demo_contents_keys.map((itemArray, index) => {
-                    itemArray.map((item) => {
-                        demo_percent_total_item.push(content[item])
-                    })
-                    demo_percent_total.push(demo_percent_total_item)
-
+        delete demographics["age"];
+        demo_keys = Object.keys(demographics);
+        demo_keys.map((item) => {
+            demo_contents.push(demographics[item])
+        })
+        demo_contents.map((content) => {
+            demo_contents_keys.push(Object.keys(content));
+        })
+        demo_contents.map((content) => {
+            demo_contents_keys.map((itemArray, index) => {
+                itemArray.map((item) => {
+                    demo_percent_total_item.push(content[item])
                 })
+                demo_percent_total.push(demo_percent_total_item)
+
             })
-            demo_keys.map((item, index) => {
-                setTimeout(() => {
-                    let a = document.getElementById('demographics_pie_chart' + index);
-                    if (a) {
-                        this.renderDemographicsPieChart(index);
-                    }
-                }, 150)
-                setTimeout(() => {
-                    let b = document.getElementById('demographics_column_chart' + index);
-                    if (b) {
-                        this.renderDemographicsColumnChart(index);
-                    }
-                }, 150)
-                setTimeout(() => {
-                    let c = document.getElementById('demographics_bar_chart' + index);
-                    if (c) {
-                        this.renderDemographicsBarChart(index);
-                    }
-                }, 150)
-            })
-            this.setState({
-                demographics: demographics,
-                age_avg: age_avg,
-                demo_keys: demo_keys,
-                demo_contents: demo_contents,
-                demo_contents_keys: demo_contents_keys,
-                demo_percent_total: demo_percent_total
-            })
-        }
+        })
+        demo_keys.map((item, index) => {
+            setTimeout(() => {
+                let a = document.getElementById('demographics_pie_chart' + index);
+                if (a) {
+                    this.renderDemographicsPieChart(index);
+                }
+            }, 150)
+            setTimeout(() => {
+                let b = document.getElementById('demographics_column_chart' + index);
+                if (b) {
+                    this.renderDemographicsColumnChart(index);
+                }
+            }, 150)
+            // setTimeout(() => {
+            //     let c = document.getElementById('demographics_bar_chart' + index);
+            //     if (c) {
+            //         this.renderDemographicsBarChart(index);
+            //     }
+            // }, 150)
+        })
+        this.setState({
+            demographics: demographics,
+            age_avg: age_avg,
+            demo_keys: demo_keys,
+            demo_contents: demo_contents,
+            demo_contents_keys: demo_contents_keys,
+            demo_percent_total: demo_percent_total
+        })
     }
     renderDemographicsPieChart = (index) => {
         (() => {
@@ -264,7 +257,8 @@ export default class NewCustomerAcquistion extends React.Component {
                             <div id={"demographics_pie_chart" + index}></div>
                         </Col>
                         <Col xs={6} className="bar_chart_area">
-                            <div id={num > 1 ? "demographics_bar_chart" + index : "demographics_column_chart" + index}></div>
+                            {/* <div id={num > 1 ? "demographics_bar_chart" + index : "demographics_column_chart" + index}></div> */}
+                            <div id={"demographics_column_chart" + index}></div>
                         </Col>
                     </Row>
                 })
@@ -272,36 +266,9 @@ export default class NewCustomerAcquistion extends React.Component {
             </Grid>
         )
     }
-    // onTabSelect = (key) => {
-    //     let demo_keys = [];
-    //     demo_keys = this.state.demo_keys;
-    //     if (key === 'pms' && demo_keys.length !== 0) {
-    //         demo_keys.map((item, index) => {
-    //             setTimeout(() => {
-    //                 let a = document.getElementById('demographics_pie_chart' + index);
-    //                 if (a) {
-    //                     this.renderDemographicsPieChart(index);
-    //                 }
-    //             }, 150)
-    //             setTimeout(() => {
-    //                 let b = document.getElementById('demographics_column_chart' + index);
-    //                 if (b) {
-    //                     this.renderDemographicsColumnChart(index);
-    //                 }
-    //             }, 150)
-    //             setTimeout(() => {
-    //                 let c = document.getElementById('demographics_bar_chart' + index);
-    //                 if (c) {
-    //                     this.renderDemographicsBarChart(index);
-    //                 }
-    //             }, 150)
-    //         })
-    //     }
-
-    // }
     render() {
         return (
-            <PanelTabContainer id='panel-body-header-footer-both-plain-tabs' defaultActiveKey="pclv" onSelect={this.onTabSelect}>
+            <PanelTabContainer id='panel-body-header-footer-both-plain-tabs' defaultActiveKey="pms">
                 <Panel>
                     <PanelHeader className='bg-blue fg-white' style={{ display: 'block' }}>
                         <Grid>

@@ -100,45 +100,185 @@ export default class CampaignsPromotionsAndLoyaltyOptimization extends React.Com
         let bestRecommenderContentsChannel = [];
         let recommenderContentsChannel = [];
         let recommenderTitlesChannel = [];
-
-        // let mainTileTitles = [];
         let mainTileTitlesChannelDisplay = [];
         /////////////////Data Operation////////////////
-        let mad = {};
         let asi = '';
-        let bdw = {};
-        let csr = {};
         let subChannel = {};
         let subChannelRecommender = {};
         let csr_total_market = '';
 
-        mad = nextProps.mad;
-        asi = nextProps.asi;
-        bdw = nextProps.bdw;
-        csr = nextProps.csr;
         subChannel = nextProps.subChannel;
         subChannelRecommender = nextProps.subChannelRecommender;
-        if (Object.keys(bdw).length > 0) {
-            this.setState({
-                bdw_data: bdw,
+
+        this.setState({ asi_data: nextProps.asi });
+        (() => {
+            $('#bdw_chart').html('');
+            var bdw_chart = new Rubix('#bdw_chart', {
+                height: 200,
+                title: 'Best Day Of Week',
+                titleColor: '#D71F4B',
+                axis: {
+                    x: {
+                        type: 'ordinal',
+                        tickCount: 0,
+                    },
+                    y: {
+                        type: 'linear',
+                        tickFormat: '.2f',
+                    }
+                },
+                tooltip: {
+                    color: '#D71F4B',
+                    format: {
+                        y: '.2f'
+                    }
+                },
+                margin: {
+                    left: 50
+                },
+                grouped: false,
+            });
+
+            var bdw = bdw_chart.column_series({
+                name: 'Shopping Rate',
+                color: '#D71F4B'
+            });
+
+            var tmp = nextProps.bdw;
+            var tmp_array = [];
+            for (var i in tmp) {
+                var t = {};
+                t.x = i;
+                t.y = tmp[i];
+                tmp_array.push(t);
+            }
+            bdw.addData(tmp_array);
+
+            //MAD chart
+            $('#mad_chart').html('');
+            var mad_chart = new Rubix('#mad_chart', {
+                height: 200,
+                title: 'Monthly Activity Distribution',
+                titleColor: '#D71F4B',
+                axis: {
+                    x: {
+                        type: 'ordinal',
+                        tickCount: 0
+                    },
+                    y: {
+                        type: 'linear',
+                        tickFormat: '.2f',
+                    }
+                },
+                tooltip: {
+                    color: '#D71F4B',
+                    format: {
+                        y: '.2f'
+                    }
+                },
+                margin: {
+                    left: 50
+                },
+                grouped: false,
+            });
+
+            var mad = mad_chart.column_series({
+                name: 'Shopping Rate',
+                color: '#D71F4B'
+            });
+
+            tmp = nextProps.mad;
+            tmp_array = [];
+            for (var i in tmp) {
+                var t = {};
+                t.x = i;
+                t.y = tmp[i];
+                tmp_array.push(t);
+            }
+            mad.addData(tmp_array);
+
+            ///////////////// CSR Charts/////////////////////
+            /////////////CSR Pie Chart//////////////
+            var color_array = ['#8064A2', '#C0504D', '#4F81BD', '#9BBB59'];
+            $('#csr_pie_chart').html('');
+            var pie = Rubix.Pie('#csr_pie_chart', {
+                title: 'Market Share By CSR Tier',
+                titleColor: '#D71F4B',
+                height: 300
+            });
+
+            var csr_data = nextProps.csr;
+            delete csr_data["total_market_spend"];
+            var tmp_array = [];
+            for (var i in csr_data) {
+                var t = {};
+                t.name = i;
+                t.value = csr_data[i]["market_share_%"];
+                t.color = color_array[this.getObjectKeyIndex(csr_data, i)];
+                tmp_array.push(t);
+            }
+
+            pie.addData(tmp_array);
+
+
+            ///////////CSR Bar Chart/////////////
+            $('#csr_bar_chart').html('');
+            var csr_bar_chart = new Rubix('#csr_bar_chart', {
+                height: 300,
+                title: 'CSR Tiers By High/Low Ranges',
+                titleColor: '#D71F4B',
+                axis: {
+                    x: {
+                        type: 'ordinal',
+                        tickCount: 0
+                    },
+                    y: {
+                        type: 'linear',
+                        tickFormat: '.0f',
+                    }
+                },
+                tooltip: {
+                    color: '#D71F4B',
+                    format: {
+                        y: '.2f'
+                    }
+                },
+                margin: {
+                    left: 50
+                },
+                grouped: true,
+            });
+
+            var high_bar = csr_bar_chart.column_series({
+                name: 'High',
+                color: '#4F81BD'
+            });
+            var low_bar = csr_bar_chart.column_series({
+                name: 'Low',
+                color: '#C0504D',
             })
-        }
-        if (Object.keys(mad).length > 0) {
-            this.setState({
-                mad_data: mad,
-            })
-        }
-        if (Object.keys(csr).length > 0) {
-            this.setState({
-                csr_data: csr,
-                csr_total_market: csr["total_market_spend"]
-            })
-        }
-        if (asi.length !== 0) {
-            this.setState({
-                asi_data: asi
-            })
-        }
+
+            var csr_data = nextProps.csr;
+            delete csr_data["total_market_spend"];
+
+            let high_array = [];
+            let low_array = [];
+
+            for (var i in csr_data) {
+                var high = {};
+                var low = {};
+                high.x = i;
+                high.y = csr_data[i]["high"];
+                high_array.push(high);
+
+                low.x = i;
+                low.y = csr_data[i]["low"];
+                low_array.push(low);
+
+            }
+            high_bar.addData(high_array);
+            low_bar.addData(low_array);
+        })();
         if (Object.keys(subChannel).length > 0 && Object.keys(subChannelRecommender).length > 0) {
             this.setState({
                 sma_channel: subChannel,
@@ -231,179 +371,6 @@ export default class CampaignsPromotionsAndLoyaltyOptimization extends React.Com
                 optimizer_data_channel: optimizer_data_channel
             })
         }
-    }
-    componentDidUpdate() {
-        ////////////////////////// Sub dashboard Campaigns App CPTA////////////////////////        
-        //BDW chart
-        (() => {
-            $('#bdw_chart').html('');
-            var chart = new Rubix('#bdw_chart', {
-                height: 300,
-                title: 'Best Day Of Week',
-                titleColor: '#D71F4B',
-                subtitleColor: '#D71F4B',
-                axis: {
-                    x: {
-                        type: 'ordinal',
-                    },
-                    y: {
-                        type: 'linear',
-                        tickFormat: '.2f'
-                    }
-                },
-                tooltip: {
-                    color: '#D71F4B',
-                    format: {
-                        y: '.2f'
-                    }
-                },
-                margin: {
-                    left: 50
-                },
-                grouped: false,
-            });
-
-            var bdw = chart.column_series({
-                name: 'Shopping Rate',
-                color: '#D71F4B'
-            });
-
-            var tmp = this.state.bdw_data;
-            var tmp_array = [];
-            for (var i in tmp) {
-                var t = new Object;
-                t.x = i;
-                t.y = tmp[i];
-                tmp_array.push(t);
-            }
-            bdw.addData(tmp_array);
-        })();
-
-        //MAD
-        (() => {
-            $('#mad_chart').html('');
-            var chart = new Rubix('#mad_chart', {
-                height: 300,
-                title: 'Monthly Activity Distribution',
-                titleColor: '#D71F4B',
-                subtitleColor: '#D71F4B',
-                axis: {
-                    x: {
-                        type: 'ordinal',
-                    },
-                    y: {
-                        type: 'linear',
-                        tickFormat: '.2f'
-                    }
-                },
-                tooltip: {
-                    color: '#D71F4B',
-                    format: {
-                        y: '.2f'
-                    }
-                },
-                margin: {
-                    left: 50
-                },
-                grouped: false,
-            });
-
-            var mad = chart.column_series({
-                name: 'Shopping Rate',
-                color: '#D71F4B'
-            });
-
-            var tmp = this.state.mad_data;
-            var tmp_array = [];
-            for (var i in tmp) {
-                var t = new Object;
-                t.x = i;
-                t.y = tmp[i];
-                tmp_array.push(t);
-            }
-            mad.addData(tmp_array);
-
-            ///////////////// CSR Charts/////////////////////
-            /////////////CSR Pie Chart//////////////
-            var color_array = ['#8064A2', '#C0504D', '#4F81BD', '#9BBB59'];
-            $('#csr_pie_chart').html('');
-            var pie = Rubix.Pie('#csr_pie_chart', {
-                title: 'Market Share By CSR Tier',
-                height: 300
-            });
-
-            var csr_data = this.state.csr_data;
-            delete csr_data["total_market_spend"];
-            var tmp_array = [];
-            for (var i in csr_data) {
-                var t = new Object;
-                t.name = i;
-                t.value = csr_data[i]["market_share_%"];
-                t.color = color_array[this.getObjectKeyIndex(csr_data, i)];
-                tmp_array.push(t);
-            }
-
-            pie.addData(tmp_array);
-
-
-            ///////////CSR Bar Chart/////////////
-            $('#csr_bar_chart').html('');
-            var csr_bar_chart = new Rubix('#csr_bar_chart', {
-                height: 300,
-                title: 'CSR Tiers By High/Low Ranges',
-                titleColor: '#D71F4B',
-                axis: {
-                    x: {
-                        type: 'ordinal',
-                    },
-                    y: {
-                        type: 'linear',
-                        tickFormat: '.0f',
-                    }
-                },
-                tooltip: {
-                    color: '#D71F4B',
-                    format: {
-                        y: '.2f'
-                    }
-                },
-                margin: {
-                    left: 50
-                },
-                grouped: true,
-            });
-
-            var high_bar = csr_bar_chart.column_series({
-                name: 'High',
-                color: '#4F81BD'
-            });
-            var low_bar = csr_bar_chart.column_series({
-                name: 'Low',
-                color: '#C0504D',
-            })
-
-            var csr_data = this.state.csr_data;
-            delete csr_data["total_market_spend"];
-
-            let high_array = [];
-            let low_array = [];
-
-            for (var i in csr_data) {
-                var high = new Object;
-                var low = new Object;
-                high.x = i;
-                high.y = csr_data[i]["high"];
-                high_array.push(high);
-
-                low.x = i;
-                low.y = csr_data[i]["low"];
-                low_array.push(low);
-            }
-            high_bar.addData(high_array);
-            low_bar.addData(low_array);
-
-        })();
-
     }
     renderSpectroLineChart = (index) => {
 
@@ -595,7 +562,7 @@ export default class CampaignsPromotionsAndLoyaltyOptimization extends React.Com
                             </Col>
                             <Col sm={4} className="channel_optimmizer_chart_area">
                                 {/* <div id={num < 1 ? "channel_optimizer_column_chart" + index : "channel_optimizer_bar_chart" + index}></div> */}
-                                <div id={ "channel_optimizer_column_chart" + index }></div>
+                                <div id={"channel_optimizer_column_chart" + index}></div>
                             </Col>
                             <Col sm={2} className="channel_recommender_text_tile_area">
                                 <div className="channel_recommender_text_tile">
@@ -608,39 +575,12 @@ export default class CampaignsPromotionsAndLoyaltyOptimization extends React.Com
             </Grid>
         )
     }
-    // onTabSelect = (key) => {
-    //     let recommenderTypesChannel = [];
-    //     recommenderTypesChannel = this.state.recommenderTypesChannel;
-    //     if (key === 'ple') {
-    //         recommenderTypesChannel.map((item, index) => {
-    //             setTimeout(() => {
-    //                 let a = document.getElementById('channel_spectro_line_chart' + index);
-    //                 if (a) {
-    //                     this.renderSpectroLineChart(index);
-    //                 }
-    //             }, 150)
-    //             setTimeout(() => {
-    //                 let b = document.getElementById('channel_optimizer_column_chart' + index);
-    //                 if (b) {
-    //                     this.renderOptimizerColumnChart(index);
-    //                 }
-    //             }, 150)
-    //             setTimeout(() => {
-    //                 let c = document.getElementById('channel_optimizer_bar_chart' + index);
-    //                 if (c) {
-    //                     this.renderOptimizerBarChart(index);
-    //                 }
-    //             }, 150)
-    //         })
-    //     }
-
-    // }
     render() {
         let csr_total_market = '';
         csr_total_market = this.state.csr_total_market;
 
         return (
-            <PanelTabContainer id='campaigns_promotions_loyaltypanel' defaultActiveKey="cpta" onSelect={this.onTabSelect}>
+            <PanelTabContainer id='campaigns_promotions_loyaltypanel' defaultActiveKey="cpta">
                 <Panel>
                     <PanelHeader className='bg-blue fg-white' style={{ display: 'block' }}>
                         <Grid>
@@ -668,16 +608,21 @@ export default class CampaignsPromotionsAndLoyaltyOptimization extends React.Com
                                 <Col xs={12}>
                                     <Tab.Content>
                                         <Tab.Pane eventKey="cpta">
-                                            <div id="bdw_chart" ></div>
-                                            <div id="mad_chart" ></div>
-                                            <div id="asi_area" >
-                                                <p className="cptaTxt">Customer Purchase Time Analysis</p>
-                                                <p className="asiTxt">Average Shopping Interval</p>
-                                                <div className="asi_tile">
-                                                    <p className="daysTxt">Days</p>
-                                                    <p className="daysNumTxt">{this.state.asi_data}</p>
+                                            <Col md={4}>
+                                                <div id="bdw_chart" ></div>
+                                            </Col>
+                                            <Col md={4}>
+                                                <div id="mad_chart" ></div>
+                                            </Col>
+                                            <Col md={4}>
+                                                <div id="asi_area" >
+                                                    <p className="asi_text">Average Shopping Interval</p>
+                                                    <div className="asi_tile">
+                                                        <p className="days_text">Days</p>
+                                                        <p className="days_number_text">{this.state.asi_data}</p>
+                                                    </div>
                                                 </div>
-                                            </div>
+                                            </Col>
                                         </Tab.Pane>
                                         {(this.state.sma_channel !== null && this.state.smart_channel !== null) &&
                                             <Tab.Pane eventKey="ple">
@@ -686,15 +631,15 @@ export default class CampaignsPromotionsAndLoyaltyOptimization extends React.Com
                                         }
                                         <Tab.Pane eventKey="csr">
                                             <Row>
-                                                <Col md={12}>
+                                                <Col md={4}>
                                                     <div id="csr_pie_chart"></div>
                                                 </Col>
-                                                <Col md={12}>
+                                                <Col md={4}>
                                                     <div id="csr_bar_chart"></div>
                                                 </Col>
-                                                <Col md={12}>
+                                                <Col md={4}>
+                                                    <p className="csr_text">Total Market Spend</p>
                                                     <div className="csr_tile">
-                                                        <p className="csr_title">Total Market Spend</p>
                                                         {csr_total_market &&
                                                             <p className="csr_content">{csr_total_market}</p>
                                                         }

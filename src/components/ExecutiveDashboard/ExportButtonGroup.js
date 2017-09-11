@@ -39,10 +39,12 @@ export default class ExportButtonGroup extends React.Component {
     }
   }
   componentDidMount() {
-    let temp = {};
+    // let temp = {};
+    // let apiKey = '';
+    // temp = this.props.login;
+    // apiKey = temp["key"];
     let apiKey = '';
-    temp = this.props.login;
-    apiKey = temp["key"];
+    apiKey = localStorage.getItem('apiKey');
     this.setState({ apiKey: apiKey })
 
   }

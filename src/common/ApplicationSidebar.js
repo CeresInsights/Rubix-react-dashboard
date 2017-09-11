@@ -7,7 +7,7 @@ import {
   Label, Progress, Icon,
   SidebarDivider, DropdownButton, MenuItem, Button
 } from '@sketchpixy/rubix';
-
+import { Link, withRouter } from 'react-router';
 import { connect } from 'react-redux';
 import * as dataActions from '../actions/dataActions';
 import * as execDashActions from '../actions/execDashActions';
@@ -42,11 +42,9 @@ export default class ApplicationSidebar extends React.Component {
   }
 
   componentDidMount() {
-    let temp = {};
-    let apiKey = ''
-    temp = this.props.login;
-    apiKey = temp["key"];
-    console.log("apiKey", apiKey)
+
+    let apiKey = '';
+    apiKey = localStorage.getItem('apiKey');
     const { dispatch } = this.props;
     dispatch(dataActions.fetchFilterContentData(apiKey));
     dispatch(dataActions.fetchDefaultKeys(apiKey));
@@ -63,6 +61,17 @@ export default class ApplicationSidebar extends React.Component {
     //Campaigns App
     dispatch(subDashActions.fetchChannelData(apiKey));
     dispatch(subDashActions.fetchChannelRecommenderData(apiKey));
+
+    dispatch(execDashActions.fetchMadData(apiKey));
+    dispatch(execDashActions.fetchCsrData(apiKey));
+    dispatch(execDashActions.fetchBdwData(apiKey));
+    dispatch(execDashActions.fetchAsiData(apiKey));
+    dispatch(execDashActions.fetchProdProductData(apiKey));
+    dispatch(execDashActions.fetchDemographicsData(apiKey));
+    dispatch(execDashActions.fetchProductData(apiKey));
+    dispatch(execDashActions.fetchProdPayData(apiKey));
+    dispatch(execDashActions.fetchDsaData(apiKey));
+    dispatch(execDashActions.fetchChannelData(apiKey));
     this.setState({ apiKey: apiKey })
   }
   componentWillReceiveProps(nextProps) {
@@ -110,7 +119,7 @@ export default class ApplicationSidebar extends React.Component {
         pri_values: pri_values,
         sec_keys: sec_keys
       })
-      dispatch(dataActions.fetchSelectedKeysData(this.state.apiKey, keyVal, 'united_states', 'purchase_log_csv'));
+      // dispatch(dataActions.fetchSelectedKeysData(this.state.apiKey, keyVal, 'united_states', 'purchase_log_csv'));
     }
     if (this.state.pk_selected && keyKind == 'second') {
       third_keys = this.state.pri_values[keyVal];
@@ -119,7 +128,7 @@ export default class ApplicationSidebar extends React.Component {
         sk_selected: true,
         third_keys: third_keys
       });
-      dispatch(dataActions.fetchSelectedKeysData(this.state.apiKey, this.state.pk, keyVal, 'purchase_log_csv'));
+      // dispatch(dataActions.fetchSelectedKeysData(this.state.apiKey, this.state.pk, keyVal, 'purchase_log_csv'));
     }
     if (this.state.pk_selected && this.state.sk_selected && keyKind == 'third') {
       this.setState({

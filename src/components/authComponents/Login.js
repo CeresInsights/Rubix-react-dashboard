@@ -1,7 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import { connect } from 'react-redux';
-import { Link, browserHistory, router, withRouter } from 'react-router';
+import { Link, browserHistory } from 'react-router';
 import * as authActions from '../../actions/authActions';
 import {
   Row,
@@ -35,11 +35,13 @@ export default class Login extends React.Component {
   componentWillReceiveProps(nextProps) {
     let loginData = {};
     loginData = nextProps.login;
+
     if (typeof (loginData) !== 'object') {
       this.errorNotification(loginData)
     }
     if (loginData["status"] === 'User Login Successful') {
-      nextProps.router.push('/ltr/executivedashboard');
+      localStorage.setItem('apiKey', loginData.key);
+      browserHistory.push('/ltr/executivedashboard');
     }
   }
 

@@ -51,14 +51,6 @@ export default class PriceOptimization extends React.Component {
 
     return null;
   }
-  // componentDidMount() {
-  //   let temp = {};
-  //   let apiKey = ''
-  //   temp = this.props.login;
-  //   apiKey = temp["key"];
-  //   const { dispatch } = this.props;
-  //   dispatch(execDashActions.fetchCsrData(apiKey));
-  // }
   componentWillReceiveProps(nextProps) {
 
     /////////csr data operation//////////////
@@ -74,6 +66,7 @@ export default class PriceOptimization extends React.Component {
       $('#csr_pie_chart1').html('');
       var pie = Rubix.Pie('#csr_pie_chart1', {
         title: 'Market Share By CSR Tier',
+        titleColor: '#D71F4B',
         height: 300
       });
 
@@ -97,6 +90,7 @@ export default class PriceOptimization extends React.Component {
         axis: {
           x: {
             type: 'ordinal',
+            tickCount: 0,
           },
           y: {
             type: 'linear',
@@ -149,6 +143,8 @@ export default class PriceOptimization extends React.Component {
   }
 
   render() {
+    let csr_total_market = '';
+    csr_total_market = this.state.csr_total_market;
     return (
       <PanelTabContainer id='price-optimization-panel-tab' defaultActiveKey="cslr">
         <Panel>
@@ -172,16 +168,22 @@ export default class PriceOptimization extends React.Component {
                 <Col xs={12}>
                   <Tab.Content>
                     <Tab.Pane eventKey="cslr">
-                      <div id="csr_pie_chart1"></div>
-                      <div id="csr_bar_chart1"></div>
-                      <Col md={12}>
-                        {Object.keys(this.state.csr_data).length !== 0&&
+                      <Row>
+                        <Col md={4}>
+                          <div id="csr_pie_chart1"></div>
+                        </Col>
+                        <Col md={4}>
+                          <div id="csr_bar_chart1"></div>
+                        </Col>
+                        <Col md={4}>
+                          <p className="csr_text">Total Market Spend</p>
                           <div className="csr_tile">
-                            <p className="csr_title">Total Market Spend</p>
-                            <p className="csr_content">{this.state.csr_total_market}</p>
+                            {csr_total_market &&
+                              <p className="csr_content">{csr_total_market}</p>
+                            }
                           </div>
-                        }
-                      </Col>
+                        </Col>
+                      </Row>
                     </Tab.Pane>
                   </Tab.Content>
                 </Col>

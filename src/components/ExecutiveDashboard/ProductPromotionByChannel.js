@@ -43,15 +43,13 @@ export default class ProductPromotionByChannel extends React.Component {
       dsa_data: {}
     }
   }
-  componentDidMount() {
-    let temp = {};
-    let apiKey = ''
-    temp = this.props.login;
-    apiKey = temp["key"];
-    const { dispatch } = this.props;
-    dispatch(execDashActions.fetchDsaData(apiKey));
-    dispatch(execDashActions.fetchChannelData(apiKey));
-  }
+  // componentDidMount() {
+  //   let apiKey = '';
+  //   apiKey = localStorage.getItem('apiKey');
+  //   const { dispatch } = this.props;
+  //   dispatch(execDashActions.fetchDsaData(apiKey));
+  //   dispatch(execDashActions.fetchChannelData(apiKey));
+  // }
   componentWillReceiveProps(nextProps) {
     ////////////////SMA Product Data operation/////////////////
     let temp_channel = {};
