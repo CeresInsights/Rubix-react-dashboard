@@ -1,6 +1,6 @@
 import * as types from '../constants/actionTypes';
 import Axios from 'axios';
-
+import { browserHistory } from 'react-router';
 const apiLogin = 'https://ceres.link/api/login/data:';
 const apiSignup = 'https://ceres.link/api/register/data:';
 const apiAdminLogin = 'https://ceres.link/api/admin/login/data:area=home,';
@@ -11,7 +11,8 @@ const apiPreregister = 'https://ceres.link/api/preregister/data:email=';
 
 //Login
 export const fetchLoginDataSuccess = (loginData) => {
-
+    console.log(loginData.key);
+    localStorage.setItem('apiKey', loginData.key);
     return {
         type: types.FETCH_LOGIN_SUCCESS,
         loginData
@@ -23,7 +24,11 @@ export const fetchLoginData = (un, pw) => {
     return (dispatch) => {
         return Axios.get(apiLogin + 'un=' + un + ',pw=' + pw)
             .then(response => {
-                dispatch(fetchLoginDataSuccess(response.data))
+                if (typeof (response.data) === 'object') {
+                    dispatch(fetchLoginDataSuccess(response.data))
+                    browserHistory.push('/ltr/executivedashboard');
+                    
+                }
             })
             .catch(error => {
                 throw (error);
@@ -138,22 +143,22 @@ export const fetchPendingEmailData = (un, pw) => {
 }
 // Email Preregister
 export const fetchEmailPreregisterDataSuccess = (emailPreregister) => {
-    
-        return {
-            type: types.FETCH_EMAIL_PREREGISTER_SUCCESS,
-            emailPreregister
-        }
+
+    return {
+        type: types.FETCH_EMAIL_PREREGISTER_SUCCESS,
+        emailPreregister
     }
-    
-    export const fetchEmailPreregisterData = (email) => {
-    
-        return (dispatch) => {
-            return Axios.get(apiPreregister + email)
-                .then(response => {
-                    dispatch(fetchEmailPreregisterDataSuccess(response.data))
-                })
-                .catch(error => {
-                    throw (error);
-                });
-        };
-    }
+}
+
+export const fetchEmailPreregisterData = (email) => {
+
+    return (dispatch) => {
+        return Axios.get(apiPreregister + email)
+            .then(response => {
+                dispatch(fetchEmailPreregisterDataSuccess(response.data))
+            })
+            .catch(error => {
+                throw (error);
+            });
+    };
+}

@@ -48,6 +48,17 @@ export default class ApplicationSidebar extends React.Component {
     const { dispatch } = this.props;
     dispatch(dataActions.fetchFilterContentData(apiKey));
     dispatch(dataActions.fetchDefaultKeys(apiKey));
+    //Exec Dashboard 
+    dispatch(execDashActions.fetchMadData(apiKey));
+    dispatch(execDashActions.fetchCsrData(apiKey));
+    dispatch(execDashActions.fetchBdwData(apiKey));
+    dispatch(execDashActions.fetchAsiData(apiKey));
+    dispatch(execDashActions.fetchProdProductData(apiKey));
+    dispatch(execDashActions.fetchDemographicsData(apiKey));
+    dispatch(execDashActions.fetchProductData(apiKey));
+    dispatch(execDashActions.fetchProdPayData(apiKey));
+    dispatch(execDashActions.fetchDsaData(apiKey));
+    dispatch(execDashActions.fetchChannelData(apiKey));
     ////////////Product App
     dispatch(subDashActions.fetchProdPayData(apiKey));
     dispatch(subDashActions.fetchProdPayRecommenderData(apiKey));
@@ -62,16 +73,6 @@ export default class ApplicationSidebar extends React.Component {
     dispatch(subDashActions.fetchChannelData(apiKey));
     dispatch(subDashActions.fetchChannelRecommenderData(apiKey));
 
-    dispatch(execDashActions.fetchMadData(apiKey));
-    dispatch(execDashActions.fetchCsrData(apiKey));
-    dispatch(execDashActions.fetchBdwData(apiKey));
-    dispatch(execDashActions.fetchAsiData(apiKey));
-    dispatch(execDashActions.fetchProdProductData(apiKey));
-    dispatch(execDashActions.fetchDemographicsData(apiKey));
-    dispatch(execDashActions.fetchProductData(apiKey));
-    dispatch(execDashActions.fetchProdPayData(apiKey));
-    dispatch(execDashActions.fetchDsaData(apiKey));
-    dispatch(execDashActions.fetchChannelData(apiKey));
     this.setState({ apiKey: apiKey })
   }
   componentWillReceiveProps(nextProps) {

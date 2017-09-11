@@ -73,11 +73,16 @@ export const prodProductReducer = (state = initialState.prodProduct, action) => 
 export const csrReducer = (state = initialState.csr, action) => {
     switch (action.type) {
         case types.FETCH_EXEC_CSR_SUCCESS:
-            return action.csr;
+            // return action.csr;
+            return Object.assign({}, state, {
+                csrTile: action.csrTile,
+                csrChart: action.csrChart
+            })
         default:
             return state;
     }
 }
+
 export const bdwReducer = (state = initialState.bdw, action) => {
     switch (action.type) {
         case types.FETCH_BDW_SUCCESS:
@@ -106,5 +111,5 @@ module.exports = {
     productReducer,
     demographicsReducer,
     dsaReducer,
-    csrReducer
+    csrReducer,
 };

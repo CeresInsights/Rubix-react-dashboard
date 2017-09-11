@@ -218,11 +218,12 @@ export const fetchDemographicsData = (apiKey) => {
 }
 
 // Customer Spending Limits & Ranges Api
-export const fetchCsrDataSuccess = (csr) => {
+export const fetchCsrDataSuccess = (csrTile, csrChart) => {
 
     return {
         type: types.FETCH_EXEC_CSR_SUCCESS,
-        csr
+        csrTile,
+        csrChart
     }
 }
 
@@ -230,7 +231,7 @@ export const fetchCsrData = (apiKey) => {
     return (dispatch) => {
         return Axios.get(apiCsr + apiKey)
             .then(response => {
-                dispatch(fetchCsrDataSuccess(response.data))
+                dispatch(fetchCsrDataSuccess(response.data["total_market_spend"], response.data))
             })
             .catch(error => {
                 throw (error);

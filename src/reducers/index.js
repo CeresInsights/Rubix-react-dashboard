@@ -11,7 +11,7 @@ import {
   productReducer,
   demographicsReducer,
   dsaReducer,
-  csrReducer
+  csrReducer,
 } from './execDashReducers';
 
 import {
@@ -58,7 +58,6 @@ module.exports = {
   demographics: demographicsReducer,
   dsa: dsaReducer,
   csr: csrReducer,
-  
   allKeys: allKeysReducer,
   defaultKeys: defaultKeysReducer,
   // selectedKeys: selectedKeysReducer,

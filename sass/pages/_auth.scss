@@ -305,22 +305,17 @@ html.authentication {
 
 //Executive Dashboard CSR
 .csr_tile {
-  margin:20px auto;
-  padding: 10px;
+  margin:10px auto;
   width: 200px;
+  padding: 100px 0;
   height: 200px;
+  text-align: center;
   background: #FF7F27;
   box-shadow: 10px 10px 5px #888888;
 }
-.csr_title {
-  text-align: center;
-  font-size: 16px;
-  font-weight: bold;
-  color: #FFFFFF
-}
 .csr_content {
   text-align: center;
-  font-size: 18px;
+  font-size: 24px;
   font-weight: bold;
   color: #FFFFFF
 }

@@ -58,15 +58,11 @@ class Main extends React.Component {
 class Auth extends React.Component {
   render() {
     return (
-      <MainContainer {...this.props}>
-        {this.props.children}
-      </MainContainer>
+      this.props.children
     )
   }
 }
-/**
- * Includes Sidebar, Header and Footer.
- */
+
 export default (
   <Router history={browserHistory}>
     <Route path="/" component={App}>
@@ -92,3 +88,52 @@ export default (
   </Router>
 );
 
+// const routes = (
+//   <Route component={Main}>
+//     <Route path='executivedashboard' component={ExecutiveDashboard} />
+//     <Route path='databrowser' component={DataBrowser} />
+//     <Route path='contact' component={Contact} />
+//     <Route path='loaddata' component={LoadData} />
+//     <Route path='sendemail' component={SendEmail} />
+//     <Route path='profile' component={Profile} />
+//     <Route path='sub_campaigns' component={CampaignsPromotionsAndLoyaltyDashboard} />
+//     <Route path='sub_promotion' component={ProductPromotionsByChannel} />
+//     <Route path='sub_product' component={ProductBundle} />
+//   </Route>
+// );
+
+// /**
+//  * No Sidebar, Header or Footer. Only the Body is rendered.
+//  */
+// const basicRoutes = (
+//   <Route>
+//     <Route path='login' component={Login} />
+//     <Route path='adminlogin' component={AdminLogin} />
+//     <Route path='signup' component={Signup} />
+//     <Route path='queueemail' component={QueueEmail} />
+//   </Route>
+// );
+
+// const combinedRoutes = (
+//   <Route>
+//     <Route>
+//       {routes}
+//     </Route>
+//     <Route>
+//       {basicRoutes}
+//     </Route>
+//   </Route>
+// );
+
+// export default (
+//   <Route>
+//     <Route path='/' component={Homepage} />
+
+//     <Route path='/ltr'>
+//       {combinedRoutes}
+//     </Route>
+//     <Route path='/rtl'>
+//       {combinedRoutes}
+//     </Route>
+//   </Route>
+// );

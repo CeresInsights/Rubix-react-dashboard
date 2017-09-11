@@ -36,6 +36,9 @@ export default class PriceOptimization extends React.Component {
     this.state = {
       csr_total_market: '',
       csr_data: {},
+      bdw_data: {},
+      mad_data: {},
+      csrChart: {},
     }
   }
   getObjectKeyIndex(obj, keyToFind) {
@@ -53,24 +56,29 @@ export default class PriceOptimization extends React.Component {
   }
   componentWillReceiveProps(nextProps) {
 
-    /////////csr data operation//////////////
     let temp = {};
+    let csr_total_market = '';
+    let csrChart = {};
     temp = nextProps.csr;
-    this.setState({ csr_total_market: temp["total_market_spend"] });
-    this.setState({ csr_data: temp });
-    ////////////csr data operation///////////
+    this.setState({
+      csr_total_market: temp.csrTile,
+      csrChart: temp.csrChart,
+    });
+  }
+  componentDidUpdate() {
     (() => {
+
       ///////////////// CSR Charts/////////////////////
       /////////////CSR Pie Chart//////////////
       var color_array = ['#8064A2', '#C0504D', '#4F81BD', '#9BBB59'];
-      $('#csr_pie_chart1').html('');
-      var pie = Rubix.Pie('#csr_pie_chart1', {
+      $('#csr_pie_chart2').html('');
+      var pie = Rubix.Pie('#csr_pie_chart2', {
         title: 'Market Share By CSR Tier',
         titleColor: '#D71F4B',
         height: 300
       });
 
-      var csr_data = nextProps.csr;
+      var csr_data = this.state.csrChart;
       delete csr_data["total_market_spend"];
       var tmp_array = [];
       for (var i in csr_data) {
@@ -80,17 +88,19 @@ export default class PriceOptimization extends React.Component {
         t.color = color_array[this.getObjectKeyIndex(csr_data, i)];
         tmp_array.push(t);
       }
+
       pie.addData(tmp_array);
+
       ///////////CSR Bar Chart/////////////
-      $('#csr_bar_chart1').html('');
-      var csr_bar_chart = new Rubix('#csr_bar_chart1', {
+      $('#csr_bar_chart2').html('');
+      var csr_bar_chart = new Rubix('#csr_bar_chart2', {
         height: 300,
         title: 'CSR Tiers By High/Low Ranges',
         titleColor: '#D71F4B',
         axis: {
           x: {
             type: 'ordinal',
-            tickCount: 0,
+            tickCount: 0
           },
           y: {
             type: 'linear',
@@ -118,7 +128,7 @@ export default class PriceOptimization extends React.Component {
         color: '#C0504D',
       })
 
-      var csr_data = nextProps.csr;
+      var csr_data = this.state.csrChart;
       delete csr_data["total_market_spend"];
 
       let high_array = [];
@@ -139,9 +149,29 @@ export default class PriceOptimization extends React.Component {
       high_bar.addData(high_array);
       low_bar.addData(low_array);
     })();
-
   }
+  renderCsr = () => {
+    let temp = '';
+    temp = this.state.csr_total_market;
+    return <Row>
+      <Col md={4}>
+        <div id="csr_pie_chart2"></div>
+      </Col>
+      <Col md={4}>
+        <div id="csr_bar_chart2"></div>
+      </Col>
+      <Col md={4}>
 
+        <div>
+          <p className="csr_text">Total Market Spend</p>
+          <div className="csr_tile">
+            <p className="csr_content">{this.state.csr_total_market}</p>
+          </div>
+        </div>
+
+      </Col>
+    </Row>
+  }
   render() {
     let csr_total_market = '';
     csr_total_market = this.state.csr_total_market;
@@ -168,22 +198,7 @@ export default class PriceOptimization extends React.Component {
                 <Col xs={12}>
                   <Tab.Content>
                     <Tab.Pane eventKey="cslr">
-                      <Row>
-                        <Col md={4}>
-                          <div id="csr_pie_chart1"></div>
-                        </Col>
-                        <Col md={4}>
-                          <div id="csr_bar_chart1"></div>
-                        </Col>
-                        <Col md={4}>
-                          <p className="csr_text">Total Market Spend</p>
-                          <div className="csr_tile">
-                            {csr_total_market &&
-                              <p className="csr_content">{csr_total_market}</p>
-                            }
-                          </div>
-                        </Col>
-                      </Row>
+                      {this.renderCsr()}
                     </Tab.Pane>
                   </Tab.Content>
                 </Col>

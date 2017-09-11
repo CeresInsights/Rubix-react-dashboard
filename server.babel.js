@@ -20,7 +20,7 @@ import RubixAssetMiddleware from '@sketchpixy/rubix/lib/node/RubixAssetMiddlewar
 setupReducers(reducers);
 // applyMiddleware(thunkMiddleware);
 
-const port = process.env.PORT || 8080;
+const port = process.env.PORT || 8010;
 
 let app = express();
 app.use(compression());
@@ -81,6 +81,7 @@ app.post('/dropzone/file-upload', function(req, res) {
 app.get('*', RubixAssetMiddleware('ltr'), (req, res, next) => {
   renderHTML(req, res);
 });
+
 app.listen(port, () => {
   console.log(`Node.js app is running at http://localhost:${port}/`);
 });

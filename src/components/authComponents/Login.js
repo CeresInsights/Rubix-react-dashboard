@@ -27,23 +27,17 @@ export default class Login extends React.Component {
   constructor(props) {
     super(props);
   }
-  back(e) {
-    e.preventDefault();
-    e.stopPropagation();
-    this.props.router.goBack();
-  }
-  componentWillReceiveProps(nextProps) {
-    let loginData = {};
-    loginData = nextProps.login;
-
-    if (typeof (loginData) !== 'object') {
-      this.errorNotification(loginData)
-    }
-    if (loginData["status"] === 'User Login Successful') {
-      localStorage.setItem('apiKey', loginData.key);
-      browserHistory.push('/ltr/executivedashboard');
-    }
-  }
+  // componentWillReceiveProps(nextProps) {
+  //   let loginData = {};
+  //   loginData = nextProps.login;
+  //   console.log("login AAAA", loginData);
+  //   if (typeof (loginData) !== 'object') {
+  //     this.errorNotification(loginData)
+  //   }
+  //     localStorage.setItem('apiKey', loginData.key);
+  //     browserHistory.push('/ltr/executivedashboard');
+    
+  // }
 
   proceed_login = (e) => {
     e.preventDefault();
@@ -54,6 +48,7 @@ export default class Login extends React.Component {
     let pw = ReactDOM.findDOMNode(this.password).value;
 
     dispatch(authActions.fetchLoginData(un, pw));
+
   }
 
   errorNotification(str) {

@@ -35,9 +35,12 @@ export default class CampaignsPromotionsAndLoyaltyOptimization extends React.Com
     constructor(props) {
         super(props);
         this.state = {
-            csr_total_market: '',
+            csrChart: {},
+            csr_total_market: [],
             csr_data: {},
             asi_data: '',
+            bdw_data: {},
+            mad_data: {},
             prod_product_keys: [],
             prod_product_values: []
         }
@@ -80,21 +83,23 @@ export default class CampaignsPromotionsAndLoyaltyOptimization extends React.Com
         })
         this.setState({
             prod_product_keys: prod_product_keys,
-            prod_product_values: prod_product_values
-        })
-        /////////csr data operation//////////////
+            prod_product_values: prod_product_values,
+            asi_data: nextProps.asi,
+        });;
         let temp = {};
         let csr_total_market = '';
+        let csrChart = {};
         temp = nextProps.csr;
-        csr_total_market = temp["total_market_spend"];
-        console.log("TOTAL", csr_total_market)
-        this.setState({ csr_total_market: csr_total_market });
-        this.setState({ csr_data: temp });
-        ////////////api data operation/////////////
-        
-        this.setState({ asi_data: nextProps.asi });
-        
-        ////////////mad, bdw, csr data operation///////////
+        this.setState({
+            csr_total_market: temp.csrTile,
+            csrChart: temp.csrChart,
+            bdw_data: nextProps.bdw,
+            mad_data: nextProps.mad,
+        });
+
+
+    }
+    componentDidUpdate() {
         (() => {
             $('#bdw_chart').html('');
             var bdw_chart = new Rubix('#bdw_chart', {
@@ -128,7 +133,7 @@ export default class CampaignsPromotionsAndLoyaltyOptimization extends React.Com
                 color: '#D71F4B'
             });
 
-            var tmp = nextProps.bdw;
+            var tmp = this.state.bdw_data;
             var tmp_array = [];
             for (var i in tmp) {
                 var t = {};
@@ -171,7 +176,7 @@ export default class CampaignsPromotionsAndLoyaltyOptimization extends React.Com
                 color: '#D71F4B'
             });
 
-            tmp = nextProps.mad;
+            tmp = this.state.mad_data;
             tmp_array = [];
             for (var i in tmp) {
                 var t = {};
@@ -184,13 +189,14 @@ export default class CampaignsPromotionsAndLoyaltyOptimization extends React.Com
             ///////////////// CSR Charts/////////////////////
             /////////////CSR Pie Chart//////////////
             var color_array = ['#8064A2', '#C0504D', '#4F81BD', '#9BBB59'];
-            $('#csr_pie_chart').html('');
-            var pie = Rubix.Pie('#csr_pie_chart', {
+            $('#csr_pie_chart1').html('');
+            var pie = Rubix.Pie('#csr_pie_chart1', {
                 title: 'Market Share By CSR Tier',
+                titleColor: '#D71F4B',
                 height: 300
             });
 
-            var csr_data = nextProps.csr;
+            var csr_data = this.state.csrChart;
             delete csr_data["total_market_spend"];
             var tmp_array = [];
             for (var i in csr_data) {
@@ -203,10 +209,9 @@ export default class CampaignsPromotionsAndLoyaltyOptimization extends React.Com
 
             pie.addData(tmp_array);
 
-
             ///////////CSR Bar Chart/////////////
-            $('#csr_bar_chart').html('');
-            var csr_bar_chart = new Rubix('#csr_bar_chart', {
+            $('#csr_bar_chart1').html('');
+            var csr_bar_chart = new Rubix('#csr_bar_chart1', {
                 height: 300,
                 title: 'CSR Tiers By High/Low Ranges',
                 titleColor: '#D71F4B',
@@ -241,7 +246,7 @@ export default class CampaignsPromotionsAndLoyaltyOptimization extends React.Com
                 color: '#C0504D',
             })
 
-            var csr_data = nextProps.csr;
+            var csr_data = this.state.csrChart;
             delete csr_data["total_market_spend"];
 
             let high_array = [];
@@ -262,9 +267,7 @@ export default class CampaignsPromotionsAndLoyaltyOptimization extends React.Com
             high_bar.addData(high_array);
             low_bar.addData(low_array);
         })();
-
     }
-
     renderProdProduct = () => {
         let prod_product_keys = [];
         let prod_product_values = [];
@@ -293,19 +296,24 @@ export default class CampaignsPromotionsAndLoyaltyOptimization extends React.Com
         return prod_product_tiles;
     }
     renderCsr = () => {
-
+        let temp = '';
+        temp = this.state.csr_total_market;
         return <Row>
             <Col md={4}>
-                <div id="csr_pie_chart"></div>
+                <div id="csr_pie_chart1"></div>
             </Col>
             <Col md={4}>
-                <div id="csr_bar_chart"></div>
+                <div id="csr_bar_chart1"></div>
             </Col>
             <Col md={4}>
-                <p className="csr_text">Total Market Spend</p>
-                <div className="csr_tile">
-                    <p className="csr_content">{this.state.csr_total_market}</p>
+
+                <div>
+                    <p className="csr_text">Total Market Spend</p>
+                    <div className="csr_tile">
+                        <p className="csr_content">{this.state.csr_total_market}</p>
+                    </div>
                 </div>
+
             </Col>
         </Row>
     }

@@ -148,16 +148,16 @@ export default class ProductBundlesbyCustomerBehavior extends React.Component {
             ///////Main Tile Types Fetch///////////////
             mainTileTypesPay = Object.keys(subProdPay);
             ////////////Main Tile Data Fetch////////////////
-            mainTileTypesPay.map((key) => {
+            mainTileTypesPay.map((key, index) => {
                 mainTileContentsPay.push(subProdPay[key]);
             })
 
-            mainTileContentsPay.map((item) => {
+            mainTileContentsPay.map((item, index) => {
                 mainTileTitlesPay.push(Object.keys(item));
             })
 
-            mainTileTitlesPay.map((itemArray) => {
-                itemArray.map((item) => {
+            mainTileTitlesPay.map((itemArray, index) => {
+                itemArray.map((item, index) => {
                     mainTileTitlesRealPay.push(item);
                 })
             })
@@ -167,12 +167,12 @@ export default class ProductBundlesbyCustomerBehavior extends React.Component {
             ////// Recommender Type Fetch//////////////////////
             recommenderTypesPay = Object.keys(subProdPayRecommender);
             // ///////////////Recommender Data Fetch(html, spectrogram, optimizer_chart)/////////////
-            recommenderTypesPay.map((key) => {
+            recommenderTypesPay.map((key, index) => {
                 recommenderContentsPay.push(subProdPayRecommender[key]);
                 htmlTxtPay.push(subProdPayRecommender[key]["text/html"]);
             })
 
-            recommenderContentsPay.map((item) => {
+            recommenderContentsPay.map((item, index) => {
                 spectro_labels_pay.push((item["spectrogram"])["labels"]);
                 spectro_data_pay.push((item["spectrogram"])["data"]);
                 optimizer_labels_pay.push((item["optimizer_chart"])["labels"]);
@@ -180,8 +180,8 @@ export default class ProductBundlesbyCustomerBehavior extends React.Component {
             })
 
             // ///// recommender labels array for getting best recommender data////////
-            spectro_labels_pay.map((itemArray) => {
-                itemArray.map((item) => {
+            spectro_labels_pay.map((itemArray, index) => {
+                itemArray.map((item, index) => {
                     spectro_labels_real_pay.push(item);
                 })
             })
@@ -191,8 +191,8 @@ export default class ProductBundlesbyCustomerBehavior extends React.Component {
 
             // // //////////////////// Best Recommender Data and Main Tile Data Fetch ///////////////
             // // /// Remove Best Recommender in main tile data and Best Recommender Data Fetch
-            mainTileContentsPay.map((temp) => {
-                recommenderTitlesPay.map((item) => {
+            mainTileContentsPay.map((temp, index) => {
+                recommenderTitlesPay.map((item, index) => {
                     recommenderContentsTempPay.push(temp[item])
                 })
             })
@@ -243,15 +243,15 @@ export default class ProductBundlesbyCustomerBehavior extends React.Component {
             ///////Main Tile Types Fetch///////////////
             mainTileTypesProd = Object.keys(subProdProduct);
             ////////////Main Tile Data Fetch////////////////
-            mainTileTypesProd.map((key) => {
+            mainTileTypesProd.map((key, index) => {
                 mainTileContentsProd.push(subProdProduct[key]);
             })
 
-            mainTileContentsProd.map((item) => {
+            mainTileContentsProd.map((item, index) => {
                 mainTileTitlesProd.push(Object.keys(item));
             })
 
-            mainTileTitlesProd.map((itemArray) => {
+            mainTileTitlesProd.map((itemArray, index) => {
                 itemArray.map((item) => {
                     mainTileTitlesRealProd.push(item);
                 })
@@ -261,19 +261,19 @@ export default class ProductBundlesbyCustomerBehavior extends React.Component {
             ////// Recommender Type Fetch//////////////////////
             recommenderTypesProd = Object.keys(subProdProductRecommender);
             ///////////////Recommender Data Fetch(html, spectrogram, optimizer_chart)/////////////
-            recommenderTypesProd.map((key) => {
+            recommenderTypesProd.map((key, index) => {
                 recommenderContentsProd.push(subProdProductRecommender[key]);
                 htmlTxtProd.push(subProdProductRecommender[key]["text/html"]);
             })
-            recommenderContentsProd.map((item) => {
+            recommenderContentsProd.map((item, index) => {
                 spectro_labels_prod.push((item["spectrogram"])["labels"]);
                 spectro_data_prod.push((item["spectrogram"])["data"]);
                 optimizer_labels_prod.push((item["optimizer_chart"])["labels"]);
                 optimizer_data_prod.push((item["optimizer_chart"])["data"]);
             })
             ///// recommender labels array for getting best recommender data////////
-            spectro_labels_prod.map((itemArray) => {
-                itemArray.map((item) => {
+            spectro_labels_prod.map((itemArray, index) => {
+                itemArray.map((item, index) => {
                     spectro_labels_real_prod.push(item);
                 })
             })
@@ -283,12 +283,12 @@ export default class ProductBundlesbyCustomerBehavior extends React.Component {
 
             //////////////////// Best Recommender Data and Main Tile Data Fetch ///////////////
             /// Remove Best Recommender in main tile data and Best Recommender Data Fetch
-            mainTileContentsProd.map((temp) => {
-                recommenderTitlesProd.map((item) => {
+            mainTileContentsProd.map((temp, index) => {
+                recommenderTitlesProd.map((item, index) => {
                     recommenderContentsTempProd.push(temp[item])
                 })
             })
-            recommenderContentsTempProd.map((item) => {
+            recommenderContentsTempProd.map((item, index) => {
                 if (item !== undefined) {
                     bestRecommenderContentsProd.push(item)
                 }

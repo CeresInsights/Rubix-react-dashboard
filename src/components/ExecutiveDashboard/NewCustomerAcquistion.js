@@ -36,7 +36,7 @@ export default class NewCustomerAcquistion extends React.Component {
         super(props);
         this.state = {
             demographics: {},
-            age_avg: 0,
+            age_avg: '',
             demo_contents: [],
             demo_contents_keys: [],
             demo_keys: [],
@@ -51,7 +51,7 @@ export default class NewCustomerAcquistion extends React.Component {
     // }
     componentWillReceiveProps(nextProps) {
 
-        let age_avg = 0;
+
         let demographics = {};
         let demo_keys = [];
         let demo_contents = [];
@@ -60,51 +60,57 @@ export default class NewCustomerAcquistion extends React.Component {
         let demo_percent_total_item = [];
 
         demographics = nextProps.demographics;
-        delete demographics["age"];
-        demo_keys = Object.keys(demographics);
-        demo_keys.map((item) => {
-            demo_contents.push(demographics[item])
-        })
-        demo_contents.map((content) => {
-            demo_contents_keys.push(Object.keys(content));
-        })
-        demo_contents.map((content) => {
-            demo_contents_keys.map((itemArray, index) => {
-                itemArray.map((item) => {
-                    demo_percent_total_item.push(content[item])
-                })
-                demo_percent_total.push(demo_percent_total_item)
-
+        if (Object.keys(demographics).length > 0) {
+            // console.log("demo", demographics)
+            let age_avg = 0;
+            let demo = {};
+            demo = demographics;
+            this.setState({ age_avg: demo["age"]["average"] });
+            delete demographics["age"];
+            demo_keys = Object.keys(demographics);
+            demo_keys.map((item) => {
+                demo_contents.push(demographics[item])
             })
-        })
-        demo_keys.map((item, index) => {
-            setTimeout(() => {
-                let a = document.getElementById('demographics_pie_chart' + index);
-                if (a) {
-                    this.renderDemographicsPieChart(index);
-                }
-            }, 150)
-            setTimeout(() => {
-                let b = document.getElementById('demographics_column_chart' + index);
-                if (b) {
-                    this.renderDemographicsColumnChart(index);
-                }
-            }, 150)
-            // setTimeout(() => {
-            //     let c = document.getElementById('demographics_bar_chart' + index);
-            //     if (c) {
-            //         this.renderDemographicsBarChart(index);
-            //     }
-            // }, 150)
-        })
-        this.setState({
-            demographics: demographics,
-            age_avg: age_avg,
-            demo_keys: demo_keys,
-            demo_contents: demo_contents,
-            demo_contents_keys: demo_contents_keys,
-            demo_percent_total: demo_percent_total
-        })
+            demo_contents.map((content) => {
+                demo_contents_keys.push(Object.keys(content));
+            })
+            demo_contents.map((content) => {
+                demo_contents_keys.map((itemArray, index) => {
+                    itemArray.map((item) => {
+                        demo_percent_total_item.push(content[item])
+                    })
+                    demo_percent_total.push(demo_percent_total_item)
+
+                })
+            })
+            demo_keys.map((item, index) => {
+                setTimeout(() => {
+                    let a = document.getElementById('demographics_pie_chart' + index);
+                    if (a) {
+                        this.renderDemographicsPieChart(index);
+                    }
+                }, 150)
+                setTimeout(() => {
+                    let b = document.getElementById('demographics_column_chart' + index);
+                    if (b) {
+                        this.renderDemographicsColumnChart(index);
+                    }
+                }, 150)
+                // setTimeout(() => {
+                //     let c = document.getElementById('demographics_bar_chart' + index);
+                //     if (c) {
+                //         this.renderDemographicsBarChart(index);
+                //     }
+                // }, 150)
+            })
+            this.setState({
+                demographics: demographics,
+                demo_keys: demo_keys,
+                demo_contents: demo_contents,
+                demo_contents_keys: demo_contents_keys,
+                demo_percent_total: demo_percent_total
+            })
+        }
     }
     renderDemographicsPieChart = (index) => {
         (() => {
