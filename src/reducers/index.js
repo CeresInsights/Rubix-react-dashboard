@@ -41,7 +41,6 @@ import {
 import {
   allKeysReducer,
   defaultKeysReducer,
-  // selectedKeysReducer,
   dataLoadReducer,
   defaultBrowserDataReducer,
   selectedBrowserDataReducer
@@ -58,12 +57,13 @@ module.exports = {
   demographics: demographicsReducer,
   dsa: dsaReducer,
   csr: csrReducer,
+
   allKeys: allKeysReducer,
   defaultKeys: defaultKeysReducer,
-  // selectedKeys: selectedKeysReducer,
   loadData: dataLoadReducer,
   defaultBrowserData: defaultBrowserDataReducer,
   selectedBrowserData: selectedBrowserDataReducer,
+  
   subProdPay: subProdPayReducer,
   subProdProduct: subProdProductReducer,
   subChannel: subChannelReducer,
