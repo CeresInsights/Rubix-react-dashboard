@@ -43,7 +43,38 @@ export const fetchSelectedBrowserData = (apiKey, pk, sk, ck) => {
     return (dispatch) => {
         return Axios.get(apiDataBrowser + apiKey + ';data:pk=' + pk + ',sk=' + sk + ',ck=' + ck)
             .then(response => {
-                dispatch(fetchSelectedBrowserDataSuccess(response.data))
+                // let temp = {};
+                // let temp_keys = [];
+                // temp = response.data;
+                // temp_keys = Object.keys(temp);
+                // if (temp_keys.length !== 0) {
+                    dispatch(fetchSelectedBrowserDataSuccess(response.data))
+                    dispatch(execDashActions.fetchMadData(apiKey));
+                    dispatch(execDashActions.fetchCsrData(apiKey));
+                    dispatch(execDashActions.fetchBdwData(apiKey));
+                    dispatch(execDashActions.fetchAsiData(apiKey));
+                    dispatch(execDashActions.fetchChannelData(apiKey));
+                    dispatch(execDashActions.fetchProdPayData(apiKey));
+                    dispatch(execDashActions.fetchProdProductData(apiKey));
+                    dispatch(execDashActions.fetchDsaData(apiKey));
+                    dispatch(execDashActions.fetchProductData(apiKey));
+                    dispatch(execDashActions.fetchDemographicsData(apiKey));
+
+                    // Recall of All Sub Dashboard Apis//////
+                    //////////Recall of Normal Apis///////////////
+                    dispatch(subDashActions.fetchChannelData(apiKey));
+                    dispatch(subDashActions.fetchProdPayData(apiKey));
+                    dispatch(subDashActions.fetchProdProductData(apiKey));
+                    dispatch(subDashActions.fetchDsaData(apiKey));
+                    dispatch(subDashActions.fetchProductData(apiKey));
+                    //Recall Of Recommender Apis
+                    dispatch(subDashActions.fetchChannelRecommenderData(apiKey));
+                    dispatch(subDashActions.fetchProductRecommenderData(apiKey));
+                    dispatch(subDashActions.fetchDsaRecommenderData(apiKey));
+                    dispatch(subDashActions.fetchProdPayRecommenderData(apiKey));
+                    dispatch(subDashActions.fetchProdProductRecommenderData(apiKey));
+                // }
+                
             })
             .catch(error => {
                 throw (error);
@@ -107,11 +138,11 @@ export const fetchSelectedKeysData = (apiKey, pk, sk, ck) => {
     return (dispatch) => {
         return Axios.get(apiSelectedKeys + apiKey + ';data:pk=' + pk + ',sk=' + sk + ',ck=' + ck)
             .then(response => {
-                let temp = {};
-                let temp_keys = [];
-                temp = response.data;
-                temp_keys = Object.keys(temp);
-                if (temp_keys.length !== 0) {
+                // let temp = {};
+                // let temp_keys = [];
+                // temp = response.data;
+                // temp_keys = Object.keys(temp);
+                // if (temp_keys.length !== 0) {
                     dispatch(execDashActions.fetchMadData(apiKey));
                     dispatch(execDashActions.fetchCsrData(apiKey));
                     dispatch(execDashActions.fetchBdwData(apiKey));
@@ -136,7 +167,7 @@ export const fetchSelectedKeysData = (apiKey, pk, sk, ck) => {
                     dispatch(subDashActions.fetchDsaRecommenderData(apiKey));
                     dispatch(subDashActions.fetchProdPayRecommenderData(apiKey));
                     dispatch(subDashActions.fetchProdProductRecommenderData(apiKey));
-                }
+                // }
                 // dispatch(fetchSelectedKeysDataSuccess(response.data))
             })
             .catch(error => {

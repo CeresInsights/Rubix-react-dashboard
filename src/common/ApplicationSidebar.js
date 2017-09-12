@@ -72,6 +72,8 @@ export default class ApplicationSidebar extends React.Component {
     //Campaigns App
     dispatch(subDashActions.fetchChannelData(apiKey));
     dispatch(subDashActions.fetchChannelRecommenderData(apiKey));
+    // Data Browser
+    dispatch(dataActions.fetchDefaultBrowserData(apiKey));
 
     this.setState({ apiKey: apiKey })
   }
